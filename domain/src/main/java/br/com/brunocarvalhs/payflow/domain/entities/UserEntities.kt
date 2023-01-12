@@ -1,0 +1,12 @@
+package br.com.brunocarvalhs.payflow.domain.entities
+
+interface UserEntities {
+    val id: String
+    val name: String?
+    val photoUrl: String?
+    val email: String?
+    val phoneNumber: String?
+
+    fun toMap(): Map<String?, Any?>
+    fun toJson(): String
+}
