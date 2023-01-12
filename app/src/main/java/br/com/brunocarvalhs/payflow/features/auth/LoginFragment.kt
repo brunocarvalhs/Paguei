@@ -21,7 +21,7 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
-    ) { res -> viewModel.onSignInResult(res) }
+    ) { viewModel.onSignInResult() }
 
     private val providers = arrayListOf(
         AuthUI.IdpConfig.GoogleBuilder().setScopes(listOf(Scopes.PROFILE)).build(),
@@ -76,5 +76,10 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel
 
     override fun loading() {
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.onSignInResult()
     }
 }
