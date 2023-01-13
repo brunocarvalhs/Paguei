@@ -2,11 +2,15 @@
 O PayFlow é uma plataforma para centralizar e organizar gastos e boletos em um único lugar. Ele permite que você adicione informações sobre despesas e faturas, bem como compartilhe custos com outras pessoas.
 
 ## Recursos
-- Adicione despesas e faturas com data e valor
-- Adicione categorias de despesas
-- Compartilhe despesas com outras pessoas
-- Visualize suas despesas e faturas por mês, categoria, e quem pagou
-- Gerencie usuários e permissões
+- [x] Criação de usuário
+  - [x] E-mail e Senha
+  - [x] Telefone
+  - [x] Google
+  - [ ] Facebook
+- [x] Adicione despesas e faturas com data e valor 
+- [ ] Adicione categorias de despesas 
+- [ ] Compartilhe despesas com outras pessoas 
+- [ ] Visualize suas despesas e faturas por mês, categoria, e quem pagou 
 
 ## Como usar
 1. Faça o login ou crie uma conta
