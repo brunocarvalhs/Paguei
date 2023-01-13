@@ -1,9 +1,11 @@
 package br.com.brunocarvalhs.data.di
 
 import android.content.Context
+import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
 import br.com.brunocarvalhs.data.services.AuthServiceImpl
 import br.com.brunocarvalhs.data.services.SessionManagerImpl
+import br.com.brunocarvalhs.payflow.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.payflow.domain.repositories.UserRepository
 import br.com.brunocarvalhs.payflow.domain.services.AuthService
 import br.com.brunocarvalhs.payflow.domain.services.SessionManager
@@ -44,4 +46,7 @@ object DataModule {
 
     @Provides
     fun providerUserRepository(repository: UserRepositoryImpl): UserRepository = repository
+
+    @Provides
+    fun providerCostsRepository(repository: CostsRepositoryImpl): CostsRepository = repository
 }

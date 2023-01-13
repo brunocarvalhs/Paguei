@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="br.com.brunocarvalhs.payflow.features.auth.LoginFragment"
-        android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -18,7 +17,6 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="br.com.brunocarvalhs.payflow.features.home.costs.CostsFragment"
-        android:label="fragment_costs_list"
         tools:layout="@layout/fragment_costs_list">
         <action
             android:id="@+id/action_homeFragment_to_itemListDialogFragment"

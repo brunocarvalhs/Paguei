@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.payflow.R
 import br.com.brunocarvalhs.payflow.databinding.FragmentCostsListBinding
-import br.com.brunocarvalhs.payflow.features.home.placeholder.PlaceholderContent
+import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,8 +26,20 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 CostsViewState.Loading -> this.loading()
+                is CostsViewState.Success -> this.displayData(it.list)
+                is CostsViewState.Error -> this.showError(it.message)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchData()
+    }
+
+    private fun displayData(list: List<CostsEntities>) {
+        defineTotalCosts(list.size)
+        binding.list.adapter = CostsRecyclerViewAdapter(list)
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -38,18 +50,19 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
     override fun initView() {
         this.visibilityToolbar(true)
         binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = CostsRecyclerViewAdapter(PlaceholderContent.ITEMS)
         viewModel.user?.let {
-            Glide.with(this)
-                .load(it.photoUrl)
-                .centerCrop()
-                .into(binding.avatar)
+            Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
             binding.name.text =
                 requireActivity().getString(R.string.home_title_header, it.fistName())
         }
     }
 
     override fun loading() {
+        this.defineTotalCosts(0)
+    }
 
+    private fun defineTotalCosts(total: Int) {
+        binding.textTotalCosts.text =
+            requireActivity().getString(R.string.costs_total_text, total.toString())
     }
 }

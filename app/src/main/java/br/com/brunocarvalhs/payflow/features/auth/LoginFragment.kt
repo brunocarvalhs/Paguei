@@ -54,10 +54,6 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun showError(message: String?) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-    }
-
     private fun navigateToHome(user: UserModel) {
         val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(user)
         findNavController().navigate(action)

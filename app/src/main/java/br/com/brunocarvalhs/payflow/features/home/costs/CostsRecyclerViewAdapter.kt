@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import br.com.brunocarvalhs.payflow.databinding.FragmentCostsBinding
+import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
 import br.com.brunocarvalhs.payflow.features.home.placeholder.PlaceholderContent
 
 
@@ -13,7 +14,7 @@ import br.com.brunocarvalhs.payflow.features.home.placeholder.PlaceholderContent
  * TODO: Replace the implementation with code for your data type.
  */
 class CostsRecyclerViewAdapter(
-    private val values: List<PlaceholderContent.PlaceholderItem>
+    private val values: List<CostsEntities>
 ) : RecyclerView.Adapter<CostsRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,7 +32,7 @@ class CostsRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.contentView.text = item.name
     }
 
     override fun getItemCount(): Int = values.size
