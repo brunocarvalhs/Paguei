@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.payflow.features.home
+package br.com.brunocarvalhs.payflow.features.home.extracts
 
 import android.os.Bundle
 import android.view.LayoutInflater

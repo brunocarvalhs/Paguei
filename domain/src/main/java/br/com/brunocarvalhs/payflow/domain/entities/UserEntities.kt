@@ -9,4 +9,7 @@ interface UserEntities {
 
     fun toMap(): Map<String?, Any?>
     fun toJson(): String
+
+    fun fistName(): String?
+    fun lastName(): String?
 }

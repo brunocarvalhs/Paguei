@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.home.HomeFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.home.costs.CostsFragment"
         android:label="fragment_costs_list"
         tools:layout="@layout/fragment_costs_list">
         <action
@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/extractFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.home.ExtractFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.home.extracts.ExtractFragment"
         android:label="fragment_extract_list"
         tools:layout="@layout/fragment_extract_list" />
 

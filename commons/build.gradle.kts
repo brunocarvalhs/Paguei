@@ -47,12 +47,18 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.CORE)
-    implementation(Dependencies.MATERIAL)
-    implementation("androidx.fragment:fragment-ktx:1.5.5")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    testImplementation(Dependencies.JUNIT_TEST)
-    androidTestImplementation(Dependencies.JUNIT_ANDROID_TEST)
-    androidTestImplementation(Dependencies.ESPRESSO_CORE)
+    // Core dependencies
+    implementation(Dependencies.Core.KTX)
+
+    // UI dependencies
+    // UI dependencies
+    implementation(Dependencies.UI.MATERIAL)
+    implementation(Dependencies.UI.FRAGMENT_KTX)
+    implementation(Dependencies.UI.LIFECYCLE_VIEWMODEL_KTX)
+    implementation(Dependencies.UI.APPCOMPAT)
+
+    // Test dependencies
+    testImplementation(Dependencies.Test.JUNIT)
+    androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
+    androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
 }

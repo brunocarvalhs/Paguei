@@ -30,4 +30,8 @@ data class UserModel(
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 
     override fun toJson(): String = Gson().toJson(this)
+
+    override fun fistName(): String? = name?.split(" ")?.first()
+
+    override fun lastName(): String? = name?.split(" ")?.last()
 }

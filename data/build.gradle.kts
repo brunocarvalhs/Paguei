@@ -1,8 +1,8 @@
 import config.AndroidConfig
-import interfaces.BuildType
-import flavor.BuildTypeRelease
-import flavor.BuildTypeDebug
 import dependencies.Dependencies
+import flavor.BuildTypeDebug
+import flavor.BuildTypeRelease
+import interfaces.BuildType
 
 plugins {
     id("com.android.library")
@@ -48,22 +48,35 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
-    implementation(Dependencies.CORE)
-    implementation(Dependencies.MATERIAL)
-    implementation("com.google.firebase:firebase-auth-ktx:21.1.0")
-    implementation("com.google.android.gms:play-services-auth:20.4.0")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.4.1")
-    implementation(Dependencies.GSON)
-    implementation("com.google.ar:core:1.35.0")
-    implementation("androidx.navigation:navigation-runtime-ktx:2.5.3")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    testImplementation(Dependencies.JUNIT_TEST)
-    testImplementation("org.mockito:mockito-core:4.11.0")
-    androidTestImplementation(Dependencies.JUNIT_ANDROID_TEST)
-    androidTestImplementation(Dependencies.ESPRESSO_CORE)
-    implementation(Dependencies.HILT_ANDROID)
-    kapt(Dependencies.HILT_ANDROID_COMPILER)
-    testImplementation("com.google.dagger:hilt-android-testing:2.44.2")
-    kaptTest("com.google.dagger:hilt-android-compiler:2.44.2")
-    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.44.2")
+    // Core dependencies
+    implementation(Dependencies.Core.KTX)
+    implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
+
+    // UI dependencies
+    implementation(Dependencies.UI.MATERIAL)
+
+    // Firebase dependencies
+    implementation(Dependencies.Firebase.AUTH)
+    implementation(Dependencies.Firebase.FIRESTORE)
+    implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
+    implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
+
+    // Network dependencies
+    implementation(Dependencies.Network.GSON)
+
+    // Navigation dependencies
+    implementation(Dependencies.Navigation.NAVIGATION_RUNTIME)
+
+    // Test dependencies
+    testImplementation(Dependencies.Test.JUNIT)
+    testImplementation(Dependencies.Test.MOCKITO)
+    androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
+    androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
+
+    // Hilt dependencies
+    implementation(Dependencies.Hilt.ANDROID)
+    kapt(Dependencies.Hilt.ANDROID_COMPILER)
+    testImplementation(Dependencies.Hilt.ANDROID_TESTING)
+    kaptTest(Dependencies.Hilt.ANDROID_COMPILER)
+    testAnnotationProcessor(Dependencies.Hilt.ANDROID_COMPILER)
 }

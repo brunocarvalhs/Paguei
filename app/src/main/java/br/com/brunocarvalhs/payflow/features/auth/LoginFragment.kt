@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.model.UserModel
@@ -17,7 +17,9 @@ import com.google.android.gms.common.Scopes
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-internal class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
+internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+
+    private val viewModel: LoginViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -41,9 +43,6 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?
     ): FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
-
-    override fun createViewModel(viewModelProvider: ViewModelProvider): LoginViewModel =
-        viewModelProvider.get(LoginViewModel::class.java)
 
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {

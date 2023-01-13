@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
 import config.AndroidConfig
 import dependencies.Dependencies
 import flavor.BuildTypeDebug
@@ -61,36 +60,55 @@ android {
 }
 
 dependencies {
+    // Modules
     implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":commons")))
 
-    implementation(Dependencies.CORE)
-    implementation(Dependencies.LIFECYCLE_RUNTIME)
-    implementation(Dependencies.MATERIAL)
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:31.1.1"))
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+    // Core dependencies
+    implementation(Dependencies.Core.KTX)
+    implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
+    implementation(Dependencies.Core.LIFECYCLE_LIVEDATA)
+    implementation(Dependencies.Core.LIFECYCLE_VIEWMODEL)
 
+    // UI dependencies
+    implementation(Dependencies.UI.MATERIAL)
+    implementation(Dependencies.UI.APPCOMPAT)
+    implementation(Dependencies.UI.FRAGMENT_KTX)
+    implementation(Dependencies.UI.DATABINDING_COMMON)
+    kapt(Dependencies.UI.DATABINDING_COMPILER)
+    implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.UI.COORDINATOR_LAYOUT)
+    implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
+    implementation(Dependencies.UI.NAVIGATION_UI)
 
-    implementation("androidx.fragment:fragment-ktx:1.5.5")
-    implementation("androidx.databinding:databinding-common:7.3.1")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("com.google.android.material:material:1.7.0")
-    kapt("androidx.databinding:databinding-compiler:7.3.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.fragment:fragment-ktx:1.5.5")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
-    testImplementation(Dependencies.JUNIT_TEST)
-    androidTestImplementation(Dependencies.JUNIT_ANDROID_TEST)
-    androidTestImplementation(Dependencies.ESPRESSO_CORE)
-    implementation(Dependencies.HILT_ANDROID)
-    kapt(Dependencies.HILT_ANDROID_COMPILER)
+    // Test dependencies
+    testImplementation(Dependencies.Test.JUNIT)
+    androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
+    androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
+
+    // Hilt dependencies
+    implementation(Dependencies.Hilt.ANDROID)
+    kapt(Dependencies.Hilt.ANDROID_COMPILER)
+
+    // Firebase dependencies
+    implementation(platform(Dependencies.Firebase.BOM))
+    implementation(Dependencies.Firebase.CRASHLYTICS)
+    implementation(Dependencies.Firebase.ANALYTICS)
+    implementation(Dependencies.Firebase.AUTH)
+    implementation(Dependencies.Firebase.FIRESTORE)
+    implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
+    implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
+    implementation(Dependencies.Firebase.UI_AUTH)
+
+    // Network dependencies
+    implementation(Dependencies.Network.GSON)
+    implementation(Dependencies.Network.RETROFIT)
+    implementation(Dependencies.Network.RETROFIT_GSON)
+    implementation(Dependencies.Network.OKHTTP)
+    implementation(Dependencies.Network.OKHTTP_LOGGING)
+
+    // Glide dependencies
+    implementation(Dependencies.Glide.GLIDE)
+    kapt(Dependencies.Glide.GLIDE_COMPILER)
 }

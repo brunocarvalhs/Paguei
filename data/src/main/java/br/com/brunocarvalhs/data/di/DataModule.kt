@@ -3,10 +3,10 @@ package br.com.brunocarvalhs.data.di
 import android.content.Context
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
 import br.com.brunocarvalhs.data.services.AuthServiceImpl
-import br.com.brunocarvalhs.data.services.SocialGoogleLoginService
+import br.com.brunocarvalhs.data.services.SessionManagerImpl
 import br.com.brunocarvalhs.payflow.domain.repositories.UserRepository
 import br.com.brunocarvalhs.payflow.domain.services.AuthService
-import br.com.brunocarvalhs.payflow.domain.services.SocialGoogleLogin
+import br.com.brunocarvalhs.payflow.domain.services.SessionManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +19,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,10 +36,11 @@ object DataModule {
     fun providerFirebaseAuth(): FirebaseAuth = Firebase.auth
 
     @Provides
-    fun providerAuthService(service: AuthServiceImpl): AuthService<AuthCredential> = service
+    @Singleton
+    fun providerSessionManager(service: SessionManagerImpl): SessionManager = service
 
     @Provides
-    fun providerSocialGoogleLogin(service: SocialGoogleLoginService): SocialGoogleLogin = service
+    fun providerAuthService(service: AuthServiceImpl): AuthService<AuthCredential> = service
 
     @Provides
     fun providerUserRepository(repository: UserRepositoryImpl): UserRepository = repository
