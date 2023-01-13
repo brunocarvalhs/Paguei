@@ -3,11 +3,11 @@ package br.com.brunocarvalhs.data.di
 import android.content.Context
 import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
-import br.com.brunocarvalhs.data.services.AuthServiceImpl
-import br.com.brunocarvalhs.data.services.SessionManagerImpl
+import br.com.brunocarvalhs.data.services.AuthenticationService
+import br.com.brunocarvalhs.data.services.SessionManagerService
 import br.com.brunocarvalhs.payflow.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.payflow.domain.repositories.UserRepository
-import br.com.brunocarvalhs.payflow.domain.services.AuthService
+import br.com.brunocarvalhs.payflow.domain.services.Authentication
 import br.com.brunocarvalhs.payflow.domain.services.SessionManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.AuthCredential
@@ -39,10 +39,10 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun providerSessionManager(service: SessionManagerImpl): SessionManager = service
+    fun providerSessionManager(service: SessionManagerService): SessionManager = service
 
     @Provides
-    fun providerAuthService(service: AuthServiceImpl): AuthService<AuthCredential> = service
+    fun providerAuthService(service: AuthenticationService): Authentication<AuthCredential> = service
 
     @Provides
     fun providerUserRepository(repository: UserRepositoryImpl): UserRepository = repository

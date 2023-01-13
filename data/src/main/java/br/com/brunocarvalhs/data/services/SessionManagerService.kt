@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SessionManagerImpl @Inject constructor(
+class SessionManagerService @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : SessionManager {
     private var user: UserEntities? = null

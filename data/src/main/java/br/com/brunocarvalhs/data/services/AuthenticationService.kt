@@ -2,7 +2,7 @@ package br.com.brunocarvalhs.data.services
 
 import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.payflow.domain.entities.UserEntities
-import br.com.brunocarvalhs.payflow.domain.services.AuthService
+import br.com.brunocarvalhs.payflow.domain.services.Authentication
 import br.com.brunocarvalhs.payflow.domain.services.SessionManager
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -12,10 +12,10 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AuthServiceImpl @Inject constructor(
+class AuthenticationService @Inject constructor(
     private val auth: FirebaseAuth,
     private val sessionManager: SessionManager,
-) : AuthService<AuthCredential> {
+) : Authentication<AuthCredential> {
 
     override suspend fun logout(): Boolean = withContext(Dispatchers.IO) {
         try {

@@ -153,14 +153,23 @@
                 tools:listitem="@layout/fragment_costs" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/extended_fab"
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            style="@style/Widget.Material3.BottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            app:hideOnScroll="true"
+            app:menu="@menu/bottom_app_bar" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_gravity="bottom|end"
-            android:text="Adicionar"
-            app:icon="@drawable/ic_baseline_add_24"/>
+            app:layout_anchor="@id/bottomAppBar"
+            app:srcCompat="@drawable/ic_baseline_add_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
