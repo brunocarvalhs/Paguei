@@ -18,13 +18,12 @@ class BarcodeAnalyzer(
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
-        if (mediaImage != null) {
+        mediaImage?.let {
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
-            // Pass image to the scanner and have it do its thing
             scanner.process(image).addOnSuccessListener { barcodes ->
-                // Task completed successfully
                 for (barcode in barcodes) {
                     barcodeListener.onScanSuccess(barcode.rawValue ?: "")
+                    break
                 }
             }.addOnFailureListener {
                 barcodeListener.onScanError(it.message ?: "")

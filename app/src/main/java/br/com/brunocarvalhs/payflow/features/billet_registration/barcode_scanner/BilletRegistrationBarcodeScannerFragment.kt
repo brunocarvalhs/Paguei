@@ -31,6 +31,14 @@ class BilletRegistrationBarcodeScannerFragment :
 
     private var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
 
+    private val imageAnalysis = ImageAnalysis.Builder().build()
+
+    private val preview = Preview.Builder().build()
+
+    private var cameraProvider: ProcessCameraProvider? = null
+
+    private val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) startCamera()
@@ -61,7 +69,9 @@ class BilletRegistrationBarcodeScannerFragment :
     }
 
     override fun initView() {
+        this.visibilityToolbar(true)
         requestPermission()
+        binding.next.setOnClickListener { navigateToForm() }
     }
 
     override fun loading() {
@@ -75,34 +85,54 @@ class BilletRegistrationBarcodeScannerFragment :
     override fun onStart() {
         super.onStart()
         requestPermission()
+        cameraProvider?.let { initCamera() }
     }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            cameraProvider = cameraProviderFuture.get()
 
-            val preview = Preview.Builder().build()
-                .also { it.setSurfaceProvider(binding.previewView.surfaceProvider) }
+            preview.setSurfaceProvider(binding.previewView.surfaceProvider)
 
-            val imageAnalysis = ImageAnalysis.Builder().build()
-                .also { it.setAnalyzer(cameraExecutor, BarcodeAnalyzer(this)) }
+            imageAnalysis.setAnalyzer(cameraExecutor, BarcodeAnalyzer(this))
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+                initCamera()
             } catch (e: Exception) {
-                Log.e(this.javaClass.simpleName, "Binding failed! :(", e)
+                Log.e(this.javaClass.simpleName, e.message ?: "")
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     override fun onScanSuccess(barcode: String) {
-        Toast.makeText(requireContext(), barcode, Toast.LENGTH_LONG).show()
+        this.navigateToForm(barcode)
     }
 
     override fun onScanError(error: String) {
-        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+        showBottomSheet()
+    }
+
+    private fun showBottomSheet() {
+        val action = BilletRegistrationBarcodeScannerFragmentDirections
+            .actionBilletRegistrationBarcodeScannerFragmentToBilletRegistrationDialogFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToForm(barcode: String? = null) {
+        val action = BilletRegistrationBarcodeScannerFragmentDirections
+            .actionBilletRegistrationBarcodeScannerFragmentToBilletRegistrationFormFragment(barcode)
+        findNavController().navigate(action)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        cameraProvider?.unbind(preview)
+        cameraProvider?.unbind(imageAnalysis)
+    }
+
+    private fun initCamera() {
+        cameraProvider?.unbindAll()
+        cameraProvider?.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
     }
 }

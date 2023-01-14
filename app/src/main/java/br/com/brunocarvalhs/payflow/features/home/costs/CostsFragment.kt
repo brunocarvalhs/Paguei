@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.payflow.R
 import br.com.brunocarvalhs.payflow.databinding.FragmentCostsListBinding
 import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
@@ -42,7 +43,8 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
     private fun displayData(list: List<CostsEntities>) {
         defineTotalCosts(list.size)
         binding.list.adapter = CostsRecyclerViewAdapter(list) {
-            val action = CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment()
+            val action = CostsFragmentDirections
+                .actionHomeFragmentToItemListDialogFragment(it as CostsModel)
             findNavController().navigate(action)
         }
     }

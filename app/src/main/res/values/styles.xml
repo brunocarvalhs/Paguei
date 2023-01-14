@@ -11,4 +11,9 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <style name="title_billet_registration_form">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#585666</item>
+    </style>
+
 </resources>

@@ -10,10 +10,10 @@ import java.util.*
 @Parcelize
 data class CostsModel(
     @SerializedName(ID) override val id: String = UUID.randomUUID().toString(),
-    @SerializedName(NAME) override val name: String = String(),
-    @SerializedName(PROMPT) override val prompt: Date = Date(),
-    @SerializedName(VALUE) override val value: Double = (0).toDouble(),
-    @SerializedName(BAR_CODE) override val barCode: String = String(),
+    @SerializedName(NAME) override val name: String? = null,
+    @SerializedName(PROMPT) override val prompt: String? = null,
+    @SerializedName(VALUE) override val value: Double? = null,
+    @SerializedName(BAR_CODE) override val barCode: String? = null,
 ) : CostsEntities, Parcelable {
     companion object {
 

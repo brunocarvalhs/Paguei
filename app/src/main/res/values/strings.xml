@@ -4,4 +4,5 @@
     <string name="login_button_text">Acessar</string>
     <string name="home_title_header">Olá, %1$s</string>
     <string name="costs_total_text">Você tem %1$s boletos\ncadastrados para pagar</string>
+    <string name="field_error">%1$s está vazio, precisar ser preenchido.</string>
 </resources>
