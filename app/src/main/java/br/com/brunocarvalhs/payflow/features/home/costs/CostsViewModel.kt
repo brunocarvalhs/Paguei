@@ -2,6 +2,7 @@ package br.com.brunocarvalhs.payflow.features.home.costs
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
 import br.com.brunocarvalhs.payflow.domain.entities.UserEntities
 import br.com.brunocarvalhs.payflow.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.payflow.domain.services.SessionManager
@@ -14,14 +15,22 @@ class CostsViewModel @Inject constructor(
     private val repository: CostsRepository,
     private val sessionManager: SessionManager
 ) : BaseViewModel<CostsViewState>() {
+
     val user: UserEntities? = sessionManager.getUser()
+
+    private var listCosts = mutableListOf<CostsEntities>()
+        set(value) {
+            if (!listCosts.containsAll(value)) {
+                field = value
+            }
+        }
 
     fun fetchData() {
         viewModelScope.launch {
             try {
                 mutableState.value = CostsViewState.Loading
-                val list = repository.list()
-                mutableState.value = CostsViewState.Success(list)
+                listCosts = repository.list().toMutableList()
+                mutableState.value = CostsViewState.Success(listCosts)
             } catch (error: Exception) {
                 mutableState.value = CostsViewState.Error(error.message)
             }

@@ -11,11 +11,11 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/costsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/costsFragment"
         android:name="br.com.brunocarvalhs.payflow.features.home.costs.CostsFragment"
         tools:layout="@layout/fragment_costs_list">
         <action
@@ -27,6 +27,9 @@
         <argument
             android:name="user"
             app:argType="br.com.brunocarvalhs.data.model.UserModel" />
+        <action
+            android:id="@+id/action_costsFragment_to_billetRegistrationBarcodeScannerFragment"
+            app:destination="@id/billetRegistrationBarcodeScannerFragment" />
     </fragment>
 
     <dialog
@@ -43,5 +46,10 @@
         android:name="br.com.brunocarvalhs.payflow.features.home.extracts.ExtractFragment"
         android:label="fragment_extract_list"
         tools:layout="@layout/fragment_extract_list" />
+    <fragment
+        android:id="@+id/billetRegistrationBarcodeScannerFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.billet_registration.barcode_scanner.BilletRegistrationBarcodeScannerFragment"
+        android:label="fragment_billet_registration_barcode_scanner"
+        tools:layout="@layout/fragment_billet_registration_barcode_scanner" />
 
 </navigation>

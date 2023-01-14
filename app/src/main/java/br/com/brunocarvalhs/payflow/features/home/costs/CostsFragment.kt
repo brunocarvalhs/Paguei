@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.payflow.R
@@ -32,14 +33,18 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchData()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun displayData(list: List<CostsEntities>) {
         defineTotalCosts(list.size)
-        binding.list.adapter = CostsRecyclerViewAdapter(list)
+        binding.list.adapter = CostsRecyclerViewAdapter(list) {
+            val action = CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -50,11 +55,8 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
     override fun initView() {
         this.visibilityToolbar(true)
         binding.list.layoutManager = LinearLayoutManager(context)
-        viewModel.user?.let {
-            Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
-            binding.name.text =
-                requireActivity().getString(R.string.home_title_header, it.fistName())
-        }
+        this.setupHeader()
+        this.setupNavigation()
     }
 
     override fun loading() {
@@ -64,5 +66,32 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
     private fun defineTotalCosts(total: Int) {
         binding.textTotalCosts.text =
             requireActivity().getString(R.string.costs_total_text, total.toString())
+    }
+
+    private fun setupHeader() {
+        viewModel.user?.let {
+            Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
+            binding.name.text =
+                requireActivity().getString(R.string.home_title_header, it.fistName())
+        }
+    }
+
+    private fun setupNavigation() {
+        binding.add.setOnClickListener {
+            val action = CostsFragmentDirections
+                .actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.extractFragment -> {
+                    val action = CostsFragmentDirections.actionHomeFragmentToExtractFragment()
+                    findNavController().navigate(action)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }

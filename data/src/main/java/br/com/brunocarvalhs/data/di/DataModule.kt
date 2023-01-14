@@ -42,7 +42,8 @@ object DataModule {
     fun providerSessionManager(service: SessionManagerService): SessionManager = service
 
     @Provides
-    fun providerAuthService(service: AuthenticationService): Authentication<AuthCredential> = service
+    fun providerAuthService(service: AuthenticationService): Authentication<AuthCredential> =
+        service
 
     @Provides
     fun providerUserRepository(repository: UserRepositoryImpl): UserRepository = repository
