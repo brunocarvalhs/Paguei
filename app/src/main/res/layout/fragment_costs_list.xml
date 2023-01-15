@@ -150,7 +150,7 @@
                 app:layout_constraintTop_toTopOf="@+id/header"
                 tools:context=".features.home.costs.CostsFragment"
                 tools:itemCount="300"
-                tools:listitem="@layout/fragment_costs" />
+                tools:listitem="@layout/item_costs" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

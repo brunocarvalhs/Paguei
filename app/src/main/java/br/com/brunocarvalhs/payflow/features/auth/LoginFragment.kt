@@ -3,7 +3,6 @@ package br.com.brunocarvalhs.payflow.features.auth
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
@@ -31,7 +30,7 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         AuthUI.IdpConfig.PhoneBuilder().build()
     )
 
-    private val customLayout = AuthMethodPickerLayout.Builder(R.layout.login_custom_layout_xml)
+    private val customLayout = AuthMethodPickerLayout.Builder(R.layout.custom_login_layout_xml)
         .setGoogleButtonId(R.id.button2).setEmailButtonId(R.id.button3)
         .setPhoneButtonId(R.id.button4).build()
 

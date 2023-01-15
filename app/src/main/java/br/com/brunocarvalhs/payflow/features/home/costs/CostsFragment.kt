@@ -16,7 +16,8 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
+class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
+    CostsRecyclerViewAdapter.CostClickListener {
 
     private val viewModel: CostsViewModel by viewModels()
 
@@ -42,11 +43,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
     @SuppressLint("NotifyDataSetChanged")
     private fun displayData(list: List<CostsEntities>) {
         defineTotalCosts(list.size)
-        binding.list.adapter = CostsRecyclerViewAdapter(list) {
-            val action = CostsFragmentDirections
-                .actionHomeFragmentToItemListDialogFragment(it as CostsModel)
-            findNavController().navigate(action)
-        }
+        binding.list.adapter = CostsRecyclerViewAdapter(requireContext(), list, this)
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -80,8 +77,8 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
 
     private fun setupNavigation() {
         binding.add.setOnClickListener {
-            val action = CostsFragmentDirections
-                .actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
+            val action =
+                CostsFragmentDirections.actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
             findNavController().navigate(action)
         }
 
@@ -95,5 +92,19 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>() {
                 else -> false
             }
         }
+    }
+
+    override fun onClick(cost: CostsEntities) {
+        val action =
+            CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost as CostsModel)
+        findNavController().navigate(action)
+    }
+
+    override fun onLongClick(cost: CostsEntities): Boolean {
+        val action =
+            CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost as CostsModel)
+        findNavController().navigate(action)
+
+        return true
     }
 }
