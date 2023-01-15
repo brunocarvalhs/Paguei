@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/costsFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.home.costs.CostsFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.costs.costs_list.CostsFragment"
         tools:layout="@layout/fragment_costs_list">
         <action
             android:id="@+id/action_homeFragment_to_itemListDialogFragment"
@@ -32,12 +32,18 @@
         <action
             android:id="@+id/action_costsFragment_to_billetRegistrationBarcodeScannerFragment"
             app:destination="@id/billetRegistrationBarcodeScannerFragment" />
+        <action
+            android:id="@+id/action_costsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_costsFragment_to_homesListDialogFragment"
+            app:destination="@id/homesListDialogFragment" />
     </fragment>
 
     <dialog
         android:id="@+id/itemListDialogFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.home.ItemListDialogFragment"
-        tools:layout="@layout/fragment_item_list_dialog_list_dialog">
+        android:name="br.com.brunocarvalhs.payflow.features.costs.selected_cost.CostsSelectedDialogFragment"
+        tools:layout="@layout/dialog_costs_selected">
 
         <argument
             android:name="costs"
@@ -46,8 +52,8 @@
 
     <dialog
         android:id="@+id/billetRegistrationDialogFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.billet_registration.ItemListDialogFragment"
-        tools:layout="@layout/fragment_billet_registration_dialog">
+        android:name="br.com.brunocarvalhs.payflow.features.billet_registration.dialog.BilletRegistrationDialogFragment"
+        tools:layout="@layout/dialog_billet_registration">
 
         <action
             android:id="@+id/action_billetRegistrationDialogFragment_to_billetRegistrationFormFragment"
@@ -55,7 +61,7 @@
     </dialog>
     <fragment
         android:id="@+id/extractFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.home.extracts.ExtractFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.costs.extracts.ExtractFragment"
         tools:layout="@layout/fragment_extract_list" />
 
     <fragment
@@ -79,5 +85,24 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/homesRegisterFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.homes.register.HomesRegisterFragment"
+        tools:layout="@layout/fragment_homes_register" />
+
+    <dialog
+        android:id="@+id/homesListDialogFragment"
+        android:name="br.com.brunocarvalhs.payflow.features.homes.list.HomesListDialogFragment"
+        tools:layout="@layout/dialog_homes_list">
+        <action
+            android:id="@+id/action_homesListDialogFragment_to_homesRegisterFragment"
+            app:destination="@id/homesRegisterFragment" />
+    </dialog>
 
 </navigation>

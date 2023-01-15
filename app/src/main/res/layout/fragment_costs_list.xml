@@ -148,7 +148,7 @@
                 app:layoutManager="LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/header"
-                tools:context=".features.home.costs.CostsFragment"
+                tools:context=".features.costs.costs_list.CostsFragment"
                 tools:itemCount="300"
                 tools:listitem="@layout/item_costs" />
         </androidx.constraintlayout.widget.ConstraintLayout>

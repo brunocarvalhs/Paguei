@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/list_item_spacing_half"
     android:paddingBottom="@dimen/list_item_spacing_half"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    tools:context=".features.home.ItemListDialogFragment">
+    tools:context=".features.costs.selected_cost.CostsSelectedDialogFragment">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/drag_handle"
@@ -19,70 +19,79 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/content"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|top"
-        android:text="O boleto Tia Maria\nno valor de R$ 2.131,33\nfoi pago ?"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
+        android:text="Não foi possível identificar um código de barras."
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/drag_handle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/drag_handle" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tente escanear novamente ou digite o código do seu boleto."
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/materialDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content">
 
         <Button
             android:id="@+id/try_new"
-            style="@style/Widget.Material3.Button.ElevatedButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:text="Ainda não"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Escanear novamente"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/enter_code"
+            app:layout_constraintStart_toEndOf="@id/try_new"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/enter_code"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:textColor="@color/design_default_color_on_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="8dp"
-            android:text="Sim"
+            android:text="Digitar código"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/try_new"
+            app:layout_constraintStart_toEndOf="@+id/divider"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/materialDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/delete" />
-
-    <Button
-        android:id="@+id/delete"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Deletar boleto"
-        android:textColor="@color/design_default_color_error"
-        app:icon="@drawable/ic_baseline_delete_24"
-        app:iconGravity="textStart"
-        app:iconTint="@color/design_default_color_error"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

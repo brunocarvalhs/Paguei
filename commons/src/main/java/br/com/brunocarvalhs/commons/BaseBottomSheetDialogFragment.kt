@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseFragment<T : ViewBinding> : Fragment() {
+abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialogFragment() {
 
     private var _binding: T? = null
     protected val binding get() = requireNotNull(_binding)
@@ -20,12 +20,24 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     ): T
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = createBinding(inflater, container)
-        visibilityToolbar()
         initView()
         return binding.root
+    }
+
+    abstract fun initView()
+
+    abstract fun viewObservation()
+
+    abstract fun argumentsView(arguments: Bundle)
+
+    abstract fun loading()
+
+    protected fun showError(message: String?) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,22 +49,5 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    abstract fun viewObservation()
-
-    abstract fun argumentsView(arguments: Bundle)
-
-    abstract fun initView()
-
-    abstract fun loading()
-
-    protected fun showError(message: String?) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-    }
-
-    protected fun visibilityToolbar(visibility: Boolean = false) {
-        if (visibility) (requireActivity() as ManagerToolbar).showToolbar()
-        else (requireActivity() as ManagerToolbar).hideToolbar()
     }
 }

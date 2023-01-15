@@ -14,6 +14,7 @@ data class CostsModel(
     @SerializedName(PROMPT) override val prompt: String? = null,
     @SerializedName(VALUE) override val value: Double? = null,
     @SerializedName(BAR_CODE) override val barCode: String? = null,
+    @SerializedName(PAYMENT_VOUCHER) override val paymentVoucher: String? = null,
 ) : CostsEntities, Parcelable {
     companion object {
 
@@ -24,6 +25,7 @@ data class CostsModel(
         const val PROMPT = "prompt"
         const val VALUE = "value"
         const val BAR_CODE = "bar_code"
+        const val PAYMENT_VOUCHER = "payment_voucher"
     }
 
     override fun toMap(): Map<String?, Any?> =

@@ -6,6 +6,7 @@ interface CostsEntities {
     val prompt: String?
     val value: Double?
     val barCode: String?
+    val paymentVoucher: String?
 
     fun toMap(): Map<String?, Any?>
     fun toJson(): String

@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.payflow.features.home.costs
+package br.com.brunocarvalhs.payflow.features.costs.costs_list
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel

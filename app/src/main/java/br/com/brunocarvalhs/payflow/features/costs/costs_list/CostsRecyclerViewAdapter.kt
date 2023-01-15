@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.payflow.features.home.costs
+package br.com.brunocarvalhs.payflow.features.costs.costs_list
 
 import android.content.Context
 import android.view.LayoutInflater

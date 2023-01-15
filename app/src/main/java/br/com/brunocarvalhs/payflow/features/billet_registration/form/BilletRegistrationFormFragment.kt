@@ -19,8 +19,11 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     private val viewModel: BilletRegistrationFormViewModel by viewModels()
 
     override fun createBinding(
-        inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentBilletRegistrationFormBinding.inflate(inflater, container, false)
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): FragmentBilletRegistrationFormBinding =
+        FragmentBilletRegistrationFormBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {
@@ -43,6 +46,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     override fun initView() {
         binding.registration.setOnClickListener { createCost() }
         binding.cancel.setOnClickListener { cancelRegistration() }
+        binding.barcode.editText?.setText(viewModel.barCode)
     }
 
     override fun loading() {

@@ -2,6 +2,7 @@ package br.com.brunocarvalhs.payflow.features.billet_registration.barcode_scanne
 
 import android.Manifest
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,8 +49,12 @@ class BilletRegistrationBarcodeScannerFragment :
             }
         }
 
-    override fun createBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentBilletRegistrationBarcodeScannerBinding.inflate(inflater, container, false)
+    override fun createBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): FragmentBilletRegistrationBarcodeScannerBinding =
+        FragmentBilletRegistrationBarcodeScannerBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {
@@ -91,13 +96,10 @@ class BilletRegistrationBarcodeScannerFragment :
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
-            cameraProvider = cameraProviderFuture.get()
-
-            preview.setSurfaceProvider(binding.previewView.surfaceProvider)
-
-            imageAnalysis.setAnalyzer(cameraExecutor, BarcodeAnalyzer(this))
-
             try {
+                cameraProvider = cameraProviderFuture.get()
+                preview.setSurfaceProvider(binding.previewView.surfaceProvider)
+                imageAnalysis.setAnalyzer(cameraExecutor, BarcodeAnalyzer(this))
                 initCamera()
             } catch (e: Exception) {
                 Log.e(this.javaClass.simpleName, e.message ?: "")

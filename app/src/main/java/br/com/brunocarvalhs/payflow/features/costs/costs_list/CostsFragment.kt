@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.payflow.features.home.costs
+package br.com.brunocarvalhs.payflow.features.costs.costs_list
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -22,8 +22,11 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private val viewModel: CostsViewModel by viewModels()
 
     override fun createBinding(
-        inflater: LayoutInflater, container: ViewGroup?
-    ): FragmentCostsListBinding = FragmentCostsListBinding.inflate(inflater, container, false)
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): FragmentCostsListBinding =
+        FragmentCostsListBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {
@@ -40,7 +43,6 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         viewModel.fetchData()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun displayData(list: List<CostsEntities>) {
         defineTotalCosts(list.size)
         binding.list.adapter = CostsRecyclerViewAdapter(requireContext(), list, this)
@@ -59,10 +61,10 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     }
 
     override fun loading() {
-        this.defineTotalCosts(0)
+        defineTotalCosts()
     }
 
-    private fun defineTotalCosts(total: Int) {
+    private fun defineTotalCosts(total: Int = 0) {
         binding.textTotalCosts.text =
             requireActivity().getString(R.string.costs_total_text, total.toString())
     }
@@ -70,28 +72,46 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private fun setupHeader() {
         viewModel.user?.let {
             Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
-            binding.name.text =
-                requireActivity().getString(R.string.home_title_header, it.fistName())
+            binding.name.text = requireActivity()
+                .getString(R.string.home_title_header, it.fistName())
+            binding.avatar.setOnClickListener { navigateToProfile() }
+            binding.name.setOnClickListener { navigateToProfile() }
         }
     }
 
     private fun setupNavigation() {
-        binding.add.setOnClickListener {
-            val action =
-                CostsFragmentDirections.actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
-            findNavController().navigate(action)
-        }
+        binding.add.setOnClickListener { navigateToAddCosts() }
 
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.extractFragment -> {
-                    val action = CostsFragmentDirections.actionHomeFragmentToExtractFragment()
-                    findNavController().navigate(action)
-                    true
-                }
+                R.id.extractFragment -> navigateToExtracts()
+                R.id.homesListDialogFragment -> navigateToHomes()
                 else -> false
             }
         }
+    }
+
+    private fun navigateToProfile() {
+        val action = CostsFragmentDirections.actionCostsFragmentToProfileFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToHomes(): Boolean {
+        val action = CostsFragmentDirections.actionCostsFragmentToHomesListDialogFragment()
+        findNavController().navigate(action)
+        return true
+    }
+
+    private fun navigateToExtracts(): Boolean {
+        val action = CostsFragmentDirections.actionHomeFragmentToExtractFragment()
+        findNavController().navigate(action)
+        return true
+    }
+
+    private fun navigateToAddCosts() {
+        val action = CostsFragmentDirections
+            .actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
+        findNavController().navigate(action)
     }
 
     override fun onClick(cost: CostsEntities) {

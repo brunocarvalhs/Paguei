@@ -40,8 +40,11 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             .setIsSmartLockEnabled(false).build()
 
     override fun createBinding(
-        inflater: LayoutInflater, container: ViewGroup?
-    ): FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): FragmentLoginBinding =
+        FragmentLoginBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {
