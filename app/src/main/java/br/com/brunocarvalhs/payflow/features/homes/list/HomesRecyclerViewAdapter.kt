@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.brunocarvalhs.payflow.databinding.ItemHomesBinding
+import br.com.brunocarvalhs.payflow.domain.entities.HomesEntities
 
 class HomesRecyclerViewAdapter(
-    private val values: List<String> = emptyList(),
+    private val values: List<HomesEntities>,
     private val listener: HomesClickListener,
 ) : RecyclerView.Adapter<HomesRecyclerViewAdapter.ViewHolder>() {
 
@@ -18,7 +19,7 @@ class HomesRecyclerViewAdapter(
         val item = values[position]
         holder.root.setOnClickListener { listener.onClick(item) }
         holder.root.setOnLongClickListener { listener.onLongClick(item) }
-        holder.name.text = item
+        holder.name.text = item.name
     }
 
     override fun getItemCount(): Int = values.size
@@ -33,8 +34,8 @@ class HomesRecyclerViewAdapter(
     }
 
     interface HomesClickListener {
-        fun onClick(home: String)
+        fun onClick(home: HomesEntities)
 
-        fun onLongClick(home: String): Boolean
+        fun onLongClick(home: HomesEntities): Boolean
     }
 }

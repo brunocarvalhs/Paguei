@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.payflow.databinding.DialogHomesListBinding
+import br.com.brunocarvalhs.payflow.domain.entities.HomesEntities
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +42,7 @@ class HomesListDialogFragment : BaseBottomSheetDialogFragment<DialogHomesListBin
         }
     }
 
-    private fun displayData(list: List<String>) {
+    private fun displayData(list: List<HomesEntities>) {
         binding.list.adapter = HomesRecyclerViewAdapter(list, this)
     }
 
@@ -53,11 +54,11 @@ class HomesListDialogFragment : BaseBottomSheetDialogFragment<DialogHomesListBin
 
     }
 
-    override fun onClick(home: String) {
+    override fun onClick(home: HomesEntities) {
 
     }
 
-    override fun onLongClick(home: String): Boolean {
+    override fun onLongClick(home: HomesEntities): Boolean {
         return true
     }
 

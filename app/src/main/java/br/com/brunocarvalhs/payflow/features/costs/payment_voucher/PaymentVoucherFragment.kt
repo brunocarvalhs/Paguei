@@ -1,24 +1,24 @@
-package br.com.brunocarvalhs.payflow.features.homes.register
+package br.com.brunocarvalhs.payflow.features.costs.payment_voucher
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.payflow.databinding.FragmentHomesRegisterBinding
+import br.com.brunocarvalhs.payflow.databinding.FragmentPaymentVoucherBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
+class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
 
-    private val viewModel: HomesRegisterViewModel by viewModels()
+    private val viewModel: PaymentVoucherViewModel by viewModels()
 
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
         attachToParent: Boolean
-    ): FragmentHomesRegisterBinding =
-        FragmentHomesRegisterBinding.inflate(inflater, container, attachToParent)
+    ): FragmentPaymentVoucherBinding =
+        FragmentPaymentVoucherBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
 
@@ -29,7 +29,7 @@ class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
     }
 
     override fun initView() {
-
+        this.visibilityToolbar(visibility = true)
     }
 
     override fun loading() {

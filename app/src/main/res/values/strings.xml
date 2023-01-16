@@ -7,4 +7,5 @@
     <string name="field_error">%1$s está vazio, precisar ser preenchido.</string>
     <string name="item_cost_date">Vence em %1$s</string>
     <string name="item_cost_value">R$ %1$s</string>
+    <string name="selected_cost_description">O boleto %1$s\nno valor de R$ %2$s\nfoi pago ?</string>
 </resources>

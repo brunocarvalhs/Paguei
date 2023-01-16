@@ -22,9 +22,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private val viewModel: CostsViewModel by viewModels()
 
     override fun createBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        attachToParent: Boolean
+        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentCostsListBinding =
         FragmentCostsListBinding.inflate(inflater, container, attachToParent)
 
@@ -72,8 +70,8 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private fun setupHeader() {
         viewModel.user?.let {
             Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
-            binding.name.text = requireActivity()
-                .getString(R.string.home_title_header, it.fistName())
+            binding.name.text =
+                requireActivity().getString(R.string.home_title_header, it.fistName())
             binding.avatar.setOnClickListener { navigateToProfile() }
             binding.name.setOnClickListener { navigateToProfile() }
         }
@@ -108,17 +106,20 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         return true
     }
 
-    private fun navigateToAddCosts() {
-        val action = CostsFragmentDirections
-            .actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
+    private fun navigateToReaderCost(cost: CostsEntities) {
+        val action =
+            CostsFragmentDirections.actionCostsFragmentToCostReaderFragment(cost as CostsModel)
         findNavController().navigate(action)
     }
 
-    override fun onClick(cost: CostsEntities) {
+
+    private fun navigateToAddCosts() {
         val action =
-            CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost as CostsModel)
+            CostsFragmentDirections.actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
         findNavController().navigate(action)
     }
+
+    override fun onClick(cost: CostsEntities) = navigateToReaderCost(cost)
 
     override fun onLongClick(cost: CostsEntities): Boolean {
         val action =

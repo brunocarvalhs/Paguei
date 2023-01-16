@@ -10,13 +10,21 @@ import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.payflow.R
 import br.com.brunocarvalhs.payflow.databinding.FragmentBilletRegistrationFormBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @AndroidEntryPoint
 class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFormBinding>() {
 
     private val viewModel: BilletRegistrationFormViewModel by viewModels()
+
+    private val datePicker = MaterialDatePicker.Builder.datePicker()
+        .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
+        .build()
+
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -47,6 +55,13 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         binding.registration.setOnClickListener { createCost() }
         binding.cancel.setOnClickListener { cancelRegistration() }
         binding.barcode.editText?.setText(viewModel.barCode)
+        binding.prompt.editText?.setOnClickListener {
+            datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
+        }
+        datePicker.addOnPositiveButtonClickListener {
+            val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(it)
+            binding.prompt.editText?.setText(date)
+        }
     }
 
     override fun loading() {
@@ -84,5 +99,9 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     private fun cancelRegistration() {
         findNavController().popBackStack(R.id.costsFragment, true)
+    }
+
+    companion object {
+        const val FORMAT_DATE = "dd/MM/yyyy"
     }
 }

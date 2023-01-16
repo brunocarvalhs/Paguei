@@ -24,7 +24,7 @@ data class CostsModel(
         const val NAME = "name"
         const val PROMPT = "prompt"
         const val VALUE = "value"
-        const val BAR_CODE = "bar_code"
+        const val BAR_CODE = "barCode"
         const val PAYMENT_VOUCHER = "payment_voucher"
     }
 

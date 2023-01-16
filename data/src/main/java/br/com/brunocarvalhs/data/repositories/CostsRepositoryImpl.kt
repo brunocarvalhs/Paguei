@@ -16,9 +16,12 @@ class CostsRepositoryImpl @Inject constructor(
     private val sessionManager: SessionManager,
 ) : CostsRepository {
 
+    private val routerCollection =
+        "${UserModel.COLLECTION}/${sessionManager.getUser()?.id}/${CostsModel.COLLECTION}"
+
     override suspend fun add(cost: CostsEntities) = withContext(Dispatchers.IO) {
         try {
-            database.collection(routerCollection()).document(cost.id).set(cost.toMap()).await()
+            database.collection(routerCollection).document(cost.id).set(cost.toMap()).await()
             return@withContext
         } catch (error: Exception) {
             throw error
@@ -27,7 +30,7 @@ class CostsRepositoryImpl @Inject constructor(
 
     override suspend fun list(): List<CostsEntities> = withContext(Dispatchers.IO) {
         try {
-            val result = database.collection(routerCollection()).get().await()
+            val result = database.collection(routerCollection).get().await()
             return@withContext result.map { it.toObject(CostsModel::class.java) }
         } catch (error: Exception) {
             throw error
@@ -37,7 +40,7 @@ class CostsRepositoryImpl @Inject constructor(
     override suspend fun view(cost: CostsEntities): CostsEntities? = withContext(Dispatchers.IO) {
         try {
             sessionManager.getUser()?.let {
-                val result = database.collection(routerCollection()).document(it.id).get().await()
+                val result = database.collection(routerCollection).document(it.id).get().await()
                 return@withContext result.toObject(CostsModel::class.java)
             }
         } catch (error: Exception) {
@@ -47,7 +50,7 @@ class CostsRepositoryImpl @Inject constructor(
 
     override suspend fun update(cost: CostsEntities): CostsEntities = withContext(Dispatchers.IO) {
         try {
-            database.collection(routerCollection()).document(cost.id).update(cost.toMap()).await()
+            database.collection(routerCollection).document(cost.id).update(cost.toMap()).await()
             return@withContext cost
         } catch (error: Exception) {
             throw error
@@ -56,13 +59,10 @@ class CostsRepositoryImpl @Inject constructor(
 
     override suspend fun delete(cost: CostsEntities) = withContext(Dispatchers.IO) {
         try {
-            database.collection(routerCollection()).document(cost.id).delete().await()
+            database.collection(routerCollection).document(cost.id).delete().await()
             return@withContext
         } catch (error: Exception) {
             throw error
         }
     }
-
-    private fun routerCollection() =
-        "${UserModel.COLLECTION}/${sessionManager.getUser()?.id}/${CostsModel.COLLECTION}"
 }

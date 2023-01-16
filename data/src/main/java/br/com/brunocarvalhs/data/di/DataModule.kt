@@ -2,10 +2,12 @@ package br.com.brunocarvalhs.data.di
 
 import android.content.Context
 import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
+import br.com.brunocarvalhs.data.repositories.HomesRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
 import br.com.brunocarvalhs.data.services.AuthenticationService
 import br.com.brunocarvalhs.data.services.SessionManagerService
 import br.com.brunocarvalhs.payflow.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.payflow.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.payflow.domain.repositories.UserRepository
 import br.com.brunocarvalhs.payflow.domain.services.Authentication
 import br.com.brunocarvalhs.payflow.domain.services.SessionManager
@@ -50,4 +52,7 @@ object DataModule {
 
     @Provides
     fun providerCostsRepository(repository: CostsRepositoryImpl): CostsRepository = repository
+
+    @Provides
+    fun providerHomesRepository(repository: HomesRepositoryImpl): HomesRepository = repository
 }
