@@ -35,7 +35,7 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
         this.visibilityToolbar(visibility = true)
         binding.name.editText?.setText(viewModel.cost.name)
         binding.prompt.editText?.setText(viewModel.cost.prompt)
-        binding.value.editText?.setText(viewModel.cost.value.toString())
+        binding.value.editText?.setText(viewModel.cost.formatValue())
         binding.barcode.editText?.setText(viewModel.cost.barCode)
         binding.barcode.setEndIconOnClickListener {
             viewModel.cost.barCode?.let { textCopyThenPost(it) }

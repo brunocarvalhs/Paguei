@@ -83,7 +83,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     private fun generateCost() = CostsModel(
         name = binding.name.editText?.text.toString(),
         prompt = binding.prompt.editText?.text.toString(),
-        value = binding.value.editText?.text.toString().toDouble(),
+        value = binding.value.editText?.text.toString().moneyToDouble(),
         barCode = binding.barcode.editText?.text.toString()
     )
 
@@ -102,7 +102,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     private fun setupTextFieldDate() {
         binding.prompt.editText?.let {
-            val listener = MaskedTextChangedListener("[00]{/}[00]{/}[0000]", it)
+            val listener = MaskedTextChangedListener(PROMPT_FORMAT, it)
             it.addTextChangedListener(listener)
             it.onFocusChangeListener = listener
         }
@@ -124,8 +124,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
                 override fun afterTextChanged(s: Editable?) {
                     s?.let {
                         if (s.isNotEmpty()) {
-                            val cleanString = s.toString().replace("[^\\d]".toRegex(), "")
-                            val parsed = cleanString.toDouble() / 100
+                            val parsed = s.toString().moneyToDouble() / 100
                             val formatted = currencyFormat.format(parsed)
                             valueEditText.removeTextChangedListener(this)
                             valueEditText.setText(formatted)
@@ -150,7 +149,12 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         }
     }
 
+    private fun String.moneyToDouble() =
+        this.replace(REGEX_TEXT.toRegex(), "").toDouble()
+
     companion object {
         const val FORMAT_DATE = "dd/MM/yyyy"
+        const val PROMPT_FORMAT = "[00]{/}[00]{/}[0000]"
+        const val REGEX_TEXT = "[^\\d]"
     }
 }

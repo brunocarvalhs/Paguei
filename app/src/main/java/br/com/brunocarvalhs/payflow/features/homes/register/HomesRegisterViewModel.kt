@@ -15,7 +15,7 @@ class HomesRegisterViewModel @Inject constructor(
     private val repository: HomesRepository, private val sessionManager: SessionManager
 ) : BaseViewModel<HomesRegisterViewState>() {
 
-    var members = emptyList<UserEntities>()
+    var members = emptyList<String>()
 
     fun save(homes: HomesEntities) {
         defineMember()
@@ -31,10 +31,10 @@ class HomesRegisterViewModel @Inject constructor(
     }
 
     private fun defineMember() {
-        members.plus(sessionManager.getUser())
+        members.plus(sessionManager.getUser()?.id)
     }
 
     fun addMember(member: UserEntities) {
-        if (!members.contains(member)) members.plus(member)
+        if (!members.contains(member.id)) members.plus(member.id)
     }
 }

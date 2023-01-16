@@ -5,6 +5,7 @@ import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.text.DecimalFormat
 import java.util.*
 
 @Parcelize
@@ -26,10 +27,13 @@ data class CostsModel(
         const val VALUE = "value"
         const val BAR_CODE = "barCode"
         const val PAYMENT_VOUCHER = "payment_voucher"
+
+        const val FORMAT_VALUE = "#,###.00"
     }
 
     override fun toMap(): Map<String?, Any?> =
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 
     override fun toJson(): String = Gson().toJson(this)
+    override fun formatValue(): String = DecimalFormat(FORMAT_VALUE).format(this.value)
 }

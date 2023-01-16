@@ -10,4 +10,5 @@ interface CostsEntities {
 
     fun toMap(): Map<String?, Any?>
     fun toJson(): String
+    fun formatValue(): String
 }

@@ -24,7 +24,7 @@ class CostsRecyclerViewAdapter(
         holder.root.setOnLongClickListener { listener.onLongClick(item) }
         holder.name.text = item.name
         holder.prompt.text = context.getString(R.string.item_cost_date, item.prompt.toString())
-        holder.value.text = context.getString(R.string.item_cost_value, item.value.toString())
+        holder.value.text = context.getString(R.string.item_cost_value, item.formatValue())
     }
 
     override fun getItemCount(): Int = values.size

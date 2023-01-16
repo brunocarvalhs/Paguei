@@ -10,13 +10,14 @@ import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.payflow.R
 import br.com.brunocarvalhs.payflow.databinding.DialogCostsSelectedBinding
 import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CostsSelectedDialogFragment :
-    BaseBottomSheetDialogFragment<DialogCostsSelectedBinding>() {
+class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSelectedBinding>() {
 
     private val viewModel: CostsSelectedViewModel by viewModels()
+
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -25,11 +26,9 @@ class CostsSelectedDialogFragment :
 
     override fun initView() {
         binding.content.text = requireContext().getString(
-            R.string.selected_cost_description,
-            viewModel.cost.name,
-            viewModel.cost.value.toString()
+            R.string.selected_cost_description, viewModel.cost.name, viewModel.cost.value.toString()
         )
-        binding.delete.setOnClickListener { viewModel.deleteCost() }
+        binding.delete.setOnClickListener { questionDelete() }
         binding.yes.setOnClickListener { navigateToPaymentVoucher(viewModel.cost) }
         binding.not.setOnClickListener { navigateToCancel() }
     }
@@ -40,6 +39,18 @@ class CostsSelectedDialogFragment :
 
     override fun argumentsView(arguments: Bundle) {
 
+    }
+
+    private fun questionDelete() {
+        MaterialAlertDialogBuilder(
+            requireContext(),
+        ).setTitle("Confirmação de remoção.")
+            .setMessage("Deseja realemente deletar o \nboleto ${viewModel.cost.name} do valor de ${viewModel.cost.value}")
+            .setNegativeButton("Não") { _, _ ->
+                findNavController().popBackStack(R.id.costsFragment, inclusive = false)
+            }.setPositiveButton("Sim") { _, _ ->
+                viewModel.deleteCost()
+            }.show()
     }
 
     override fun loading() {

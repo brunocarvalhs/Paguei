@@ -28,7 +28,9 @@ class HomesRepositoryImpl @Inject constructor(
         try {
             return@withContext sessionManager.getUser()?.let {
                 val result = database.collection(HomesModel.COLLECTION)
-                    .whereEqualTo(HomesModel.MEMBERS, sessionManager.getUser()?.id).get().await()
+                    .whereArrayContainsAny(HomesModel.MEMBERS, listOf(sessionManager.getUser()?.id))
+                    .get()
+                    .await()
                 result.map { it.toObject(HomesModel::class.java) }
             } ?: emptyList()
         } catch (error: Exception) {

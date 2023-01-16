@@ -1,7 +1,6 @@
 package br.com.brunocarvalhs.data.model
 
 import br.com.brunocarvalhs.payflow.domain.entities.HomesEntities
-import br.com.brunocarvalhs.payflow.domain.entities.UserEntities
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -9,7 +8,7 @@ import java.util.*
 data class HomesModel(
     @SerializedName(ID) override val id: String = UUID.randomUUID().toString(),
     @SerializedName(NAME) override val name: String? = null,
-    @SerializedName(MEMBERS) override val members: List<UserEntities> = emptyList()
+    @SerializedName(MEMBERS) override val members: List<String> = emptyList()
 ) : HomesEntities {
     companion object {
 

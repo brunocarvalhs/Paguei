@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.payflow.domain.entities.HomesEntities
 import br.com.brunocarvalhs.payflow.domain.repositories.HomesRepository
+import br.com.brunocarvalhs.payflow.domain.repositories.UserRepository
 import br.com.brunocarvalhs.payflow.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomesListViewModel @Inject constructor(
+    private val userRepository: UserRepository,
     private val homesRepository: HomesRepository,
     private val sessionManager: SessionManager
 ) : BaseViewModel<HomesListViewState>() {
@@ -30,6 +32,10 @@ class HomesListViewModel @Inject constructor(
     }
 
     fun selected(home: HomesEntities? = null) {
+
+    }
+
+    fun seachUser(search: String) {
 
     }
 }
