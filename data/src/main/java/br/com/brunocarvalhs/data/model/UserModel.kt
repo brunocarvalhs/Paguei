@@ -34,4 +34,5 @@ data class UserModel(
     override fun fistName(): String? = name?.split(" ")?.first()
 
     override fun lastName(): String? = name?.split(" ")?.last()
+    override fun initialsName(): String = fistName()?.substring(0, 1) + lastName()?.substring(0, 1)
 }

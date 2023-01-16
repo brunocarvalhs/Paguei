@@ -3,8 +3,11 @@ package br.com.brunocarvalhs.payflow.features.homes.register
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.data.model.HomesModel
 import br.com.brunocarvalhs.payflow.databinding.FragmentHomesRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +24,17 @@ class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
         FragmentHomesRegisterBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is HomesRegisterViewState.Error -> this.showError(it.error)
+                HomesRegisterViewState.Loading -> this.loading()
+                HomesRegisterViewState.Success -> this.navigateToCosts()
+            }
+        }
+    }
 
+    private fun navigateToCosts() {
+        findNavController().popBackStack()
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -29,10 +42,35 @@ class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
     }
 
     override fun initView() {
+        binding.registration.setOnClickListener { createHomes() }
+    }
 
+    private fun createHomes() {
+        val fieldsOfForm = listOf(
+            binding.name.editText,
+            binding.members.editText,
+        )
+        if (validateEditTexts(fieldsOfForm)) {
+            val group = generateHomes()
+            viewModel.save(group)
+        }
+    }
+
+    private fun validateEditTexts(editTexts: List<EditText?>): Boolean {
+        for (editText in editTexts) {
+            if (editText == null || editText.text.toString().trim().isEmpty()) {
+                return false
+            }
+        }
+        return true
     }
 
     override fun loading() {
 
     }
+
+    private fun generateHomes() = HomesModel(
+        name = binding.name.editText?.text.toString(),
+        members = viewModel.members
+    )
 }

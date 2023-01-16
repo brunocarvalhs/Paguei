@@ -125,4 +125,7 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.2.0")
     implementation("androidx.camera:camera-extensions:1.2.0")
     implementation("com.google.mlkit:barcode-scanning:17.0.3")
+
+    // Mascara
+    implementation("com.redmadrobot:input-mask-android:6.1.0")
 }

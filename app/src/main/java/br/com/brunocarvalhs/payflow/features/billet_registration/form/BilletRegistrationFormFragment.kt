@@ -1,6 +1,8 @@
 package br.com.brunocarvalhs.payflow.features.billet_registration.form
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
@@ -11,7 +13,9 @@ import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.payflow.R
 import br.com.brunocarvalhs.payflow.databinding.FragmentBilletRegistrationFormBinding
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.redmadrobot.inputmask.MaskedTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,15 +25,14 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     private val viewModel: BilletRegistrationFormViewModel by viewModels()
 
-    private val datePicker = MaterialDatePicker.Builder.datePicker()
-        .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
-        .build()
+    private val datePicker =
+        MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+            .build()
 
+    private val calendar = Calendar.getInstance()
 
     override fun createBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        attachToParent: Boolean
+        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentBilletRegistrationFormBinding =
         FragmentBilletRegistrationFormBinding.inflate(inflater, container, attachToParent)
 
@@ -52,16 +55,12 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     }
 
     override fun initView() {
+        visibilityToolbar(visibility = true)
         binding.registration.setOnClickListener { createCost() }
         binding.cancel.setOnClickListener { cancelRegistration() }
         binding.barcode.editText?.setText(viewModel.barCode)
-        binding.prompt.editText?.setOnClickListener {
-            datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
-        }
-        datePicker.addOnPositiveButtonClickListener {
-            val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(it)
-            binding.prompt.editText?.setText(date)
-        }
+        setupTextFieldDate()
+        setupTextFieldValue()
     }
 
     override fun loading() {
@@ -99,6 +98,56 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     private fun cancelRegistration() {
         findNavController().popBackStack(R.id.costsFragment, true)
+    }
+
+    private fun setupTextFieldDate() {
+        binding.prompt.editText?.let {
+            val listener = MaskedTextChangedListener("[00]{/}[00]{/}[0000]", it)
+            it.addTextChangedListener(listener)
+            it.onFocusChangeListener = listener
+        }
+        binding.prompt.setEndIconOnClickListener {
+            datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
+        }
+        datePicker.addOnPositiveButtonClickListener {
+            calendar.time = Date(it)
+            calendar.add(Calendar.DATE, 1)
+            val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(calendar.time)
+            binding.prompt.editText?.setText(date)
+        }
+    }
+
+    private fun setupTextFieldValue() {
+        binding.value.editText?.let { valueEditText ->
+            val currencyFormat = DecimalFormat.getCurrencyInstance()
+            val textWatcher = object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    s?.let {
+                        if (s.isNotEmpty()) {
+                            val cleanString = s.toString().replace("[^\\d]".toRegex(), "")
+                            val parsed = cleanString.toDouble() / 100
+                            val formatted = currencyFormat.format(parsed)
+                            valueEditText.removeTextChangedListener(this)
+                            valueEditText.setText(formatted)
+                            valueEditText.setSelection(formatted.length)
+                            valueEditText.addTextChangedListener(this)
+                        }
+                    }
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+            }
+            valueEditText.addTextChangedListener(textWatcher)
+        }
     }
 
     companion object {

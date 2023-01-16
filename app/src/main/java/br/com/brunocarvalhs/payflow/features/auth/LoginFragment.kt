@@ -25,18 +25,18 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     ) { viewModel.onSignInResult() }
 
     private val providers = arrayListOf(
-        AuthUI.IdpConfig.GoogleBuilder().setScopes(listOf(Scopes.PROFILE)).build(),
         AuthUI.IdpConfig.EmailBuilder().setAllowNewAccounts(true).build(),
-        AuthUI.IdpConfig.PhoneBuilder().build()
+        AuthUI.IdpConfig.GoogleBuilder().setScopes(listOf(Scopes.PROFILE)).build(),
     )
 
     private val customLayout = AuthMethodPickerLayout.Builder(R.layout.custom_login_layout_xml)
         .setGoogleButtonId(R.id.button2).setEmailButtonId(R.id.button3)
-        .setPhoneButtonId(R.id.button4).build()
+        .setFacebookButtonId(R.id.button4).build()
 
     private val signInIntent =
         AuthUI.getInstance().createSignInIntentBuilder().setTheme(R.style.Theme_PayFlow)
-            .setAvailableProviders(providers).setAuthMethodPickerLayout(customLayout)
+            .setAvailableProviders(providers)
+//            .setAuthMethodPickerLayout(customLayout)
             .setIsSmartLockEnabled(false).build()
 
     override fun createBinding(

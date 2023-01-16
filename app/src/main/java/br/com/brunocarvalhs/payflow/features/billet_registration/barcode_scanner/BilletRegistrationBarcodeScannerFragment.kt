@@ -2,16 +2,12 @@ package br.com.brunocarvalhs.payflow.features.billet_registration.barcode_scanne
 
 import android.Manifest
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -20,8 +16,6 @@ import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.payflow.databinding.FragmentBilletRegistrationBarcodeScannerBinding
 import br.com.brunocarvalhs.payflow.domain.listeners.BarcodeScanListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 @ExperimentalGetImage
 @AndroidEntryPoint
@@ -29,16 +23,6 @@ class BilletRegistrationBarcodeScannerFragment :
     BaseFragment<FragmentBilletRegistrationBarcodeScannerBinding>(), BarcodeScanListener {
 
     private val viewModel: BilletRegistrationBarcodeScannerViewModel by viewModels()
-
-    private var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-
-    private val imageAnalysis = ImageAnalysis.Builder().build()
-
-    private val preview = Preview.Builder().build()
-
-    private var cameraProvider: ProcessCameraProvider? = null
-
-    private val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -61,12 +45,13 @@ class BilletRegistrationBarcodeScannerFragment :
             when (it) {
                 is BilletRegistrationBarcodeScannerViewState.Error -> this.showError(it.message)
                 is BilletRegistrationBarcodeScannerViewState.Success -> this.displayData(it.code)
+                BilletRegistrationBarcodeScannerViewState.Loading -> this.loading()
             }
         }
     }
 
-    private fun displayData(code: String) {
-
+    private fun displayData(barcode: String) {
+        this.navigateToForm(barcode)
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -90,16 +75,16 @@ class BilletRegistrationBarcodeScannerFragment :
     override fun onStart() {
         super.onStart()
         requestPermission()
-        cameraProvider?.let { initCamera() }
+        viewModel.cameraProvider?.let { initCamera() }
     }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
             try {
-                cameraProvider = cameraProviderFuture.get()
-                preview.setSurfaceProvider(binding.previewView.surfaceProvider)
-                imageAnalysis.setAnalyzer(cameraExecutor, BarcodeAnalyzer(this))
+                viewModel.cameraProvider = cameraProviderFuture.get()
+                viewModel.preview.setSurfaceProvider(binding.previewView.surfaceProvider)
+                viewModel.imageAnalysis.setAnalyzer(viewModel.cameraExecutor, BarcodeAnalyzer(this))
                 initCamera()
             } catch (e: Exception) {
                 Log.e(this.javaClass.simpleName, e.message ?: "")
@@ -108,7 +93,7 @@ class BilletRegistrationBarcodeScannerFragment :
     }
 
     override fun onScanSuccess(barcode: String) {
-        this.navigateToForm(barcode)
+        viewModel.barcodeScanner(barcode)
     }
 
     override fun onScanError(error: String) {
@@ -122,19 +107,30 @@ class BilletRegistrationBarcodeScannerFragment :
     }
 
     private fun navigateToForm(barcode: String? = null) {
-        val action = BilletRegistrationBarcodeScannerFragmentDirections
-            .actionBilletRegistrationBarcodeScannerFragmentToBilletRegistrationFormFragment(barcode)
-        findNavController().navigate(action)
+        try {
+            val action = BilletRegistrationBarcodeScannerFragmentDirections
+                .actionBilletRegistrationBarcodeScannerFragmentToBilletRegistrationFormFragment(
+                    barcode
+                )
+            findNavController().navigate(action)
+        } catch (error: Exception) {
+            showBottomSheet()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        cameraProvider?.unbind(preview)
-        cameraProvider?.unbind(imageAnalysis)
+        viewModel.cameraProvider?.unbind(viewModel.preview)
+        viewModel.cameraProvider?.unbind(viewModel.imageAnalysis)
     }
 
     private fun initCamera() {
-        cameraProvider?.unbindAll()
-        cameraProvider?.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+        viewModel.cameraProvider?.unbindAll()
+        viewModel.cameraProvider?.bindToLifecycle(
+            this,
+            viewModel.cameraSelector,
+            viewModel.preview,
+            viewModel.imageAnalysis
+        )
     }
 }

@@ -3,6 +3,7 @@ package br.com.brunocarvalhs.payflow.features.costs.costs_list
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -69,7 +70,13 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
     private fun setupHeader() {
         viewModel.user?.let {
-            Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
+            it.photoUrl?.let { photoUrl ->
+                Glide.with(this).load(photoUrl).centerCrop().into(binding.avatar)
+            } ?: run {
+                binding.avatar.visibility = View.GONE
+                binding.avatarText.visibility = View.VISIBLE
+                binding.avatarText.text = it.initialsName()
+            }
             binding.name.text =
                 requireActivity().getString(R.string.home_title_header, it.fistName())
             binding.avatar.setOnClickListener { navigateToProfile() }

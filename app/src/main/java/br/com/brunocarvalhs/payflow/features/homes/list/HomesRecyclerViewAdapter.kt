@@ -18,7 +18,6 @@ class HomesRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.root.setOnClickListener { listener.onClick(item) }
-        holder.root.setOnLongClickListener { listener.onLongClick(item) }
         holder.name.text = item.name
     }
 
@@ -34,8 +33,6 @@ class HomesRecyclerViewAdapter(
     }
 
     interface HomesClickListener {
-        fun onClick(home: HomesEntities)
-
-        fun onLongClick(home: HomesEntities): Boolean
+        fun onClick(home: HomesEntities?)
     }
 }

@@ -1,5 +1,10 @@
 <resources>
+    <!--  App  -->
     <string name="app_name">Pay Flow</string>
+    <string name="facebook_application_id" translatable="false">3357876164425207</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb3357876164425207</string>
+
+    <!--  Layout  -->
     <string name="organize_se">Organize seus\nboletos em um\nsó lugar</string>
     <string name="login_button_text">Acessar</string>
     <string name="home_title_header">Olá, %1$s</string>

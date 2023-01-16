@@ -27,9 +27,10 @@ class HomesListDialogFragment : BaseBottomSheetDialogFragment<DialogHomesListBin
         viewModel.user?.let {
             Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatarUser)
             binding.nameUser.text = it.name
-            binding.avatarGroup.setOnClickListener { findNavController().popBackStack() }
+            binding.avatarGroup.setOnClickListener { viewModel.selected(home = null) }
         }
         binding.list.layoutManager = LinearLayoutManager(context)
+        binding.create.setOnClickListener { navigateToRegisterHomes() }
     }
 
     override fun viewObservation() {
@@ -54,16 +55,18 @@ class HomesListDialogFragment : BaseBottomSheetDialogFragment<DialogHomesListBin
 
     }
 
-    override fun onClick(home: HomesEntities) {
-
-    }
-
-    override fun onLongClick(home: HomesEntities): Boolean {
-        return true
+    override fun onClick(home: HomesEntities?) {
+        viewModel.selected(home)
     }
 
     override fun onStart() {
         super.onStart()
         viewModel.fetchData()
+    }
+
+    private fun navigateToRegisterHomes() {
+        val action =
+            HomesListDialogFragmentDirections.actionHomesListDialogFragmentToHomesRegisterFragment()
+        findNavController().navigate(action)
     }
 }
