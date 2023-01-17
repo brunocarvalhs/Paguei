@@ -17,6 +17,9 @@ jobs:
         with:
           java-version: 11
 
+      - name: Install sdkmanager-wrapper
+        run: curl -sL https://sdk.cloud.google.com | bash
+
       - name: Install Android SDK
         run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
 
@@ -37,6 +40,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
+      - name: Install sdkmanager-wrapper
+        run: curl -sL https://sdk.cloud.google.com | bash
 
       - name: Install Android SDK
         run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
