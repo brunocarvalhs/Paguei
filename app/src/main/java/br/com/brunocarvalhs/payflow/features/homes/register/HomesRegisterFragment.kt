@@ -42,6 +42,7 @@ class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
     }
 
     override fun initView() {
+        visibilityToolbar(visibility = true)
         binding.registration.setOnClickListener { createHomes() }
     }
 

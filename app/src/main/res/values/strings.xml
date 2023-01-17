@@ -13,4 +13,5 @@
     <string name="item_cost_date">Vence em %1$s</string>
     <string name="item_cost_value">R$ %1$s</string>
     <string name="selected_cost_description">O boleto %1$s\nno valor de R$ %2$s\nfoi pago ?</string>
+    <string name="costs_list_header_subtitle">Mantenha suas contas em dia</string>
 </resources>

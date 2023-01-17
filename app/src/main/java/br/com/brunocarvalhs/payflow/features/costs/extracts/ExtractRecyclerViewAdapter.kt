@@ -1,5 +1,6 @@
 package br.com.brunocarvalhs.payflow.features.costs.extracts
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,14 +17,14 @@ class ExtractRecyclerViewAdapter(
 ) : RecyclerView.Adapter<ExtractRecyclerViewAdapter.ViewHolder>() {
 
     private var filter: ItemFilter = ItemFilter()
-    private var filteredValues = values
+    private var filteredValues: List<*> = values
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         ItemExtractBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = filteredValues[position]
+        val item = values[position]
         holder.root.setOnClickListener { listener.onClick(item) }
         holder.name.text = item.name
         holder.prompt.text = context.getString(R.string.item_cost_date, item.prompt.toString())
@@ -57,7 +58,7 @@ class ExtractRecyclerViewAdapter(
                 values
             } else {
                 values.filter {
-                    it?.name?.contains(constraint, true) ?: false
+                    it.name?.contains(constraint, true) ?: false
                 }
             }
 
@@ -66,8 +67,9 @@ class ExtractRecyclerViewAdapter(
             return results
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            filteredValues = results?.values as List<CostsEntities>
+            filteredValues = results?.values as List<*>
             notifyDataSetChanged()
         }
     }

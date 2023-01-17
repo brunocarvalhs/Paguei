@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.payflow.databinding.FragmentPaymentVoucherBinding
-import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,12 +26,12 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
             when (it) {
                 is PaymentVoucherViewState.Error -> this.showError(it.error)
                 PaymentVoucherViewState.Loading -> this.loading()
-                is PaymentVoucherViewState.Success -> this.navigateToCosts(it.cost)
+                is PaymentVoucherViewState.Success -> this.navigateToCosts()
             }
         }
     }
 
-    private fun navigateToCosts(cost: CostsEntities) {
+    private fun navigateToCosts() {
         findNavController().popBackStack()
     }
 

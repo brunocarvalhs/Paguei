@@ -68,7 +68,7 @@
     <fragment
         android:id="@+id/extractFragment"
         android:name="br.com.brunocarvalhs.payflow.features.costs.extracts.ExtractFragment"
-        tools:layout="@layout/fragment_extract_list" >
+        tools:layout="@layout/fragment_extract_list">
         <action
             android:id="@+id/action_extractFragment_to_extractReaderFragment"
             app:destination="@id/extractReaderFragment" />
@@ -92,9 +92,9 @@
         tools:layout="@layout/fragment_billet_registration_form">
         <argument
             android:name="barcode"
+            android:defaultValue=""
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -131,10 +131,10 @@
             android:name="cost"
             app:argType="br.com.brunocarvalhs.data.model.CostsModel" />
     </fragment>
+
     <fragment
         android:id="@+id/extractReaderFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.costs.extract_reader.ExtractReaderFragment"
-        android:label="ExtractReaderFragment" >
+        android:name="br.com.brunocarvalhs.payflow.features.costs.extract_reader.ExtractReaderFragment">
         <argument
             android:name="cost"
             app:argType="br.com.brunocarvalhs.data.model.CostsModel" />
