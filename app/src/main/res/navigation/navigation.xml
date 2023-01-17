@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.auth.LoginFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.auth.LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/costsFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.costs.costs_list.CostsFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.costs.costs_list.CostsFragment"
         tools:layout="@layout/fragment_costs_list">
         <action
             android:id="@+id/action_homeFragment_to_itemListDialogFragment"
@@ -45,7 +45,7 @@
 
     <dialog
         android:id="@+id/itemListDialogFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.costs.selected_cost.CostsSelectedDialogFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.costs.selected_cost.CostsSelectedDialogFragment"
         tools:layout="@layout/dialog_costs_selected">
 
         <argument
@@ -58,7 +58,7 @@
 
     <dialog
         android:id="@+id/billetRegistrationDialogFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.billet_registration.dialog.BilletRegistrationDialogFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.billet_registration.dialog.BilletRegistrationDialogFragment"
         tools:layout="@layout/dialog_billet_registration">
 
         <action
@@ -67,7 +67,7 @@
     </dialog>
     <fragment
         android:id="@+id/extractFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.costs.extracts.ExtractFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.costs.extracts.ExtractFragment"
         tools:layout="@layout/fragment_extract_list">
         <action
             android:id="@+id/action_extractFragment_to_extractReaderFragment"
@@ -76,7 +76,7 @@
 
     <fragment
         android:id="@+id/billetRegistrationBarcodeScannerFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.billet_registration.barcode_scanner.BilletRegistrationBarcodeScannerFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.billet_registration.barcode_scanner.BilletRegistrationBarcodeScannerFragment"
         tools:layout="@layout/fragment_billet_registration_barcode_scanner">
         <action
             android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationFormFragment"
@@ -88,7 +88,7 @@
 
     <fragment
         android:id="@+id/billetRegistrationFormFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.billet_registration.form.BilletRegistrationFormFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.billet_registration.form.BilletRegistrationFormFragment"
         tools:layout="@layout/fragment_billet_registration_form">
         <argument
             android:name="barcode"
@@ -99,17 +99,17 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.profile.ProfileFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.profile.ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/homesRegisterFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.homes.register.HomesRegisterFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.homes.register.HomesRegisterFragment"
         tools:layout="@layout/fragment_homes_register" />
 
     <dialog
         android:id="@+id/homesListDialogFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.homes.list.HomesListDialogFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.homes.list.HomesListDialogFragment"
         tools:layout="@layout/dialog_homes_list">
         <action
             android:id="@+id/action_homesListDialogFragment_to_homesRegisterFragment"
@@ -117,7 +117,7 @@
     </dialog>
     <fragment
         android:id="@+id/costReaderFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.costs.reader_cost.CostReaderFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.costs.reader_cost.CostReaderFragment"
         tools:layout="@layout/fragment_cost_reader">
         <argument
             android:name="cost"
@@ -125,7 +125,7 @@
     </fragment>
     <fragment
         android:id="@+id/paymentVoucherFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.costs.payment_voucher.PaymentVoucherFragment"
+        android:name="br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherFragment"
         tools:layout="@layout/fragment_payment_voucher">
         <argument
             android:name="cost"
@@ -134,7 +134,7 @@
 
     <fragment
         android:id="@+id/extractReaderFragment"
-        android:name="br.com.brunocarvalhs.payflow.features.costs.extract_reader.ExtractReaderFragment">
+        android:name="br.com.brunocarvalhs.paguei.features.costs.extract_reader.ExtractReaderFragment">
         <argument
             android:name="cost"
             app:argType="br.com.brunocarvalhs.data.model.CostsModel" />

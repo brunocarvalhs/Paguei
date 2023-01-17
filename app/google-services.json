@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "128192448233",
-    "project_id": "pay-flow-22e1b",
-    "storage_bucket": "pay-flow-22e1b.appspot.com"
+    "project_number": "647363137025",
+    "project_id": "paguei-a6ca6",
+    "storage_bucket": "paguei-a6ca6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:128192448233:android:514162bef0167a473e9278",
+        "mobilesdk_app_id": "1:647363137025:android:c8a5e1e90d509af313fa00",
         "android_client_info": {
-          "package_name": "br.com.brunocarvalhs.payflow"
+          "package_name": "br.com.brunocarvalhs.paguei"
         }
       },
       "oauth_client": [
         {
-          "client_id": "128192448233-ia5dk6tqjmoes1n1q2gpimj6ig4dprtm.apps.googleusercontent.com",
+          "client_id": "647363137025-68jjme6jbnhhsdo5psjqoh4h1j1gjiss.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "br.com.brunocarvalhs.payflow",
+            "package_name": "br.com.brunocarvalhs.paguei",
             "certificate_hash": "567091933f8c25188d587d177f8e2a53ba6cfc71"
           }
         },
         {
-          "client_id": "128192448233-rg8r145n1cbsn3l7tnch26jucquvgfta.apps.googleusercontent.com",
+          "client_id": "647363137025-g24o2lmfk44b7kjf4q85jn557p7pm0a1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDlw0jOhoupQeDUSL9i5f62qCIn-odnNFg"
+          "current_key": "AIzaSyB4Atx9CJuihqazU56kVgbt2qmkrhbRf_8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "128192448233-rg8r145n1cbsn3l7tnch26jucquvgfta.apps.googleusercontent.com",
+              "client_id": "647363137025-g24o2lmfk44b7kjf4q85jn557p7pm0a1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

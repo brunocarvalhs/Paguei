@@ -1,5 +1,5 @@
-# PayFlow
-O PayFlow é uma plataforma para centralizar e organizar gastos e boletos em um único lugar. Ele permite que você adicione informações sobre despesas e faturas, bem como compartilhe custos com outras pessoas.
+# Paguei
+O Paguei é uma plataforma para centralizar e organizar gastos e boletos em um único lugar. Ele permite que você adicione informações sobre despesas e faturas, bem como compartilhe custos com outras pessoas.
 
 ## Recursos
 - [x] Criação de usuário
@@ -27,8 +27,8 @@ Se você deseja contribuir para o projeto, siga os seguintes passos:
 
 ## Licença
 
-Este projeto está licenciado sob a licença [Nome da licença]. Consulte o arquivo [LICENSE.md]("") para obter mais detalhes.
+Este projeto está licenciado sob a licença [Nome da licença]. Consulte o arquivo [LICENSE.md]() para obter mais detalhes.
 
 ## Download do Aplicativo
 
-Você pode fazer o download do aplicativo PayFlow na [Google Play]("") e [App Store]("").
+Você pode fazer o download do aplicativo Paguei na [Google Play]() e [App Store]().
