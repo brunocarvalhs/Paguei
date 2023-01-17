@@ -19,7 +19,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="300dp"
                 android:background="@drawable/rectangle" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -30,6 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
@@ -45,9 +46,9 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/organize_se"
-                style="@style/TextAppearance.Material3.TitleLarge"
-                android:layout_width="236dp"
-                android:layout_height="120dp"
+                style="@style/TextAppearance.Material3.DisplaySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:gravity="center_horizontal|top"
