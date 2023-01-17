@@ -29,7 +29,8 @@ class CostsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 mutableState.value = CostsViewState.Loading
-                listCosts = repository.list().toMutableList()
+                listCosts =
+                    repository.list().filter { it.paymentVoucher.isNullOrEmpty() }.toMutableList()
                 mutableState.value = CostsViewState.Success(listCosts)
             } catch (error: Exception) {
                 mutableState.value = CostsViewState.Error(error.message)

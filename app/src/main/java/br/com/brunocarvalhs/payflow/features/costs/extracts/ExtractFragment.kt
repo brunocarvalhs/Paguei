@@ -3,6 +3,7 @@ package br.com.brunocarvalhs.payflow.features.costs.extracts
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
@@ -15,11 +16,10 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     ExtractRecyclerViewAdapter.ExtractClickListener {
 
     private val viewModel: ExtractViewModel by viewModels()
+    lateinit var adapter: ExtractRecyclerViewAdapter
 
     override fun createBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        attachToParent: Boolean
+        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentExtractListBinding =
         FragmentExtractListBinding.inflate(inflater, container, attachToParent)
 
@@ -40,6 +40,17 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     override fun initView() {
         visibilityToolbar(true)
         binding.list.layoutManager = LinearLayoutManager(context)
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.getFilter().filter(newText)
+                return false
+            }
+        })
+
     }
 
     override fun loading() {
@@ -47,7 +58,8 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     }
 
     private fun displayData(list: List<CostsEntities>) {
-        binding.list.adapter = ExtractRecyclerViewAdapter(requireContext(), list, this)
+        adapter = ExtractRecyclerViewAdapter(requireContext(), list, this)
+        binding.list.adapter = adapter
     }
 
     override fun onClick(cost: CostsEntities) {

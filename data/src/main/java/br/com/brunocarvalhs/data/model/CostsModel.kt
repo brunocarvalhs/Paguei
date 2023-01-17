@@ -26,7 +26,7 @@ data class CostsModel(
         const val PROMPT = "prompt"
         const val VALUE = "value"
         const val BAR_CODE = "barCode"
-        const val PAYMENT_VOUCHER = "payment_voucher"
+        const val PAYMENT_VOUCHER = "paymentVoucher"
 
         const val FORMAT_VALUE = "#,###.00"
     }
