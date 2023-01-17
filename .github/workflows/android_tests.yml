@@ -2,7 +2,7 @@ name: Android Tests
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   unit-tests:
@@ -16,18 +16,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-      - name: Download sdkmanager-wrapper
-        run: curl -o sdkmanager https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-
-      - name: Extract sdkmanager-wrapper
-        run: unzip -q sdkmanager -d /usr/local/bin/
-
-      - name: Give execution permissions to sdkmanager
-        run: chmod +x /usr/local/bin/sdkmanager
-
-      - name: Install Android SDK
-        run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
@@ -49,16 +37,16 @@ jobs:
 
       - name: Download sdkmanager-wrapper
         run: curl -o sdkmanager https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-
       - name: Extract sdkmanager-wrapper
-        run: unzip -q sdkmanager -d /usr/local/bin/
-
+        run: unzip -q sdkmanager -d $HOME/
       - name: Give execution permissions to sdkmanager
-        run: chmod +x /usr/local/bin/sdkmanager
-
-      - name: Install Android SDK
-        run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
-
+        run: chmod +x $HOME/sdkmanager
+      - name: Set up Android SDK and emulator
+        run: |
+          mkdir -p ~/.android
+          echo "sdk.dir=$HOME/android-sdk" > ~/.android/local.properties
+          yes | $HOME/sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
+          echo "no" | $HOME/android-sdk/tools/bin/avdmanager create avd -n test-emulator -k "system-images;android-28;google_apis;x86"
       - name: Start emulator
         run: $HOME/android-sdk/emulator/emulator -avd test-emulator -no-window &
 
