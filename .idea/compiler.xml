@@ -4,8 +4,6 @@
     <bytecodeTargetLevel target="1.7">
       <module name="Pay_Flow.app" target="11" />
       <module name="Pay_Flow.buildSrc" target="11" />
-      <module name="Pay_Flow.buildSrc.main" target="11" />
-      <module name="Pay_Flow.buildSrc.test" target="11" />
       <module name="Pay_Flow.commons" target="11" />
       <module name="Pay_Flow.data" target="11" />
     </bytecodeTargetLevel>
