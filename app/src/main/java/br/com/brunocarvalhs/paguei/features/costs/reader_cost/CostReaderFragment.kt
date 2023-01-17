@@ -65,7 +65,7 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
         setupPrompt()
         setupValue()
         setupBarcode()
-        binding.registration.setOnClickListener { createCost() }
+        binding.update.setOnClickListener { createCost() }
     }
 
     private fun setupBarcode() {
@@ -193,7 +193,7 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
     }
 
     private fun defineUpdateButton() {
-        binding.registration.visibility = View.VISIBLE
+        binding.update.visibility = View.VISIBLE
     }
 
     private fun validateEditTexts(editTexts: List<EditText?>): Boolean {

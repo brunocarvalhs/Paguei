@@ -20,9 +20,11 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/content"
+        style="@style/TextAppearance.Material3.BodyLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|top"
+        android:layout_margin="20dp"
         android:text="@string/selected_cost_description"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,19 +38,20 @@
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/materialDivider"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content">
 
         <Button
             android:id="@+id/not"
-            style="@style/Widget.Material3.Button.ElevatedButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:text="Ainda não"
+            android:layout_weight="1"
+            android:text="@string/dialog_costs_selected_not_text"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -57,7 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="8dp"
-            android:text="Sim"
+            android:layout_weight="1"
+            android:text="@string/dialog_costs_selected_yes_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/try_new"
@@ -76,7 +80,8 @@
         style="@style/Widget.Material3.Button.TextButton.Icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Deletar boleto"
+        android:layout_weight="1"
+        android:text="@string/dialog_costs_selected_delete_text"
         android:textColor="@color/design_default_color_error"
         app:icon="@drawable/ic_baseline_delete_24"
         app:iconGravity="textStart"

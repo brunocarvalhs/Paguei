@@ -90,7 +90,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.extractFragment -> navigateToExtracts()
-                R.id.homesListDialogFragment -> navigateToHomes()
+//                R.id.homesListDialogFragment -> navigateToHomes()
                 else -> false
             }
         }
@@ -101,11 +101,11 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         findNavController().navigate(action)
     }
 
-    private fun navigateToHomes(): Boolean {
-        val action = CostsFragmentDirections.actionCostsFragmentToHomesListDialogFragment()
-        findNavController().navigate(action)
-        return true
-    }
+//    private fun navigateToHomes(): Boolean {
+//        val action = CostsFragmentDirections.actionCostsFragmentToHomesListDialogFragment()
+//        findNavController().navigate(action)
+//        return true
+//    }
 
     private fun navigateToExtracts(): Boolean {
         val action = CostsFragmentDirections.actionHomeFragmentToExtractFragment()

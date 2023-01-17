@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.paguei.databinding.FragmentProfileBinding
 import com.bumptech.glide.Glide
@@ -41,9 +42,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             binding.name.text = it.name
             binding.contact.text = it.email ?: it.phoneNumber
         }
+        binding.logout.setOnClickListener { logout() }
     }
 
     override fun loading() {
 
+    }
+
+    private fun logout() {
+        viewModel.logout()
+        val action = ProfileFragmentDirections.actionProfileFragmentToLoginFragment()
+        findNavController().navigate(action)
     }
 }

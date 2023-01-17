@@ -6,21 +6,18 @@
     android:layout_height="match_parent"
     tools:context="features.auth.LoginFragment">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@drawable/rectangle" />
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/white_card"
@@ -31,23 +28,24 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="30dp"
                 android:contentDescription=""
-                android:scaleType="center"
+                android:scaleType="fitCenter"
+                app:barrierDirection="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/image" />
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_weight="6">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/organize_se"
-                style="@style/TextAppearance.Material3.DisplaySmall"
+                style="@style/TextAppearance.Material3.DisplayMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -83,5 +81,5 @@
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>
