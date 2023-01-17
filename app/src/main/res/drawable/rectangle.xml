@@ -26,15 +26,15 @@
                     <gradient
                         android:centerX="187.5"
                         android:centerY="158"
-                        android:gradientRadius="93.75"
+                        android:gradientRadius="53.75"
                         android:type="radial">
 
                         <item
-                            android:color="#FFC480"
+                            android:color="@color/md_theme_light_inversePrimary"
                             android:offset="0" />
 
                         <item
-                            android:color="#FF941A"
+                            android:color="@color/seed"
                             android:offset="1" />
 
                     </gradient>
