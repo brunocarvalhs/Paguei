@@ -1,4 +1,4 @@
-name: Build AAR
+name: Build APK and AAR
 on:
   push:
     branches:
@@ -19,12 +19,11 @@ jobs:
           java-version: 11
           distribution: jdk
           architecture: x64
-          check-latest: false
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
-          overwrite-settings: true
-          job-status: success
+
+      - name: Set up Android SDK
+        uses: actions/setup-android@v2
+        with:
+          android-sdk-version: 30.0.0
 
       - name: Get Version Number
         id: version-number
