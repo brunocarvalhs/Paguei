@@ -17,11 +17,11 @@ jobs:
         with:
           java-version: 11
 
-      - name: Install sdkmanager-wrapper
-        run: curl -sL https://sdk.cloud.google.com | bash
+      - name: Download sdkmanager-wrapper
+        run: curl -o sdkmanager https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
 
-      - name: Set up PATH
-        run: echo 'export PATH="$HOME/google-cloud-sdk/bin:$PATH"' >> $GITHUB_ENV
+      - name: Extract sdkmanager-wrapper
+        run: unzip -q sdkmanager -d /usr/local/bin/
 
       - name: Install Android SDK
         run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
@@ -44,11 +44,11 @@ jobs:
         with:
           java-version: 11
 
-      - name: Install sdkmanager-wrapper
-        run: curl -sL https://sdk.cloud.google.com | bash
+      - name: Download sdkmanager-wrapper
+        run: curl -o sdkmanager https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
 
-      - name: Set up PATH
-        run: echo 'export PATH="$HOME/google-cloud-sdk/bin:$PATH"' >> $GITHUB_ENV
+      - name: Extract sdkmanager-wrapper
+        run: unzip -q sdkmanager -d /usr/local/bin/
 
       - name: Install Android SDK
         run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
