@@ -12,10 +12,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
         with:
-          java-version: 1.8
+          java-version: 11
       - name: Get Version Number
         id: version-number
         run: |
@@ -33,12 +33,11 @@ jobs:
           path: app/build/outputs/aar/
       - name: Create branch with version tag
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        uses: peter-evans/create-or-update-branch@v3
-        with:
-          branch: release/v{{ steps.version-number.outputs.version }}
+        run: sh .github/actions/create-or-update-branch/create-or-update-branch.sh
+        env:
+          BRANCH_NAME: release/v{{ steps.version-number.outputs.version }}
       - name: Create tag with version
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        uses: peter-evans/create-or-update-tag@v2
-        with:
-          tag: v{{ steps.version-number.outputs.version }}
-          message: Release version v{{ steps.version-number.outputs.version }}
+        run: sh .github/actions/create-or-update-tag/create-or-update-tag.sh
+        env:
+          TAG_NAME: v{{ steps.version-number.outputs.version }}
