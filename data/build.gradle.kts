@@ -79,4 +79,11 @@ dependencies {
     testImplementation(Dependencies.Hilt.ANDROID_TESTING)
     kaptTest(Dependencies.Hilt.ANDROID_COMPILER)
     testAnnotationProcessor(Dependencies.Hilt.ANDROID_COMPILER)
+
+    // Camera
+    implementation("androidx.camera:camera-core:1.2.0")
+    implementation("androidx.camera:camera-camera2:1.2.0")
+    implementation("androidx.camera:camera-lifecycle:1.2.0")
+    implementation("androidx.camera:camera-extensions:1.2.0")
+    implementation("com.google.mlkit:barcode-scanning:17.0.3")
 }

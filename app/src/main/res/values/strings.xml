@@ -1,6 +1,17 @@
 <resources>
+    <!--  App  -->
     <string name="app_name">Pay Flow</string>
+    <string name="facebook_application_id" translatable="false">3357876164425207</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb3357876164425207</string>
+
+    <!--  Layout  -->
     <string name="organize_se">Organize seus\nboletos em um\nsó lugar</string>
     <string name="login_button_text">Acessar</string>
     <string name="home_title_header">Olá, %1$s</string>
+    <string name="costs_total_text">Você tem %1$s boletos\ncadastrados para pagar</string>
+    <string name="field_error">%1$s está vazio, precisar ser preenchido.</string>
+    <string name="item_cost_date">Vence em %1$s</string>
+    <string name="item_cost_value">R$ %1$s</string>
+    <string name="selected_cost_description">O boleto %1$s\nno valor de R$ %2$s\nfoi pago ?</string>
+    <string name="costs_list_header_subtitle">Mantenha suas contas em dia</string>
 </resources>

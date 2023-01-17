@@ -11,6 +11,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -76,6 +77,11 @@ dependencies {
     implementation(Dependencies.UI.APPCOMPAT)
     implementation(Dependencies.UI.FRAGMENT_KTX)
     implementation(Dependencies.UI.DATABINDING_COMMON)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
     kapt(Dependencies.UI.DATABINDING_COMPILER)
     implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
@@ -111,4 +117,15 @@ dependencies {
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
+
+    // Camera
+    implementation("androidx.camera:camera-core:1.2.0")
+    implementation("androidx.camera:camera-view:1.2.0")
+    implementation("androidx.camera:camera-camera2:1.2.0")
+    implementation("androidx.camera:camera-lifecycle:1.2.0")
+    implementation("androidx.camera:camera-extensions:1.2.0")
+    implementation("com.google.mlkit:barcode-scanning:17.0.3")
+
+    // Mascara
+    implementation("com.redmadrobot:input-mask-android:6.1.0")
 }
