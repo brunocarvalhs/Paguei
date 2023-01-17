@@ -4,9 +4,7 @@ O Paguei é uma plataforma para centralizar e organizar gastos e boletos em um �
 ## Recursos
 - [x] Criação de usuário
   - [x] E-mail e Senha
-  - [x] Telefone
   - [x] Google
-  - [ ] Facebook
 - [x] Adicione despesas e faturas com data e valor 
 - [ ] Adicione categorias de despesas 
 - [ ] Compartilhe despesas com outras pessoas 
