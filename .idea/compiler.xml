@@ -2,14 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
-      <module name="Pay_Flow.di" target="11" />
-      <module name="Pay_Flow.feature.auth" target="11" />
-      <module name="Pay_Flow.feature.billet_registration" target="11" />
-      <module name="Pay_Flow.feature.home" target="11" />
-      <module name="Pay_Flow.features.login" target="11" />
-      <module name="Pay_Flow.navigation" target="11" />
-      <module name="Pay_Flow.presentation" target="11" />
-      <module name="Pay_Flow.sample" target="11" />
+      <module name="Pay_Flow.app" target="11" />
+      <module name="Pay_Flow.buildSrc" target="11" />
+      <module name="Pay_Flow.buildSrc.main" target="11" />
+      <module name="Pay_Flow.buildSrc.test" target="11" />
+      <module name="Pay_Flow.commons" target="11" />
+      <module name="Pay_Flow.data" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

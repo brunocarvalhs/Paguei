@@ -24,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:padding="10dp"
             android:background="@color/seed"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -33,9 +33,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/common_google_signin_btn_text_dark"
                 android:gravity="center"
-                android:text="Escaneie o código de barras do boleto"
+                android:text="@string/fragment_billet_registration_barcode_scanner_title_text"
+                android:textColor="@color/common_google_signin_btn_text_dark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Inserir código do boleto" />
+                android:text="@string/fragment_billet_registration_barcode_scanner_next_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

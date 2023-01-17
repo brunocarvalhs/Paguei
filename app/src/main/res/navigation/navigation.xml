@@ -12,8 +12,7 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/costsFragment"
-            app:popUpTo="@id/costsFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/costsFragment" />
     </fragment>
 
     <fragment
@@ -26,9 +25,6 @@
         <action
             android:id="@+id/action_homeFragment_to_extractFragment"
             app:destination="@id/extractFragment" />
-        <argument
-            android:name="user"
-            app:argType="br.com.brunocarvalhs.data.model.UserModel" />
         <action
             android:id="@+id/action_costsFragment_to_billetRegistrationBarcodeScannerFragment"
             app:destination="@id/billetRegistrationBarcodeScannerFragment" />
@@ -95,12 +91,21 @@
             android:defaultValue=""
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_billetRegistrationFormFragment_to_costsFragment"
+            app:destination="@id/costsFragment"
+            app:popUpTo="@id/costsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="br.com.brunocarvalhs.paguei.features.profile.ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/homesRegisterFragment"

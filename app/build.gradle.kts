@@ -96,6 +96,7 @@ dependencies {
     // Hilt dependencies
     implementation(Dependencies.Hilt.ANDROID)
     kapt(Dependencies.Hilt.ANDROID_COMPILER)
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
 
     // Firebase dependencies
     implementation(platform(Dependencies.Firebase.BOM))

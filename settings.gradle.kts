@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         maven(url = "https://jitpack.io")
     }
 }
-rootProject.name = "Pay Flow"
+rootProject.name = "Paguei"
 include(":app", ":domain", ":data", ":commons")
