@@ -38,6 +38,9 @@ jobs:
       - name: Install jaxb-api
         run: sudo apt-get install libjaxb-api-java
 
+      - name: Run mkdir -p ~/.android
+        run: mkdir -p ~/.android
+
       - name: Download and install Android SDK
         run: |
           mkdir -p ~/.android
