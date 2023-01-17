@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.payflow.domain.repositories.UserRepository
-import br.com.brunocarvalhs.payflow.domain.services.AuthService
+import br.com.brunocarvalhs.payflow.domain.services.Authentication
 import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authService: AuthService<AuthCredential>,
+    private val authService: Authentication<AuthCredential>,
     private val repository: UserRepository,
 ) : BaseViewModel<LoginViewState>() {
 

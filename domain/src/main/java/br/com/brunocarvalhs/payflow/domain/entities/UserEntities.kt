@@ -12,4 +12,6 @@ interface UserEntities {
 
     fun fistName(): String?
     fun lastName(): String?
+
+    fun initialsName(): String?
 }

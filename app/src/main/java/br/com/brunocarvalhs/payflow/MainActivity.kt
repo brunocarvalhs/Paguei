@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
         navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.costsFragment))
         binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
     }
 
