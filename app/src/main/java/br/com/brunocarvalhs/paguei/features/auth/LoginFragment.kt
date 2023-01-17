@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.FragmentLoginBinding
 import com.firebase.ui.auth.AuthUI
@@ -15,7 +14,7 @@ import com.google.android.gms.common.Scopes
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -44,14 +43,14 @@ internal class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 LoginViewState.Loading -> this.loading()
-                is LoginViewState.Success -> this.navigateToHome(it.user)
+                is LoginViewState.Success -> this.navigateToHome()
                 is LoginViewState.Error -> this.showError(it.message)
             }
         }
     }
 
-    private fun navigateToHome(user: UserModel) {
-        val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(user)
+    private fun navigateToHome() {
+        val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         findNavController().navigate(action)
     }
 

@@ -25,9 +25,6 @@
         <action
             android:id="@+id/action_homeFragment_to_extractFragment"
             app:destination="@id/extractFragment" />
-        <argument
-            android:name="user"
-            app:argType="br.com.brunocarvalhs.data.model.UserModel" />
         <action
             android:id="@+id/action_costsFragment_to_billetRegistrationBarcodeScannerFragment"
             app:destination="@id/billetRegistrationBarcodeScannerFragment" />
@@ -94,6 +91,10 @@
             android:defaultValue=""
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_billetRegistrationFormFragment_to_costsFragment"
+            app:destination="@id/costsFragment"
+            app:popUpTo="@id/costsFragment" />
     </fragment>
 
     <fragment

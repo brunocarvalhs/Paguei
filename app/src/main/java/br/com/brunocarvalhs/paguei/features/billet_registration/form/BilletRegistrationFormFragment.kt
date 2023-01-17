@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.FragmentBilletRegistrationFormBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -97,7 +96,9 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     }
 
     private fun cancelRegistration() {
-        findNavController().popBackStack(R.id.costsFragment, true)
+        val action = BilletRegistrationFormFragmentDirections
+            .actionBilletRegistrationFormFragmentToCostsFragment()
+        findNavController().navigate(action)
     }
 
     private fun setupTextFieldDate() {
