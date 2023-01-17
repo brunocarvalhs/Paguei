@@ -1,8 +1,8 @@
 package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.UserModel
-import br.com.brunocarvalhs.payflow.domain.entities.UserEntities
-import br.com.brunocarvalhs.payflow.domain.repositories.UserRepository
+import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
+import br.com.brunocarvalhs.paguei.domain.repositories.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val database: FirebaseFirestore
+    database: FirebaseFirestore
 ) : UserRepository {
 
     private val collection = database.collection(UserModel.COLLECTION)

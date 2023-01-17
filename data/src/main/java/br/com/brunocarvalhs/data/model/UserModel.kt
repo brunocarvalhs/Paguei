@@ -1,7 +1,7 @@
 package br.com.brunocarvalhs.data.model
 
 import android.os.Parcelable
-import br.com.brunocarvalhs.payflow.domain.entities.UserEntities
+import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize

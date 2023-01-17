@@ -2,9 +2,9 @@ package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.data.model.UserModel
-import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
-import br.com.brunocarvalhs.payflow.domain.repositories.CostsRepository
-import br.com.brunocarvalhs.payflow.domain.services.SessionManager
+import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
+import br.com.brunocarvalhs.paguei.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.paguei.domain.services.SessionManager
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await

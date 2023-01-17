@@ -1,9 +1,9 @@
 package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.HomesModel
-import br.com.brunocarvalhs.payflow.domain.entities.HomesEntities
-import br.com.brunocarvalhs.payflow.domain.repositories.HomesRepository
-import br.com.brunocarvalhs.payflow.domain.services.SessionManager
+import br.com.brunocarvalhs.paguei.domain.entities.HomesEntities
+import br.com.brunocarvalhs.paguei.domain.repositories.HomesRepository
+import br.com.brunocarvalhs.paguei.domain.services.SessionManager
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await

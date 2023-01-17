@@ -11,7 +11,7 @@ object AndroidConfig {
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0"
 
-    const val APP_ID = "br.com.brunocarvalhs.payflow"
+    const val APP_ID = "br.com.brunocarvalhs.paguei"
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 
     val JAVA_VERSION = JavaVersion.VERSION_1_8

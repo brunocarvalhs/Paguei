@@ -1,9 +1,9 @@
 package br.com.brunocarvalhs.data.services
 
 import br.com.brunocarvalhs.data.model.UserModel
-import br.com.brunocarvalhs.payflow.domain.entities.UserEntities
-import br.com.brunocarvalhs.payflow.domain.services.Authentication
-import br.com.brunocarvalhs.payflow.domain.services.SessionManager
+import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
+import br.com.brunocarvalhs.paguei.domain.services.Authentication
+import br.com.brunocarvalhs.paguei.domain.services.SessionManager
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
