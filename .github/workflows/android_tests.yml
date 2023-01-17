@@ -2,7 +2,7 @@ name: Android Tests
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   unit-tests:
@@ -35,21 +35,20 @@ jobs:
         with:
           java-version: 11
 
-      - name: Download sdkmanager-wrapper
-        run: curl -o sdkmanager https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+      - name: Install jaxb-api
+        run: sudo apt-get install libjaxb-api-java
 
-      - name: Extract sdkmanager-wrapper
-        run: unzip -q sdkmanager -d $HOME/android-sdk
-
-      - name: Give execution permissions to sdkmanager
-        run: chmod +x $HOME/android-sdk/tools/bin/sdkmanager
-
-      - name: Set up Android SDK and emulator
+      - name: Download and install Android SDK
         run: |
           mkdir -p ~/.android
           echo "sdk.dir=$HOME/android-sdk" > ~/.android/local.properties
-          yes | $HOME/android-sdk/tools/bin/sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
-          echo "no" | $HOME/android-sdk/tools/bin/avdmanager create avd -n test-emulator -k "system-images;android-28;google_apis;x86"
+          wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+          unzip -q android-sdk.zip -d $HOME/android-sdk
+          rm android-sdk.zip
+          yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses
+
+      - name: Install Android platform tools and emulator
+        run: echo y | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "platforms;android-28" "emulator"
 
       - name: Start emulator
         run: $HOME/android-sdk/emulator/emulator -avd test-emulator -no-window &
@@ -57,7 +56,7 @@ jobs:
       - name: Wait for emulator to start
         run: |
           while ! $HOME/android-sdk/platform-tools/adb shell getprop init.svc.bootanim; do sleep 1; done
-          $HOME/android-
+          $HOME/android-sdk/platform-tools/adb shell input keyevent 82 &
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
