@@ -35,7 +35,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
                 android:contentDescription=""
-                android:src="@drawable/image" />
+                android:scaleType="center"
+                app:srcCompat="@drawable/image" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
