@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.payflow.databinding.FragmentExtractListBinding
 import br.com.brunocarvalhs.payflow.domain.entities.CostsEntities
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,7 +65,9 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     }
 
     override fun onClick(cost: CostsEntities) {
-
+        val action = ExtractFragmentDirections
+            .actionExtractFragmentToExtractReaderFragment(cost as CostsModel)
+        findNavController().navigate(action)
     }
 
     override fun onResume() {
