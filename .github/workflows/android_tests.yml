@@ -2,7 +2,7 @@ name: Android Tests
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   unit-tests:
@@ -19,6 +19,9 @@ jobs:
 
       - name: Install sdkmanager-wrapper
         run: curl -sL https://sdk.cloud.google.com | bash
+
+      - name: Set up PATH
+        run: echo 'export PATH="$HOME/google-cloud-sdk/bin:$PATH"' >> $GITHUB_ENV
 
       - name: Install Android SDK
         run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
@@ -43,6 +46,9 @@ jobs:
 
       - name: Install sdkmanager-wrapper
         run: curl -sL https://sdk.cloud.google.com | bash
+
+      - name: Set up PATH
+        run: echo 'export PATH="$HOME/google-cloud-sdk/bin:$PATH"' >> $GITHUB_ENV
 
       - name: Install Android SDK
         run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
