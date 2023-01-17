@@ -17,6 +17,9 @@ jobs:
         with:
           java-version: 11
 
+      - name: Install Android SDK
+        run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
+
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
@@ -35,16 +38,8 @@ jobs:
         with:
           java-version: 11
 
-      - name: Set up Android SDK and emulator
-        run: |
-          mkdir -p ~/.android
-          echo "sdk.dir=$HOME/android-sdk" > ~/.android/local.properties
-          wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-          unzip -q android-sdk.zip -d $HOME/android-sdk
-          rm android-sdk.zip
-          yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses
-          yes | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "platforms;android-28" "emulator"
-          echo "no" | $HOME/android-sdk/tools/bin/avdmanager create avd -n test-emulator -k "system-images;android-28;google_apis;x86"
+      - name: Install Android SDK
+        run: echo y | sdkmanager --sdk_root=${HOME}/android-sdk "platform-tools" "platforms;android-28" "emulator"
 
       - name: Start emulator
         run: $HOME/android-sdk/emulator/emulator -avd test-emulator -no-window &
