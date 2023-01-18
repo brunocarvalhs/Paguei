@@ -80,7 +80,7 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation("com.google.android.material:material:1.5.0")
+    implementation("com.google.android.material:material:1.7.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     kapt(Dependencies.UI.DATABINDING_COMPILER)
     implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
