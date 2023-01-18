@@ -31,6 +31,9 @@ jobs:
       - name: Extract version from VERSION.md
         run: echo "version=$(cat VERSION.md)" >> $GITHUB_ENV
 
+      - name: Give gradlew execute permissions
+        run: chmod +x gradlew
+
       - name: Build AAR
         run: ./gradlew :library:assembleRelease
 
