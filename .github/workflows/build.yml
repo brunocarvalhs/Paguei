@@ -7,9 +7,6 @@ on:
   pull_request:
     types: [ closed ]
 
-env:
-  projectName: "paguei"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,7 +42,7 @@ jobs:
       - name: Upload AAR
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ projectName }}-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.aar
+          name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.aar
           path: app/build/outputs/aar/
 
       - name: Build APK
@@ -54,7 +51,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ projectName }}-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.apk
+          name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.apk
           path: app/build/outputs/apk/
 
       - name: Create new branch with version
