@@ -44,10 +44,10 @@ jobs:
         run: ./gradlew :app:assembleRelease
 
       - name: Upload AAR
-          uses: actions/upload-artifact@v2
-          with:
-            name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.aar
-            path: app/build/outputs/aar/
+        uses: actions/upload-artifact@v2
+        with:
+          name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.aar
+          path: app/build/outputs/aar/
 
       - name: Create new branch with version
         run: |
