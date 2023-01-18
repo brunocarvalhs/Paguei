@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 14
+          distribution: openjdk
 
       - name: Setup Gradle
         run: |
