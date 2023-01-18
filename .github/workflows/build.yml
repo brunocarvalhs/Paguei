@@ -54,9 +54,14 @@ jobs:
           name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.apk
           path: app/build/outputs/apk/
 
-      - name: Create new branch with version
-        run: |
-          export version=$(cat VERSION.md)
-          git checkout -b "release/$version"
-          git commit -m "Release version $version"
-          git push -u origin "release/$version"
+      - name: Create branch with version tag
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        run: sh .github/actions/create-or-update-branch/create-or-update-branch.sh
+        env:
+          BRANCH_NAME: release/v{{ steps.version-number.outputs.version }}
+
+      - name: Create tag with version
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        run: sh .github/actions/create-or-update-tag/create-or-update-tag.sh
+        env:
+          TAG_NAME: v{{ steps.version-number.outputs.version }}
