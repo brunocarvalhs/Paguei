@@ -7,10 +7,11 @@ on:
   pull_request:
     types: [ closed ]
 
+env:
+  projectName: "paguei"
+
 jobs:
   build:
-    env:
-      projectName: "paguei"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
