@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "647363137025",
+    "project_id": "paguei-a6ca6",
+    "storage_bucket": "paguei-a6ca6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647363137025:android:c8a5e1e90d509af313fa00",
+        "android_client_info": {
+          "package_name": "br.com.brunocarvalhs.paguei"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647363137025-68jjme6jbnhhsdo5psjqoh4h1j1gjiss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.brunocarvalhs.paguei",
+            "certificate_hash": "567091933f8c25188d587d177f8e2a53ba6cfc71"
+          }
+        },
+        {
+          "client_id": "647363137025-g24o2lmfk44b7kjf4q85jn557p7pm0a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4Atx9CJuihqazU56kVgbt2qmkrhbRf_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647363137025-g24o2lmfk44b7kjf4q85jn557p7pm0a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

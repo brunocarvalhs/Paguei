@@ -1,0 +1,67 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: Setup Gradle
+        run: |
+          mkdir ~/.gradle
+          echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
+
+      - name: Extract version from VERSION.md
+        run: echo "version=$(cat VERSION.md)" >> $GITHUB_ENV
+
+      - name: Get Build Date
+        run: echo ::set-output name=date::$(date +%Y-%m-%d)
+
+      - name: Give gradlew execute permissions
+        run: chmod +x gradlew
+
+      - name: Build AAR
+        run: ./gradlew :app:assembleRelease
+
+      - name: Upload AAR
+        uses: actions/upload-artifact@v2
+        with:
+          name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.aar
+          path: app/build/outputs/aar/
+
+      - name: Build APK
+        run: ./gradlew :app:assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.apk
+          path: app/build/outputs/apk/
+
+      - name: Create branch with version tag
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        run: sh .github/actions/create-or-update-branch/create-or-update-branch.sh
+        env:
+          BRANCH_NAME: release/v{{ steps.version-number.outputs.version }}
+
+      - name: Create tag with version
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        run: sh .github/actions/create-or-update-tag/create-or-update-tag.sh
+        env:
+          TAG_NAME: v{{ steps.version-number.outputs.version }}
