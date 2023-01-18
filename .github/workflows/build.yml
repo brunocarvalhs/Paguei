@@ -58,7 +58,5 @@ jobs:
         run: |
           export version=$(cat VERSION.md)
           git checkout -b "release/$version"
-          git add -f app/build/outputs/
-          git add -f library/build/outputs/
           git commit -m "Release version $version"
           git push -u origin "release/$version"
