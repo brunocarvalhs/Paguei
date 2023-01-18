@@ -32,7 +32,6 @@ jobs:
         run: echo "version=$(cat VERSION.md)" >> $GITHUB_ENV
 
       - name: Get Build Date
-          id: build-date
           run: echo ::set-output name=date::$(date +%Y-%m-%d)
 
       - name: Give gradlew execute permissions
