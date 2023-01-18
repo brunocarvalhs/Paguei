@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
-      <module name="Paguei.app" target="11" />
-      <module name="Paguei.buildSrc" target="11" />
-      <module name="Paguei.buildSrc.main" target="11" />
-      <module name="Paguei.buildSrc.test" target="11" />
-      <module name="Paguei.commons" target="11" />
-      <module name="Paguei.data" target="11" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.7" />
   </component>
 </project>
