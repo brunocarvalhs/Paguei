@@ -38,7 +38,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build AAR
-        run: ./gradlew :library:assembleRelease
+        run: ./gradlew :app:assembleRelease
 
       - name: Build APK
         run: ./gradlew :app:assembleRelease
