@@ -25,7 +25,7 @@ class HomesListDialogFragment : BaseBottomSheetDialogFragment<DialogHomesListBin
 
     override fun initView() {
         viewModel.user?.let {
-            Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatarUser)
+            Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
             binding.nameUser.text = it.name
             binding.avatarGroup.setOnClickListener { viewModel.selected(home = null) }
         }

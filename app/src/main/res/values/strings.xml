@@ -41,4 +41,6 @@
     <string name="fragment_profile_logout_button_text">Logaout</string>
     <string name="menu_text_extract">Extrato</string>
     <string name="fragment_homes_register_title">Preencha os dados\ndo grupo</string>
+    <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
+    <string name="dialog_homes_list_button_create_text">Adicionar Grupo</string>
 </resources>
