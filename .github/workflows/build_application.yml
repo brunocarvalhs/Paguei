@@ -38,13 +38,13 @@ jobs:
         run: |
           echo "${{ secrets.GOOGLE_SERVICE_JSON }}" | base64 --decode > path/to/app/google-services.json
 
-      - name: Sign Android Code
-        uses: fastlane/actions/sign_apk@v1.0.0
-        with:
-          keystore: path/to/keystore.jks
-          keystore_password: ${{ secrets.KEYSTORE_PASSWORD }}
-          key_alias: keystore
-          key_password: ${{ secrets.KEY_PASSWORD }}
+#      - name: Sign Android Code
+#        uses: fastlane/actions/sign_apk@v1.0.0
+#        with:
+#          keystore: path/to/keystore.jks
+#          keystore_password: ${{ secrets.KEYSTORE_PASSWORD }}
+#          key_alias: keystore
+#          key_password: ${{ secrets.KEY_PASSWORD }}
 
       - name: Give gradlew execute permissions
         run: chmod +x gradlew

@@ -12,14 +12,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Get last tag
-        run: echo "LAST_TAG=$(git for-each-ref --sort=-creatordate --format '%(refname:short)' refs/tags | head -n 1)" >> $GITHUB_ENV
+        uses: actions/checkout@v2
 
       - name: Retrieve commits and version
         run: |
-          COMMITS=$(git log --pretty=format:"- %s" $LAST_TAG..HEAD)
+          COMMITS=$(git log --pretty=format:"- %s")
           TAG=$(git describe --tags --abbrev=0)
           echo "Commits: $COMMITS"
           echo "Tag: $TAG"
