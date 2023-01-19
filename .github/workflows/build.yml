@@ -36,28 +36,28 @@ jobs:
       - name: set environment variables
         uses: allenevans/set-env@v2.0.0
         with:
-          VERSION: '${{ env.version }}'
-          DATE: '${{ env.date }}'
+          ENV_VERSION: '${{ env.version }}'
+          ENV_DATE: '${{ env.date }}'
 
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
 
       - name: Build AAR
-        run: env version=$version ./gradlew :app:assembleRelease
+        run: env version=${ ENV_VERSION } ./gradlew :app:assembleRelease
 
       - name: Upload AAR
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ VERSION }}-${{ DATE }}.aar
+          name: paguei-${{ ENV_VERSION }}-${{ ENV_DATE }}.aar
           path: app/build/outputs/aar/
 
       - name: Build APK
-        run: env version=$version ./gradlew :app:assembleRelease
+        run: env version=${ ENV_VERSION } ./gradlew :app:assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ VERSION }}-${{ DATE }}.apk
+          name: paguei-${{ ENV_VERSION }}-${{ ENV_DATE }}.apk
           path: app/build/outputs/apk/
 
       - name: Create Branch Release
