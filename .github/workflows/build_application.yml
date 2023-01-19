@@ -89,4 +89,4 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/master')
         uses: mathieudutour/github-tag-action@v6.1
         with:
-          github_token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.TOKEN }}
