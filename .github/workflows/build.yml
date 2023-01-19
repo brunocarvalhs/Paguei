@@ -40,10 +40,10 @@ jobs:
         run: echo "date=$(date +%Y-%m-%d)" >> $GITHUB_ENV
 
       - name: Set date variable as an environment variable
-          uses: actions/set-env@v1
-          with:
-            name: date
-            value: ${{ env.date }}
+        uses: actions/set-env@v1
+        with:
+          name: date
+          value: ${{ env.date }}
 
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
