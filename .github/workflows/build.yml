@@ -79,8 +79,8 @@ jobs:
 
       - name: Create Tag
         if: startsWith(github.ref, 'refs/heads/master')
-        uses: actions/create-tag@v2
+        uses: fastlane/github-actions@v1.0.0
         with:
-          tag_name: v${{ env.version }}
-          ref: ${{ github.sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          args: create_tag tag_name=v${{ env.version }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
