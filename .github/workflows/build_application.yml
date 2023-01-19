@@ -67,14 +67,14 @@ jobs:
           name: paguei-${{ env.version }}-${{ env.date }}.apk
           path: app/build/outputs/apk/
 
-      - name: Build Changelog
-        id: changelog
-        uses: ardalanamini/auto-changelog@v3
-        with:
-          mention-authors: true
-          mention-new-contributors: true
-          include-compare: false
-          semver: false
+      #- name: Build Changelog
+      #  id: changelog
+      #  uses: ardalanamini/auto-changelog@v3
+      #  with:
+      #    mention-authors: true
+      #    mention-new-contributors: true
+      #    include-compare: false
+      #    semver: false
 
       - name: Create Branch Release
         if: startsWith(github.ref, 'refs/heads/develop')
