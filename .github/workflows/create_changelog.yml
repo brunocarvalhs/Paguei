@@ -9,7 +9,8 @@ on:
 jobs:
   create_changelog:
     runs-on: ubuntu-latest
-
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
