@@ -87,6 +87,7 @@ jobs:
 
       - name: Create Tag
         if: startsWith(github.ref, 'refs/heads/master')
-        uses: rickstaa/action-create-tag@v1
+        uses: rickstaa/action-create-tag@v1.5.4
         with:
+          github_token: ${{ vars.TOKEN }}
           tag: "${{ env.version }}"
