@@ -1,6 +1,6 @@
-package br.com.brunocarvalhs.data.repositories
+package br.com.brunocarvalhs.paguei.repositories
 
-import br.com.brunocarvalhs.data.model.HomesModel
+import br.com.brunocarvalhs.paguei.model.HomesModel
 import br.com.brunocarvalhs.paguei.domain.entities.HomesEntities
 import br.com.brunocarvalhs.paguei.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.paguei.domain.services.SessionManager

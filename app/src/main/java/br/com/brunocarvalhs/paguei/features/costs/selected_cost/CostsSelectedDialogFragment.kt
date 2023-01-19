@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
-import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.paguei.model.CostsModel
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.DialogCostsSelectedBinding
 import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities

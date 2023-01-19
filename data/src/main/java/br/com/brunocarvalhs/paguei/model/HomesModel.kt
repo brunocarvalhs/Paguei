@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.data.model
+package br.com.brunocarvalhs.paguei.model
 
 import br.com.brunocarvalhs.paguei.domain.entities.HomesEntities
 import com.google.gson.Gson

@@ -1,11 +1,11 @@
-package br.com.brunocarvalhs.data.di
+package br.com.brunocarvalhs.paguei.di
 
 import android.content.Context
-import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
-import br.com.brunocarvalhs.data.repositories.HomesRepositoryImpl
-import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
-import br.com.brunocarvalhs.data.services.AuthenticationService
-import br.com.brunocarvalhs.data.services.SessionManagerService
+import br.com.brunocarvalhs.paguei.repositories.CostsRepositoryImpl
+import br.com.brunocarvalhs.paguei.repositories.HomesRepositoryImpl
+import br.com.brunocarvalhs.paguei.repositories.UserRepositoryImpl
+import br.com.brunocarvalhs.paguei.services.AuthenticationService
+import br.com.brunocarvalhs.paguei.services.SessionManagerService
 import br.com.brunocarvalhs.paguei.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.paguei.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.paguei.domain.repositories.UserRepository

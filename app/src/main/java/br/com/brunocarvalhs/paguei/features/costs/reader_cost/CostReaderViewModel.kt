@@ -3,7 +3,7 @@ package br.com.brunocarvalhs.paguei.features.costs.reader_cost
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.paguei.model.CostsModel
 import br.com.brunocarvalhs.paguei.domain.repositories.CostsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

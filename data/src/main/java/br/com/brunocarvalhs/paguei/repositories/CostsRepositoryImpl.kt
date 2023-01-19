@@ -1,7 +1,7 @@
-package br.com.brunocarvalhs.data.repositories
+package br.com.brunocarvalhs.paguei.repositories
 
-import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.data.model.UserModel
+import br.com.brunocarvalhs.paguei.model.CostsModel
+import br.com.brunocarvalhs.paguei.model.UserModel
 import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
 import br.com.brunocarvalhs.paguei.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.paguei.domain.services.SessionManager

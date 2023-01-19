@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.data.model
+package br.com.brunocarvalhs.paguei.model
 
 import android.os.Parcelable
 import br.com.brunocarvalhs.paguei.domain.entities.UserEntities

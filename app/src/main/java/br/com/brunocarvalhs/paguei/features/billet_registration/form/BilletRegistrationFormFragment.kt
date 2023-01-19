@@ -9,7 +9,7 @@ import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.paguei.model.CostsModel
 import br.com.brunocarvalhs.paguei.databinding.FragmentBilletRegistrationFormBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.inputmask.MaskedTextChangedListener

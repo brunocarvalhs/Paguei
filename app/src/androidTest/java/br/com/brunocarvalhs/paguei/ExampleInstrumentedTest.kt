@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.data
+package br.com.brunocarvalhs.paguei
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

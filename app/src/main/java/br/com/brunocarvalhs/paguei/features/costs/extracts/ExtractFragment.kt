@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.paguei.model.CostsModel
 import br.com.brunocarvalhs.paguei.databinding.FragmentExtractListBinding
 import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
 import dagger.hilt.android.AndroidEntryPoint

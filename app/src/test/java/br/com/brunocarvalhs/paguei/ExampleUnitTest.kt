@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.data
+package br.com.brunocarvalhs.paguei
 
 import org.junit.Test
 

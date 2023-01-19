@@ -7,7 +7,7 @@ import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.HomesModel
+import br.com.brunocarvalhs.paguei.model.HomesModel
 import br.com.brunocarvalhs.paguei.databinding.FragmentHomesRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 

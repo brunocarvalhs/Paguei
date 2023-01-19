@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.data.model
+package br.com.brunocarvalhs.paguei.model
 
 import com.google.gson.Gson
 import org.junit.Assert.assertEquals

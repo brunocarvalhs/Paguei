@@ -1,6 +1,6 @@
-package br.com.brunocarvalhs.data.repositories
+package br.com.brunocarvalhs.paguei.repositories
 
-import br.com.brunocarvalhs.data.model.UserModel
+import br.com.brunocarvalhs.paguei.model.UserModel
 import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
 import br.com.brunocarvalhs.paguei.domain.repositories.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore

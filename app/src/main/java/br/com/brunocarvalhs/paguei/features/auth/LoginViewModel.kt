@@ -2,9 +2,9 @@ package br.com.brunocarvalhs.paguei.features.auth
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.paguei.domain.repositories.UserRepository
 import br.com.brunocarvalhs.paguei.domain.services.Authentication
+import br.com.brunocarvalhs.paguei.model.UserModel
 import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -27,8 +27,8 @@ class LoginViewModel @Inject constructor(
                 }
             } catch (error: Exception) {
                 mutableState.value = LoginViewState.Error(error.message)
+                throw error
             }
-
         }
     }
 }

@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.data.services
+package br.com.brunocarvalhs.paguei.services
 
 import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
 import br.com.brunocarvalhs.paguei.domain.services.SessionManager
