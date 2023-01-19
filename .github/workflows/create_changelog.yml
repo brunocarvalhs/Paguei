@@ -6,6 +6,10 @@ on:
       - master
       - develop
 
+env:
+  REPO_NAME: 'brunocarvalhs/Paguei'
+
+
 jobs:
   create_changelog:
     runs-on: ubuntu-latest
@@ -44,4 +48,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Update changelog"
-          git push
+          git push https://${{ secrets.TOKEN }}@github.com/${{ env.REPO_NAME }}.git
