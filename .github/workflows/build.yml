@@ -76,3 +76,9 @@ jobs:
         with:
           branch: release/v${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
+
+      - name: Create Tag
+        if: startsWith(github.ref, 'refs/heads/master')
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "${{ env.version }}"
