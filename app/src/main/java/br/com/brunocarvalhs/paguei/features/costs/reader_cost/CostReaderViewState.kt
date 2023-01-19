@@ -1,6 +1,6 @@
 package br.com.brunocarvalhs.paguei.features.costs.reader_cost
 
-import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 
 sealed class CostReaderViewState {
     object Loading : CostReaderViewState()

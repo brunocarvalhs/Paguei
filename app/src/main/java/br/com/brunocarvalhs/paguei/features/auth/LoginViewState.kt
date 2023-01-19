@@ -1,6 +1,6 @@
 package br.com.brunocarvalhs.paguei.features.auth
 
-import br.com.brunocarvalhs.paguei.model.UserModel
+import br.com.brunocarvalhs.data.model.UserModel
 
 sealed class LoginViewState {
     object Loading : LoginViewState()

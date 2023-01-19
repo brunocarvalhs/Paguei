@@ -2,8 +2,8 @@ package br.com.brunocarvalhs.paguei.features.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.brunocarvalhs.paguei.domain.services.Authentication
-import br.com.brunocarvalhs.paguei.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.services.Authentication
+import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

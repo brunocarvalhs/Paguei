@@ -2,10 +2,10 @@ package br.com.brunocarvalhs.paguei.features.costs.costs_list
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
-import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
-import br.com.brunocarvalhs.paguei.domain.repositories.CostsRepository
-import br.com.brunocarvalhs.paguei.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

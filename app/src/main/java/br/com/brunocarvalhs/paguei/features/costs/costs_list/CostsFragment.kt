@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.paguei.model.CostsModel
+import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.FragmentCostsListBinding
-import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 

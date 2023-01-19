@@ -1,9 +1,10 @@
 package br.com.brunocarvalhs.paguei.features.profile
 
-import br.com.brunocarvalhs.paguei.domain.services.Authentication
-import br.com.brunocarvalhs.paguei.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.services.Authentication
+import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.auth.AuthCredential
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
@@ -13,6 +14,7 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
+@ExperimentalCoroutinesApi
 class ProfileViewModelTest {
 
     @Mock

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import br.com.brunocarvalhs.paguei.domain.listeners.BarcodeScanListener
+import br.com.brunocarvalhs.domain.listeners.BarcodeScanListener
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 
