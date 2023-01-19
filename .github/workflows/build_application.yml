@@ -87,6 +87,14 @@ jobs:
 
       - name: Create Tag
         if: startsWith(github.ref, 'refs/heads/master')
+        id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
         with:
-          token: ${{ secrets.TOKEN }}
+          github_token: ${{ secrets.TOKEN }}
+      - name: Create a GitHub release
+        if: startsWith(github.ref, 'refs/heads/master')
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
