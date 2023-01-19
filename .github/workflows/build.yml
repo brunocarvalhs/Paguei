@@ -27,17 +27,10 @@ jobs:
           echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
 
-      - name: Extract version from VERSION.md
-        run: echo "version=$(cat VERSION.md)" >> $GITHUB_ENV
-
-      - name: Get Build Date
-        run: echo "date=$(date +%Y-%m-%d)" >> $GITHUB_ENV
-
       - name: set environment variables
-        uses: allenevans/set-env@v2.0.0
-        with:
-          version: '${ env.version }'
-          date: '${ env.date }'
+        run: |
+          echo ::set-env name=version::$(cat VERSION.md)
+          echo ::set-env name=date::$(date +%Y-%m-%d)
 
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
@@ -48,7 +41,7 @@ jobs:
       - name: Upload AAR
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ version }}-${{ date }}.aar
+          name: paguei-${{ env.version }}-${{ env.date }}.aar
           path: app/build/outputs/aar/
 
       - name: Build APK
@@ -57,7 +50,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ version }}-${{ date }}.apk
+          name: paguei-${{ env.version }}-${{ env.date }}.apk
           path: app/build/outputs/apk/
 
       - name: Create Branch Release
@@ -65,5 +58,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ vars.TOKEN }}
         with:
-          branch: 'release/${ VERSION }'
+          branch: release/${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
