@@ -1,8 +1,8 @@
 package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.UserModel
-import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
-import br.com.brunocarvalhs.paguei.domain.repositories.UserRepository
+import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.repositories.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await

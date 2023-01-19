@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.ItemCostsBinding
-import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 
 class CostsRecyclerViewAdapter(
     private val context: Context,

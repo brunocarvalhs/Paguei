@@ -6,11 +6,11 @@ import br.com.brunocarvalhs.data.repositories.HomesRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
 import br.com.brunocarvalhs.data.services.AuthenticationService
 import br.com.brunocarvalhs.data.services.SessionManagerService
-import br.com.brunocarvalhs.paguei.domain.repositories.CostsRepository
-import br.com.brunocarvalhs.paguei.domain.repositories.HomesRepository
-import br.com.brunocarvalhs.paguei.domain.repositories.UserRepository
-import br.com.brunocarvalhs.paguei.domain.services.Authentication
-import br.com.brunocarvalhs.paguei.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.domain.repositories.HomesRepository
+import br.com.brunocarvalhs.domain.repositories.UserRepository
+import br.com.brunocarvalhs.domain.services.Authentication
+import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth

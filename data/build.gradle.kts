@@ -70,6 +70,7 @@ dependencies {
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
     testImplementation(Dependencies.Test.MOCKITO)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
     androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
 

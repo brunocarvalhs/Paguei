@@ -82,6 +82,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("com.google.android.material:material:1.7.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.test.ext:junit-ktx:1.1.3")
     kapt(Dependencies.UI.DATABINDING_COMPILER)
     implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
@@ -90,6 +91,8 @@ dependencies {
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
+    testImplementation(Dependencies.Test.MOCKITO)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
     androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
 

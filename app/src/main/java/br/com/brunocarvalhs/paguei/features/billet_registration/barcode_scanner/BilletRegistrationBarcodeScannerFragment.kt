@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.paguei.databinding.FragmentBilletRegistrationBarcodeScannerBinding
-import br.com.brunocarvalhs.paguei.domain.listeners.BarcodeScanListener
+import br.com.brunocarvalhs.domain.listeners.BarcodeScanListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage

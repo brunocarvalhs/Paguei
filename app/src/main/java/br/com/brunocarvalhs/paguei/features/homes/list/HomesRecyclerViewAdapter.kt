@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.brunocarvalhs.paguei.databinding.ItemHomesBinding
-import br.com.brunocarvalhs.paguei.domain.entities.HomesEntities
+import br.com.brunocarvalhs.domain.entities.HomesEntities
 
 class HomesRecyclerViewAdapter(
     private val values: List<HomesEntities>,
