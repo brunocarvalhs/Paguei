@@ -27,16 +27,17 @@ jobs:
           echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
 
-      - name: set environment variables
-        run: |
-          echo ::set-env name=version::$(cat VERSION.md)
-          echo ::set-env name=date::$(date +%Y-%m-%d)
+      - name: Extract version from VERSION.md
+        run: echo ::set-env name=version::$(cat VERSION.md)
+
+      - name: Get Build Date
+        run: echo ::set-env name=date::$(date +%Y-%m-%d)
 
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
 
       - name: Build AAR
-        run: env version=${ version } ./gradlew :app:assembleRelease
+        run: env version=${{ env.version }} ./gradlew :app:assembleRelease
 
       - name: Upload AAR
         uses: actions/upload-artifact@v2
@@ -45,7 +46,7 @@ jobs:
           path: app/build/outputs/aar/
 
       - name: Build APK
-        run: env version=${ version } ./gradlew :app:assembleRelease
+        run: env version=${{ env.version }} ./gradlew :app:assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
