@@ -28,7 +28,6 @@ jobs:
           mkdir ~/.gradle
           echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
-
       - name: Extract version from VERSION.md
         run: echo "::set-env name=version::$(cat VERSION.md)"
 
@@ -38,7 +37,6 @@ jobs:
       - name: Create google-services.json
         run: |
           echo "${{ secrets.GOOGLE_SERVICE_JSON }}" | base64 --decode > path/to/app/google-services.json
-
       - name: Sign Android Code
         uses: fastlane/actions/sign_apk@v1.0.0
         with:
