@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - develop
   pull_request:
     types: [ closed ]
 
@@ -68,7 +69,7 @@ jobs:
       - name: Create Branch Release
         uses: peterjgrainger/action-create-branch@v2.2.0
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ vars.TOKEN }}
         with:
           branch: 'release/${{ env.version }}'
           sha: '${{ github.event.pull_request.head.sha }}'
