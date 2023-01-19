@@ -17,10 +17,10 @@ jobs:
 
       - name: Retrieve commits and version
         run: |
-          echo "::set-env name=COMMITS::$(git log --pretty=format:'- %s')"
-          echo "::set-env name=VERSION::$(cat VERSION.md)"
+          COMMITS=$(git log --pretty=format:'- %s')
+          VERSION=$(cat VERSION.md)
           echo "Commits: $COMMITS"
-          echo "VERSION: VERSION"
+          echo "VERSION: $VERSION"
 
       - name: Generate changelog
         run: |
