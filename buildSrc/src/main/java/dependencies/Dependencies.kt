@@ -21,7 +21,6 @@ object Dependencies {
             "androidx.databinding:databinding-compiler:${Versions.UI.DATABINDING_COMPILER}"
         const val CONSTRAINT_LAYOUT =
             "androidx.constraintlayout:constraintlayout:${Versions.UI.CONSTRAINT_LAYOUT}"
-        const val CARD_VIEW = "androidx.cardview:cardview:${Versions.UI.CARD_VIEW}"
         const val COORDINATOR_LAYOUT =
             "androidx.coordinatorlayout:coordinatorlayout:${Versions.UI.COORDINATOR_LAYOUT}"
         const val NAVIGATION_FRAGMENT =

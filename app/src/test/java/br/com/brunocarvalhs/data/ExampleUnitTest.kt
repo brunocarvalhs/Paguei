@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.app
+package br.com.brunocarvalhs.data
 
 import org.junit.Test
 

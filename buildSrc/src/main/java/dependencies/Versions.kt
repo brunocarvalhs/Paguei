@@ -14,7 +14,6 @@ object Versions {
         const val DATABINDING_COMMON = "7.4.0"
         const val DATABINDING_COMPILER = "7.4.0"
         const val CONSTRAINT_LAYOUT = "2.1.4"
-        const val CARD_VIEW = "1.0.0"
         const val COORDINATOR_LAYOUT = "1.2.0"
         const val NAVIGATION_FRAGMENT = "2.5.3"
         const val NAVIGATION_UI = "2.5.3"
