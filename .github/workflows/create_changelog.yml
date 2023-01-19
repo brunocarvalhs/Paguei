@@ -14,9 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get last tag
+        run: echo "LAST_TAG=$(git for-each-ref --sort=-creatordate --format '%(refname:short)' refs/tags | head -n 1)" >> $GITHUB_ENV
+
       - name: Retrieve commits and version
-        run:
-          - ...  # command or action to retrieve commits and version
+        run: |
+          COMMITS=$(git log --pretty=format:"- %s" $LAST_TAG..HEAD)
+          TAG=$(git describe --tags --abbrev=0)
+          echo "Commits: $COMMITS"
+          echo "Tag: $TAG"
 
       - name: Generate changelog
         run: |
