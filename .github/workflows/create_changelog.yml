@@ -16,10 +16,10 @@ jobs:
 
       - name: Retrieve commits and version
         run: |
-          COMMITS=$(git log --pretty=format:"- %s")
-          TAG=$(git describe --tags --abbrev=0)
+          echo "::set-env name=COMMITS::$(git log --pretty=format:'- %s')"
+          echo "::set-env name=VERSION::$(cat VERSION.md)"
           echo "Commits: $COMMITS"
-          echo "Tag: $TAG"
+          echo "VERSION: VERSION"
 
       - name: Generate changelog
         run: |
@@ -28,13 +28,13 @@ jobs:
             # Retrieve previous content
             PREVIOUS_CONTENT=$(cat CHANGELOG.md)
             # Add new version and commits to previous content
-            echo "## VERSION ($tag)" >> CHANGELOG.md
-            echo "$COMMITS" >> CHANGELOG.md
+            echo "## VERSION [${{ env.version }}]" >> CHANGELOG.md
+            echo "${{ env.COMMITS }}" >> CHANGELOG.md
             echo "$PREVIOUS_CONTENT" >> CHANGELOG.md
           else
             # Create new CHANGELOG.md with version and commits
-            echo "## VERSION ($tag)" >> CHANGELOG.md
-            echo "$COMMITS" >> CHANGELOG.md
+            echo "## VERSION [${{ env.version }}]" >> CHANGELOG.md
+            echo "${{ env.COMMITS }}" >> CHANGELOG.md
           fi
 
       - name: Create and push changelog

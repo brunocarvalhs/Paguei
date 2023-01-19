@@ -34,15 +34,6 @@ jobs:
       - name: Get Build Date
         run: echo "::set-env name=date::$(date +%Y-%m-%d)"
 
-      - name: Build Changelog
-        id: changelog
-        uses: ardalanamini/auto-changelog@v3
-        with:
-          mention-authors: false
-          mention-new-contributors: false
-          include-compare: false
-          semver: false
-
 #      - name: Create google-services.json
 #        run: |
 #          echo "${{ secrets.GOOGLE_SERVICE_JSON }}" | base64 --decode > path/to/app/google-services.json
