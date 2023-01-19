@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.paguei.databinding.DialogHomesListBinding
-import br.com.brunocarvalhs.paguei.domain.entities.HomesEntities
+import br.com.brunocarvalhs.domain.entities.HomesEntities
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 

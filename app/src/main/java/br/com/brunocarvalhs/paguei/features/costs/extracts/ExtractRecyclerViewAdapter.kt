@@ -8,7 +8,7 @@ import android.widget.Filter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.ItemExtractBinding
-import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 
 class ExtractRecyclerViewAdapter(
     private val context: Context,

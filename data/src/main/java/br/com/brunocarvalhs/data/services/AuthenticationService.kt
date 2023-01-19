@@ -1,9 +1,9 @@
 package br.com.brunocarvalhs.data.services
 
 import br.com.brunocarvalhs.data.model.UserModel
-import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
-import br.com.brunocarvalhs.paguei.domain.services.Authentication
-import br.com.brunocarvalhs.paguei.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.services.Authentication
+import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -53,7 +53,7 @@ class AuthenticationService @Inject constructor(
             }
         }
 
-    private fun UserModel.Companion.fromFirebaseAuth(firebaseUser: FirebaseUser) = UserModel(
+    fun UserModel.Companion.fromFirebaseAuth(firebaseUser: FirebaseUser) = UserModel(
         id = firebaseUser.uid,
         name = firebaseUser.displayName,
         email = firebaseUser.email,

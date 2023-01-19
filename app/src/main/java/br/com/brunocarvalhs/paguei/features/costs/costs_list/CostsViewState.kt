@@ -1,6 +1,6 @@
 package br.com.brunocarvalhs.paguei.features.costs.costs_list
 
-import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 
 sealed class CostsViewState {
     object Loading : CostsViewState()

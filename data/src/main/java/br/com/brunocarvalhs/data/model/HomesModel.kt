@@ -1,6 +1,6 @@
 package br.com.brunocarvalhs.data.model
 
-import br.com.brunocarvalhs.paguei.domain.entities.HomesEntities
+import br.com.brunocarvalhs.domain.entities.HomesEntities
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.util.*

@@ -1,6 +1,6 @@
 package br.com.brunocarvalhs.paguei.features.homes.list
 
-import br.com.brunocarvalhs.paguei.domain.entities.HomesEntities
+import br.com.brunocarvalhs.domain.entities.HomesEntities
 
 sealed class HomesListViewState {
     object Loading : HomesListViewState()

@@ -1,7 +1,7 @@
 package br.com.brunocarvalhs.data.services
 
-import br.com.brunocarvalhs.paguei.domain.entities.UserEntities
-import br.com.brunocarvalhs.paguei.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.services.SessionManager
 import javax.inject.Inject
 import javax.inject.Singleton
 

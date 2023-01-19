@@ -1,0 +1,92 @@
+name: Build Application
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  build:
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Setup Gradle
+        run: |
+          mkdir ~/.gradle
+          echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
+
+      - name: Extract version from VERSION.md
+        run: echo "::set-env name=version::$(cat VERSION.md)"
+
+      - name: Get Build Date
+        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
+
+#      - name: Create google-services.json
+#        run: |
+#          echo "${{ secrets.GOOGLE_SERVICE_JSON }}" | base64 --decode > path/to/app/google-services.json
+#
+#      - name: Sign Android Code
+#        uses: fastlane/actions/sign_apk@v1.0.0
+#        with:
+#          keystore: path/to/keystore.jks
+#          keystore_password: ${{ secrets.KEYSTORE_PASSWORD }}
+#          key_alias: keystore
+#          key_password: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Give gradlew execute permissions
+        run: chmod +x gradlew
+
+      - name: Build AAR
+        run: env version=${{ env.version }} ./gradlew :app:assembleRelease
+
+      - name: Upload AAR
+        uses: actions/upload-artifact@v2
+        with:
+          name: paguei-${{ env.version }}-${{ env.date }}.aar
+          path: app/build/outputs/aar/
+
+      - name: Build APK
+        run: env version=${{ env.version }} ./gradlew :app:assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: paguei-${{ env.version }}-${{ env.date }}.apk
+          path: app/build/outputs/apk/
+
+      #- name: Build Changelog
+      #  id: changelog
+      #  uses: ardalanamini/auto-changelog@v3
+      #  with:
+      #    mention-authors: true
+      #    mention-new-contributors: true
+      #    include-compare: false
+      #    semver: false
+
+      - name: Create Branch Release
+        if: startsWith(github.ref, 'refs/heads/develop')
+        uses: peterjgrainger/action-create-branch@v2.2.0
+        env:
+          GITHUB_TOKEN: ${{ vars.TOKEN }}
+        with:
+          branch: release/v${{ env.version }}
+          sha: '${{ github.event.pull_request.head.sha }}'
+
+      - name: Create Tag
+        if: startsWith(github.ref, 'refs/heads/master')
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "${{ env.version }}"

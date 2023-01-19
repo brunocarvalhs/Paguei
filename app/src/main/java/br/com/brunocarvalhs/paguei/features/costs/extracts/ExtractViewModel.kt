@@ -2,8 +2,8 @@ package br.com.brunocarvalhs.paguei.features.costs.extracts
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.paguei.domain.entities.CostsEntities
-import br.com.brunocarvalhs.paguei.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
