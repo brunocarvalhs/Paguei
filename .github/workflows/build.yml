@@ -29,28 +29,40 @@ jobs:
       - name: Extract version from VERSION.md
         run: echo "version=$(cat VERSION.md)" >> $GITHUB_ENV
 
+      - name: Set version variable as an environment variable
+        uses: actions/set-env@v1
+        with:
+          name: version
+          value: ${{ env.version }}
+
       - name: Get Build Date
-        run: echo ::set-output name=date::$(date +%Y-%m-%d)
+        run: echo "date=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+
+      - name: Set date variable as an environment variable
+          uses: actions/set-env@v1
+          with:
+            name: date
+            value: ${{ env.date }}
 
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
 
       - name: Build AAR
-        run: ./gradlew :app:assembleRelease
+        run: env version=$version ./gradlew :app:assembleRelease
 
       - name: Upload AAR
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.aar
+          name: paguei-${{ env.version }}-${{ env.date }}.aar
           path: app/build/outputs/aar/
 
       - name: Build APK
-        run: ./gradlew :app:assembleRelease
+        run: env version=$version ./gradlew :app:assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ steps.version-number.outputs.version }}-${{ steps.build-date.outputs.date }}.apk
+          name: paguei-${{ env.version }}-${{ env.date }}.apk
           path: app/build/outputs/apk/
 
       - name: Create Branch Release
@@ -58,5 +70,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          branch: 'release/${{ steps.version-number.outputs.version }}'
+          branch: 'release/${{ env.version }}'
           sha: '${{ github.event.pull_request.head.sha }}'
