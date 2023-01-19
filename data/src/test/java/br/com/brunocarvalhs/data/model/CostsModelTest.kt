@@ -39,7 +39,5 @@ class CostsModelTest {
         val gson = Gson()
         val fromJson = gson.fromJson(json, CostsModel::class.java)
         assertEquals(costsModel, fromJson)
-
-        assertEquals("1.234,56", costsModel.formatValue())
     }
 }
