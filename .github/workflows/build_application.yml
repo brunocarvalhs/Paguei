@@ -34,18 +34,6 @@ jobs:
       - name: Get Build Date
         run: echo "::set-env name=date::$(date +%Y-%m-%d)"
 
-#      - name: Create google-services.json
-#        run: |
-#          echo "${{ secrets.GOOGLE_SERVICE_JSON }}" | base64 --decode > path/to/app/google-services.json
-#
-#      - name: Sign Android Code
-#        uses: fastlane/actions/sign_apk@v1.0.0
-#        with:
-#          keystore: path/to/keystore.jks
-#          keystore_password: ${{ secrets.KEYSTORE_PASSWORD }}
-#          key_alias: keystore
-#          key_password: ${{ secrets.KEY_PASSWORD }}
-
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
 
@@ -67,15 +55,6 @@ jobs:
           name: paguei-${{ env.version }}-${{ env.date }}.apk
           path: app/build/outputs/apk/
 
-      #- name: Build Changelog
-      #  id: changelog
-      #  uses: ardalanamini/auto-changelog@v3
-      #  with:
-      #    mention-authors: true
-      #    mention-new-contributors: true
-      #    include-compare: false
-      #    semver: false
-
       - name: Create Branch Release
         if: startsWith(github.ref, 'refs/heads/develop')
         uses: peterjgrainger/action-create-branch@v2.2.0
@@ -85,8 +64,3 @@ jobs:
           branch: release/v${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
 
-      - name: Create Tag
-        if: startsWith(github.ref, 'refs/heads/master')
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: "${{ env.version }}"
