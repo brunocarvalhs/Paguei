@@ -63,3 +63,14 @@ jobs:
 #
 #      - name: Run end-to-end tests
 #        run: ./gradlew connectedCheck
+
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ vars.TOKEN }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Test Approvaded']
+            })
