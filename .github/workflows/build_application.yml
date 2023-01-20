@@ -64,3 +64,14 @@ jobs:
           branch: release/v${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
 
+      - name: Create Tags
+        if: startsWith(github.ref, 'refs/heads/master')
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/<tagname>',
+              sha: context.sha
+            })
