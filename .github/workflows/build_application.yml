@@ -16,6 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Decode base64 encoded Google Services JSON
+        run: echo "${{ secrets.GOOGLE_SERVICE }}" | base64 --decode > app/google-services.json
+
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
