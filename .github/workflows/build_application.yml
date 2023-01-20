@@ -85,16 +85,13 @@ jobs:
           branch: release/v${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
 
-      - name: Create Tag
+      - name: Create Release
         if: startsWith(github.ref, 'refs/heads/master')
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github_token: ${{ secrets.TOKEN }}
-      - name: Create a GitHub release
-        if: startsWith(github.ref, 'refs/heads/master')
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          tag_name: ${{ env.version }}
+          release_name: Release ${{ env.version }}
+          draft: false
+          prerelease: false
