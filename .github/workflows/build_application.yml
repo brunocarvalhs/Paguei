@@ -48,8 +48,15 @@ jobs:
         run: |
           echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > app/keystore.jks
 
-      - name: Build Application
-        run: env version="${{ env.version }}" ./gradlew :app:assembleRelease
+      - name: Build Application Debug
+        if: startsWith(github.ref, 'refs/heads/develop')
+        run: env version="${{ env.version }}" ./gradlew assembleDebug
+      
+      - name: Build Application Release
+        if: startsWith(github.ref, 'refs/heads/master')
+        run: |
+           env version="${{ env.version }}" ./gradlew bundleRelease
+           zipalign -f -v 4 app-release.aab paguei-${{ env.version }}-${{ env.date }}-release.aab
 
       - name: Upload signed AAR
         uses: actions/upload-artifact@v2
