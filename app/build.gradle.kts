@@ -30,27 +30,27 @@ android {
             useSupportLibrary = true
         }
     }
-
-    signingConfigs {
-        getByName(BuildType.RELEASE) {
-            storeFile = file("keystore.jks")
-            storePassword = System.getenv("KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("KEYSTORE_ALIAS")
-            keyPassword = System.getenv("KEY_PASSWORD")
+    android {
+        signingConfigs {
+            create("release") {
+                storeFile = file("keystore.jks")
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEYSTORE_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
         }
-    }
-
-    buildTypes {
-        getByName(BuildType.RELEASE) {
-            signingConfig = signingConfigs.getByName(BuildType.RELEASE)
-            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
-        }
-        getByName(BuildType.DEBUG) {
-            isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
-            isDebuggable = BuildTypeDebug.isDebuggable
+        buildTypes {
+            getByName("release") {
+                signingConfig = signingConfigs.getByName("release")
+                isMinifyEnabled = true
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                )
+            }
+            getByName("debug") {
+                isMinifyEnabled = false
+                isDebuggable = true
+            }
         }
     }
     compileOptions {
