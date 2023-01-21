@@ -25,26 +25,22 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-      
-      - name: Add Android SDK to PATH
-        run: echo "export ANDROID_HOME=${HOME}/sdk" >> $GITHUB_ENV
-        shell: bash
-    
-      - name: Add zipalign to PATH
-        run: echo "export PATH=\$PATH:\$ANDROID_HOME/build-tools/29.0.3" >> $GITHUB_ENV
-        shell: bash
-        
-      - name: Check zipalign installation
-        run: zipalign -v
-        shell: bash
-
       - name: Setup Gradle
         run: |
           mkdir ~/.gradle
           echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
+       
+      - name: Setup Android SDK
+        run: |
+          wget -q https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+          unzip sdk-tools-linux-4333796.zip -d $HOME/sdk
+          echo "export ANDROID_HOME=$HOME/sdk" >> $GITHUB_ENV
+          echo "export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
+          echo y | $HOME/sdk/tools/bin/sdkmanager "platform-tools" "build-tools;29.0.3"
+          echo y | $HOME/sdk/tools/bin/sdkmanager --licenses
+          chmod +x $HOME/sdk/platform-tools/adb
+          chmod +x $HOME/sdk/platform-tools/zipalign
 
       - name: Extract version from VERSION.md
         run: echo "::set-env name=version::$(cat VERSION.md)"
