@@ -40,6 +40,22 @@ jobs:
       - name: Build AAR
         run: env version=${{ env.version }} ./gradlew :app:assembleRelease
 
+      - name: Copy keystore file
+        run: |
+          echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > keystore.jks
+    
+      - name: Sign AAR
+        run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/aar/paguei-${{ env.version }}-${{ env.date }}.aar ${{ secrets.KEYSTORE_ALIAS }}
+    
+      - name: Optimize AAR
+        run: zipalign -v 4 app/build/outputs/aar/paguei-${{ env.version }}-${{ env.date }}.aar app/build/outputs/aar/paguei-${{ env.version }}-${{ env.date }}-signed.aar
+      
+      - name: Upload signed AAR
+        uses: actions/upload-artifact@v2
+        with:
+          name: paguei-${{ env.version }}-${{ env.date }}-signed.aar
+          path: app/build/outputs/aar/
+
       - name: Upload AAR
         uses: actions/upload-artifact@v2
         with:
@@ -49,10 +65,16 @@ jobs:
       - name: Build APK
         run: env version=${{ env.version }} ./gradlew :app:assembleRelease
 
+      - name: Sign APK
+        run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/apk/paguei-${{ env.version }}-${{ env.date }}.apk ${{ secrets.KEYSTORE_ALIAS }}
+    
+      - name: Optimize APK
+        run: zipalign -v 4 app/build/outputs/apk/paguei-${{ env.version }}-${{ env.date }}.apk app/build/outputs/apk/paguei-${{ env.version }}-${{ env.date }}-signed.apk
+          
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ env.version }}-${{ env.date }}.apk
+          name: paguei-${{ env.version }}-${{ env.date }}-signed.apk
           path: app/build/outputs/apk/
 
       - name: Create Branch Release
