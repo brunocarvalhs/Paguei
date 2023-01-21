@@ -48,28 +48,16 @@ jobs:
       - name: Build Application
         run: env version="${{ env.version }}" ./gradlew :app:assembleRelease
 
-      - name: Sign AAR
-        run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/bundle/release/app-release.aar ${{ secrets.KEYSTORE_ALIAS }}
-
-      - name: Optimize AAR
-        run: zipalign -v 4 app/build/outputs/bundle/release/app-release.aab app/build/outputs/bundle/release/app-release-signed.aar
-
       - name: Upload signed AAR
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ env.version }}-${{ env.date }}-signed.aar
-          path: app/build/outputs/aar/release/
-
-      - name: Sign APK
-        run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/apk/release/app-release-unsigned.apk ${{ secrets.KEYSTORE_ALIAS }}
-
-      - name: Optimize APK
-        run: zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release-signed.apk
+          name: paguei-${{ env.version }}-${{ env.date }}.aar
+          path: app/build/outputs/bundle/
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ env.version }}-${{ env.date }}-signed.apk
+          name: paguei-${{ env.version }}-${{ env.date }}.apk
           path: app/build/outputs/apk/
 
       - name: Create Branch Release
