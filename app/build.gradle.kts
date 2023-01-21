@@ -32,17 +32,17 @@ android {
     }
 
     signingConfigs {
-        getByName("release") {
+        getByName(BuildType.RELEASE) {
             storeFile = file("keystore.jks")
-            storePassword = System.getenv("KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("KEYSTORE_ALIAS")
-            keyPassword = System.getenv("KEY_PASSWORD")
+            storePassword = System.getenv(BuildType.SigningConfigs.KEYSTORE_PASSWORD.name)
+            keyAlias = System.getenv(BuildType.SigningConfigs.KEYSTORE_ALIAS.name)
+            keyPassword = System.getenv(BuildType.SigningConfigs.KEY_PASSWORD.name)
         }
     }
 
     buildTypes {
         getByName(BuildType.RELEASE) {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName(BuildType.RELEASE)
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
