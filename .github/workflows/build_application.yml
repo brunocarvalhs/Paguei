@@ -24,7 +24,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '1.8'
-          android-sdk-tools: 'commandlinetools,platform-tools,build-tools;29.0.3'
+
+      - name: Setup Android SDK
+        uses: actions/setup-android@v2
+        with:
+          sdk-version: '29.0.3'
 
       - name: Add Android SDK to PATH
         run: echo "export ANDROID_HOME=${HOME}/sdk" >> $GITHUB_ENV
