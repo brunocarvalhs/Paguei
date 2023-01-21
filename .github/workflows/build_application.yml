@@ -11,6 +11,9 @@ jobs:
   build:
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -27,6 +30,11 @@ jobs:
           mkdir ~/.gradle
           echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
+       
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          android-sdk-tools: latest
 
       - name: Extract version from VERSION.md
         run: echo "::set-env name=version::$(cat VERSION.md)"
@@ -37,17 +45,29 @@ jobs:
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
 
-      - name: Build AAR
-        run: env version=${{ env.version }} ./gradlew :app:assembleRelease
+      - name: Copy google-services file
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Upload AAR
+      - name: Copy keystore file
+        run: |
+          echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > app/keystore.jks
+
+      - name: Build Application Debug
+        if: startsWith(github.ref, 'refs/heads/develop')
+        run: env version="${{ env.version }}" ./gradlew assembleDebug
+      
+      - name: Build Application Release
+        if: startsWith(github.ref, 'refs/heads/master')
+        run: |
+           env version="${{ env.version }}" ./gradlew bundleRelease
+           export PATH=$PATH:$ANDROID_HOME/build-tools/29.0.3
+
+      - name: Upload signed AAR
         uses: actions/upload-artifact@v2
         with:
           name: paguei-${{ env.version }}-${{ env.date }}.aar
-          path: app/build/outputs/aar/
-
-      - name: Build APK
-        run: env version=${{ env.version }} ./gradlew :app:assembleRelease
+          path: app/build/outputs/bundle/
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
@@ -63,4 +83,3 @@ jobs:
         with:
           branch: release/v${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
-
