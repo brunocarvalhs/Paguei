@@ -36,6 +36,10 @@ jobs:
         with:
           android-sdk-tools: latest
 
+      - name: Add zipalign to PATH
+        run: echo "export PATH=\$PATH:\$ANDROID_HOME/build-tools/29.0.3" >> $GITHUB_ENV
+        shell: bash
+
       - name: Extract version from VERSION.md
         run: echo "::set-env name=version::$(cat VERSION.md)"
 
