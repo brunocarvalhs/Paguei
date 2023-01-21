@@ -23,7 +23,20 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '1.8'
+          android-sdk-tools: 'commandlinetools,platform-tools,build-tools;29.0.3'
+
+      - name: Add Android SDK to PATH
+        run: echo "export ANDROID_HOME=${HOME}/sdk" >> $GITHUB_ENV
+        shell: bash
+    
+      - name: Add zipalign to PATH
+        run: echo "export PATH=\$PATH:\$ANDROID_HOME/build-tools/29.0.3" >> $GITHUB_ENV
+        shell: bash
+        
+      - name: Check zipalign installation
+        run: zipalign -v
+        shell: bash
 
       - name: Setup Gradle
         run: |
