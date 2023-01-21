@@ -43,7 +43,7 @@ jobs:
 
       - name: Copy keystore file
         run: |
-          echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > keystore.jks
+          echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > app/keystore.jks
 
       - name: Build Application
         run: env version="${{ env.version }}" ./gradlew :app:assembleRelease
