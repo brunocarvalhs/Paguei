@@ -49,7 +49,7 @@ jobs:
         run: env version="${{ env.version }}" ./gradlew :app:assembleRelease
 
       - name: Sign AAR
-        run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/aar/release/app-release.aar ${{ secrets.KEYSTORE_ALIAS }}
+        run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/bundle/release/app-release.aar ${{ secrets.KEYSTORE_ALIAS }}
 
       - name: Optimize AAR
         run: zipalign -v 4 app/build/outputs/bundle/release/app-release.aab app/build/outputs/bundle/release/app-release-signed.aar
