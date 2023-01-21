@@ -45,14 +45,14 @@ jobs:
         run: |
           echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > keystore.jks
 
-      - name: Build AAR
-        run: env version="${{ env.version }}" ./gradlew :app:assembleRelease:aar
+      - name: Build Application
+        run: env version="${{ env.version }}" ./gradlew :app:assembleRelease
 
       - name: Sign AAR
         run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/aar/release/paguei-${{ env.version }}-${{ env.date }}.aar ${{ secrets.KEYSTORE_ALIAS }}
 
       - name: Optimize AAR
-        run: zipalign -v 4 app/build/outputs/aar/release/paguei-${{ env.version }}-${{ env.date }}.aar app/build/outputs/aar/release/paguei-${{ env.version }}-${{ env.date }}-signed.aar
+        run: zipalign -v 4 app/build/outputs/bundle/release/app-release.aab app/build/outputs/bundle/release/app-release-signed.aar
 
       - name: Upload signed AAR
         uses: actions/upload-artifact@v2
@@ -60,14 +60,11 @@ jobs:
           name: paguei-${{ env.version }}-${{ env.date }}-signed.aar
           path: app/build/outputs/aar/release/
 
-      - name: Build APK
-        run: env version="${{ env.version }}" ./gradlew :app:assembleRelease:apk
-
       - name: Sign APK
         run: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} app/build/outputs/apk/release/paguei-${{ env.version }}-${{ env.date }}.apk ${{ secrets.KEYSTORE_ALIAS }}
 
       - name: Optimize APK
-        run: zipalign -v 4 app/build/outputs/apk/release/paguei-${{ env.version }}-${{ env.date }}.apk app/build/outputs/apk/release/paguei-${{ env.version }}-${{ env.date }}-signed.apk
+        run: zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release-signed.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
