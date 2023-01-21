@@ -61,7 +61,8 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/master')
         run: |
            env version="${{ env.version }}" ./gradlew bundleRelease
-           /sdk/build-tools/29.0.3/zipalign -f -v 4 app-release.aab paguei-${{ env.version }}-${{ env.date }}-release.aab
+           export PATH=$PATH:$ANDROID_HOME/build-tools/29.0.3
+           zipalign -f -v 4 app-release.aab paguei-${{ env.version }}-${{ env.date }}-release.aab
 
       - name: Upload signed AAR
         uses: actions/upload-artifact@v2
