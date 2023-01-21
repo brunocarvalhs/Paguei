@@ -36,10 +36,6 @@ jobs:
         with:
           android-sdk-tools: latest
 
-      - name: Add zipalign to PATH
-        run: echo "export PATH=\$PATH:\$ANDROID_HOME/build-tools/29.0.3" >> $GITHUB_ENV
-        shell: bash
-
       - name: Extract version from VERSION.md
         run: echo "::set-env name=version::$(cat VERSION.md)"
 
@@ -65,7 +61,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/master')
         run: |
            env version="${{ env.version }}" ./gradlew bundleRelease
-           zipalign -f -v 4 app-release.aab paguei-${{ env.version }}-${{ env.date }}-release.aab
+           /sdk/build-tools/29.0.3/zipalign -f -v 4 app-release.aab paguei-${{ env.version }}-${{ env.date }}-release.aab
 
       - name: Upload signed AAR
         uses: actions/upload-artifact@v2
