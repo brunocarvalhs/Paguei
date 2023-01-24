@@ -12,7 +12,7 @@ class CostsModelTest {
         val id = "123456"
         val name = "Test Name"
         val prompt = "Test Prompt"
-        val value = 1234.56
+        val value = "1234.56"
         val barCode = "1234567890"
         val paymentVoucher = "VOUCHER123"
 

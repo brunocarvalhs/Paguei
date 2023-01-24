@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class HomesModelTest {
+class GroupModelTest {
 
     @Test
     fun testHomesModel() {
