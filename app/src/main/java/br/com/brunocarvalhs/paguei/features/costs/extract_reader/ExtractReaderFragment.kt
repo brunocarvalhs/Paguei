@@ -44,11 +44,8 @@ class ExtractReaderFragment : BaseFragment<FragmentExtractReaderBinding>() {
 
     override fun initView() {
         this.visibilityToolbar(visibility = true)
-        binding.barcode.editText?.setText(viewModel.cost.barCode)
-        binding.name.editText?.setText(viewModel.cost.name)
-        binding.prompt.editText?.setText(viewModel.cost.prompt)
-        binding.value.editText?.setText(viewModel.cost.formatValue())
-        binding.paymentVoucherUri.editText?.setText(viewModel.cost.paymentVoucher)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         binding.paymentVoucherUri.setEndIconOnClickListener {
             textCopyThenPost(viewModel.cost.paymentVoucher.toString())
         }

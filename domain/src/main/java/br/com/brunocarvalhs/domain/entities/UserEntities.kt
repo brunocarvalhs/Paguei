@@ -1,6 +1,8 @@
 package br.com.brunocarvalhs.domain.entities
 
-interface UserEntities {
+import java.io.Serializable
+
+interface UserEntities : Serializable {
     val id: String
     val name: String?
     val photoUrl: String?

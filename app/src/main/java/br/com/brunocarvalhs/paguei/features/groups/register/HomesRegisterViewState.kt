@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.homes.register
+package br.com.brunocarvalhs.paguei.features.groups.register
 
 sealed class HomesRegisterViewState {
     object Loading : HomesRegisterViewState()
