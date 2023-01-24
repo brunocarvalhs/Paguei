@@ -1,9 +1,9 @@
 package br.com.brunocarvalhs.paguei.features.costs.reader_cost
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,15 +16,30 @@ class CostReaderViewModel @Inject constructor(
 ) : BaseViewModel<CostReaderViewState>() {
     val cost = CostReaderFragmentArgs.fromSavedStateHandle(savedStateHandle).cost
 
-    fun updateCost(cost: CostsModel) {
+    val name = ObservableField<String>(cost.name)
+
+    val prompt = ObservableField<String>(cost.prompt)
+
+    val value = ObservableField(cost.formatValue())
+
+    val barCode = ObservableField<String>(cost.barCode)
+
+    fun updateCost() {
         viewModelScope.launch {
             try {
                 mutableState.value = CostReaderViewState.Loading
-                val update = repository.update(cost)
+                val update = repository.update(generateCost())
                 mutableState.value = CostReaderViewState.Success(update)
             } catch (error: Exception) {
                 mutableState.value = CostReaderViewState.Error(error.message)
             }
         }
     }
+
+    private fun generateCost() = cost.copy(
+        name = name.get(),
+        prompt = prompt.get(),
+        value = value.get()?.replace("[^0-9,]".toRegex(), "")?.replace(",", "."),
+        barCode = barCode.get()
+    )
 }

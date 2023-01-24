@@ -13,7 +13,7 @@ data class CostsModel(
     @SerializedName(ID) override val id: String = UUID.randomUUID().toString(),
     @SerializedName(NAME) override val name: String? = null,
     @SerializedName(PROMPT) override val prompt: String? = null,
-    @SerializedName(VALUE) override val value: Double? = null,
+    @SerializedName(VALUE) override val value: String? = null,
     @SerializedName(BAR_CODE) override val barCode: String? = null,
     @SerializedName(PAYMENT_VOUCHER) override val paymentVoucher: String? = null,
 ) : CostsEntities, Parcelable {
@@ -35,5 +35,5 @@ data class CostsModel(
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 
     override fun toJson(): String = Gson().toJson(this)
-    override fun formatValue(): String = DecimalFormat(FORMAT_VALUE).format(this.value)
+    override fun formatValue(): String = DecimalFormat(FORMAT_VALUE).format(this.value?.toDouble())
 }

@@ -4,7 +4,7 @@ interface CostsEntities {
     val id: String
     val name: String?
     val prompt: String?
-    val value: Double?
+    val value: String?
     val barCode: String?
     val paymentVoucher: String?
 

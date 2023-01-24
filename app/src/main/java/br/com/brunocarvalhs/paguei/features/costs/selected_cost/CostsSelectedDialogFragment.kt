@@ -18,7 +18,6 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
 
     private val viewModel: CostsSelectedViewModel by viewModels()
 
-
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): DialogCostsSelectedBinding =
