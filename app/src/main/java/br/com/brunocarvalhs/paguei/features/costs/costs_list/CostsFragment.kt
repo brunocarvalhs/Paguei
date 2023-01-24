@@ -1,6 +1,5 @@
 package br.com.brunocarvalhs.paguei.features.costs.costs_list
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.FragmentCostsListBinding
-import br.com.brunocarvalhs.domain.entities.CostsEntities
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +19,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     CostsRecyclerViewAdapter.CostClickListener {
 
     private val viewModel: CostsViewModel by viewModels()
+    lateinit var adapter: CostsRecyclerViewAdapter
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -37,30 +36,35 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         viewModel.fetchData()
     }
 
     private fun displayData(list: List<CostsEntities>) {
         defineTotalCosts(list.size)
-        binding.list.adapter = CostsRecyclerViewAdapter(requireContext(), list, this)
+        adapter.submitList(list)
     }
 
     override fun argumentsView(arguments: Bundle) {
 
     }
 
-    @SuppressLint("StringFormatMatches")
     override fun initView() {
         this.visibilityToolbar(true)
-        binding.list.layoutManager = LinearLayoutManager(context)
         this.setupHeader()
         this.setupNavigation()
+        this.setupList()
+    }
+
+    private fun setupList() {
+        adapter = CostsRecyclerViewAdapter(requireContext(), this)
+        binding.list.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = adapter
     }
 
     override fun loading() {
-        defineTotalCosts()
+
     }
 
     private fun defineTotalCosts(total: Int = 0) {
@@ -86,11 +90,9 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
     private fun setupNavigation() {
         binding.add.setOnClickListener { navigateToAddCosts() }
-
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.extractFragment -> navigateToExtracts()
-//                R.id.homesListDialogFragment -> navigateToHomes()
                 else -> false
             }
         }
@@ -101,12 +103,6 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         findNavController().navigate(action)
     }
 
-//    private fun navigateToHomes(): Boolean {
-//        val action = CostsFragmentDirections.actionCostsFragmentToHomesListDialogFragment()
-//        findNavController().navigate(action)
-//        return true
-//    }
-
     private fun navigateToExtracts(): Boolean {
         val action = CostsFragmentDirections.actionHomeFragmentToExtractFragment()
         findNavController().navigate(action)
@@ -114,15 +110,14 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     }
 
     private fun navigateToReaderCost(cost: CostsEntities) {
-        val action =
-            CostsFragmentDirections.actionCostsFragmentToCostReaderFragment(cost as CostsModel)
+        val action = CostsFragmentDirections.actionCostsFragmentToCostReaderFragment(cost)
         findNavController().navigate(action)
     }
 
 
     private fun navigateToAddCosts() {
-        val action =
-            CostsFragmentDirections.actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
+        val action = CostsFragmentDirections
+            .actionCostsFragmentToBilletRegistrationBarcodeScannerFragment()
         findNavController().navigate(action)
     }
 
@@ -130,7 +125,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
     override fun onLongClick(cost: CostsEntities): Boolean {
         val action =
-            CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost as CostsModel)
+            CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost)
         findNavController().navigate(action)
 
         return true

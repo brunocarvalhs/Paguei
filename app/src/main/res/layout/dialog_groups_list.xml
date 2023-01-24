@@ -8,7 +8,7 @@
         android:paddingTop="@dimen/list_item_spacing_half"
         android:paddingBottom="@dimen/list_item_spacing_half"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        tools:context=".features.homes.list.HomesListDialogFragment">
+        tools:context=".features.groups.list.GroupsListDialogFragment">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:id="@+id/drag_handle"
@@ -103,9 +103,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/avatar_group"
-            tools:context=".features.homes.list.HomesListDialogFragment"
+            tools:context=".features.groups.list.GroupsListDialogFragment"
             tools:itemCount="4"
-            tools:listitem="@layout/item_homes" />
+            tools:listitem="@layout/item_groups" />
 
     <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"

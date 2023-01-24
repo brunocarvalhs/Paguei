@@ -1,6 +1,8 @@
 package br.com.brunocarvalhs.domain.entities
 
-interface HomesEntities {
+import java.io.Serializable
+
+interface GroupEntities : Serializable {
     val id: String
     val name: String?
     val members: List<String>

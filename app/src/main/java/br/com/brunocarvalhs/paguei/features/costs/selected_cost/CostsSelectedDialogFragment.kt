@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
-import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.DialogCostsSelectedBinding
-import br.com.brunocarvalhs.domain.entities.CostsEntities
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +32,17 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
     }
 
     override fun viewObservation() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is CostsSelectedViewState.Error -> this.showError(it.message)
+                CostsSelectedViewState.Loading -> this.loading()
+                CostsSelectedViewState.Success -> this.successDelete()
+            }
+        }
+    }
 
+    private fun successDelete() {
+        findNavController().popBackStack()
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -41,9 +50,8 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
     }
 
     private fun questionDelete() {
-        MaterialAlertDialogBuilder(
-            requireContext(),
-        ).setTitle("Confirmação de remoção.")
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Confirmação de remoção.")
             .setMessage("Deseja realemente deletar o \nboleto ${viewModel.cost.name} do valor de ${viewModel.cost.value}")
             .setNegativeButton("Não") { _, _ ->
                 findNavController().popBackStack(R.id.costsFragment, inclusive = false)
@@ -58,7 +66,7 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
 
     private fun navigateToPaymentVoucher(cost: CostsEntities) {
         val action = CostsSelectedDialogFragmentDirections
-            .actionItemListDialogFragmentToPaymentVoucherFragment(cost as CostsModel)
+            .actionItemListDialogFragmentToPaymentVoucherFragment(cost)
         findNavController().navigate(action)
     }
 

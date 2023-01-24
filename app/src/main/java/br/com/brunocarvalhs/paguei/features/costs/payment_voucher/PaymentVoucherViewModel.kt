@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.paguei.features.costs.reader_cost.CostReaderFragmentArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,7 @@ class PaymentVoucherViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<PaymentVoucherViewState>() {
 
-    val cost = CostReaderFragmentArgs.fromSavedStateHandle(savedStateHandle).cost
+    val cost = CostReaderFragmentArgs.fromSavedStateHandle(savedStateHandle).cost as CostsModel
 
     val name = ObservableField<String>(cost.name)
 

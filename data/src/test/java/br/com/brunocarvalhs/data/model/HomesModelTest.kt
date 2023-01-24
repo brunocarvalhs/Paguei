@@ -14,7 +14,7 @@ class HomesModelTest {
         val members = listOf("member1", "member2")
 
         // Act
-        val homesModel = HomesModel(id, name, members)
+        val homesModel = GroupsModel(id, name, members)
 
         // Assert
         assertEquals(id, homesModel.id)
@@ -22,13 +22,13 @@ class HomesModelTest {
         assertEquals(members, homesModel.members)
 
         val map = homesModel.toMap()
-        assertEquals(id, map[HomesModel.ID])
-        assertEquals(name, map[HomesModel.NAME])
-        assertEquals(members, map[HomesModel.MEMBERS])
+        assertEquals(id, map[GroupsModel.ID])
+        assertEquals(name, map[GroupsModel.NAME])
+        assertEquals(members, map[GroupsModel.MEMBERS])
 
         val json = homesModel.toJson()
         val gson = Gson()
-        val fromJson = gson.fromJson(json, HomesModel::class.java)
+        val fromJson = gson.fromJson(json, GroupsModel::class.java)
         assertEquals(homesModel, fromJson)
     }
 }

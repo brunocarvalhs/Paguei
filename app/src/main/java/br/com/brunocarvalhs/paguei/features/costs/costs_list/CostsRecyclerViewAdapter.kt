@@ -4,15 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.ItemCostsBinding
-import br.com.brunocarvalhs.domain.entities.CostsEntities
 
 class CostsRecyclerViewAdapter(
     private val context: Context,
-    private val values: List<CostsEntities> = emptyList(),
     private val listener: CostClickListener,
 ) : RecyclerView.Adapter<CostsRecyclerViewAdapter.ViewHolder>() {
+
+    private val values = mutableListOf<CostsEntities>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         ItemCostsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,15 +30,17 @@ class CostsRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
+    fun submitList(list: List<CostsEntities>) {
+        values.clear()
+        values.addAll(list)
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(binding: ItemCostsBinding) : RecyclerView.ViewHolder(binding.root) {
         val root = binding.root
         val name = binding.name
         val prompt = binding.prompt
         val value = binding.value
-
-        override fun toString(): String {
-            return super.toString() + " '" + name.text + "'"
-        }
     }
 
     interface CostClickListener {

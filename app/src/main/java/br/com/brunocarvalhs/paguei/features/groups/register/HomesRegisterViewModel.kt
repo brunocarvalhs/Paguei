@@ -1,8 +1,8 @@
-package br.com.brunocarvalhs.paguei.features.homes.register
+package br.com.brunocarvalhs.paguei.features.groups.register
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.domain.entities.HomesEntities
+import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ class HomesRegisterViewModel @Inject constructor(
 
     var members = emptyList<String>()
 
-    fun save(homes: HomesEntities) {
+    fun save(homes: GroupEntities) {
         defineMember()
         viewModelScope.launch {
             try {
