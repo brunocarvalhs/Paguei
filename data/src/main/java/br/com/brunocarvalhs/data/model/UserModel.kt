@@ -1,20 +1,17 @@
 package br.com.brunocarvalhs.data.model
 
-import android.os.Parcelable
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 import java.util.*
 
-@Parcelize
 data class UserModel(
     @SerializedName(ID) override val id: String = UUID.randomUUID().toString(),
     @SerializedName(NAME) override val name: String? = null,
     @SerializedName(PHOTO_URL) override val photoUrl: String? = null,
     @SerializedName(EMAIL) override val email: String? = null,
     @SerializedName(PHONE_NUMBER) override val phoneNumber: String? = null,
-) : UserEntities, Parcelable {
+) : UserEntities {
     companion object {
 
         const val COLLECTION = "users"

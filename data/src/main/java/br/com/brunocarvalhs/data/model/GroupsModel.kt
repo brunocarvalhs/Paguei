@@ -1,15 +1,15 @@
 package br.com.brunocarvalhs.data.model
 
-import br.com.brunocarvalhs.domain.entities.HomesEntities
+import br.com.brunocarvalhs.domain.entities.GroupEntities
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class HomesModel(
+data class GroupsModel(
     @SerializedName(ID) override val id: String = UUID.randomUUID().toString(),
     @SerializedName(NAME) override val name: String? = null,
     @SerializedName(MEMBERS) override val members: List<String> = emptyList()
-) : HomesEntities {
+) : GroupEntities {
     companion object {
 
         const val COLLECTION = "homes"

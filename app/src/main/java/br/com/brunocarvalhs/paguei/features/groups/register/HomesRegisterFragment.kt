@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.homes.register
+package br.com.brunocarvalhs.paguei.features.groups.register
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.HomesModel
+import br.com.brunocarvalhs.data.model.GroupsModel
 import br.com.brunocarvalhs.paguei.databinding.FragmentHomesRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,7 +70,7 @@ class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
 
     }
 
-    private fun generateHomes() = HomesModel(
+    private fun generateHomes() = GroupsModel(
         name = binding.name.editText?.text.toString(),
         members = viewModel.members
     )

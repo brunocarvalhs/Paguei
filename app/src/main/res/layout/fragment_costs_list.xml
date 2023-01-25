@@ -5,180 +5,188 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true">
+                android:fillViewport="true">
 
-            <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/header"
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:orientation="vertical"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true">
 
-                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                <com.google.android.material.appbar.AppBarLayout
+                        android:id="@+id/header"
                         android:layout_width="match_parent"
-                        android:layout_height="154dp"
-                        android:background="@android:color/transparent">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:orientation="vertical"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <View
+                    <androidx.coordinatorlayout.widget.CoordinatorLayout
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:background="@color/seed" />
+                            android:layout_height="154dp"
+                            android:background="@android:color/transparent">
 
-                    <androidx.cardview.widget.CardView
-                            android:id="@+id/cadastrados"
-                            android:layout_width="327dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="72dp"
-                            android:minHeight="90dp"
-                            app:cardCornerRadius="5dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <View
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center_vertical"
-                                android:padding="24dp">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                    android:id="@+id/icon"
-                                    android:layout_width="56dp"
-                                    android:layout_height="56dp"
-                                    android:scaleType="center"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:srcCompat="@drawable/ic_launcher_foreground" />
-
-                            <com.google.android.material.divider.MaterialDivider
-                                    android:id="@+id/divider"
-                                    android:layout_width="1dp"
-                                    android:layout_height="32dp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@+id/text_total_costs"
-                                    app:layout_constraintStart_toEndOf="@id/icon"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/text_total_costs"
-                                    style="@style/TextAppearance.Material3.BodySmall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:gravity="top"
-                                    android:text="@string/costs_total_text"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginBottom="82dp"
-                            android:background="@color/seed"
-                            android:paddingHorizontal="24dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/name"
-                                style="@style/TextAppearance.Material3.ActionBar.Title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignTop="@android:id/icon"
-                                android:layout_toEndOf="@android:id/icon"
-                                android:textColor="@android:color/white"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="Olá Bruno" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/subtitle"
-                                style="@style/TextAppearance.Material3.ActionBar.Subtitle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@android:id/text1"
-                                android:layout_alignStart="@android:id/text1"
-                                android:text="@string/costs_list_header_subtitle"
-                                android:textColor="@android:color/white"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/name"
-                                tools:ignore="TextContrastCheck"
-                                tools:layout_editor_absoluteX="24dp" />
+                                android:layout_height="100dp"
+                                android:background="@color/seed" />
 
                         <androidx.cardview.widget.CardView
-                                android:id="@+id/avatar_container"
-                                android:layout_width="54dp"
-                                android:layout_height="54dp"
+                                android:id="@+id/cadastrados"
+                                android:layout_width="327dp"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center_horizontal"
-                                app:cardBackgroundColor="#585666"
-                                app:cardCornerRadius="50dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@+id/subtitle"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_marginTop="72dp"
+                                android:minHeight="90dp"
+                                app:cardCornerRadius="5dp">
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                    android:id="@+id/avatar"
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_alignParentStart="true"
-                                    android:importantForAccessibility="no"
-                                    tools:visibility="gone" />
+                                    android:layout_gravity="center_vertical"
+                                    android:padding="24dp">
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/avatar_text"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_alignParentStart="true"
-                                    android:gravity="center"
-                                    android:textColor="@android:color/white"
-                                    android:visibility="gone"
-                                    tools:text="BR"
-                                    tools:visibility="visible" />
+                                <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/icon"
+                                        android:layout_width="56dp"
+                                        android:layout_height="56dp"
+                                        android:scaleType="center"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                                <com.google.android.material.divider.MaterialDivider
+                                        android:id="@+id/divider"
+                                        android:layout_width="1dp"
+                                        android:layout_height="32dp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/text_total_costs"
+                                        app:layout_constraintStart_toEndOf="@id/icon"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/text_total_costs"
+                                        style="@style/TextAppearance.Material3.BodySmall"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_alignParentTop="true"
+                                        android:gravity="top"
+                                        android:text="@string/costs_total_text"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </androidx.cardview.widget.CardView>
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:layout_marginBottom="82dp"
+                                android:background="@color/seed"
+                                android:paddingHorizontal="24dp">
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/name"
+                                    style="@style/TextAppearance.Material3.ActionBar.Title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@android:id/icon"
+                                    android:layout_toEndOf="@android:id/icon"
+                                    android:textColor="@android:color/white"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="Olá Bruno" />
 
-                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/subtitle"
+                                    style="@style/TextAppearance.Material3.ActionBar.Subtitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@android:id/text1"
+                                    android:layout_alignStart="@android:id/text1"
+                                    android:text="@string/costs_list_header_subtitle"
+                                    android:textColor="@android:color/white"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/name"
+                                    tools:ignore="TextContrastCheck"
+                                    tools:layout_editor_absoluteX="24dp" />
 
-            </com.google.android.material.appbar.AppBarLayout>
+                            <androidx.cardview.widget.CardView
+                                    android:id="@+id/avatar_container"
+                                    android:layout_width="54dp"
+                                    android:layout_height="54dp"
+                                    android:layout_gravity="center_horizontal"
+                                    app:cardBackgroundColor="#585666"
+                                    app:cardCornerRadius="50dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="@+id/subtitle"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/list"
-                    android:name="br.com.brunocarvalhs.home.HomeFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginTop="154dp"
-                    android:fitsSystemWindows="true"
-                    android:clipToPadding="false"
-                    android:paddingTop="@dimen/list_item_spacing_half"
-                    android:paddingBottom="@dimen/list_item_spacing_half"
-                    app:layoutManager="LinearLayoutManager"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/header"
-                    tools:context=".features.costs.costs_list.CostsFragment"
-                    tools:itemCount="300"
-                    tools:listitem="@layout/item_costs" />
+                                <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/avatar"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_alignParentStart="true"
+                                        android:importantForAccessibility="no"
+                                        tools:visibility="gone" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                                <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/avatar_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_alignParentStart="true"
+                                        android:gravity="center"
+                                        android:textColor="@android:color/white"
+                                        android:visibility="gone"
+                                        tools:text="BR"
+                                        tools:visibility="visible" />
 
+                            </androidx.cardview.widget.CardView>
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                </com.google.android.material.appbar.AppBarLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list"
+                        android:name="br.com.brunocarvalhs.home.HomeFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="154dp"
+                        android:fitsSystemWindows="true"
+                        android:clipToPadding="false"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        android:paddingTop="@dimen/list_item_spacing_half"
+                        android:paddingBottom="@dimen/list_item_spacing_half"
+                        app:layoutManager="LinearLayoutManager"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/header"
+                        tools:context=".features.costs.costs_list.CostsFragment"
+                        tools:itemCount="300"
+                        tools:listitem="@layout/item_costs" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomAppBar"

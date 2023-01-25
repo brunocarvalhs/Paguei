@@ -3,18 +3,20 @@ package br.com.brunocarvalhs.paguei.features.costs.extracts
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.paguei.databinding.FragmentExtractListBinding
 import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.paguei.databinding.FragmentExtractListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
-    ExtractRecyclerViewAdapter.ExtractClickListener {
+    ExtractRecyclerViewAdapter.ExtractClickListener,
+    SearchView.OnQueryTextListener {
 
     private val viewModel: ExtractViewModel by viewModels()
     lateinit var adapter: ExtractRecyclerViewAdapter
@@ -40,19 +42,18 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
 
     override fun initView() {
         visibilityToolbar(true)
+        this.setupList()
+        this.setupSearch()
+    }
+
+    private fun setupSearch() {
+        binding.search.setOnQueryTextListener(this)
+    }
+
+    private fun setupList() {
+        adapter = ExtractRecyclerViewAdapter(requireContext(), this)
         binding.list.layoutManager = LinearLayoutManager(context)
-        binding.search.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.getFilter().filter(newText)
-                return false
-            }
-        })
-
+        binding.list.adapter = adapter
     }
 
     override fun loading() {
@@ -60,8 +61,7 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     }
 
     private fun displayData(list: List<CostsEntities>) {
-        adapter = ExtractRecyclerViewAdapter(requireContext(), list, this)
-        binding.list.adapter = adapter
+        adapter.submitList(list)
     }
 
     override fun onClick(cost: CostsEntities) {
@@ -73,5 +73,14 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.getFilter().filter(newText)
+        return false
     }
 }

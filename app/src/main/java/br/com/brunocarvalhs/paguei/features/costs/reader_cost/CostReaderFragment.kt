@@ -61,22 +61,22 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
 
     override fun initView() {
         this.visibilityToolbar(visibility = true)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         setupName()
         setupPrompt()
         setupValue()
         setupBarcode()
-        binding.update.setOnClickListener { createCost() }
+        binding.update.setOnClickListener { viewModel.updateCost() }
     }
 
     private fun setupBarcode() {
-        binding.barcode.editText?.setText(viewModel.cost.barCode)
         binding.barcode.setEndIconOnClickListener {
             viewModel.cost.barCode?.let { textCopyThenPost(it) }
         }
     }
 
     private fun setupName() {
-        binding.name.editText?.setText(viewModel.cost.name)
         binding.name.setEndIconOnClickListener {
             if (binding.name.editText?.isEnabled == false) {
                 binding.name.editText?.defineEnabled()
@@ -87,7 +87,6 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
     }
 
     private fun setupPrompt() {
-        binding.prompt.editText?.setText(viewModel.cost.prompt)
         binding.prompt.setEndIconOnClickListener {
             if (binding.prompt.editText?.isEnabled == false) {
                 binding.prompt.editText?.defineEnabled()
@@ -114,7 +113,6 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
     }
 
     private fun setupValue() {
-        binding.value.editText?.setText(viewModel.cost.formatValue())
         binding.value.setEndIconOnClickListener {
             if (binding.value.editText?.isEnabled == false) {
                 binding.value.editText?.defineEnabled()
@@ -139,26 +137,6 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
     private fun View.defineEnabled() {
         this.isEnabled = !this.isEnabled
     }
-
-    private fun createCost() {
-        val fieldsOfForm = listOf(
-            binding.name.editText,
-            binding.prompt.editText,
-            binding.value.editText,
-            binding.barcode.editText
-        )
-        if (validateEditTexts(fieldsOfForm)) {
-            val cost = generateCost()
-            viewModel.updateCost(cost)
-        }
-    }
-
-    private fun generateCost() = viewModel.cost.copy(
-        name = binding.name.editText?.text.toString(),
-        prompt = binding.prompt.editText?.text.toString(),
-        value = binding.value.editText?.text.toString().moneyToDouble(),
-        barCode = binding.barcode.editText?.text.toString()
-    )
 
     private fun String.moneyToDouble() =
         this.replace(BilletRegistrationFormFragment.REGEX_TEXT.toRegex(), "").toDouble()
@@ -194,14 +172,5 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
 
     private fun defineUpdateButton() {
         binding.update.visibility = View.VISIBLE
-    }
-
-    private fun validateEditTexts(editTexts: List<EditText?>): Boolean {
-        for (editText in editTexts) {
-            if (editText == null || editText.text.toString().trim().isEmpty()) {
-                return false
-            }
-        }
-        return true
     }
 }

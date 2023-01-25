@@ -1,7 +1,7 @@
 package br.com.brunocarvalhs.data.repositories
 
-import br.com.brunocarvalhs.data.model.HomesModel
-import br.com.brunocarvalhs.domain.entities.HomesEntities
+import br.com.brunocarvalhs.data.model.GroupsModel
+import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,32 +15,32 @@ class HomesRepositoryImpl @Inject constructor(
     private val sessionManager: SessionManager,
 ) : HomesRepository {
 
-    override suspend fun add(homes: HomesEntities) = withContext(Dispatchers.IO) {
+    override suspend fun add(homes: GroupEntities) = withContext(Dispatchers.IO) {
         try {
-            database.collection(HomesModel.COLLECTION).document(homes.id).set(homes.toMap()).await()
+            database.collection(GroupsModel.COLLECTION).document(homes.id).set(homes.toMap()).await()
             return@withContext
         } catch (error: Exception) {
             throw error
         }
     }
 
-    override suspend fun list(): List<HomesEntities> = withContext(Dispatchers.IO) {
+    override suspend fun list(): List<GroupEntities> = withContext(Dispatchers.IO) {
         try {
             return@withContext sessionManager.getUser()?.let {
-                val result = database.collection(HomesModel.COLLECTION)
-                    .whereArrayContainsAny(HomesModel.MEMBERS, listOf(sessionManager.getUser()?.id))
+                val result = database.collection(GroupsModel.COLLECTION)
+                    .whereArrayContainsAny(GroupsModel.MEMBERS, listOf(sessionManager.getUser()?.id))
                     .get()
                     .await()
-                result.map { it.toObject(HomesModel::class.java) }
+                result.map { it.toObject(GroupsModel::class.java) }
             } ?: emptyList()
         } catch (error: Exception) {
             throw error
         }
     }
 
-    override suspend fun update(homes: HomesEntities): HomesEntities = withContext(Dispatchers.IO) {
+    override suspend fun update(homes: GroupEntities): GroupEntities = withContext(Dispatchers.IO) {
         try {
-            database.collection(HomesModel.COLLECTION)
+            database.collection(GroupsModel.COLLECTION)
                 .document(homes.id)
                 .update(homes.toMap())
                 .await()
@@ -50,21 +50,21 @@ class HomesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun delete(homes: HomesEntities) = withContext(Dispatchers.IO) {
+    override suspend fun delete(homes: GroupEntities) = withContext(Dispatchers.IO) {
         try {
-            database.collection(HomesModel.COLLECTION).document(homes.id).delete().await()
+            database.collection(GroupsModel.COLLECTION).document(homes.id).delete().await()
             return@withContext
         } catch (error: Exception) {
             throw error
         }
     }
 
-    override suspend fun view(homes: HomesEntities): HomesEntities? = withContext(Dispatchers.IO) {
+    override suspend fun view(homes: GroupEntities): GroupEntities? = withContext(Dispatchers.IO) {
         try {
             return@withContext sessionManager.getUser()?.let {
-                val result = database.collection(HomesModel.COLLECTION)
+                val result = database.collection(GroupsModel.COLLECTION)
                     .document(it.id).get().await()
-                result.toObject(HomesModel::class.java)
+                result.toObject(GroupsModel::class.java)
             }
         } catch (error: Exception) {
             throw Exception(error)

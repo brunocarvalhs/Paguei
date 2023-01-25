@@ -1,8 +1,5 @@
 import config.AndroidConfig
 import dependencies.Dependencies
-import flavor.BuildTypeDebug
-import flavor.BuildTypeRelease
-import interfaces.BuildType
 
 plugins {
     id("com.android.application")
@@ -30,17 +27,27 @@ android {
             useSupportLibrary = true
         }
     }
-
-    buildTypes {
-        getByName(BuildType.RELEASE) {
-            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
+    android {
+        signingConfigs {
+            create("release") {
+                storeFile = file("keystore.jks")
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEYSTORE_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
         }
-        getByName(BuildType.DEBUG) {
-            isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
-            isDebuggable = BuildTypeDebug.isDebuggable
+        buildTypes {
+            getByName("release") {
+                signingConfig = signingConfigs.getByName("release")
+                isMinifyEnabled = true
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                )
+            }
+            getByName("debug") {
+                isMinifyEnabled = false
+                isDebuggable = true
+            }
         }
     }
     compileOptions {
@@ -52,6 +59,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
     packagingOptions {
         resources {
@@ -83,7 +91,6 @@ dependencies {
     implementation("com.google.android.material:material:1.7.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.test.ext:junit-ktx:1.1.3")
-    kapt(Dependencies.UI.DATABINDING_COMPILER)
     implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
     implementation(Dependencies.UI.NAVIGATION_FRAGMENT)

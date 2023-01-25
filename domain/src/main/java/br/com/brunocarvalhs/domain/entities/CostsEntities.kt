@@ -1,10 +1,12 @@
 package br.com.brunocarvalhs.domain.entities
 
-interface CostsEntities {
+import java.io.Serializable
+
+interface CostsEntities : Serializable {
     val id: String
     val name: String?
     val prompt: String?
-    val value: Double?
+    val value: String?
     val barCode: String?
     val paymentVoucher: String?
 
