@@ -5,34 +5,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/header"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search"
+            <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/header"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-        </com.google.android.material.appbar.AppBarLayout>
+                <androidx.appcompat.widget.SearchView
+                        android:id="@+id/search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list"
-                android:name="br.com.brunocarvalhs.home.ExtractFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/header"
-                tools:context=".features.costs.extracts.ExtractFragment"
-                tools:layout_editor_absoluteX="16dp"
-                tools:listitem="@layout/item_extract" />
+            </com.google.android.material.appbar.AppBarLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:name="br.com.brunocarvalhs.home.ExtractFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layoutManager="LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/header"
+                    tools:context=".features.costs.extracts.ExtractFragment"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:listitem="@layout/item_extract" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

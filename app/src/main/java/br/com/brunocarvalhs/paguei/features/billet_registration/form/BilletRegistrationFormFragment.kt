@@ -5,11 +5,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.paguei.databinding.FragmentBilletRegistrationFormBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -55,44 +53,16 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     override fun initView() {
         visibilityToolbar(visibility = true)
-        binding.registration.setOnClickListener { createCost() }
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.registration.setOnClickListener { viewModel.saveCost() }
         binding.cancel.setOnClickListener { cancelRegistration() }
-        binding.barcode.editText?.setText(viewModel.barCode)
         setupTextFieldDate()
         setupTextFieldValue()
     }
 
     override fun loading() {
 
-    }
-
-    private fun createCost() {
-        val fieldsOfForm = listOf(
-            binding.name.editText,
-            binding.prompt.editText,
-            binding.value.editText,
-            binding.barcode.editText
-        )
-        if (validateEditTexts(fieldsOfForm)) {
-            val cost = generateCost()
-            viewModel.saveCost(cost)
-        }
-    }
-
-    private fun generateCost() = CostsModel(
-        name = binding.name.editText?.text.toString(),
-        prompt = binding.prompt.editText?.text.toString(),
-        value = binding.value.editText?.text.toString().moneyToDouble(),
-        barCode = binding.barcode.editText?.text.toString()
-    )
-
-    private fun validateEditTexts(editTexts: List<EditText?>): Boolean {
-        for (editText in editTexts) {
-            if (editText == null || editText.text.toString().trim().isEmpty()) {
-                return false
-            }
-        }
-        return true
     }
 
     private fun cancelRegistration() {

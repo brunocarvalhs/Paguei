@@ -27,7 +27,6 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
                 is PaymentVoucherViewState.Error -> this.showError(it.error)
                 PaymentVoucherViewState.Loading -> this.loading()
                 is PaymentVoucherViewState.Success -> this.navigateToCosts()
-                else -> {}
             }
         }
     }
@@ -42,19 +41,12 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
 
     override fun initView() {
         this.visibilityToolbar(visibility = true)
-        binding.name.editText?.setText(viewModel.cost.name)
-        binding.prompt.editText?.setText(viewModel.cost.prompt)
-        binding.value.editText?.setText(viewModel.cost.formatValue())
-        binding.barcode.editText?.setText(viewModel.cost.barCode)
-        binding.paymentVoucherUri.editText?.setText(viewModel.paymentVoucherUri)
-        binding.registration.setOnClickListener { viewModel.save(generateCost()) }
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.registration.setOnClickListener { viewModel.savePaymentVoucher() }
     }
 
     override fun loading() {
 
     }
-
-    private fun generateCost() = viewModel.cost.copy(
-        paymentVoucher = binding.paymentVoucherUri.editText?.text.toString()
-    )
 }

@@ -1,8 +1,8 @@
-package br.com.brunocarvalhs.paguei.features.homes.list
+package br.com.brunocarvalhs.paguei.features.groups.list
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.domain.entities.HomesEntities
+import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,28 +10,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomesListViewModel @Inject constructor(
+class GroupsListViewModel @Inject constructor(
     private val homesRepository: HomesRepository,
     sessionManager: SessionManager,
-) : BaseViewModel<HomesListViewState>() {
+) : BaseViewModel<GroupsListViewState>() {
 
     val user = sessionManager.getUser()
 
-    private var homes: HomesEntities? = null
+    private var homes: GroupEntities? = null
 
     fun fetchData() {
         viewModelScope.launch {
             try {
-                mutableState.value = HomesListViewState.Loading
+                mutableState.value = GroupsListViewState.Loading
                 val homes = homesRepository.list()
-                mutableState.value = HomesListViewState.Success(homes)
+                mutableState.value = GroupsListViewState.Success(homes)
             } catch (error: Exception) {
-                mutableState.value = HomesListViewState.Error(error.message)
+                mutableState.value = GroupsListViewState.Error(error.message)
             }
         }
     }
 
-    fun selected(home: HomesEntities? = null) {
+    fun selected(home: GroupEntities? = null) {
         this.homes = home
     }
 }

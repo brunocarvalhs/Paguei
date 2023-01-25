@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import androidx.recyclerview.widget.RecyclerView
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.paguei.R
 import br.com.brunocarvalhs.paguei.databinding.ItemExtractBinding
-import br.com.brunocarvalhs.domain.entities.CostsEntities
 
 class ExtractRecyclerViewAdapter(
     private val context: Context,
-    private val values: List<CostsEntities> = emptyList(),
     private val listener: ExtractClickListener,
 ) : RecyclerView.Adapter<ExtractRecyclerViewAdapter.ViewHolder>() {
 
+    private val values = mutableListOf<CostsEntities>()
     private var filter: ItemFilter = ItemFilter()
     private var filteredValues: List<*> = values
 
@@ -35,6 +35,12 @@ class ExtractRecyclerViewAdapter(
 
     fun getFilter(): Filter {
         return filter
+    }
+
+    fun submitList(list: List<CostsEntities>) {
+        values.clear()
+        values.addAll(list)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(binding: ItemExtractBinding) : RecyclerView.ViewHolder(binding.root) {

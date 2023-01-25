@@ -46,7 +46,7 @@
 
         <argument
                 android:name="costs"
-                app:argType="br.com.brunocarvalhs.data.model.CostsModel" />
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
         <action
                 android:id="@+id/action_itemListDialogFragment_to_paymentVoucherFragment"
                 app:destination="@id/paymentVoucherFragment" />
@@ -109,13 +109,13 @@
 
     <fragment
             android:id="@+id/homesRegisterFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.homes.register.HomesRegisterFragment"
+            android:name="br.com.brunocarvalhs.paguei.features.groups.register.HomesRegisterFragment"
             tools:layout="@layout/fragment_homes_register" />
 
     <dialog
             android:id="@+id/homesListDialogFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.homes.list.HomesListDialogFragment"
-            tools:layout="@layout/dialog_homes_list">
+            android:name="br.com.brunocarvalhs.paguei.features.groups.list.GroupsListDialogFragment"
+            tools:layout="@layout/dialog_groups_list">
         <action
                 android:id="@+id/action_homesListDialogFragment_to_homesRegisterFragment"
                 app:destination="@id/homesRegisterFragment" />
@@ -126,7 +126,7 @@
             tools:layout="@layout/fragment_cost_reader">
         <argument
                 android:name="cost"
-                app:argType="br.com.brunocarvalhs.data.model.CostsModel" />
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
     </fragment>
     <fragment
             android:id="@+id/paymentVoucherFragment"
@@ -134,7 +134,7 @@
             tools:layout="@layout/fragment_payment_voucher">
         <argument
                 android:name="cost"
-                app:argType="br.com.brunocarvalhs.data.model.CostsModel" />
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
     </fragment>
 
     <fragment
@@ -142,7 +142,7 @@
             android:name="br.com.brunocarvalhs.paguei.features.costs.extract_reader.ExtractReaderFragment">
         <argument
                 android:name="cost"
-                app:argType="br.com.brunocarvalhs.data.model.CostsModel" />
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
     </fragment>
 
 </navigation>

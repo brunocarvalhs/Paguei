@@ -1,13 +1,13 @@
 package br.com.brunocarvalhs.paguei.features.billet_registration.form
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,28 +16,33 @@ class BilletRegistrationFormViewModel @Inject constructor(
     private val repository: CostsRepository,
 ) : BaseViewModel<BilletRegistrationFormViewState>() {
 
-    private var _name: String? = null
-    val name: String? = _name
+    val name = ObservableField<String>()
 
-    private var _prompt: Date? = null
-    val prompt: Date? = _prompt
+    val prompt = ObservableField<String>()
 
-    private var _value: Double? = null
-    val value: Double? = _value
+    val value = ObservableField<String>()
 
-    private var _barCode: String? = BilletRegistrationFormFragmentArgs
-        .fromSavedStateHandle(savedStateHandle).barcode
-    val barCode: String? = _barCode
+    val barCode = ObservableField<String>(
+        BilletRegistrationFormFragmentArgs
+            .fromSavedStateHandle(savedStateHandle).barcode
+    )
 
-    fun saveCost(costs: CostsEntities) {
+    fun saveCost() {
         viewModelScope.launch {
             try {
                 mutableState.value = BilletRegistrationFormViewState.Loading
-                repository.add(costs)
+                repository.add(generateCost())
                 mutableState.value = BilletRegistrationFormViewState.Success
             } catch (error: Exception) {
                 mutableState.value = BilletRegistrationFormViewState.Error(error.message)
             }
         }
     }
+
+    private fun generateCost() = CostsModel(
+        name = name.get(),
+        prompt = prompt.get(),
+        value = value.get()?.replace("[^0-9,]".toRegex(), "")?.replace(",", "."),
+        barCode = barCode.get()
+    )
 }
