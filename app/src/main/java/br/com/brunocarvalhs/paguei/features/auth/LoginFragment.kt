@@ -18,33 +18,32 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val viewModel: LoginViewModel by viewModels()
 
-    private val signInLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()
-    ) { viewModel.onSignInResult() }
+    private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
+        viewModel.onSignInResult()
+    }
 
-    private val providers = arrayListOf(
-        AuthUI.IdpConfig.EmailBuilder().setAllowNewAccounts(true).build(),
-        AuthUI.IdpConfig.GoogleBuilder().setScopes(listOf(Scopes.PROFILE)).build(),
-    )
+    private val providers by lazy {
+        arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().setAllowNewAccounts(true).build(),
+            AuthUI.IdpConfig.GoogleBuilder().setScopes(listOf(Scopes.PROFILE)).build()
+        )
+    }
 
-    private val signInIntent =
+    private val signInIntent by lazy {
         AuthUI.getInstance().createSignInIntentBuilder().setTheme(R.style.Theme_Paguei)
-            .setAvailableProviders(providers)
-            .setIsSmartLockEnabled(false).build()
+            .setAvailableProviders(providers).setIsSmartLockEnabled(false).build()
+    }
 
     override fun createBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        attachToParent: Boolean
-    ): FragmentLoginBinding =
-        FragmentLoginBinding.inflate(inflater, container, attachToParent)
+        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
+    ): FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
-        viewModel.state.observe(viewLifecycleOwner) {
-            when (it) {
-                LoginViewState.Loading -> this.loading()
-                is LoginViewState.Success -> this.navigateToHome()
-                is LoginViewState.Error -> this.showError(it.message)
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                LoginViewState.Loading -> loading()
+                LoginViewState.Success -> navigateToHome()
+                is LoginViewState.Error -> showError(state.message)
             }
         }
     }

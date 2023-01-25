@@ -16,6 +16,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private val viewModel: ProfileViewModel by viewModels()
 
+    private val glide by lazy { Glide.with(this) }
+
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, attachToParent)
@@ -32,7 +34,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         visibilityToolbar(visibility = true)
         viewModel.user?.let {
             it.photoUrl?.let { photoUrl ->
-                Glide.with(this).load(photoUrl).centerCrop().into(binding.avatar)
+                glide.load(photoUrl).centerCrop().into(binding.avatar)
             } ?: kotlin.run {
                 binding.avatar.visibility = View.GONE
                 binding.avatarText.visibility = View.VISIBLE
@@ -40,7 +42,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
 
             binding.name.text = it.name
-            binding.contact.text = it.email ?: it.phoneNumber
+            binding.contact.text = it.email
         }
         binding.logout.setOnClickListener { logout() }
     }

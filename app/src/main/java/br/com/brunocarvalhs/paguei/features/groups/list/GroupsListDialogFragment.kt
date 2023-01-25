@@ -17,7 +17,7 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
     GroupsRecyclerViewAdapter.GroupsClickListener {
 
     private val viewModel: GroupsListViewModel by viewModels()
-    lateinit var adapter: GroupsRecyclerViewAdapter
+    private val adapter by lazy { GroupsRecyclerViewAdapter(requireContext(), this) }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -43,7 +43,6 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
     }
 
     private fun setupList() {
-        adapter = GroupsRecyclerViewAdapter(requireContext(), this)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
     }

@@ -9,7 +9,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,11 +29,13 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
 
     private val viewModel: CostReaderViewModel by viewModels()
 
-    private val datePicker =
-        MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+    private val datePicker by lazy {
+        MaterialDatePicker.Builder.datePicker()
+            .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
             .build()
+    }
 
-    private val calendar = Calendar.getInstance()
+    private val calendar by lazy { Calendar.getInstance() }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

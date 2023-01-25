@@ -18,15 +18,7 @@ import javax.inject.Inject
 class BilletRegistrationBarcodeScannerViewModel @Inject constructor() :
     BaseViewModel<BilletRegistrationBarcodeScannerViewState>() {
 
-    var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-
-    val imageAnalysis = ImageAnalysis.Builder().build()
-
-    val preview = Preview.Builder().build()
-
     var cameraProvider: ProcessCameraProvider? = null
-
-    val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
     fun barcodeScanner(result: String?) {
         viewModelScope.launch {
