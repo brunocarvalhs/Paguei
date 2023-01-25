@@ -19,7 +19,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     CostsRecyclerViewAdapter.CostClickListener {
 
     private val viewModel: CostsViewModel by viewModels()
-    lateinit var adapter: CostsRecyclerViewAdapter
+    private val adapter by lazy { CostsRecyclerViewAdapter(requireContext(), this) }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -58,7 +58,6 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     }
 
     private fun setupList() {
-        adapter = CostsRecyclerViewAdapter(requireContext(), this)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
     }

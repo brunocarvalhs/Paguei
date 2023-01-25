@@ -19,6 +19,10 @@ class ExtractReaderFragment : BaseFragment<FragmentExtractReaderBinding>() {
 
     private val viewModel: ExtractReaderViewModel by viewModels()
 
+    private val clipboardManager by lazy {
+        requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+    }
+
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentExtractReaderBinding =
@@ -59,8 +63,6 @@ class ExtractReaderFragment : BaseFragment<FragmentExtractReaderBinding>() {
     }
 
     private fun textCopyThenPost(textCopied: String) {
-        val clipboardManager =
-            requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         clipboardManager.setPrimaryClip(ClipData.newPlainText("", textCopied))
         Toast.makeText(requireContext(), "Código copiado com sucesso.", Toast.LENGTH_SHORT).show()
     }

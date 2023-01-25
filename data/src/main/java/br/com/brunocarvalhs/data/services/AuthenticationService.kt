@@ -53,11 +53,10 @@ class AuthenticationService @Inject constructor(
             }
         }
 
-    fun UserModel.Companion.fromFirebaseAuth(firebaseUser: FirebaseUser) = UserModel(
+    private fun UserModel.Companion.fromFirebaseAuth(firebaseUser: FirebaseUser) = UserModel(
         id = firebaseUser.uid,
         name = firebaseUser.displayName,
         email = firebaseUser.email,
-        phoneNumber = firebaseUser.phoneNumber,
         photoUrl = firebaseUser.photoUrl.toString(),
     )
 }

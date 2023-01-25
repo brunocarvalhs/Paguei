@@ -5,17 +5,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.paguei.databinding.FragmentBilletRegistrationBarcodeScannerBinding
 import br.com.brunocarvalhs.domain.listeners.BarcodeScanListener
+import br.com.brunocarvalhs.paguei.databinding.FragmentBilletRegistrationBarcodeScannerBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 @ExperimentalGetImage
 @AndroidEntryPoint
@@ -24,14 +28,20 @@ class BilletRegistrationBarcodeScannerFragment :
 
     private val viewModel: BilletRegistrationBarcodeScannerViewModel by viewModels()
 
-    private val requestPermissionLauncher =
+    private val requestPermissionLauncher by lazy {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) startCamera()
-            else {
-                Toast.makeText(requireContext(), "Permissão negada", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
-            }
         }
+    }
+
+    private val cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+
+    private val imageAnalysis by lazy { ImageAnalysis.Builder().build() }
+
+    private val preview by lazy { Preview.Builder().build() }
+
+    private val cameraSelector by lazy { CameraSelector.DEFAULT_BACK_CAMERA }
+
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -83,8 +93,8 @@ class BilletRegistrationBarcodeScannerFragment :
         cameraProviderFuture.addListener({
             try {
                 viewModel.cameraProvider = cameraProviderFuture.get()
-                viewModel.preview.setSurfaceProvider(binding.previewView.surfaceProvider)
-                viewModel.imageAnalysis.setAnalyzer(viewModel.cameraExecutor, BarcodeAnalyzer(this))
+                preview.setSurfaceProvider(binding.previewView.surfaceProvider)
+                imageAnalysis.setAnalyzer(cameraExecutor, BarcodeAnalyzer(this))
                 initCamera()
             } catch (e: Exception) {
                 Log.e(this.javaClass.simpleName, e.message ?: "")
@@ -120,17 +130,12 @@ class BilletRegistrationBarcodeScannerFragment :
 
     override fun onStop() {
         super.onStop()
-        viewModel.cameraProvider?.unbind(viewModel.preview)
-        viewModel.cameraProvider?.unbind(viewModel.imageAnalysis)
+        viewModel.cameraProvider?.unbind(preview)
+        viewModel.cameraProvider?.unbind(imageAnalysis)
     }
 
     private fun initCamera() {
         viewModel.cameraProvider?.unbindAll()
-        viewModel.cameraProvider?.bindToLifecycle(
-            this,
-            viewModel.cameraSelector,
-            viewModel.preview,
-            viewModel.imageAnalysis
-        )
+        viewModel.cameraProvider?.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
     }
 }

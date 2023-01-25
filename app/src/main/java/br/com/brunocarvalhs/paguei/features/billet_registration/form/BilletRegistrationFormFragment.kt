@@ -22,11 +22,12 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     private val viewModel: BilletRegistrationFormViewModel by viewModels()
 
-    private val datePicker =
+    private val datePicker by lazy {
         MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
             .build()
+    }
 
-    private val calendar = Calendar.getInstance()
+    private val calendar by lazy { Calendar.getInstance() }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

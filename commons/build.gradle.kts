@@ -7,7 +7,6 @@ import dependencies.Dependencies
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
 }
 
 android {
@@ -50,7 +49,6 @@ dependencies {
     // Core dependencies
     implementation(Dependencies.Core.KTX)
 
-    // UI dependencies
     // UI dependencies
     implementation(Dependencies.UI.MATERIAL)
     implementation(Dependencies.UI.FRAGMENT_KTX)
