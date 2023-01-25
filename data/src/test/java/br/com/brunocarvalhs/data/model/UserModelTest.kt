@@ -13,24 +13,21 @@ class UserModelTest {
         val name = "John Doe"
         val photoUrl = "https://example.com/john-doe.jpg"
         val email = "john.doe@example.com"
-        val phoneNumber = "555-555-5555"
 
         // Act
-        val userModel = UserModel(id, name, photoUrl, email, phoneNumber)
+        val userModel = UserModel(id, name, photoUrl, email)
 
         // Assert
         assertEquals(id, userModel.id)
         assertEquals(name, userModel.name)
         assertEquals(photoUrl, userModel.photoUrl)
         assertEquals(email, userModel.email)
-        assertEquals(phoneNumber, userModel.phoneNumber)
 
         val map = userModel.toMap()
         assertEquals(id, map[UserModel.ID])
         assertEquals(name, map[UserModel.NAME])
         assertEquals(photoUrl, map[UserModel.PHOTO_URL])
         assertEquals(email, map[UserModel.EMAIL])
-        assertEquals(phoneNumber, map[UserModel.PHONE_NUMBER])
 
         val json = userModel.toJson()
         val gson = Gson()

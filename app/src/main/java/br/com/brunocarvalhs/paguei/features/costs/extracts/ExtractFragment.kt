@@ -19,7 +19,8 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     SearchView.OnQueryTextListener {
 
     private val viewModel: ExtractViewModel by viewModels()
-    lateinit var adapter: ExtractRecyclerViewAdapter
+
+    private val adapter by lazy { ExtractRecyclerViewAdapter(requireContext(), this) }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -51,7 +52,6 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     }
 
     private fun setupList() {
-        adapter = ExtractRecyclerViewAdapter(requireContext(), this)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
     }

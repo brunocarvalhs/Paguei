@@ -10,7 +10,6 @@ data class UserModel(
     @SerializedName(NAME) override val name: String? = null,
     @SerializedName(PHOTO_URL) override val photoUrl: String? = null,
     @SerializedName(EMAIL) override val email: String? = null,
-    @SerializedName(PHONE_NUMBER) override val phoneNumber: String? = null,
 ) : UserEntities {
     companion object {
 
@@ -20,7 +19,6 @@ data class UserModel(
         const val NAME = "name"
         const val PHOTO_URL = "photo_url"
         const val EMAIL = "email"
-        const val PHONE_NUMBER = "phone_number"
     }
 
     override fun toMap(): Map<String?, Any?> =
