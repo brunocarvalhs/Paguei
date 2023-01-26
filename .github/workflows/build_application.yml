@@ -46,7 +46,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Create google-services release file
-        if: startsWith(github.ref, 'refs/heads/develop')
+        if: startsWith(github.ref, 'refs/heads/master')
         run: |
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
