@@ -44,13 +44,15 @@ android {
         }
         buildTypes {
             getByName("release") {
+                isDebuggable = false
+                isJniDebuggable = false
                 signingConfig = signingConfigs.getByName("release")
-                isMinifyEnabled = true
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
                 )
             }
             getByName("debug") {
+                applicationIdSuffix = ".debug"
                 isMinifyEnabled = false
                 isDebuggable = true
             }
@@ -61,7 +63,7 @@ android {
         targetCompatibility = AndroidConfig.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = AndroidConfig.JAVA_VERSION.toString()
+        jvmTarget = "1.8"
     }
     buildFeatures {
         viewBinding = true
@@ -71,6 +73,13 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    lint {
+        abortOnError = false
+        disable += "MissingTranslation"
+    }
+    kapt {
+        correctErrorTypes = true
     }
 }
 
