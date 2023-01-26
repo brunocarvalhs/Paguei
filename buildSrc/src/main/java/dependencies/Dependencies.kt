@@ -5,8 +5,11 @@ object Dependencies {
         const val KTX = "androidx.core:core-ktx:${Versions.Core.KTX}"
         const val LIFECYCLE_RUNTIME =
             "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Core.LIFECYCLE_RUNTIME}"
-        const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
-        const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+        const val LIFECYCLE_LIVEDATA =
+            "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.Core.LIFECYCLE_RUNTIME}"
+        const val LIFECYCLE_VIEWMODEL =
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.Core.LIFECYCLE_RUNTIME}"
+        const val MULTIDEX = "androidx.multidex:multidex:${Versions.Core.MULTIDEX}"
     }
 
     object UI {

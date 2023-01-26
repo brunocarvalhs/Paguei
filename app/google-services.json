@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "647363137025",
-    "project_id": "paguei-a6ca6",
-    "storage_bucket": "paguei-a6ca6.appspot.com"
+    "project_number": "50129777786",
+    "project_id": "paguei-debug",
+    "storage_bucket": "paguei-debug.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:647363137025:android:c8a5e1e90d509af313fa00",
+        "mobilesdk_app_id": "1:50129777786:android:a0ed7bdc4c4e1d09d6f7c3",
         "android_client_info": {
-          "package_name": "br.com.brunocarvalhs.paguei"
+          "package_name": "br.com.brunocarvalhs.paguei.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "647363137025-68jjme6jbnhhsdo5psjqoh4h1j1gjiss.apps.googleusercontent.com",
+          "client_id": "50129777786-mfpkgi1iin2klirlg6hbmg0186bsnc89.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "br.com.brunocarvalhs.paguei",
+            "package_name": "br.com.brunocarvalhs.paguei.debug",
             "certificate_hash": "567091933f8c25188d587d177f8e2a53ba6cfc71"
           }
         },
         {
-          "client_id": "647363137025-g24o2lmfk44b7kjf4q85jn557p7pm0a1.apps.googleusercontent.com",
+          "client_id": "50129777786-stngkrpfu3vlm5r98bas78psbnh0osan.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB4Atx9CJuihqazU56kVgbt2qmkrhbRf_8"
+          "current_key": "AIzaSyAOZgT4Pf1z8ITmT3cfF-lOAhXVSsOsiLI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "647363137025-g24o2lmfk44b7kjf4q85jn557p7pm0a1.apps.googleusercontent.com",
+              "client_id": "50129777786-stngkrpfu3vlm5r98bas78psbnh0osan.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -2,6 +2,7 @@ package dependencies
 
 object Versions {
     object Core {
+        const val MULTIDEX = "2.0.1"
         const val KTX = "1.9.0"
         const val LIFECYCLE_RUNTIME = "2.5.1"
     }
