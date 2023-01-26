@@ -30,7 +30,7 @@ jobs:
           mkdir ~/.gradle
           echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
-       
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
@@ -45,34 +45,30 @@ jobs:
       - name: Give gradlew execute permissions
         run: chmod +x gradlew
 
-      - name: Copy google-services file
+      - name: Create google-services release file
         run: |
+          rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
-      - name: Copy keystore file
-        run: |
-          echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > app/keystore.jks
 
       - name: Build Application Debug
         if: startsWith(github.ref, 'refs/heads/develop')
         run: env version="${{ env.version }}" ./gradlew assembleDebug
-      
+
       - name: Build Application Release
         if: startsWith(github.ref, 'refs/heads/master')
         run: |
-           env version="${{ env.version }}" ./gradlew bundleRelease
-           export PATH=$PATH:$ANDROID_HOME/build-tools/29.0.3
+          env version="${{ env.version }}" ./gradlew bundleRelease
 
-      - name: Upload signed AAR
+      - name: Upload AAB
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ env.version }}-${{ env.date }}.aar
+          name: paguei-${{ env.version }}-${{ env.date }}
           path: app/build/outputs/bundle/
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ env.version }}-${{ env.date }}.apk
+          name: paguei-${{ env.version }}-${{ env.date }}
           path: app/build/outputs/apk/
 
       - name: Create Branch Release
