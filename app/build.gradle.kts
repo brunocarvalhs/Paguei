@@ -30,21 +30,25 @@ android {
     android {
         signingConfigs {
             create("release") {
-                storeFile = file("keystore.jks")
-                storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEYSTORE_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
+                storeFile = file(System.getenv("KEYSTORE_PATH") ?: "keystore.jks")
+                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
+                keyAlias = System.getenv("KEYSTORE_ALIAS") ?: ""
+                keyPassword = System.getenv("KEYSTORE_ALIAS_PASSWORD") ?: ""
+                enableV1Signing = true
+                enableV2Signing = true
             }
         }
         buildTypes {
             getByName("release") {
+                isDebuggable = false
+                isJniDebuggable = false
                 signingConfig = signingConfigs.getByName("release")
-                isMinifyEnabled = true
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
                 )
             }
             getByName("debug") {
+                applicationIdSuffix = ".debug"
                 isMinifyEnabled = false
                 isDebuggable = true
             }
@@ -55,7 +59,7 @@ android {
         targetCompatibility = AndroidConfig.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = AndroidConfig.JAVA_VERSION.toString()
+        jvmTarget = "1.8"
     }
     buildFeatures {
         viewBinding = true
@@ -65,6 +69,13 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    lint {
+        abortOnError = false
+        disable += "MissingTranslation"
+    }
+    kapt {
+        correctErrorTypes = true
     }
 }
 
