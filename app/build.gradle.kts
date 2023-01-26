@@ -150,4 +150,7 @@ dependencies {
 
     // Mascara
     implementation("com.redmadrobot:input-mask-android:6.1.0")
+
+    // Ads
+    implementation("com.google.android.gms:play-services-ads:21.4.0")
 }
