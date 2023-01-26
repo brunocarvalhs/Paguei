@@ -61,12 +61,14 @@ jobs:
           env version="${{ env.version }}" ./gradlew bundleRelease
 
       - name: Upload AAB
+        if: startsWith(github.ref, 'refs/heads/master')
         uses: actions/upload-artifact@v2
         with:
           name: paguei-${{ env.version }}-${{ env.date }}
           path: app/build/outputs/bundle/
 
       - name: Upload APK
+        if: startsWith(github.ref, 'refs/heads/develop')
         uses: actions/upload-artifact@v2
         with:
           name: paguei-${{ env.version }}-${{ env.date }}
