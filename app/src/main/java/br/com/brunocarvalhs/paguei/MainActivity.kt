@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import br.com.brunocarvalhs.commons.ManagerToolbar
 import br.com.brunocarvalhs.paguei.databinding.ActivityMainBinding
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,9 +24,10 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupNavigation()
+        setupAds()
     }
 
-    fun setupNavigation() {
+    private fun setupNavigation() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
         navController = navHostFragment.navController
@@ -42,5 +44,11 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
 
     override fun hideToolbar() {
         toolbar.visibility = View.GONE
+    }
+
+    private fun setupAds() {
+        MobileAds.initialize(this) {
+
+        }
     }
 }
