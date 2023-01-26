@@ -30,10 +30,16 @@ android {
     android {
         signingConfigs {
             create("release") {
-                storeFile = file("keystore.jks")
-                storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEYSTORE_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
+                if (
+                    System.getenv("KEYSTORE_PASSWORD") != null &&
+                    System.getenv("KEYSTORE_ALIAS") != null &&
+                    System.getenv("KEY_PASSWORD") != null
+                ) {
+                    storeFile = file("release.keystore")
+                    storePassword = System.getenv("KEYSTORE_PASSWORD")
+                    keyAlias = System.getenv("KEYSTORE_ALIAS")
+                    keyPassword = System.getenv("KEY_PASSWORD")
+                }
             }
         }
         buildTypes {
