@@ -43,4 +43,6 @@
     <string name="fragment_homes_register_title">Preencha os dados\ndo grupo</string>
     <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
     <string name="dialog_homes_list_button_create_text">Adicionar Grupo</string>
+    <string name="barcode_analyzer_on_scan_error_format_itf">Código de barra inválido</string>
+    <string name="barcode_analyzer_on_scan_error_not_support">Não foi encontrado nenhum código de barra ou QR code</string>
 </resources>

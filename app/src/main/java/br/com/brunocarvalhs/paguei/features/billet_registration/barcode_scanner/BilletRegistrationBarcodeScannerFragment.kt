@@ -46,7 +46,7 @@ class BilletRegistrationBarcodeScannerFragment :
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        attachToParent: Boolean
+        attachToParent: Boolean,
     ): FragmentBilletRegistrationBarcodeScannerBinding =
         FragmentBilletRegistrationBarcodeScannerBinding.inflate(inflater, container, attachToParent)
 
@@ -94,7 +94,7 @@ class BilletRegistrationBarcodeScannerFragment :
             try {
                 viewModel.cameraProvider = cameraProviderFuture.get()
                 preview.setSurfaceProvider(binding.previewView.surfaceProvider)
-                imageAnalysis.setAnalyzer(cameraExecutor, BarcodeAnalyzer(this))
+                imageAnalysis.setAnalyzer(cameraExecutor, BarcodeAnalyzer(requireContext(), this))
                 initCamera()
             } catch (e: Exception) {
                 Log.e(this.javaClass.simpleName, e.message ?: "")
@@ -102,7 +102,7 @@ class BilletRegistrationBarcodeScannerFragment :
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    override fun onScanSuccess(barcode: String) {
+    override fun onScanSuccess(barcode: String?) {
         viewModel.barcodeScanner(barcode)
     }
 
