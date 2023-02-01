@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.profile
+package br.com.brunocarvalhs.profile.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

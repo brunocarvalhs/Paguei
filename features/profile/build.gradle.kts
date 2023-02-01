@@ -2,80 +2,47 @@ import config.AndroidConfig
 import dependencies.Dependencies
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
 }
 
 android {
-    namespace = AndroidConfig.APP_ID
+    namespace = "br.com.brunocarvalhs.profile"
     compileSdk = AndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
-        applicationId = AndroidConfig.APP_ID
         minSdk = AndroidConfig.MIN_SDK_VERSION
         targetSdk = AndroidConfig.TARGET_SDK_VERSION
-        versionCode = AndroidConfig.VERSION_CODE
-        versionName = AndroidConfig.VERSION_NAME
-        multiDexEnabled = true
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles("consumer-rules.pro")
         vectorDrawables {
             useSupportLibrary = true
         }
     }
-    android {
-        signingConfigs {
-            create("release") {
-                if (
-                    System.getenv("KEYSTORE_PASSWORD") != null &&
-                    System.getenv("KEYSTORE_ALIAS") != null &&
-                    System.getenv("KEY_PASSWORD") != null
-                ) {
-                    storeFile = file("release.keystore")
-                    storePassword = System.getenv("KEYSTORE_PASSWORD")
-                    keyAlias = System.getenv("KEYSTORE_ALIAS")
-                    keyPassword = System.getenv("KEY_PASSWORD")
-                    enableV1Signing = true
-                    enableV2Signing = true
-                }
-            }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
-        buildTypes {
-            getByName("release") {
-                isDebuggable = false
-                isJniDebuggable = false
-                signingConfig = signingConfigs.getByName("release")
-                proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-                )
-            }
-            getByName("debug") {
-                applicationIdSuffix = ".debug"
-                isMinifyEnabled = false
-                isDebuggable = true
-            }
-        }
-    }
-    compileOptions {
-        sourceCompatibility = AndroidConfig.JAVA_VERSION
-        targetCompatibility = AndroidConfig.JAVA_VERSION
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
     buildFeatures {
         viewBinding = true
         dataBinding = true
     }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     lint {
         abortOnError = false
@@ -87,10 +54,6 @@ android {
 }
 
 dependencies {
-    // Features
-    implementation(project(mapOf("path" to ":features:auth")))
-    implementation(project(mapOf("path" to ":features:profile")))
-
     // Modules
     implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":domain")))
@@ -129,29 +92,12 @@ dependencies {
 
     // Firebase dependencies
     implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.CRASHLYTICS)
-    implementation(Dependencies.Firebase.ANALYTICS)
     implementation(Dependencies.Firebase.AUTH)
-    implementation(Dependencies.Firebase.FIRESTORE)
     implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
     implementation(Dependencies.Firebase.UI_AUTH)
 
-    // Network dependencies
-    implementation(Dependencies.Network.GSON)
-
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
-
-    // Camera
-    implementation("androidx.camera:camera-core:1.2.0")
-    implementation("androidx.camera:camera-view:1.2.0")
-    implementation("androidx.camera:camera-camera2:1.2.0")
-    implementation("androidx.camera:camera-lifecycle:1.2.0")
-    implementation("androidx.camera:camera-extensions:1.2.0")
-    implementation("com.google.mlkit:barcode-scanning:17.0.3")
-
-    // Mascara
-    implementation("com.redmadrobot:input-mask-android:6.1.0")
 }

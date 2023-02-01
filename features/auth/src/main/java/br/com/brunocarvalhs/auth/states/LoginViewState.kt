@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.auth
+package br.com.brunocarvalhs.auth.states
 
 sealed class LoginViewState {
     object Loading : LoginViewState()

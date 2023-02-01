@@ -1,6 +1,7 @@
-package br.com.brunocarvalhs.paguei.features.auth
+package br.com.brunocarvalhs.auth.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import br.com.brunocarvalhs.auth.states.LoginViewState
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.domain.repositories.UserRepository
 import br.com.brunocarvalhs.domain.services.Authentication

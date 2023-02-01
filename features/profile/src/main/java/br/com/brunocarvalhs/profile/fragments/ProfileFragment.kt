@@ -1,13 +1,16 @@
-package br.com.brunocarvalhs.paguei.features.profile
+package br.com.brunocarvalhs.profile.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.paguei.databinding.FragmentProfileBinding
+import br.com.brunocarvalhs.profile.databinding.FragmentProfileBinding
+import br.com.brunocarvalhs.profile.viewmodels.ProfileViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,7 +56,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun logout() {
         viewModel.logout()
-        val action = ProfileFragmentDirections.actionProfileFragmentToLoginFragment()
-        findNavController().navigate(action)
+        navigateToLogin()
+    }
+
+    private fun navigateToLogin() {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri("android-app://paguei.app/login_fragment".toUri())
+            .build()
+
+        findNavController().navigate(request)
     }
 }
