@@ -7,4 +7,6 @@ interface ManagerToolbar {
 
     fun showToolbar()
     fun hideToolbar()
+
+    fun defineAppNavigation(setOf: Set<Int>)
 }

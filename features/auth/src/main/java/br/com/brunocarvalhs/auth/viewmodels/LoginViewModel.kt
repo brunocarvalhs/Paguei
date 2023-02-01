@@ -41,7 +41,8 @@ class LoginViewModel @Inject constructor(
                 mutableState.value = LoginViewState.Loading
                 val session = authService.session()
                 session?.let {
-                    repository.read(it.id)?.let {
+                    repository.read(it.id)?.let { user ->
+                        sessionManager.login(user, null)
                         mutableState.value = LoginViewState.Success
                     }
                 }

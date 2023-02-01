@@ -1,3 +1,4 @@
 <resources>
-    <string name="organize_se">Organize seus\nboletos em um\nsó lugar</string>
+    <string name="title">Organize your tickets in one place</string>
+    <string name="login_button_text">Acess</string>
 </resources>

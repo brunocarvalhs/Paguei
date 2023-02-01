@@ -4,21 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.profile.databinding.FragmentProfileBinding
 import br.com.brunocarvalhs.profile.viewmodels.ProfileViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
+    @Inject
+    lateinit var navigation: Navigation
     private val viewModel: ProfileViewModel by viewModels()
-
     private val glide by lazy { Glide.with(this) }
 
     override fun createBinding(
@@ -60,10 +61,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun navigateToLogin() {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri("android-app://paguei.app/login_fragment".toUri())
-            .build()
-
+        val request = navigation.navigateToLoginRegister()
         findNavController().navigate(request)
     }
 }

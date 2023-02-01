@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/groups_navigation"
+        app:startDestination="@id/groupsListDialogFragment">
+
+    <dialog
+            android:id="@+id/groupsListDialogFragment"
+            android:name="br.com.brunocarvalhs.groups.list.GroupsListDialogFragment"
+            tools:layout="@layout/dialog_groups_list">
+
+        <deepLink app:uri="@string/deeplink_groups" />
+
+        <action
+                android:id="@+id/action_homesListDialogFragment_to_homesRegisterFragment"
+                app:destination="@id/groupsRegisterFragment" />
+    </dialog>
+
+    <fragment
+            android:id="@+id/groupsRegisterFragment"
+            android:name="br.com.brunocarvalhs.groups.register.HomesRegisterFragment"
+            tools:layout="@layout/fragment_homes_register">
+
+        <deepLink app:uri="@string/deeplink_group_register" />
+
+    </fragment>
+
+</navigation>

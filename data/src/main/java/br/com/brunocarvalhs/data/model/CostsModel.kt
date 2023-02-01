@@ -32,5 +32,6 @@ data class CostsModel(
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 
     override fun toJson(): String = Gson().toJson(this)
-    override fun formatValue(): String = DecimalFormat(FORMAT_VALUE).format(this.value?.toDouble())
+    override fun formatValue(): String =
+        DecimalFormat(FORMAT_VALUE).format(this.value.orEmpty().toDouble())
 }

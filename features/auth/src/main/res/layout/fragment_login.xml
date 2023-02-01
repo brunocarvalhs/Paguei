@@ -52,7 +52,7 @@
                 android:layout_alignParentTop="true"
                 android:gravity="center_horizontal|top"
                 android:lineSpacingExtra="0sp"
-                android:text="@string/organize_se"
+                android:text="@string/title"
                 android:textAppearance="@style/organize_se"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

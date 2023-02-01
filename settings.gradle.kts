@@ -15,6 +15,10 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Paguei"
 include(":app", ":domain", ":data", ":commons")
+
 include(":features:auth")
-include(":features:home")
+include(":features:costs")
 include(":features:profile")
+include(":features:groups")
+include(":features:extracts")
+include(":features:billet_registration")

@@ -3,22 +3,25 @@ package br.com.brunocarvalhs.auth.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.auth.databinding.FragmentLoginBinding
 import br.com.brunocarvalhs.auth.states.LoginViewState
 import br.com.brunocarvalhs.auth.viewmodels.LoginViewModel
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.paguei.commons.R
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.gms.common.Scopes
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
+    @Inject
+    lateinit var navigation: Navigation
     private val viewModel: LoginViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
@@ -35,8 +38,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private val signInIntent by lazy {
         AuthUI.getInstance()
             .createSignInIntentBuilder()
+            .setTheme(R.style.Theme_Paguei)
             .setAvailableProviders(providers)
-            .setIsSmartLockEnabled(false)
             .build()
     }
 
@@ -55,10 +58,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun navigateToHome() {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri("android-app://paguei.app/costs_fragment".toUri())
-            .build()
-
+        val request = navigation.navigateToCostsRegister()
         findNavController().navigate(request)
     }
 

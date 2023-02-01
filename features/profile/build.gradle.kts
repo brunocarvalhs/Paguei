@@ -93,9 +93,6 @@ dependencies {
     // Firebase dependencies
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.AUTH)
-    implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
-    implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
-    implementation(Dependencies.Firebase.UI_AUTH)
 
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)

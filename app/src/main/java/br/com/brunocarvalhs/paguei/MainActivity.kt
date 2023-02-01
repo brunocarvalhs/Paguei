@@ -1,5 +1,6 @@
 package br.com.brunocarvalhs.paguei
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ManagerToolbar {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +26,11 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
         setupNavigation()
     }
 
-    fun setupNavigation() {
+    private fun setupNavigation() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
         navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.costsFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(navController.graph.startDestinationId))
         binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
     }
 
@@ -42,5 +43,15 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
 
     override fun hideToolbar() {
         toolbar.visibility = View.GONE
+    }
+
+    override fun defineAppNavigation(setOf: Set<Int>) {
+        val appBarConfiguration = AppBarConfiguration(setOf)
+        binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navController.handleDeepLink(intent)
     }
 }

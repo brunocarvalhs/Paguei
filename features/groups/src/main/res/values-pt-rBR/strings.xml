@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fragment_homes_register_button_registration_text">cadastrar</string>
+    <string name="fragment_homes_register_button_cancel_text">cancelar</string>
+    <string name="textfield_name_text">Nome do grupo</string>
+    <string name="textfield_members_text">Membros</string>
+    <string name="fragment_payment_voucher_registration_button_text">Salvar comprovante</string>
+    <string name="fragment_homes_register_title">Preencha os dados\ndo grupo</string>
+    <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
+    <string name="dialog_homes_list_button_create_text">Adicionar Grupo</string>
+</resources>

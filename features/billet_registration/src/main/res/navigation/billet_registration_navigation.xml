@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/billet_registration_navigation"
+        app:startDestination="@id/billetRegistrationBarcodeScannerFragment">
+
+    <fragment
+            android:id="@+id/billetRegistrationBarcodeScannerFragment"
+            android:name="br.com.brunocarvalhs.billet_registration.barcode_scanner.BilletRegistrationBarcodeScannerFragment"
+            tools:layout="@layout/fragment_billet_registration_barcode_scanner">
+
+        <deepLink app:uri="@string/deeplink_billet_registration_barcode_scanner" />
+
+        <action
+                android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationFormFragment"
+                app:destination="@id/billetRegistrationFormFragment" />
+        <action
+                android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationDialogFragment"
+                app:destination="@id/billetRegistrationDialogFragment" />
+    </fragment>
+
+    <dialog
+            android:id="@+id/billetRegistrationDialogFragment"
+            android:name="br.com.brunocarvalhs.billet_registration.dialog.BilletRegistrationDialogFragment"
+            tools:layout="@layout/dialog_billet_registration">
+
+        <action
+                android:id="@+id/action_billetRegistrationDialogFragment_to_billetRegistrationFormFragment"
+                app:destination="@id/billetRegistrationFormFragment" />
+    </dialog>
+
+    <fragment
+            android:id="@+id/billetRegistrationFormFragment"
+            android:name="br.com.brunocarvalhs.billet_registration.form.BilletRegistrationFormFragment"
+            tools:layout="@layout/fragment_billet_registration_form">
+
+        <deepLink app:uri="@string/deeplink_billet_registration_form" />
+
+        <argument
+                android:name="barcode"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="true" />
+
+    </fragment>
+
+</navigation>

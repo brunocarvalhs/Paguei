@@ -10,6 +10,6 @@
             android:name="br.com.brunocarvalhs.auth.fragments.LoginFragment"
             tools:layout="@layout/fragment_login">
 
-        <deepLink app:uri="android-app://paguei.app/login_fragment" />
+        <deepLink app:uri="@string/deeplink_login" />
     </fragment>
 </navigation>

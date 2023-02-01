@@ -10,7 +10,7 @@
             android:name="br.com.brunocarvalhs.profile.fragments.ProfileFragment"
             tools:layout="@layout/fragment_profile">
 
-        <deepLink app:uri="android-app://paguei.app/profile_fragment" />
+        <deepLink app:uri="@string/deeplink_profile" />
 
     </fragment>
 </navigation>

@@ -1,131 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/navigation"
         app:startDestination="@id/auth_navigation">
 
     <include app:graph="@navigation/auth_navigation" />
+    <include app:graph="@navigation/billet_registration_navigation" />
+    <include app:graph="@navigation/costs_navigation" />
+    <include app:graph="@navigation/extracts_navigation" />
+    <include app:graph="@navigation/groups_navigation" />
     <include app:graph="@navigation/profile_navigation" />
-
-    <fragment
-            android:id="@+id/costsFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.costs.costs_list.CostsFragment"
-            tools:layout="@layout/fragment_costs_list">
-
-        <deepLink app:uri="android-app://paguei.app/costs_fragment" />
-
-        <action
-                android:id="@+id/action_homeFragment_to_itemListDialogFragment"
-                app:destination="@id/itemListDialogFragment" />
-        <action
-                android:id="@+id/action_homeFragment_to_extractFragment"
-                app:destination="@id/extractFragment" />
-        <action
-                android:id="@+id/action_costsFragment_to_billetRegistrationBarcodeScannerFragment"
-                app:destination="@id/billetRegistrationBarcodeScannerFragment" />
-        <action
-                android:id="@+id/action_costsFragment_to_homesListDialogFragment"
-                app:destination="@id/homesListDialogFragment" />
-        <action
-                android:id="@+id/action_costsFragment_to_costReaderFragment"
-                app:destination="@id/costReaderFragment" />
-    </fragment>
-
-    <dialog
-            android:id="@+id/itemListDialogFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.costs.selected_cost.CostsSelectedDialogFragment"
-            tools:layout="@layout/dialog_costs_selected">
-
-        <argument
-                android:name="costs"
-                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
-        <action
-                android:id="@+id/action_itemListDialogFragment_to_paymentVoucherFragment"
-                app:destination="@id/paymentVoucherFragment" />
-    </dialog>
-
-    <dialog
-            android:id="@+id/billetRegistrationDialogFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.billet_registration.dialog.BilletRegistrationDialogFragment"
-            tools:layout="@layout/dialog_billet_registration">
-
-        <action
-                android:id="@+id/action_billetRegistrationDialogFragment_to_billetRegistrationFormFragment"
-                app:destination="@id/billetRegistrationFormFragment" />
-    </dialog>
-    <fragment
-            android:id="@+id/extractFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.costs.extracts.ExtractFragment"
-            tools:layout="@layout/fragment_extract_list">
-        <action
-                android:id="@+id/action_extractFragment_to_extractReaderFragment"
-                app:destination="@id/extractReaderFragment" />
-    </fragment>
-
-    <fragment
-            android:id="@+id/billetRegistrationBarcodeScannerFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.billet_registration.barcode_scanner.BilletRegistrationBarcodeScannerFragment"
-            tools:layout="@layout/fragment_billet_registration_barcode_scanner">
-        <action
-                android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationFormFragment"
-                app:destination="@id/billetRegistrationFormFragment" />
-        <action
-                android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationDialogFragment"
-                app:destination="@id/billetRegistrationDialogFragment" />
-    </fragment>
-
-    <fragment
-            android:id="@+id/billetRegistrationFormFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.billet_registration.form.BilletRegistrationFormFragment"
-            tools:layout="@layout/fragment_billet_registration_form">
-        <argument
-                android:name="barcode"
-                android:defaultValue=""
-                app:argType="string"
-                app:nullable="true" />
-        <action
-                android:id="@+id/action_billetRegistrationFormFragment_to_costsFragment"
-                app:destination="@id/costsFragment"
-                app:popUpTo="@id/costsFragment" />
-    </fragment>
-
-    <fragment
-            android:id="@+id/homesRegisterFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.groups.register.HomesRegisterFragment"
-            tools:layout="@layout/fragment_homes_register" />
-
-    <dialog
-            android:id="@+id/homesListDialogFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.groups.list.GroupsListDialogFragment"
-            tools:layout="@layout/dialog_groups_list">
-        <action
-                android:id="@+id/action_homesListDialogFragment_to_homesRegisterFragment"
-                app:destination="@id/homesRegisterFragment" />
-    </dialog>
-    <fragment
-            android:id="@+id/costReaderFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.costs.reader_cost.CostReaderFragment"
-            tools:layout="@layout/fragment_cost_reader">
-        <argument
-                android:name="cost"
-                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
-    </fragment>
-    <fragment
-            android:id="@+id/paymentVoucherFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherFragment"
-            tools:layout="@layout/fragment_payment_voucher">
-        <argument
-                android:name="cost"
-                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
-    </fragment>
-
-    <fragment
-            android:id="@+id/extractReaderFragment"
-            android:name="br.com.brunocarvalhs.paguei.features.costs.extract_reader.ExtractReaderFragment">
-        <argument
-                android:name="cost"
-                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
-    </fragment>
 
 </navigation>
