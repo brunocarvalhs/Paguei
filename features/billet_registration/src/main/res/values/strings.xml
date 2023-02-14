@@ -1,0 +1,15 @@
+<resources>
+    <string name="dialog_billet_registration_title_text">Não foi possível identificar um código de barras.</string>
+    <string name="dialog_billet_registration_content_text">Tente escanear novamente ou digite o código do seu boleto.</string>
+    <string name="dialog_billet_registration_try_new_text">Escanear novamente</string>
+    <string name="dialog_billet_registration_enter_code_text">Digitar código</string>
+    <string name="fragment_billet_registration_barcode_scanner_title_text">Escaneie o código de barras do boleto</string>
+    <string name="fragment_billet_registration_barcode_scanner_next_text">Inserir código do boleto</string>
+    <string name="fragment_billet_registration_form_title_text">Preencha os dados\ndo boleto</string>
+    <string name="textfield_name_hilt">Nome do boleto</string>
+    <string name="textfield_prompt_hilt">Vencimento</string>
+    <string name="textfield_value_hilt">Valor</string>
+    <string name="textfield_barcode_hilt">Código</string>
+    <string name="fragment_billet_registration_form_button_cancel_text">cancelar</string>
+    <string name="fragment_billet_registration_form_button_registration_text">cadastrar</string>
+</resources>

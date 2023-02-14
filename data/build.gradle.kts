@@ -60,6 +60,7 @@ dependencies {
 
     // Network dependencies
     implementation(Dependencies.Network.GSON)
+    implementation("androidx.navigation:navigation-common-ktx:2.5.3")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)

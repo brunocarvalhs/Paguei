@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/extracts_navigation"
+        app:startDestination="@id/extractFragment">
+
+    <fragment
+            android:id="@+id/extractFragment"
+            android:name="br.com.brunocarvalhs.paguei.features.costs.extracts.ExtractFragment"
+            tools:layout="@layout/fragment_extract_list">
+
+        <deepLink app:uri="@string/deeplink_extracts" />
+
+        <action
+                android:id="@+id/action_extractFragment_to_extractReaderFragment"
+                app:destination="@id/extractReaderFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/extractReaderFragment"
+            android:name="br.com.brunocarvalhs.extracts.extract_reader.ExtractReaderFragment">
+        <argument
+                android:name="cost"
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
+    </fragment>
+
+</navigation>

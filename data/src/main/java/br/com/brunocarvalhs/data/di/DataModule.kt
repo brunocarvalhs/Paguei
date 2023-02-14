@@ -1,6 +1,7 @@
 package br.com.brunocarvalhs.data.di
 
 import android.content.Context
+import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.HomesRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
@@ -38,6 +39,13 @@ object DataModule {
 
     @Provides
     fun providerFirebaseAuth(): FirebaseAuth = Firebase.auth
+
+    @Provides
+    @Singleton
+    fun providerNavigation(
+        @ApplicationContext context: Context,
+        sessionManager: SessionManager
+    ): Navigation = Navigation(context, sessionManager)
 
     @Provides
     @Singleton

@@ -1,0 +1,4 @@
+<resources>
+    <string name="fragment_profile_abort_button_text">Abort</string>
+    <string name="fragment_profile_logout_button_text">Logout</string>
+</resources>
