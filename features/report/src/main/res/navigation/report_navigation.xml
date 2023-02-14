@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/report_navigation"
+        app:startDestination="@id/reportFragment">
+
+    <fragment
+            android:id="@+id/reportFragment"
+            android:name="br.com.brunocarvalhs.report.ReportFragment"
+            tools:layout="@layout/fragment_report">
+
+        <deepLink app:uri="@string/deeplink_report" />
+    </fragment>
+</navigation>

@@ -7,10 +7,25 @@
 
     <fragment
             android:id="@+id/profileFragment"
-            android:name="br.com.brunocarvalhs.profile.fragments.ProfileFragment"
+            android:name="br.com.brunocarvalhs.profile.read.ProfileFragment"
             tools:layout="@layout/fragment_profile">
 
         <deepLink app:uri="@string/deeplink_profile" />
+        <action
+                android:id="@+id/action_profileFragment_to_editProfileFragment"
+                app:destination="@id/editProfileFragment" />
+        <action
+                android:id="@+id/action_profileFragment_to_abortFragment"
+                app:destination="@id/abortFragment" />
 
     </fragment>
+
+    <fragment
+            android:id="@+id/abortFragment"
+            android:name="br.com.brunocarvalhs.profile.abort.AbortFragment" />
+
+    <fragment
+            android:id="@+id/editProfileFragment"
+            android:name="br.com.brunocarvalhs.profile.edit_profile.EditProfileFragment"
+            tools:layout="@layout/fragment_edit_profile" />
 </navigation>

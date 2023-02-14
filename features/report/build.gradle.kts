@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.brunocarvalhs.profile"
+    namespace = "br.com.brunocarvalhs.report"
     compileSdk = AndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
@@ -22,8 +22,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        resValue("string", "version_app", AndroidConfig.VERSION_NAME)
     }
 
     buildTypes {
@@ -78,6 +76,9 @@ dependencies {
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
     implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
     implementation(Dependencies.UI.NAVIGATION_UI)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
@@ -92,11 +93,10 @@ dependencies {
     kapt(Dependencies.Hilt.ANDROID_COMPILER)
     kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
 
-    // Firebase dependencies
-    implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.AUTH)
-
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
+
+    // Chart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

@@ -10,5 +10,6 @@
     <include app:graph="@navigation/extracts_navigation" />
     <include app:graph="@navigation/groups_navigation" />
     <include app:graph="@navigation/profile_navigation" />
+    <include app:graph="@navigation/report_navigation" />
 
 </navigation>

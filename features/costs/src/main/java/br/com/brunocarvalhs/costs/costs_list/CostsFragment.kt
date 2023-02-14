@@ -89,7 +89,13 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
                 requireActivity().getString(R.string.home_title_header, it.fistName())
             binding.avatar.setOnClickListener { navigateToProfile() }
             binding.name.setOnClickListener { navigateToProfile() }
+            binding.cadastrados.setOnClickListener { navigateToReport() }
         }
+    }
+
+    private fun navigateToReport() {
+        val action = navigation.navigateToReport()
+        findNavController().navigate(action)
     }
 
     private fun setupNavigation() {

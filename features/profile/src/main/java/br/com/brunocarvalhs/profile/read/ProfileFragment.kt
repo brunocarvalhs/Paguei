@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.profile.fragments
+package br.com.brunocarvalhs.profile.read
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.profile.databinding.FragmentProfileBinding
-import br.com.brunocarvalhs.profile.viewmodels.ProfileViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -49,6 +48,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             binding.contact.text = it.email
         }
         binding.logout.setOnClickListener { logout() }
+        binding.about.setOnClickListener { navigateToAbort() }
     }
 
     override fun loading() {
@@ -58,6 +58,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private fun logout() {
         viewModel.logout()
         navigateToLogin()
+    }
+
+    private fun navigateToSettings() {
+        val request = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
+        findNavController().navigate(request)
+    }
+
+    private fun navigateToEditProfile() {
+        val request = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
+        findNavController().navigate(request)
+    }
+
+    private fun navigateToAbort() {
+        val request = ProfileFragmentDirections.actionProfileFragmentToAbortFragment()
+        findNavController().navigate(request)
     }
 
     private fun navigateToLogin() {

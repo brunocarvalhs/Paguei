@@ -98,6 +98,7 @@ dependencies {
     implementation(project(mapOf("path" to ":features:extracts")))
     implementation(project(mapOf("path" to ":features:groups")))
     implementation(project(mapOf("path" to ":features:profile")))
+    implementation(project(mapOf("path" to ":features:report")))
 
     // Modules
     implementation(project(mapOf("path" to ":data")))

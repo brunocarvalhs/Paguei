@@ -14,4 +14,6 @@
     <!--  Billet Registration  -->
     <string name="deeplink_billet_registration_barcode_scanner">android-app://paguei.app/billet_registration/barcode_scanner</string>
     <string name="deeplink_billet_registration_form">android-app://paguei.app/billet_registration/form</string>
+    <!--  Report  -->
+    <string name="deeplink_report">android-app://paguei.app/report_fragment</string>
 </resources>

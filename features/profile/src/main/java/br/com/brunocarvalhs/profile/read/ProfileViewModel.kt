@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.profile.viewmodels
+package br.com.brunocarvalhs.profile.read
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
