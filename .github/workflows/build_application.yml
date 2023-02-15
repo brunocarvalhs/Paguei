@@ -72,8 +72,23 @@ jobs:
         if: needs.preparing_environment.outputs.has-exec-permissions == 'false'
         run: chmod +x gradlew
 
-      - name: Run unit tests
-        run: ./gradlew test
+      - name: Create google-services release file
+        if: startsWith(github.ref, 'refs/heads/master')
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+      - name: Run unit tests debug
+        run: ./gradlew testDebug
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+      - name: Run unit tests release
+        if: startsWith(github.ref, 'refs/heads/master')
+        run: ./gradlew testRelease
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
           JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
