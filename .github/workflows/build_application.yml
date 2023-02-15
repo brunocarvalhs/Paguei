@@ -10,6 +10,7 @@ on:
 jobs:
   preparing_environment:
     runs-on: self-hosted
+    name: Preparing Environment
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -54,13 +55,26 @@ jobs:
   unit_tests:
     needs: [ preparing_environment ]
     runs-on: self-hosted
+    name: Unit Tests
     steps:
       - name: Run unit tests
         run: ./gradlew test
 
+  android-lint:
+    needs: [ preparing_environment ]
+    runs-on: self-hosted
+    name: Lint
+    steps:
+      - run: ./gradlew lint
+      - uses: yutailang0119/action-android-lint@v3
+        with:
+          report-path: build/reports/*.xml
+        continue-on-error: false
+
   build:
     needs: [ unit_tests ]
     runs-on: self-hosted
+    name: Build Application
     steps:
       - name: Build Application Debug
         if: startsWith(github.ref, 'refs/heads/develop')
