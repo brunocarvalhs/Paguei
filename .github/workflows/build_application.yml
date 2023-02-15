@@ -29,25 +29,25 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          android-sdk-tools: latest
+
       - name: Setup Gradle
         run: |
           mkdir ~/.gradle
           echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          android-sdk-tools: latest
+      - name: Give gradlew execute permissions
+        run: chmod +x gradlew
 
       - name: Extract version from VERSION.md
         run: echo "::set-env name=version::$(cat VERSION.md)"
 
       - name: Get Build Date
         run: echo "::set-env name=date::$(date +%Y-%m-%d)"
-
-      - name: Give gradlew execute permissions
-        run: chmod +x gradlew
 
       - name: Create google-services release file
         if: startsWith(github.ref, 'refs/heads/master')
