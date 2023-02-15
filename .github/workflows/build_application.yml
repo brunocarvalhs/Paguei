@@ -65,7 +65,7 @@ jobs:
           key: ${{ github.sha }}
           working-directory: .
 
-      - name: Run unit tests
+      - name: Run Tests
         run: ./gradlew test
         with:
           has-exec-permissions: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
