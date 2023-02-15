@@ -60,7 +60,7 @@ jobs:
       - name: Run unit tests
         run: ./gradlew test
 
-  android-lint:
+  android_lint:
     needs: [ preparing_environment ]
     runs-on: self-hosted
     name: Lint
@@ -72,7 +72,7 @@ jobs:
         continue-on-error: false
 
   build:
-    needs: [ unit_tests ]
+    needs: [ unit_tests, android_lint ]
     runs-on: self-hosted
     name: Build Application
     steps:
