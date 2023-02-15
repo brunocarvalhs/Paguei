@@ -5,7 +5,7 @@ on:
       - master
       - develop
   pull_request:
-    types: [ closed ]
+    types: [ closed, opened, synchronize, reopened ]
 
 jobs:
   preparing_environment:
