@@ -9,7 +9,7 @@ on:
 
 jobs:
   preparing_environment:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Preparing Environment
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
 
       - name: Setup JDK
         uses: actions/setup-java@v3
@@ -54,17 +57,29 @@ jobs:
 
   unit_tests:
     needs: [ preparing_environment ]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Unit Tests
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+
       - name: Run unit tests
         run: ./gradlew test
 
   android_lint:
     needs: [ preparing_environment ]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Lint
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+
       - run: ./gradlew lint
       - uses: yutailang0119/action-android-lint@v3
         with:
@@ -73,9 +88,15 @@ jobs:
 
   build:
     needs: [ unit_tests, android_lint ]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Build Application
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+
       - name: Build Application Debug
         if: startsWith(github.ref, 'refs/heads/develop')
         run: env version="${{ env.version }}" ./gradlew assembleDebug
@@ -87,8 +108,13 @@ jobs:
   upload:
     needs: [ build ]
     name: Upload the signed artifact
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
 
       - name: Upload AAB
         if: startsWith(github.ref, 'refs/heads/master')
@@ -107,8 +133,14 @@ jobs:
   git:
     needs: [ build ]
     name: Create branch release or tags
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+
       - name: Create Branch Release
         if: startsWith(github.ref, 'refs/heads/develop')
         uses: peterjgrainger/action-create-branch@v2.2.0
