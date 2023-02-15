@@ -34,6 +34,7 @@ jobs:
       - name: Set up JDK ${{ env.JDK_VERSION }}
         uses: actions/setup-java@v2
         with:
+          distribution: 'temurin'
           java-version: ${{ env.JDK_VERSION }}
 
       - name: Give execution permissions to gradlew
