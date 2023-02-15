@@ -16,16 +16,19 @@ jobs:
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
       KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      JDK_VERSION: 11
+      ANDROID_SDK_TOOLS: latest
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           key: ${{ github.sha }}
 
-      - name: Set up JDK 11
+      - name: Set up JDK ${{ env.JDK_VERSION }}
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: ${{ env.JDK_VERSION }}
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
@@ -34,7 +37,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
-          android-sdk-tools: latest
+          android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
 
       - name: Setup Gradle
         run: |
@@ -56,6 +59,9 @@ jobs:
 
     outputs:
       has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
+      jdk-version: ${{ env.JDK_VERSION }}
+      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
+      gradle-opts: ${{ env.GRADLE_OPTS }}
 
   unit_tests:
     needs: [ preparing_environment ]
@@ -72,6 +78,9 @@ jobs:
         run: ./gradlew test
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
 
   android_lint:
     needs: [ preparing_environment ]
