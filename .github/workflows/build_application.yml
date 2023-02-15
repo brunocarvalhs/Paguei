@@ -8,13 +8,13 @@ on:
     types: [ closed ]
 
 jobs:
-  build:
+  preparing_environment:
+    runs-on: self-hosted
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
       KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -51,14 +51,30 @@ jobs:
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
+  unit_tests:
+    needs: [ preparing_environment ]
+    runs-on: self-hosted
+    steps:
+      - name: Run unit tests
+        run: ./gradlew test
+
+  build:
+    needs: [ unit_tests ]
+    runs-on: self-hosted
+    steps:
       - name: Build Application Debug
         if: startsWith(github.ref, 'refs/heads/develop')
         run: env version="${{ env.version }}" ./gradlew assembleDebug
 
       - name: Build Application Release
         if: startsWith(github.ref, 'refs/heads/master')
-        run: |
-          env version="${{ env.version }}" ./gradlew bundleRelease
+        run: env version="${{ env.version }}" ./gradlew bundleRelease
+
+  upload:
+    needs: [ build ]
+    name: Upload the signed artifact
+    runs-on: self-hosted
+    steps:
 
       - name: Upload AAB
         if: startsWith(github.ref, 'refs/heads/master')
@@ -74,6 +90,11 @@ jobs:
           name: paguei-${{ env.version }}-${{ env.date }}
           path: app/build/outputs/apk/
 
+  git:
+    needs: [ build ]
+    name: Create branch release or tags
+    runs-on: self-hosted
+    steps:
       - name: Create Branch Release
         if: startsWith(github.ref, 'refs/heads/develop')
         uses: peterjgrainger/action-create-branch@v2.2.0
