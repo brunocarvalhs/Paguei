@@ -29,7 +29,7 @@ jobs:
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
-        id: exec-permissions
+        id: set_permissions
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
@@ -54,6 +54,9 @@ jobs:
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
+    outputs:
+      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
+
   unit_tests:
     needs: [ preparing_environment ]
     runs-on: ubuntu-latest
@@ -65,10 +68,10 @@ jobs:
           key: ${{ github.sha }}
           working-directory: .
 
-      - name: Run Tests
+      - name: Run unit tests
         run: ./gradlew test
-        with:
-          has-exec-permissions: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
 
   android_lint:
     needs: [ preparing_environment ]
