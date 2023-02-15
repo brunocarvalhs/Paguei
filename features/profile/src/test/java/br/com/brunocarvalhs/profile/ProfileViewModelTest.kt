@@ -1,7 +1,8 @@
-package br.com.brunocarvalhs.paguei.features.profile
+package br.com.brunocarvalhs.profile
 
 import br.com.brunocarvalhs.domain.services.Authentication
 import br.com.brunocarvalhs.domain.services.SessionManager
+import br.com.brunocarvalhs.profile.read.ProfileViewModel
 import com.google.firebase.auth.AuthCredential
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
