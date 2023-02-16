@@ -3,7 +3,7 @@ on:
   push:
     branches: [ master, develop ]
   pull_request:
-    types: [ closed, opened, synchronize, reopened ]
+    types: [ closed ]
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
