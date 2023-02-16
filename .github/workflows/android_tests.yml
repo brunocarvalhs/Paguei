@@ -83,6 +83,22 @@ jobs:
           ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
           GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
 
+      - name: Comment Failure
+        if: ${{ failure() }}
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        with:
+          message: "Bot: Ops, Testes falhados, obrigado a corrigir esses erros."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+
+      - name: Comment Success
+        if: ${{ success() }}
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        with:
+          message: "Bot: Testes Unitários com sucesso, código funcional."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+
   android_lint:
     needs: preparing_environment
     runs-on: ubuntu-latest
@@ -111,3 +127,19 @@ jobs:
           JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
           ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
           GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+      - name: Comment Failure
+          if: ${{ failure() }}
+          uses: mb2dev/github-action-comment-pull-request@1.0.0
+          with:
+            message: "Bot: Ops, encontrado falhas no lint, por favor precisa corrigir."
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+            reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+
+      - name: Comment Success
+          if: ${{ success() }}
+          uses: mb2dev/github-action-comment-pull-request@1.0.0
+          with:
+            message: "Bot: Lint revisado com sucesso, aparentemente está tudo certo."
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+            reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
