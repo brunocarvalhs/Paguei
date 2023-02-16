@@ -85,19 +85,21 @@ jobs:
 
       - name: Comment Failure
         if: ${{ failure() }}
-        uses: thollander/actions-comment-pull-request@v2
+        uses: peter-evans/create-or-update-comment@v2
         with:
           message: |
             Bot: Ops, Testes falhados, obrigado a corrigir esses erros.
           reactions: confused, eyes
+          token: ${{ secrets.TOKEN }}
 
       - name: Comment Success
         if: ${{ success() }}
-        uses: thollander/actions-comment-pull-request@v2
+        uses: peter-evans/create-or-update-comment@v2
         with:
           message: |
            Bot: Testes Unitários com sucesso, código funcional.
           reactions: laugh
+          token: ${{ secrets.TOKEN }}
 
   android_lint:
     needs: preparing_environment
@@ -130,16 +132,18 @@ jobs:
 
       - name: Comment Failure
         if: ${{ failure() }}
-        uses: thollander/actions-comment-pull-request@v2
+        uses: peter-evans/create-or-update-comment@v2
         with:
           message: |
             Bot: Ops, encontrado falhas no lint, por favor precisa corrigir.
           reactions: confused, eyes
+          token: ${{ secrets.TOKEN }}
 
       - name: Comment Success
         if: ${{ success() }}
-        uses: thollander/actions-comment-pull-request@v2
+        uses: peter-evans/create-or-update-comment@v2
         with:
           message: |
             Bot: Lint revisado com sucesso, aparentemente está tudo certo.
           reactions: laugh
+          token: ${{ secrets.TOKEN }}
