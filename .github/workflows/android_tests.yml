@@ -85,21 +85,19 @@ jobs:
 
       - name: Comment Failure
         if: ${{ failure() }}
-        uses: peter-evans/create-or-update-comment@v2
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
         with:
-          message: |
-            Bot: Ops, Testes falhados, obrigado a corrigir esses erros.
-          reactions: confused, eyes
-          token: ${{ secrets.TOKEN }}
+          message: "Ops, Testes falhados, obrigado a corrigir esses erros."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "-1 | eyes"
 
       - name: Comment Success
         if: ${{ success() }}
-        uses: peter-evans/create-or-update-comment@v2
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
         with:
-          message: |
-           Bot: Testes Unitários com sucesso, código funcional.
-          reactions: laugh
-          token: ${{ secrets.TOKEN }}
+          message: "Bot: Testes Unitários com sucesso, código funcional."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "+1 | laugh | rocket"
 
   android_lint:
     needs: preparing_environment
@@ -132,18 +130,16 @@ jobs:
 
       - name: Comment Failure
         if: ${{ failure() }}
-        uses: peter-evans/create-or-update-comment@v2
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
         with:
-          message: |
-            Bot: Ops, encontrado falhas no lint, por favor precisa corrigir.
-          reactions: confused, eyes
-          token: ${{ secrets.TOKEN }}
+          message: "Ops, encontrado falhas no lint, por favor precisa corrigir."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "-1 | confused"
 
       - name: Comment Success
         if: ${{ success() }}
-        uses: peter-evans/create-or-update-comment@v2
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
         with:
-          message: |
-            Bot: Lint revisado com sucesso, aparentemente está tudo certo.
-          reactions: laugh
-          token: ${{ secrets.TOKEN }}
+          message: "Lint revisado com sucesso, aparentemente está tudo certo."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "+1"
