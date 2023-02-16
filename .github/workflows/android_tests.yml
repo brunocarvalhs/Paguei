@@ -85,19 +85,19 @@ jobs:
 
       - name: Comment Failure
         if: ${{ failure() }}
-        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          message: "Bot: Ops, Testes falhados, obrigado a corrigir esses erros."
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+          message: |
+            Bot: Ops, Testes falhados, obrigado a corrigir esses erros.
+          reactions: confused, eyes
 
       - name: Comment Success
         if: ${{ success() }}
-        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          message: "Bot: Testes Unitários com sucesso, código funcional."
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+          message: |
+           Bot: Testes Unitários com sucesso, código funcional.
+          reactions: laugh
 
   android_lint:
     needs: preparing_environment
@@ -130,16 +130,16 @@ jobs:
 
       - name: Comment Failure
         if: ${{ failure() }}
-        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          message: "Bot: Ops, encontrado falhas no lint, por favor precisa corrigir."
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+          message: |
+            Bot: Ops, encontrado falhas no lint, por favor precisa corrigir.
+          reactions: confused, eyes
 
       - name: Comment Success
         if: ${{ success() }}
-        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          message: "Bot: Lint revisado com sucesso, aparentemente está tudo certo."
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+          message: |
+            Bot: Lint revisado com sucesso, aparentemente está tudo certo.
+          reactions: laugh
