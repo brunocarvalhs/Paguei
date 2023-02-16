@@ -129,17 +129,17 @@ jobs:
           GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
 
       - name: Comment Failure
-          if: ${{ failure() }}
-          uses: mb2dev/github-action-comment-pull-request@1.0.0
-          with:
-            message: "Bot: Ops, encontrado falhas no lint, por favor precisa corrigir."
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
-            reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+        if: ${{ failure() }}
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        with:
+          message: "Bot: Ops, encontrado falhas no lint, por favor precisa corrigir."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
 
       - name: Comment Success
-          if: ${{ success() }}
-          uses: mb2dev/github-action-comment-pull-request@1.0.0
-          with:
-            message: "Bot: Lint revisado com sucesso, aparentemente está tudo certo."
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
-            reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+        if: ${{ success() }}
+        uses: mb2dev/github-action-comment-pull-request@1.0.0
+        with:
+          message: "Bot: Lint revisado com sucesso, aparentemente está tudo certo."
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
