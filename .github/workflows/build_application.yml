@@ -19,6 +19,11 @@ jobs:
   preparing_environment:
     runs-on: ubuntu-latest
     name: Preparing Environment
+    outputs:
+      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
+      jdk-version: ${{ env.JDK_VERSION }}
+      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
+      gradle-opts: ${{ env.GRADLE_OPTS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
