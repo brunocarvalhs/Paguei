@@ -76,6 +76,7 @@ dependencies {
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
     implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
     implementation(Dependencies.UI.NAVIGATION_UI)
+    implementation("com.google.android.material:material:1.8.0")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)

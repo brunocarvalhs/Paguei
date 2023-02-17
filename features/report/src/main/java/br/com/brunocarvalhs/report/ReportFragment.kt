@@ -77,17 +77,15 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             valuesFormatter.add("Total de Renda (R$)")
         }
 
-        val set = BarDataSet(entries, " ")
+        val set = BarDataSet(entries, null)
         set.colors = listOf(Color.RED, Color.GREEN, Color.BLUE)
-        set.valueTextColor = Color.WHITE
 
         val data = BarData(set)
         chart.data = data
 
         val xAxis = chart.xAxis
-        xAxis.position = XAxisPosition.BOTTOM
+        xAxis.position = XAxisPosition.BOTH_SIDED
         xAxis.textSize = 10f
-        xAxis.textColor = Color.WHITE
         xAxis.gridColor = Color.TRANSPARENT
         xAxis.axisLineColor = Color.TRANSPARENT
         xAxis.setDrawAxisLine(true)
@@ -110,9 +108,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         chart.isDoubleTapToZoomEnabled = false
 
         chart.axisRight.isEnabled = true
-        chart.axisRight.textColor = Color.WHITE
-        chart.axisRight.gridColor = Color.WHITE
-
         chart.axisLeft.isEnabled = false
 
         chart.animateXY(1000, 1000)

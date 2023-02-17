@@ -10,23 +10,14 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/header"
+        <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/seed"
+                android:layout_height="400dp"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-            <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:background="@color/seed"
-                    android:layout_margin="20dp" />
-
-        </com.google.android.material.appbar.AppBarLayout>
+                android:layout_margin="20dp" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -36,7 +27,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/total_costs"
-                app:layout_constraintTop_toBottomOf="@id/header" />
+                app:layout_constraintTop_toBottomOf="@id/chart" />
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/total_costs"
@@ -45,7 +36,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header" />
+                app:layout_constraintTop_toBottomOf="@+id/chart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

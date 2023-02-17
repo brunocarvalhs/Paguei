@@ -5,15 +5,15 @@ import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
-import br.com.brunocarvalhs.groups.register.HomesRegisterViewState
+import br.com.brunocarvalhs.groups.register.GroupRegisterViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomesRegisterViewModel @Inject constructor(
+class GroupRegisterViewModel @Inject constructor(
     private val repository: HomesRepository, private val sessionManager: SessionManager
-) : BaseViewModel<HomesRegisterViewState>() {
+) : BaseViewModel<GroupRegisterViewState>() {
 
     var members = emptyList<String>()
 
@@ -21,11 +21,11 @@ class HomesRegisterViewModel @Inject constructor(
         defineMember()
         viewModelScope.launch {
             try {
-                mutableState.value = HomesRegisterViewState.Loading
+                mutableState.value = GroupRegisterViewState.Loading
                 repository.add(homes)
-                mutableState.value = HomesRegisterViewState.Success
+                mutableState.value = GroupRegisterViewState.Success
             } catch (error: Exception) {
-                mutableState.value = HomesRegisterViewState.Error(error.message)
+                mutableState.value = GroupRegisterViewState.Error(error.message)
             }
         }
     }

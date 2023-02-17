@@ -9,13 +9,13 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.model.GroupsModel
 import br.com.brunocarvalhs.groups.databinding.FragmentHomesRegisterBinding
-import br.com.brunocarvalhs.paguei.features.groups.register.HomesRegisterViewModel
+import br.com.brunocarvalhs.paguei.features.groups.register.GroupRegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
+class GroupRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
 
-    private val viewModel: HomesRegisterViewModel by viewModels()
+    private val viewModel: GroupRegisterViewModel by viewModels()
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -27,9 +27,9 @@ class HomesRegisterFragment : BaseFragment<FragmentHomesRegisterBinding>() {
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
-                is HomesRegisterViewState.Error -> this.showError(it.error)
-                HomesRegisterViewState.Loading -> this.loading()
-                HomesRegisterViewState.Success -> this.navigateToCosts()
+                is GroupRegisterViewState.Error -> this.showError(it.error)
+                GroupRegisterViewState.Loading -> this.loading()
+                GroupRegisterViewState.Success -> this.navigateToCosts()
             }
         }
     }
