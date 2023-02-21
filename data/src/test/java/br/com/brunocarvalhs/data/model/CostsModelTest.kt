@@ -40,4 +40,21 @@ class CostsModelTest {
         val fromJson = gson.fromJson(json, CostsModel::class.java)
         assertEquals(costsModel, fromJson)
     }
+
+    @Test
+    fun `validation of formatted Value`() {
+        // Arrange
+        val id = "123456"
+        val name = "Test Name"
+        val prompt = "Test Prompt"
+        val value = "1234.56"
+        val barCode = "1234567890"
+        val paymentVoucher = "VOUCHER123"
+
+        // Act
+        val costsModel = CostsModel(id, name, prompt, value, barCode, paymentVoucher)
+
+        assertEquals(value, costsModel.value)
+        assertEquals("1.234,56", costsModel.formatValue())
+    }
 }

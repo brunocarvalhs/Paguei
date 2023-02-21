@@ -5,9 +5,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.billet_registration.databinding.FragmentBilletRegistrationFormBinding
+import br.com.brunocarvalhs.billet_registration.utils.FORMAT_DATE
+import br.com.brunocarvalhs.billet_registration.utils.PROMPT_FORMAT
+import br.com.brunocarvalhs.billet_registration.utils.moneyToDouble
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -60,10 +64,19 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         visibilityToolbar(visibility = true)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.registration.setOnClickListener { viewModel.saveCost() }
-        binding.cancel.setOnClickListener { cancelRegistration() }
-        setupTextFieldDate()
+        setupButtonRegister()
+        setupButtonCancel()
+        setupTextFieldPrompt()
         setupTextFieldValue()
+        setupTextFieldDatePayment()
+    }
+
+    private fun setupButtonRegister() {
+        binding.registration.setOnClickListener { viewModel.saveCost() }
+    }
+
+    private fun setupButtonCancel() {
+        binding.cancel.setOnClickListener { cancelRegistration() }
     }
 
     override fun loading() {
@@ -75,12 +88,8 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         findNavController().navigate(action)
     }
 
-    private fun setupTextFieldDate() {
-        binding.prompt.editText?.let {
-            val listener = MaskedTextChangedListener(PROMPT_FORMAT, it)
-            it.addTextChangedListener(listener)
-            it.onFocusChangeListener = listener
-        }
+    private fun setupTextFieldPrompt() {
+        initDateConfig(binding.prompt.editText)
         binding.prompt.setEndIconOnClickListener {
             datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
         }
@@ -89,6 +98,18 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
             calendar.add(Calendar.DATE, 1)
             val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(calendar.time)
             binding.prompt.editText?.setText(date)
+        }
+    }
+
+    private fun setupTextFieldDatePayment() {
+        initDateConfig(binding.datePayment.editText)
+    }
+
+    private fun initDateConfig(editText: EditText?) {
+        editText?.let {
+            val listener = MaskedTextChangedListener(PROMPT_FORMAT, it)
+            it.addTextChangedListener(listener)
+            it.onFocusChangeListener = listener
         }
     }
 
@@ -114,22 +135,12 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
-                }
+                ) = Unit
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+                    Unit
             }
             valueEditText.addTextChangedListener(textWatcher)
         }
-    }
-
-    private fun String.moneyToDouble() =
-        this.replace(REGEX_TEXT.toRegex(), "").toDouble()
-
-    companion object {
-        const val FORMAT_DATE = "dd/MM/yyyy"
-        const val PROMPT_FORMAT = "[00]{/}[00]{/}[0000]"
-        const val REGEX_TEXT = "[^\\d]"
     }
 }

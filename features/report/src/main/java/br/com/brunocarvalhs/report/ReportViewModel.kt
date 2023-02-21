@@ -9,6 +9,8 @@ import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,11 +29,13 @@ class ReportViewModel @Inject constructor(
     var totalCosts = 0f
         private set
 
-    var totalPay = 0f
+    private var totalPay = 0f
         private set
 
     var totalRender = sessionManager.getUser()?.salary?.toFloat()
         private set
+
+    private var filterDate: String? = null
 
     fun fetchData() {
         viewModelScope.launch {
@@ -42,6 +46,35 @@ class ReportViewModel @Inject constructor(
             } catch (error: Exception) {
                 mutableState.value = ReportViewState.Error(error.message)
             }
+        }
+    }
+
+    fun selectedFilter(date: String) {
+        mutableState.value = ReportViewState.Loading
+        filterDate = date
+        mutableState.value = ReportViewState.Success
+    }
+
+    fun defineFilters(): List<String?> {
+        return listCosts
+            .groupBy { convertDate(it.datePayment) }
+            .map { it.key }
+            .sortedBy { orderByDate(it) }
+    }
+
+    private fun convertDate(date: String?): String? {
+        return date?.let {
+            val formatoEntrada = SimpleDateFormat("dd/MM/yyyy")
+            val formatoSaida = SimpleDateFormat("MMMM / yyyy", Locale.getDefault())
+            val data = formatoEntrada.parse(date)
+            formatoSaida.format(data)
+        }
+    }
+
+    private fun orderByDate(date: String?): Date? {
+        return date?.let {
+            val formatoSaida = SimpleDateFormat("MMMM / yyyy", Locale.getDefault())
+            formatoSaida.parse(it)
         }
     }
 

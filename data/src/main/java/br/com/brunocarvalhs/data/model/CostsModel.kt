@@ -13,6 +13,9 @@ data class CostsModel(
     @SerializedName(VALUE) override val value: String? = null,
     @SerializedName(BAR_CODE) override val barCode: String? = null,
     @SerializedName(PAYMENT_VOUCHER) override val paymentVoucher: String? = null,
+    @SerializedName(TYPE) override val type: String? = null,
+    @SerializedName(DATE_PAYMENT) override val datePayment: String? = null,
+    @SerializedName(TAGS) override val tags: List<String> = emptyList(),
 ) : CostsEntities {
     companion object {
 
@@ -22,8 +25,11 @@ data class CostsModel(
         const val NAME = "name"
         const val PROMPT = "prompt"
         const val VALUE = "value"
+        const val TYPE = "type"
+        const val TAGS = "tags"
         const val BAR_CODE = "barCode"
         const val PAYMENT_VOUCHER = "paymentVoucher"
+        const val DATE_PAYMENT = "datePayment"
 
         const val FORMAT_VALUE = "#,###.00"
     }
@@ -33,5 +39,5 @@ data class CostsModel(
 
     override fun toJson(): String = Gson().toJson(this)
     override fun formatValue(): String =
-        DecimalFormat(FORMAT_VALUE).format(this.value.orEmpty().toDouble())
+        DecimalFormat(FORMAT_VALUE).format((this.value ?: "0").toDouble())
 }
