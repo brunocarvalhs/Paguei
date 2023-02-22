@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val sessionManager: SessionManager,
-    private val authentication: Authentication<AuthCredential>
+    private val authentication: Authentication
 ) : ViewModel() {
     val user = sessionManager.getUser()
 

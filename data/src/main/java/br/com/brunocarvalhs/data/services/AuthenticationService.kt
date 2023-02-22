@@ -15,7 +15,7 @@ import javax.inject.Inject
 class AuthenticationService @Inject constructor(
     private val auth: FirebaseAuth,
     private val sessionManager: SessionManager,
-) : Authentication<AuthCredential> {
+) : Authentication {
 
     override suspend fun logout(): Boolean = withContext(Dispatchers.IO) {
         try {
@@ -37,17 +37,26 @@ class AuthenticationService @Inject constructor(
         return@withContext null
     }
 
-    override suspend fun login(credential: AuthCredential?): UserEntities? =
+    override suspend fun delete(): Boolean = withContext(Dispatchers.IO) {
+        try {
+            sessionManager.logout()
+            return@withContext auth.currentUser?.delete()?.isSuccessful ?: false
+        } catch (error: Exception) {
+            throw Exception(error)
+        }
+    }
+
+    override suspend fun login(credential: Any?): UserEntities? =
         withContext(Dispatchers.IO) {
             try {
-                val result = credential?.let {
+                if (credential is AuthCredential) {
                     val result = auth.signInWithCredential(credential).await()
                     val session = result.user ?: throw Exception()
                     val user = UserModel.fromFirebaseAuth(session)
                     sessionManager.login(user = user, token = null)
-                    return@let user
+                    return@withContext user
                 }
-                return@withContext result
+                return@withContext null
             } catch (error: Exception) {
                 throw Exception(error)
             }

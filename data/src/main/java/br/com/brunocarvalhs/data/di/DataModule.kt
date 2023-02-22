@@ -1,16 +1,20 @@
 package br.com.brunocarvalhs.data.di
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.HomesRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
 import br.com.brunocarvalhs.data.services.AuthenticationService
+import br.com.brunocarvalhs.data.services.DataStoreService
 import br.com.brunocarvalhs.data.services.SessionManagerService
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.domain.repositories.UserRepository
 import br.com.brunocarvalhs.domain.services.Authentication
+import br.com.brunocarvalhs.domain.services.DataStore
 import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.AuthCredential
@@ -35,6 +39,11 @@ object DataModule {
         FirebaseApp.initializeApp(context)
 
     @Provides
+    @Singleton
+    fun providerSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences(context.applicationInfo.packageName, Context.MODE_PRIVATE)
+
+    @Provides
     fun providerFirebaseFirestore(): FirebaseFirestore = Firebase.firestore
 
     @Provides
@@ -49,10 +58,14 @@ object DataModule {
 
     @Provides
     @Singleton
+    fun providerDataStore(service: DataStoreService): DataStore = service
+
+    @Provides
+    @Singleton
     fun providerSessionManager(service: SessionManagerService): SessionManager = service
 
     @Provides
-    fun providerAuthService(service: AuthenticationService): Authentication<AuthCredential> =
+    fun providerAuthService(service: AuthenticationService): Authentication =
         service
 
     @Provides

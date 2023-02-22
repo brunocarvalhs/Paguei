@@ -49,6 +49,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
         binding.logout.setOnClickListener { logout() }
         binding.about.setOnClickListener { navigateToAbort() }
+        binding.settings.setOnClickListener { navigateToSettings() }
+        binding.editProfile.setOnClickListener { navigateToEditProfile() }
     }
 
     override fun loading() {
@@ -61,7 +63,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun navigateToSettings() {
-        val request = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
+        val request = ProfileFragmentDirections.actionProfileFragmentToSettingsFragment()
         findNavController().navigate(request)
     }
 

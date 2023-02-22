@@ -22,7 +22,7 @@ data class UserModel(
         const val PHOTO_URL = "photo_url"
         const val EMAIL = "email"
 
-        const val FORMAT_VALUE = "#,###.00"
+        const val FORMAT_VALUE = "#.###,00"
     }
 
     override fun toMap(): Map<String?, Any?> =

@@ -17,15 +17,26 @@
         <action
                 android:id="@+id/action_profileFragment_to_abortFragment"
                 app:destination="@id/abortFragment" />
+        <action
+                android:id="@+id/action_profileFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
 
     </fragment>
 
     <fragment
             android:id="@+id/abortFragment"
-            android:name="br.com.brunocarvalhs.profile.abort.AbortFragment" />
+            android:name="br.com.brunocarvalhs.profile.abort.AbortFragment"
+            tools:layout="@layout/fragment_abort" />
 
     <fragment
             android:id="@+id/editProfileFragment"
             android:name="br.com.brunocarvalhs.profile.edit_profile.EditProfileFragment"
             tools:layout="@layout/fragment_edit_profile" />
+
+
+    <fragment
+            android:id="@+id/settingsFragment"
+            android:name="br.com.brunocarvalhs.profile.settings.SettingsFragment"
+            android:label="SettingsFragment" />
+
 </navigation>

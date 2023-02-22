@@ -2,4 +2,16 @@
 <resources>
     <string name="fragment_profile_abort_button_text">Sobre</string>
     <string name="fragment_profile_logout_button_text">Sair</string>
+    <string name="settings_help_category">Ajuda</string>
+    <string name="settings_help_title">Enviar feedback</string>
+    <string name="settings_help_summary">Relate problemas técnicos ou sugira novos recursos</string>
+    <string name="settings_notifications_category">Notificações</string>
+    <string name="settings_notifications_title">Ativar notificações de mensagem</string>
+    <string name="settings_notifications_summary">Escolha se deseja receber notificações do aplicativo ou não. Personalize suas preferências de notificação de acordo com suas necessidades.</string>
+    <string name="settings_analytics_category">Análise</string>
+    <string name="settings_analytics_title">Ativar coleta de dados para análise</string>
+    <string name="settings_analytics_summary">Ative ou desative a coleta de dados de análise do uso do aplicativo. Esses dados nos ajudarão a melhorar sua experiência.</string>
+    <string name="settings_delete_account_category">Conta</string>
+    <string name="settings_delete_account_title">Excluir conta</string>
+    <string name="settings_delete_account_summary">Essa opção excluirá permanentemente sua conta, incluindo todos os dados associados. A ação não pode ser desfeita, certifique-se de que deseja prosseguir com a exclusão.</string>
 </resources>

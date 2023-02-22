@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authService: Authentication<AuthCredential>,
+    private val authService: Authentication,
     private val repository: UserRepository,
     private val sessionManager: SessionManager
 ) : BaseViewModel<LoginViewState>() {
