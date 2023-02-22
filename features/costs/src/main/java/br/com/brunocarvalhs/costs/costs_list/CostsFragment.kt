@@ -103,6 +103,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.extractFragment -> navigateToExtracts()
+                R.id.groupsFragment -> navigateToGroups()
                 else -> false
             }
         }
@@ -115,6 +116,12 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
     private fun navigateToExtracts(): Boolean {
         val action = navigation.navigateToExtractsList()
+        findNavController().navigate(action)
+        return true
+    }
+
+    private fun navigateToGroups(): Boolean {
+        val action = navigation.navigateToGroups()
         findNavController().navigate(action)
         return true
     }

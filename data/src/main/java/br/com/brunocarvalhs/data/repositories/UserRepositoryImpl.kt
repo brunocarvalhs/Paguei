@@ -34,7 +34,7 @@ class UserRepositoryImpl @Inject constructor(
             val result = collection.document(id).get().await()
             return@withContext result.toObject(UserModel::class.java)
         } catch (error: Exception) {
-            throw Exception(error)
+            throw error
         }
     }
 
