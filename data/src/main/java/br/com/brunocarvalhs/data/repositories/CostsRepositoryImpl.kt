@@ -1,17 +1,12 @@
 package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.snapshots
-import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,7 +17,7 @@ class CostsRepositoryImpl @Inject constructor(
 ) : CostsRepository {
 
     private val routerCollection =
-        "${UserModel.COLLECTION}/${sessionManager.getUser()?.id}/${CostsModel.COLLECTION}"
+        "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostsModel.COLLECTION}"
 
     override suspend fun add(cost: CostsEntities) = withContext(Dispatchers.IO) {
         try {

@@ -8,4 +8,6 @@ interface UserRepository {
     suspend fun read(id: String): UserEntities?
     suspend fun update(user: UserEntities): UserEntities
     suspend fun delete(user: UserEntities)
+
+    suspend fun search(field: String, value: String): UserEntities?
 }

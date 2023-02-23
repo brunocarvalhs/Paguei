@@ -1,6 +1,11 @@
 package br.com.brunocarvalhs.data.model
 
 import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.EMAIL
+import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.ID
+import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.NAME
+import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.PHOTO_URL
+import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.SALARY
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.text.DecimalFormat
@@ -11,17 +16,9 @@ data class UserModel(
     @SerializedName(NAME) override val name: String? = null,
     @SerializedName(PHOTO_URL) override val photoUrl: String? = null,
     @SerializedName(EMAIL) override val email: String? = null,
-    override val salary: String? = null,
+    @SerializedName(SALARY) override val salary: String? = null,
 ) : UserEntities {
     companion object {
-
-        const val COLLECTION = "users"
-
-        const val ID = "id"
-        const val NAME = "name"
-        const val PHOTO_URL = "photo_url"
-        const val EMAIL = "email"
-
         const val FORMAT_VALUE = "#.###,00"
     }
 

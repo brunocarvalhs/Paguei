@@ -33,10 +33,8 @@
             android:name="br.com.brunocarvalhs.profile.edit_profile.EditProfileFragment"
             tools:layout="@layout/fragment_edit_profile" />
 
-
     <fragment
             android:id="@+id/settingsFragment"
-            android:name="br.com.brunocarvalhs.profile.settings.SettingsFragment"
-            android:label="SettingsFragment" />
+            android:name="br.com.brunocarvalhs.profile.settings.SettingsFragment" />
 
 </navigation>

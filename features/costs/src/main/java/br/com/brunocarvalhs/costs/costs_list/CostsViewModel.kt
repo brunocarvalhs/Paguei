@@ -3,7 +3,6 @@ package br.com.brunocarvalhs.costs.costs_list
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.domain.entities.CostsEntities
-import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +15,16 @@ class CostsViewModel @Inject constructor(
     sessionManager: SessionManager
 ) : BaseViewModel<CostsViewState>() {
 
-    val user: UserEntities? = sessionManager.getUser()
+    val header: Header = Header(
+        name = sessionManager.getGroup()?.name ?: sessionManager.getUser()?.fistName(),
+        photoUrl = sessionManager.getUser()?.photoUrl,
+        initials = sessionManager.getUser()?.initialsName(),
+        isGroup = sessionManager.isGroupSession()
+    )
+
+//    val user: UserEntities? = sessionManager.getUser()
+
+//    var group: GroupEntities? = sessionManager.getGroup()
 
     private var listCosts = mutableListOf<CostsEntities>()
         set(value) {
@@ -37,4 +45,11 @@ class CostsViewModel @Inject constructor(
             }
         }
     }
+
+    data class Header(
+        val name: String?,
+        val photoUrl: String? = null,
+        val initials: String?,
+        val isGroup: Boolean = false
+    )
 }

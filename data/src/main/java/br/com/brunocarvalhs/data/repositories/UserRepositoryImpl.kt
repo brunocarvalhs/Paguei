@@ -13,7 +13,7 @@ class UserRepositoryImpl @Inject constructor(
     database: FirebaseFirestore
 ) : UserRepository {
 
-    private val collection = database.collection(UserModel.COLLECTION)
+    private val collection = database.collection(UserEntities.COLLECTION)
 
     override suspend fun isUserExist(user: UserEntities): Boolean = withContext(Dispatchers.IO) {
         return@withContext collection.document(user.id).get().await()
@@ -55,4 +55,14 @@ class UserRepositoryImpl @Inject constructor(
             throw error
         }
     }
+
+    override suspend fun search(field: String, value: String): UserEntities? =
+        withContext(Dispatchers.IO) {
+            try {
+                val result = collection.whereEqualTo(field, value).get().await()
+                return@withContext result.first().toObject(UserModel::class.java) ?: null
+            } catch (error: Exception) {
+                throw error
+            }
+        }
 }

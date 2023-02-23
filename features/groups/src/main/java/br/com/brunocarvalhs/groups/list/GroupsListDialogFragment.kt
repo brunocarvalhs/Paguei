@@ -7,16 +7,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
+import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.groups.databinding.DialogGroupsListBinding
 import br.com.brunocarvalhs.paguei.features.groups.list.GroupsListViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListBinding>(),
     GroupsRecyclerViewAdapter.GroupsClickListener {
 
+    @Inject
+    lateinit var navigation: Navigation
     private val viewModel: GroupsListViewModel by viewModels()
     private val adapter by lazy { GroupsRecyclerViewAdapter(requireContext(), this) }
 
@@ -31,15 +35,14 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
         this.setupList()
     }
 
-    private fun setupButtonCreate() {
+    private fun setupButtonCreate() =
         binding.create.setOnClickListener { navigateToRegisterHomes() }
-    }
 
     private fun setupOptionMyProfile() {
         viewModel.user?.let {
             Glide.with(requireActivity()).load(it.photoUrl).centerCrop().into(binding.avatar)
             binding.nameUser.text = it.name
-            binding.avatarGroup.setOnClickListener { viewModel.selected(home = null) }
+            binding.avatarGroup.setOnClickListener { selected(null) }
         }
     }
 
@@ -58,9 +61,7 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
         }
     }
 
-    private fun displayData(list: List<GroupEntities>) {
-        adapter.submitList(list)
-    }
+    private fun displayData(list: List<GroupEntities>) = adapter.submitList(list)
 
     override fun argumentsView(arguments: Bundle) {
 
@@ -70,8 +71,12 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
 
     }
 
-    override fun onClick(group: GroupEntities?) {
+    override fun onClick(group: GroupEntities?) = selected(group)
+
+    private fun selected(group: GroupEntities?) {
         viewModel.selected(group)
+        val action = navigation.navigateToCostsRegister()
+        findNavController().navigate(action)
     }
 
     override fun onStart() {

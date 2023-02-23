@@ -20,7 +20,7 @@
     <fragment
             android:id="@+id/groupsRegisterFragment"
             android:name="br.com.brunocarvalhs.groups.register.GroupRegisterFragment"
-            tools:layout="@layout/fragment_homes_register">
+            tools:layout="@layout/fragment_group_register">
 
         <deepLink app:uri="@string/deeplink_group_register" />
 

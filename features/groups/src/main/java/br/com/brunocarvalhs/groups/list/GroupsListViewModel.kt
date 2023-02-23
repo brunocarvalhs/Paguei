@@ -13,12 +13,10 @@ import javax.inject.Inject
 @HiltViewModel
 class GroupsListViewModel @Inject constructor(
     private val homesRepository: HomesRepository,
-    sessionManager: SessionManager,
+    private val sessionManager: SessionManager,
 ) : BaseViewModel<GroupsListViewState>() {
 
     val user = sessionManager.getUser()
-
-    private var homes: GroupEntities? = null
 
     fun fetchData() {
         viewModelScope.launch {
@@ -33,6 +31,6 @@ class GroupsListViewModel @Inject constructor(
     }
 
     fun selected(home: GroupEntities? = null) {
-        this.homes = home
+        sessionManager.sessionGroup(home)
     }
 }

@@ -77,16 +77,20 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     }
 
     private fun setupHeader() {
-        viewModel.user?.let {
+        viewModel.header.let {
             it.photoUrl?.let { photoUrl ->
                 Glide.with(this).load(photoUrl).centerCrop().into(binding.avatar)
             } ?: run {
+                binding.avatarContainer.visibility = if (it.isGroup) View.GONE else View.VISIBLE
                 binding.avatar.visibility = View.GONE
                 binding.avatarText.visibility = View.VISIBLE
-                binding.avatarText.text = it.initialsName()
+                binding.avatarText.text = it.initials
             }
+
             binding.name.text =
-                requireActivity().getString(R.string.home_title_header, it.fistName())
+                if (it.isGroup) requireActivity().getString(R.string.home_title_group_header, it.name)
+                else requireActivity().getString(R.string.home_title_header, it.name)
+
             binding.avatar.setOnClickListener { navigateToProfile() }
             binding.name.setOnClickListener { navigateToProfile() }
             binding.cadastrados.setOnClickListener { navigateToReport() }
