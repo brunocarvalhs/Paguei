@@ -1,6 +1,7 @@
 package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.data.model.GroupsModel
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
@@ -17,7 +18,10 @@ class CostsRepositoryImpl @Inject constructor(
 ) : CostsRepository {
 
     private val routerCollection =
-        "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostsModel.COLLECTION}"
+        if (sessionManager.isGroupSession())
+            "${GroupsModel.COLLECTION}/${sessionManager.getGroup()?.id}/${CostsModel.COLLECTION}"
+        else
+            "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostsModel.COLLECTION}"
 
     override suspend fun add(cost: CostsEntities) = withContext(Dispatchers.IO) {
         try {

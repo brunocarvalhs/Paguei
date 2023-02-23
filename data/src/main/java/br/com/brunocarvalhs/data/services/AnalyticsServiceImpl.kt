@@ -1,0 +1,67 @@
+package br.com.brunocarvalhs.data.services
+
+import android.os.Bundle
+import br.com.brunocarvalhs.domain.services.AnalyticsService
+import com.google.firebase.analytics.FirebaseAnalytics
+import javax.inject.Inject
+import kotlin.reflect.KClass
+
+class AnalyticsServiceImpl @Inject constructor(
+    private val firebaseAnalytics: FirebaseAnalytics
+) : AnalyticsService {
+
+    override fun trackEvent(
+        eventName: String,
+        eventPayload: Map<String, Any>,
+        eventPage: KClass<*>,
+        eventValue: Double?,
+        customAttributes: Map<String, String>?
+    ) {
+        val bundle = Bundle()
+        for ((key, value) in eventPayload) {
+            when (value) {
+                is String -> bundle.putString(key, value)
+                is Int -> bundle.putInt(key, value)
+                is Double -> bundle.putDouble(key, value)
+                is Long -> bundle.putLong(key, value)
+                is Boolean -> bundle.putBoolean(key, value)
+                else -> bundle.putString(key, value.toString())
+            }
+        }
+        customAttributes?.forEach { (key, value) ->
+            bundle.putString(key, value)
+        }
+        eventValue?.let { bundle.putDouble(FirebaseAnalytics.Param.VALUE, it) }
+        firebaseAnalytics.logEvent(eventName, bundle)
+    }
+
+    override fun trackUserEvent(
+        userId: String,
+        eventAction: String,
+        eventValue: Double?,
+        customAttributes: Map<String, String>?
+    ) {
+        val eventName = "UserAnalyticsEvent"
+        val eventPayload = mapOf(
+            "user_id" to userId,
+            "event_action" to eventAction
+        )
+        trackEvent(eventName, eventPayload, this::class, eventValue, customAttributes)
+    }
+
+    override fun trackScreenView(screenName: String, screenClass: KClass<*>) {
+        val bundle = Bundle().apply {
+            putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+            putString(FirebaseAnalytics.Param.SCREEN_CLASS, screenClass.simpleName)
+        }
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
+    }
+
+    override fun setUserProperty(name: String, value: String?) {
+        firebaseAnalytics.setUserProperty(name, value)
+    }
+
+    override fun setUserId(userId: String) {
+        firebaseAnalytics.setUserId(userId)
+    }
+}

@@ -2,7 +2,6 @@ import config.AndroidConfig
 import dependencies.Dependencies
 import flavor.BuildTypeDebug
 import flavor.BuildTypeRelease
-import interfaces.BuildType
 
 plugins {
     id("com.android.library")
@@ -53,10 +52,12 @@ dependencies {
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
 
     // Firebase dependencies
+    implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.AUTH)
     implementation(Dependencies.Firebase.FIRESTORE)
     implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
+    implementation(Dependencies.Firebase.ANALYTICS)
 
     // Network dependencies
     implementation(Dependencies.Network.GSON)
