@@ -25,5 +25,9 @@
         <deepLink app:uri="@string/deeplink_group_register" />
 
     </fragment>
+    <fragment
+            android:id="@+id/editGroupFragment"
+            android:name="br.com.brunocarvalhs.groups.edit.fragment.EditGroupFragment"
+            tools:layout="@layout/fragment_edit_group" />
 
 </navigation>
