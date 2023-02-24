@@ -1,16 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dialog_billet_registration_title_text">Não foi possível identificar um código de barras.</string>
-    <string name="dialog_billet_registration_content_text">Tente escanear novamente ou digite o código do seu boleto.</string>
-    <string name="dialog_billet_registration_try_new_text">Escanear novamente</string>
-    <string name="dialog_billet_registration_enter_code_text">Digitar código</string>
-    <string name="fragment_billet_registration_barcode_scanner_title_text">Escaneie o código de barras do boleto</string>
-    <string name="fragment_billet_registration_barcode_scanner_next_text">Inserir código do boleto</string>
-    <string name="fragment_billet_registration_form_title_text">Preencha os dados\ndo boleto</string>
-    <string name="billet_registration_textfield_name_hilt">Nome do boleto</string>
-    <string name="billet_registration_textfield_prompt_hilt">Vencimento</string>
-    <string name="billet_registration_textfield_value_hilt">Valor</string>
-    <string name="billet_registration_textfield_barcode_hilt">Código</string>
-    <string name="fragment_billet_registration_form_button_cancel_text">cancelar</string>
-    <string name="fragment_billet_registration_form_button_registration_text">cadastrar</string>
-    <string name="billet_registration_textfield_date_payment_hilt">Data de pagamento</string>
+    <string name="dialog_billet_registration_title_text">Could not identify a barcode.</string>
+    <string name="dialog_billet_registration_content_text">Please try scanning again or enter the code manually.</string>
+    <string name="dialog_billet_registration_try_new_text">Scan again</string>
+    <string name="dialog_billet_registration_enter_code_text">Enter code</string>
+    <string name="fragment_billet_registration_barcode_scanner_title_text">Scan the barcode on your bill</string>
+    <string name="fragment_billet_registration_barcode_scanner_next_text">Enter code manually</string>
+    <string name="fragment_billet_registration_form_title_text">Fill in the bill details</string>
+    <string name="billet_registration_textfield_name_hilt">Bill name</string>
+    <string name="billet_registration_textfield_prompt_hilt">Due date</string>
+    <string name="billet_registration_textfield_value_hilt">Value</string>
+    <string name="billet_registration_textfield_barcode_hilt">Code</string>
+    <string name="fragment_billet_registration_form_button_cancel_text">Cancel</string>
+    <string name="fragment_billet_registration_form_button_registration_text">Register</string>
+    <string name="billet_registration_textfield_date_payment_hilt">Payment date</string>
 </resources>
