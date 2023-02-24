@@ -22,4 +22,8 @@
     <string name="menu_text_extract">Extrato</string>
     <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
     <string name="dialog_homes_list_button_create_text">Adicionar Grupo</string>
+    <string name="question_delete_title">Confirmação de remoção</string>
+    <string name="question_delete_message">Deseja realemente deletar o boleto %1$s do valor de %2$s</string>
+    <string name="question_delete_negative_text">Não</string>
+    <string name="question_delete_positive_text">Sim</string>
 </resources>

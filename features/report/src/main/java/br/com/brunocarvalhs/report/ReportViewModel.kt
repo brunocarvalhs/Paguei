@@ -32,7 +32,7 @@ class ReportViewModel @Inject constructor(
     private var totalPay = 0f
         private set
 
-    var totalRender = sessionManager.getUser()?.salary?.toFloat()
+    var totalRender = sessionManager.getUser()?.salary
         private set
 
     private var filterDate: String? = null

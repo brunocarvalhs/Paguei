@@ -1,7 +1,8 @@
 <resources>
     <string name="fragment_profile_abort_button_text">Abort</string>
     <string name="fragment_profile_logout_button_text">Logout</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="fragment_profile_settings_button_text">Settings</string>
+    <string name="fragment_profile_edit_profile_button_text">Edit Profile</string>
     <string name="settings_help_category">Help</string>
     <string name="settings_help_title">Send Feedback</string>
     <string name="settings_help_summary">Report technical issues or suggest new features</string>
@@ -16,4 +17,11 @@
     <string name="settings_delete_account_summary">This option will permanently remove your account, including all associated data. This action cannot be undone, please ensure you wish to proceed with the deletion.</string>
     <string name="settings_delete_account_dialog_decline">Cancel</string>
     <string name="settings_delete_account_dialog_accept">Deletar tudo</string>
+    <string name="fragment_edit_profile_button_update_text">Update</string>
+    <string name="fragment_edit_profile_textfield_name_hilt">Name</string>
+    <string name="fragment_edit_profile_textfield_email_hilt">E-mail</string>
+    <string name="fragment_edit_profile_textfield_salary_hilt">Salary</string>
+    <string name="settings_about_category">About</string>
+    <string name="settings_about_version_title">Version</string>
+    <string name="settings_about_develop_github_title">Developer</string>
 </resources>

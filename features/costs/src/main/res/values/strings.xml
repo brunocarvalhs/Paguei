@@ -21,8 +21,8 @@
     <string name="dialog_homes_list_button_create_text">Add Group</string>
     <string name="textfield_name_text">Name of Group</string>
     <string name="textfield_members_text">Members</string>
-    <string name="question_delete_title">Confirmação de remoção</string>
-    <string name="question_delete_message">\"Deseja realemente deletar o \nboleto ${viewModel.cost.name} do valor de ${viewModel.cost.value}\"</string>
-    <string name="question_delete_negative_text">Não</string>
-    <string name="question_delete_positive_text">Sim</string>
+    <string name="question_delete_title">Removal Confirmation\n</string>
+    <string name="question_delete_message">Do you really want to delete the slip %1$s for the amount of %2$s</string>
+    <string name="question_delete_negative_text">No</string>
+    <string name="question_delete_positive_text">Yes</string>
 </resources>

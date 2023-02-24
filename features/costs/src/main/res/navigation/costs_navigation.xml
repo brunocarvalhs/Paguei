@@ -43,6 +43,11 @@
         <argument
                 android:name="cost"
                 app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
+        <action
+                android:id="@+id/action_costReaderFragment_to_costsFragment"
+                app:destination="@id/costsFragment"
+                app:popUpTo="@id/costsFragment"
+                app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

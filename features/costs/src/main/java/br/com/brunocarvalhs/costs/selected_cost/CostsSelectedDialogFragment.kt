@@ -58,7 +58,13 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
     private fun questionDelete() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.question_delete_title))
-            .setMessage(getString(R.string.question_delete_message))
+            .setMessage(
+                getString(
+                    R.string.question_delete_message,
+                    viewModel.cost.name,
+                    viewModel.cost.value
+                )
+            )
             .setNegativeButton(getString(R.string.question_delete_negative_text)) { _, _ ->
                 findNavController().popBackStack()
             }.setPositiveButton(getString(R.string.question_delete_positive_text)) { _, _ ->

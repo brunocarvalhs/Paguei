@@ -48,7 +48,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             binding.contact.text = it.email
         }
         binding.logout.setOnClickListener { logout() }
-        binding.about.setOnClickListener { navigateToAbort() }
         binding.settings.setOnClickListener { navigateToSettings() }
         binding.editProfile.setOnClickListener { navigateToEditProfile() }
     }
@@ -69,11 +68,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun navigateToEditProfile() {
         val request = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
-        findNavController().navigate(request)
-    }
-
-    private fun navigateToAbort() {
-        val request = ProfileFragmentDirections.actionProfileFragmentToAbortFragment()
         findNavController().navigate(request)
     }
 

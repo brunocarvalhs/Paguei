@@ -8,6 +8,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.profile.BuildConfig
 import br.com.brunocarvalhs.profile.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setupAnalytics()
         setupAccount()
         setupFeedback()
+        setupAbout()
+    }
+
+    private fun setupAbout() {
+        setupAboutVersion()
+        setupAboutDevelop()
+    }
+
+    private fun setupAboutVersion() {
+        val version: Preference? = findPreference("about_version")
+        version?.summary = requireContext().getString(R.string.version_app) +
+                if (BuildConfig.DEBUG) " - Debug" else ""
+    }
+
+    private fun setupAboutDevelop() {
+        val developer: Preference? = findPreference("about_develop_github")
+        val user = "brunocarvalhs"
+        developer?.summary = "@$user"
+        developer?.setOnPreferenceClickListener {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://github.com/$user")
+            requireActivity().startActivity(openURL)
+            true
+        }
     }
 
     private fun setupNotifications() {
