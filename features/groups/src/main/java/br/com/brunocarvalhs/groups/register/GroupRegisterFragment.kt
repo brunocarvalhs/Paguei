@@ -54,7 +54,14 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         setupButtonRegistration()
+        setupButtonCancel()
         setupMembers()
+    }
+
+    private fun setupButtonCancel() {
+        binding.cancel.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupMembers() {
@@ -74,7 +81,7 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     }
 
     private fun setupButtonRegistration() {
-        binding.registration.setOnClickListener { viewModel.createHomes() }
+        binding.registration.setOnClickListener { viewModel.save() }
     }
 
     override fun loading() {

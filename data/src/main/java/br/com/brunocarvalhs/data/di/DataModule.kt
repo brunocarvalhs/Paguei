@@ -6,18 +6,12 @@ import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.HomesRepositoryImpl
 import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
-import br.com.brunocarvalhs.data.services.AnalyticsServiceImpl
-import br.com.brunocarvalhs.data.services.AuthenticationService
-import br.com.brunocarvalhs.data.services.DataStoreService
-import br.com.brunocarvalhs.data.services.SessionManagerService
+import br.com.brunocarvalhs.data.services.*
 import br.com.brunocarvalhs.data.usecase.GetUserForEmailUseCaseImpl
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.repositories.HomesRepository
 import br.com.brunocarvalhs.domain.repositories.UserRepository
-import br.com.brunocarvalhs.domain.services.AnalyticsService
-import br.com.brunocarvalhs.domain.services.Authentication
-import br.com.brunocarvalhs.domain.services.DataStore
-import br.com.brunocarvalhs.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.services.*
 import br.com.brunocarvalhs.domain.usecase.GetUserForEmailUseCase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -27,6 +21,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,6 +53,9 @@ object DataModule {
     fun providerFirebaseAnalytics(): FirebaseAnalytics = Firebase.analytics
 
     @Provides
+    fun providerFirebaseNotification(): FirebaseMessaging = Firebase.messaging
+
+    @Provides
     @Singleton
     fun providerNavigation(
         @ApplicationContext context: Context,
@@ -66,6 +65,10 @@ object DataModule {
     @Provides
     @Singleton
     fun providerDataStore(service: DataStoreService): DataStore = service
+
+    @Provides
+    @Singleton
+    fun providerNotificationService(service: NotificationServiceImpl): NotificationService = service
 
     @Provides
     @Singleton

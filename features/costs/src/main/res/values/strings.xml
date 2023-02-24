@@ -1,6 +1,6 @@
 <resources>
     <string name="home_title_header">Hi, %1$s</string>
-    <string name="home_title_group_header">Bem-vindo ao Grupo %1$s</string>
+    <string name="home_title_group_header">%1$s</string>
     <string name="costs_total_text">You have %1$s tickets\nregistered to pay</string>
     <string name="item_cost_date">Expires in %1$s</string>
     <string name="item_cost_value">$ %1$s</string>
@@ -21,4 +21,8 @@
     <string name="dialog_homes_list_button_create_text">Add Group</string>
     <string name="textfield_name_text">Name of Group</string>
     <string name="textfield_members_text">Members</string>
+    <string name="question_delete_title">Confirmação de remoção</string>
+    <string name="question_delete_message">\"Deseja realemente deletar o \nboleto ${viewModel.cost.name} do valor de ${viewModel.cost.value}\"</string>
+    <string name="question_delete_negative_text">Não</string>
+    <string name="question_delete_positive_text">Sim</string>
 </resources>

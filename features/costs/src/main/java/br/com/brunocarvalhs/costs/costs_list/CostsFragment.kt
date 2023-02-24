@@ -78,13 +78,13 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
     private fun setupHeader() {
         viewModel.header.let {
-            it.photoUrl?.let { photoUrl ->
-                Glide.with(this).load(photoUrl).centerCrop().into(binding.avatar)
-            } ?: run {
-                binding.avatarContainer.visibility = if (it.isGroup) View.GONE else View.VISIBLE
+            binding.avatarContainer.visibility = if (it.isGroup) View.GONE else View.VISIBLE
+            if (it.photoUrl.isNullOrEmpty()) {
                 binding.avatar.visibility = View.GONE
                 binding.avatarText.visibility = View.VISIBLE
                 binding.avatarText.text = it.initials
+            } else {
+                Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
             }
 
             binding.name.text =

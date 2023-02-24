@@ -7,6 +7,7 @@ import br.com.brunocarvalhs.data.model.GroupsModel
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.repositories.HomesRepository
+import br.com.brunocarvalhs.domain.services.NotificationService
 import br.com.brunocarvalhs.domain.services.SessionManager
 import br.com.brunocarvalhs.domain.usecase.GetUserForEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ class GroupRegisterViewModel @Inject constructor(
     private val repository: HomesRepository,
     private val sessionManager: SessionManager,
     private val getUserForEmailUseCase: GetUserForEmailUseCase,
+    private val notificationService: NotificationService
 ) : BaseViewModel<GroupRegisterViewState>() {
 
     val name = ObservableField<String>()
@@ -59,12 +61,14 @@ class GroupRegisterViewModel @Inject constructor(
         }
     }
 
-    private fun save(homes: GroupEntities) {
+    fun save() {
         viewModelScope.launch {
             try {
+                val group = generateHomes()
                 mutableState.value = GroupRegisterViewState.Loading
-                repository.add(homes)
-                sessionManager.sessionGroup(homes)
+                repository.add(group)
+                sessionManager.sessionGroup(group)
+                notificationMembers(group)
                 mutableState.value = GroupRegisterViewState.Success
             } catch (error: Exception) {
                 mutableState.value = GroupRegisterViewState.Error(error.message)
@@ -72,16 +76,22 @@ class GroupRegisterViewModel @Inject constructor(
         }
     }
 
-    fun createHomes() {
-        val group = generateHomes()
-        save(group)
-    }
-
     private fun generateHomes(): GroupEntities {
         val members = members.map { it.id }
         return GroupsModel(
-            name = name.get(),
-            members = members
+            name = name.get(), members = members
         )
+    }
+
+    private fun notificationMembers(groupEntities: GroupEntities) {
+        members.filter { it != sessionManager.getUser() }.forEach { member ->
+            member.token?.let {
+                notificationService.sendRemoteNotification(
+                    it,
+                    "Bem-vindo ao Grupo ${groupEntities.name}",
+                    "Agora você faz parte do grupo ${groupEntities.name} para organizar as contas!"
+                )
+            }
+        }
     }
 }

@@ -7,8 +7,11 @@ import javax.inject.Inject
 import kotlin.reflect.KClass
 
 class AnalyticsServiceImpl @Inject constructor(
-    private val firebaseAnalytics: FirebaseAnalytics
+    private val firebaseAnalytics: FirebaseAnalytics,
+    private val dataStoreService: DataStoreService
 ) : AnalyticsService {
+
+    private fun isPermissionAnalytics() = dataStoreService.get("analytics", true)
 
     override fun trackEvent(
         eventName: String,
@@ -32,7 +35,7 @@ class AnalyticsServiceImpl @Inject constructor(
             bundle.putString(key, value)
         }
         eventValue?.let { bundle.putDouble(FirebaseAnalytics.Param.VALUE, it) }
-        firebaseAnalytics.logEvent(eventName, bundle)
+        if (isPermissionAnalytics()) firebaseAnalytics.logEvent(eventName, bundle)
     }
 
     override fun trackUserEvent(
@@ -54,14 +57,17 @@ class AnalyticsServiceImpl @Inject constructor(
             putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
             putString(FirebaseAnalytics.Param.SCREEN_CLASS, screenClass.simpleName)
         }
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
+        if (isPermissionAnalytics()) firebaseAnalytics.logEvent(
+            FirebaseAnalytics.Event.SCREEN_VIEW,
+            bundle
+        )
     }
 
     override fun setUserProperty(name: String, value: String?) {
-        firebaseAnalytics.setUserProperty(name, value)
+        if (isPermissionAnalytics()) firebaseAnalytics.setUserProperty(name, value)
     }
 
     override fun setUserId(userId: String) {
-        firebaseAnalytics.setUserId(userId)
+        if (isPermissionAnalytics()) firebaseAnalytics.setUserId(userId)
     }
 }

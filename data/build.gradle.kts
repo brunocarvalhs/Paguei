@@ -62,6 +62,7 @@ dependencies {
     // Network dependencies
     implementation(Dependencies.Network.GSON)
     implementation("androidx.navigation:navigation-common-ktx:2.5.3")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.1.1")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)

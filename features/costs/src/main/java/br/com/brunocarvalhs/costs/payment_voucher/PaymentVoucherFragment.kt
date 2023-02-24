@@ -7,11 +7,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.costs.databinding.FragmentPaymentVoucherBinding
+import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherViewState
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
+
+    @Inject
+    lateinit var navigation: Navigation
 
     private val viewModel: PaymentVoucherViewModel by viewModels()
 
@@ -33,7 +38,8 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
     }
 
     private fun navigateToCosts() {
-        findNavController().popBackStack()
+        val action = navigation.navigateToCostsRegister()
+        findNavController().navigate(action)
     }
 
     override fun argumentsView(arguments: Bundle) {

@@ -6,6 +6,7 @@ import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.ID
 import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.NAME
 import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.PHOTO_URL
 import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.SALARY
+import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.TOKEN
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.text.DecimalFormat
@@ -17,6 +18,7 @@ data class UserModel(
     @SerializedName(PHOTO_URL) override val photoUrl: String? = null,
     @SerializedName(EMAIL) override val email: String? = null,
     @SerializedName(SALARY) override val salary: String? = null,
+    @SerializedName(TOKEN) override val token: String? = null,
 ) : UserEntities {
     companion object {
         const val FORMAT_VALUE = "#.###,00"

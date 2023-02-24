@@ -7,6 +7,7 @@ import br.com.brunocarvalhs.domain.services.SessionManager
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class AuthenticationService @Inject constructor(
     private val auth: FirebaseAuth,
     private val sessionManager: SessionManager,
+    private val firebaseMessage: FirebaseMessaging
 ) : Authentication {
 
     override suspend fun logout(): Boolean = withContext(Dispatchers.IO) {
@@ -30,7 +32,9 @@ class AuthenticationService @Inject constructor(
     override suspend fun session(): UserEntities? = withContext(Dispatchers.IO) {
         val session = auth.currentUser
         session?.let {
-            val user = UserModel.fromFirebaseAuth(it)
+            val token = firebaseMessage.token.await()
+            var user = UserModel.fromFirebaseAuth(session)
+            user = user.copy(token = token)
             sessionManager.login(user = user, token = null)
             return@withContext user
         }
@@ -51,8 +55,10 @@ class AuthenticationService @Inject constructor(
             try {
                 if (credential is AuthCredential) {
                     val result = auth.signInWithCredential(credential).await()
+                    val token = firebaseMessage.token.await()
                     val session = result.user ?: throw Exception()
-                    val user = UserModel.fromFirebaseAuth(session)
+                    var user = UserModel.fromFirebaseAuth(session)
+                    user = user.copy(token = token)
                     sessionManager.login(user = user, token = null)
                     return@withContext user
                 }

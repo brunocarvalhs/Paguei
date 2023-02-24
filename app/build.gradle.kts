@@ -137,4 +137,5 @@ dependencies {
     implementation(Dependencies.Firebase.CRASHLYTICS)
     implementation(Dependencies.Firebase.ANALYTICS)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx")
 }
