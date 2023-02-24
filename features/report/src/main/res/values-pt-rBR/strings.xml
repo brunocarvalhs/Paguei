@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="total_pay">Total pago</string>
-    <string name="total_costs">Total em Custos</string>
+    <string name="total_costs">Total de Custos</string>
     <string name="formated_money">R$ %1$s</string>
 </resources>
