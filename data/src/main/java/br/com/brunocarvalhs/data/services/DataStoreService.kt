@@ -12,11 +12,28 @@ class DataStoreService @Inject constructor(
         const val PREFERENCE_DATA_STORE = "PREFERENCE_DATA_STORE"
     }
 
-    override fun putString(key: String, value: String?) {
-        sharedPreferences.edit().putString(key, value)
+    override fun put(key: String, value: Any) {
+        sharedPreferences.edit().apply {
+            when (value) {
+                is Boolean -> this.putBoolean(key, value)
+                is Float -> this.putFloat(key, value)
+                is Int -> this.putInt(key, value)
+                is Long -> this.putLong(key, value)
+                is String -> this.putString(key, value)
+                else -> this.putString(key, value.toString())
+            }
+        }
+
     }
 
-    override fun getString(key: String, defValue: String?): String? {
-        return sharedPreferences.getString(key, defValue)
+    override fun <T : Any> get(key: String, defValue: T): T {
+        return when (defValue) {
+            is Boolean -> sharedPreferences.getBoolean(key, defValue)
+            is Float -> sharedPreferences.getFloat(key, defValue)
+            is Int -> sharedPreferences.getInt(key, defValue)
+            is Long -> sharedPreferences.getLong(key, defValue)
+            is String -> sharedPreferences.getString(key, defValue)
+            else -> sharedPreferences.getString(key, defValue.toString())
+        } as T
     }
 }

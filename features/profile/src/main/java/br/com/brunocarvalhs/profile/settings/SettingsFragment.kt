@@ -8,7 +8,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import br.com.brunocarvalhs.data.navigation.Navigation
-import br.com.brunocarvalhs.domain.services.DataStore
 import br.com.brunocarvalhs.profile.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,9 +36,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupNotifications() {
         val notifications: SwitchPreferenceCompat? = findPreference("notifications")
         notifications?.setOnPreferenceChangeListener { preference, newValue ->
-            viewModel.dataStore.putString(preference.key, newValue.toString())
+            viewModel.dataStore.put(preference.key, newValue.toString())
             true
         }
+        notifications?.callChangeListener(viewModel.dataStore.get("notifications", true))
     }
 
     private fun setupFeedback() {
@@ -63,9 +63,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupAnalytics() {
         val analytics: SwitchPreferenceCompat? = findPreference("analytics")
         analytics?.setOnPreferenceChangeListener { preference, newValue ->
-            viewModel.dataStore.putString(preference.key, newValue.toString())
+            viewModel.dataStore.put(preference.key, newValue.toString())
             true
         }
+        analytics?.callChangeListener(viewModel.dataStore.get("analytics", true))
     }
 
     private fun dialogDeleteData() {

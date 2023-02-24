@@ -1,6 +1,6 @@
 package br.com.brunocarvalhs.domain.services
 
 interface DataStore {
-    fun putString(key: String, value: String?)
-    fun getString(key: String, defValue: String?): String?
+    fun put(key: String, value: Any)
+    fun <T : Any> get(key: String, defValue: T): T
 }
