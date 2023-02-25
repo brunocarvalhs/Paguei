@@ -6,7 +6,7 @@ import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.data.model.GroupsModel
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
-import br.com.brunocarvalhs.domain.repositories.HomesRepository
+import br.com.brunocarvalhs.domain.repositories.GroupsRepository
 import br.com.brunocarvalhs.domain.services.NotificationService
 import br.com.brunocarvalhs.domain.services.SessionManager
 import br.com.brunocarvalhs.domain.usecase.GetUserForEmailUseCase
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GroupRegisterViewModel @Inject constructor(
-    private val repository: HomesRepository,
+    private val repository: GroupsRepository,
     private val sessionManager: SessionManager,
     private val getUserForEmailUseCase: GetUserForEmailUseCase,
     private val notificationService: NotificationService
@@ -64,7 +64,7 @@ class GroupRegisterViewModel @Inject constructor(
     fun save() {
         viewModelScope.launch {
             try {
-                val group = generateHomes()
+                val group = generateGroups()
                 mutableState.value = GroupRegisterViewState.Loading
                 repository.add(group)
                 sessionManager.sessionGroup(group)
@@ -76,7 +76,7 @@ class GroupRegisterViewModel @Inject constructor(
         }
     }
 
-    private fun generateHomes(): GroupEntities {
+    private fun generateGroups(): GroupEntities {
         val members = members.map { it.id }
         return GroupsModel(
             name = name.get(), members = members

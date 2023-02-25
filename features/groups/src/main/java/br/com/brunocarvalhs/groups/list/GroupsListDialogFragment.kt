@@ -10,7 +10,6 @@ import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.groups.databinding.DialogGroupsListBinding
-import br.com.brunocarvalhs.paguei.features.groups.list.GroupsListViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,7 +35,7 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
     }
 
     private fun setupButtonCreate() =
-        binding.create.setOnClickListener { navigateToRegisterHomes() }
+        binding.create.setOnClickListener { navigateToRegisterGroups() }
 
     private fun setupOptionMyProfile() {
         viewModel.user?.let {
@@ -84,7 +83,7 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
         viewModel.fetchData()
     }
 
-    private fun navigateToRegisterHomes() {
+    private fun navigateToRegisterGroups() {
         val action = GroupsListDialogFragmentDirections
             .actionHomesListDialogFragmentToHomesRegisterFragment()
         findNavController().navigate(action)

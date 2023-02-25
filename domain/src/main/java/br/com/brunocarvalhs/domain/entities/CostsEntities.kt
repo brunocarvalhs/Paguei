@@ -14,4 +14,17 @@ interface CostsEntities : Serializable {
     fun toMap(): Map<String?, Any?>
     fun toJson(): String
     fun formatValue(): String
+
+    companion object {
+
+        const val COLLECTION = "costs"
+
+        const val ID = "id"
+        const val NAME = "name"
+        const val PROMPT = "prompt"
+        const val VALUE = "value"
+        const val BAR_CODE = "barCode"
+        const val PAYMENT_VOUCHER = "paymentVoucher"
+        const val DATE_PAYMENT = "datePayment"
+    }
 }

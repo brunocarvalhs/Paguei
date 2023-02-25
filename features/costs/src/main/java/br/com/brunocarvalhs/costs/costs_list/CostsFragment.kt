@@ -91,8 +91,10 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
                 if (it.isGroup) requireActivity().getString(R.string.home_title_group_header, it.name)
                 else requireActivity().getString(R.string.home_title_header, it.name)
 
-            binding.avatar.setOnClickListener { navigateToProfile() }
-            binding.name.setOnClickListener { navigateToProfile() }
+            if (!it.isGroup) {
+                binding.avatar.setOnClickListener { navigateToProfile() }
+                binding.name.setOnClickListener { navigateToProfile() }
+            }
             binding.cadastrados.setOnClickListener { navigateToReport() }
         }
     }

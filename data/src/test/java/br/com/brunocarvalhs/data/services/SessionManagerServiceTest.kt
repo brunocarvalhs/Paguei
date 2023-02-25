@@ -1,5 +1,6 @@
 package br.com.brunocarvalhs.data.services
 
+import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import org.junit.Assert.*
 import org.junit.Before
@@ -11,6 +12,9 @@ class SessionManagerServiceTest {
 
     @Mock
     private lateinit var user: UserEntities
+
+    @Mock
+    private lateinit var group: GroupEntities
 
     private lateinit var sessionManagerService: SessionManagerService
 
@@ -39,7 +43,16 @@ class SessionManagerServiceTest {
         sessionManagerService.login(user, "token")
         sessionManagerService.logout()
         assertFalse(sessionManagerService.isLoggedIn())
-        assertEquals(null, sessionManagerService.getUser())
-        assertEquals(null, sessionManagerService.getToken())
+        assertNull(sessionManagerService.getUser())
+        assertNull(sessionManagerService.getToken())
+    }
+
+    @Test
+    fun testSelectedGroup() {
+        assertNull(sessionManagerService.getGroup())
+        sessionManagerService.sessionGroup(group)
+        assertNotNull(sessionManagerService.getGroup())
+        sessionManagerService.sessionGroup(null)
+        assertNull(sessionManagerService.getGroup())
     }
 }

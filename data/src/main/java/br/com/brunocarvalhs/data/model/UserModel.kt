@@ -9,7 +9,7 @@ import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.SALARY
 import br.com.brunocarvalhs.domain.entities.UserEntities.Companion.TOKEN
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 
 data class UserModel(
@@ -20,10 +20,6 @@ data class UserModel(
     @SerializedName(SALARY) override val salary: String? = null,
     @SerializedName(TOKEN) override val token: String? = null,
 ) : UserEntities {
-    companion object {
-        const val FORMAT_VALUE = "#.###,00"
-    }
-
     override fun toMap(): Map<String?, Any?> =
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 
@@ -34,6 +30,12 @@ data class UserModel(
     override fun lastName(): String? = name?.split(" ")?.last()
     override fun initialsName(): String = fistName()?.substring(0, 1) + lastName()?.substring(0, 1)
 
-    override fun formatSalary(): String =
-        DecimalFormat(FORMAT_VALUE).format(this.salary.orEmpty().toDouble())
+    override fun formatSalary(): String {
+        val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+        numberFormat.maximumFractionDigits = 2
+        numberFormat.minimumFractionDigits = 2
+        return numberFormat.format((this.salary)?.toDouble())
+    }
+
+    companion object
 }

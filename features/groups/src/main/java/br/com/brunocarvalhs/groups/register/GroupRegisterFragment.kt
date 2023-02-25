@@ -9,14 +9,19 @@ import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.groups.R
 import br.com.brunocarvalhs.groups.databinding.FragmentGroupRegisterBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
+
+    @Inject
+    lateinit var navigation: Navigation
 
     private val viewModel: GroupRegisterViewModel by viewModels()
 
@@ -42,7 +47,8 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     }
 
     private fun navigateToCosts() {
-        findNavController().popBackStack()
+        val action = navigation.navigateToCostsRegister()
+        findNavController().navigate(action)
     }
 
     override fun argumentsView(arguments: Bundle) {

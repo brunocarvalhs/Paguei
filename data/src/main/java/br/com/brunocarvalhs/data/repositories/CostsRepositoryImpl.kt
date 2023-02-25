@@ -1,8 +1,8 @@
 package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.data.model.GroupsModel
 import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
@@ -13,19 +13,21 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CostsRepositoryImpl @Inject constructor(
-    private val database: FirebaseFirestore,
+    database: FirebaseFirestore,
     private val sessionManager: SessionManager,
 ) : CostsRepository {
 
     private val routerCollection =
         if (sessionManager.isGroupSession())
-            "${GroupsModel.COLLECTION}/${sessionManager.getGroup()?.id}/${CostsModel.COLLECTION}"
+            "${GroupEntities.COLLECTION}/${sessionManager.getGroup()?.id}/${CostsEntities.COLLECTION}"
         else
-            "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostsModel.COLLECTION}"
+            "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostsEntities.COLLECTION}"
+
+    private val collection = database.collection(routerCollection)
 
     override suspend fun add(cost: CostsEntities) = withContext(Dispatchers.IO) {
         try {
-            database.collection(routerCollection).document(cost.id).set(cost.toMap()).await()
+            collection.document(cost.id).set(cost.toMap()).await()
             return@withContext
         } catch (error: Exception) {
             throw error
@@ -34,7 +36,7 @@ class CostsRepositoryImpl @Inject constructor(
 
     override suspend fun list(): List<CostsEntities> = withContext(Dispatchers.IO) {
         try {
-            val result = database.collection(routerCollection).get().await()
+            val result = collection.get().await()
             return@withContext result.map { it.toObject(CostsModel::class.java) }
         } catch (error: Exception) {
             throw error
@@ -44,7 +46,7 @@ class CostsRepositoryImpl @Inject constructor(
     override suspend fun view(cost: CostsEntities): CostsEntities? = withContext(Dispatchers.IO) {
         try {
             sessionManager.getUser()?.let {
-                val result = database.collection(routerCollection).document(it.id).get().await()
+                val result = collection.document(it.id).get().await()
                 return@withContext result.toObject(CostsModel::class.java)
             }
         } catch (error: Exception) {
@@ -54,7 +56,7 @@ class CostsRepositoryImpl @Inject constructor(
 
     override suspend fun update(cost: CostsEntities): CostsEntities = withContext(Dispatchers.IO) {
         try {
-            database.collection(routerCollection).document(cost.id).update(cost.toMap()).await()
+            collection.document(cost.id).update(cost.toMap()).await()
             return@withContext cost
         } catch (error: Exception) {
             throw error
@@ -63,7 +65,7 @@ class CostsRepositoryImpl @Inject constructor(
 
     override suspend fun delete(cost: CostsEntities) = withContext(Dispatchers.IO) {
         try {
-            database.collection(routerCollection).document(cost.id).delete().await()
+            collection.document(cost.id).delete().await()
             return@withContext
         } catch (error: Exception) {
             throw error
