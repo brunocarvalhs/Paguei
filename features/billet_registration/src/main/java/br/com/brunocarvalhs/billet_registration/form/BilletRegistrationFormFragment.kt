@@ -9,11 +9,11 @@ import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.billet_registration.databinding.FragmentBilletRegistrationFormBinding
-import br.com.brunocarvalhs.billet_registration.utils.FORMAT_DATE
-import br.com.brunocarvalhs.billet_registration.utils.PROMPT_FORMAT
-import br.com.brunocarvalhs.billet_registration.utils.moneyToDouble
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.data.utils.FORMAT_DATE
+import br.com.brunocarvalhs.data.utils.PROMPT_FORMAT
+import br.com.brunocarvalhs.data.utils.moneyToDouble
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,7 +73,6 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         setupButtonCancel()
         setupTextFieldPrompt()
         setupTextFieldValue()
-        setupTextFieldDatePayment()
         setupTextFieldBarcode()
     }
 
@@ -123,12 +122,6 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
             val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(calendar.time)
             editText?.setText(date)
         }
-    }
-
-    private fun setupTextFieldDatePayment() {
-        initDateConfig(binding.datePayment.editText)
-        binding.datePayment.setEndIconOnClickListener { showDateAlert(datePickerPayment) }
-        eventSetDateTextField(binding.datePayment.editText, datePickerPayment)
     }
 
     private fun initDateConfig(editText: EditText?) {

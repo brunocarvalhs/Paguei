@@ -1,7 +1,8 @@
 package br.com.brunocarvalhs.data.model
 
+import br.com.brunocarvalhs.domain.entities.CostsEntities
 import com.google.gson.Gson
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 
 class CostsModelTest {
@@ -35,12 +36,12 @@ class CostsModelTest {
         assertEquals(paymentVoucher, costsModel.paymentVoucher)
 
         val map = costsModel.toMap()
-        assertEquals(id, map[CostsModel.ID])
-        assertEquals(name, map[CostsModel.NAME])
-        assertEquals(prompt, map[CostsModel.PROMPT])
-        assertEquals(value, map[CostsModel.VALUE])
-        assertEquals(barCode, map[CostsModel.BAR_CODE])
-        assertEquals(paymentVoucher, map[CostsModel.PAYMENT_VOUCHER])
+        assertEquals(id, map[CostsEntities.ID])
+        assertEquals(name, map[CostsEntities.NAME])
+        assertEquals(prompt, map[CostsEntities.PROMPT])
+        assertEquals(value, map[CostsEntities.VALUE])
+        assertEquals(barCode, map[CostsEntities.BAR_CODE])
+        assertEquals(paymentVoucher, map[CostsEntities.PAYMENT_VOUCHER])
 
         val json = costsModel.toJson()
         val gson = Gson()
@@ -70,5 +71,27 @@ class CostsModelTest {
 
         assertEquals(value, costsModel.value)
         assertEquals("1.234,56", costsModel.formatValue())
+    }
+
+    @Test
+    fun `validation of formatted Value Nullable`() {
+        // Arrange
+        val id = "123456"
+        val name = "Test Name"
+        val prompt = "Test Prompt"
+        val barCode = "1234567890"
+        val paymentVoucher = "VOUCHER123"
+
+        // Act
+        val costsModel = CostsModel(
+            id = id,
+            name = name,
+            prompt = prompt,
+            barCode = barCode,
+            paymentVoucher = paymentVoucher,
+        )
+
+        assertNotNull(costsModel.value)
+        assertEquals("0", costsModel.formatValue())
     }
 }

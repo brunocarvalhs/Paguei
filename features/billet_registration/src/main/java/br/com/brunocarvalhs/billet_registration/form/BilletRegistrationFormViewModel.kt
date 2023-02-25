@@ -3,14 +3,11 @@ package br.com.brunocarvalhs.billet_registration.form
 import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import br.com.brunocarvalhs.billet_registration.utils.FORMAT_DATE
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,10 +27,6 @@ class BilletRegistrationFormViewModel @Inject constructor(
             .fromSavedStateHandle(savedStateHandle).barcode
     )
 
-    val datePayment = ObservableField<String>(
-        SimpleDateFormat(FORMAT_DATE).format(Date())
-    )
-
     fun saveCost() {
         viewModelScope.launch {
             try {
@@ -51,6 +44,5 @@ class BilletRegistrationFormViewModel @Inject constructor(
         prompt = prompt.get(),
         value = value.get()?.replace("[^0-9,]".toRegex(), "")?.replace(",", "."),
         barCode = barCode.get(),
-        datePayment = datePayment.get()
     )
 }

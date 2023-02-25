@@ -24,8 +24,8 @@ class ExtractRecyclerViewAdapter(
         val item = filteredValues[position]
         holder.root.setOnClickListener { listener.onClick(item) }
         holder.name.text = item.name
-        holder.prompt.text = context.getString(R.string.item_cost_date, item.prompt.toString())
-        holder.value.text = context.getString(R.string.item_cost_value, item.value.toString())
+        holder.prompt.text = context.getString(R.string.fragment_extracts_item_cost_date, item.datePayment.toString())
+        holder.value.text = context.getString(R.string.item_cost_value, item.formatValue())
     }
 
     override fun getItemCount(): Int = filteredValues.size

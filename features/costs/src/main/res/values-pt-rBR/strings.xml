@@ -26,4 +26,6 @@
     <string name="question_delete_message">Deseja realemente deletar o boleto %1$s do valor de %2$s</string>
     <string name="question_delete_negative_text">Não</string>
     <string name="question_delete_positive_text">Sim</string>
+    <string name="copy_success">Código copiado com sucesso</string>
+    <string name="fragment_payment_voucher_textfield_date_payment_hilt">Data de pagamento</string>
 </resources>

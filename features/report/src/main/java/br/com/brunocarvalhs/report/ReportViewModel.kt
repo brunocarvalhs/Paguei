@@ -2,13 +2,12 @@ package br.com.brunocarvalhs.report
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -94,6 +93,10 @@ class ReportViewModel @Inject constructor(
         return formattedDecimal(totalPay.toDouble())
     }
 
-    private fun formattedDecimal(value: Double) =
-        DecimalFormat(CostsModel.FORMAT_VALUE).format(value)
+    private fun formattedDecimal(value: Double): String  {
+        val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+        numberFormat.maximumFractionDigits = 2
+        numberFormat.minimumFractionDigits = 2
+        return numberFormat.format(value)
+    }
 }

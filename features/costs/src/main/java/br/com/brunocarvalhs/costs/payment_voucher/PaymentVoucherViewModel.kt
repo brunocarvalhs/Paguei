@@ -5,11 +5,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.data.utils.FORMAT_DATE
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +28,8 @@ class PaymentVoucherViewModel @Inject constructor(
     val prompt = ObservableField<String>(cost.prompt)
 
     val value = ObservableField(cost.formatValue())
+
+    val datePayment = ObservableField(SimpleDateFormat(FORMAT_DATE).format(Date()))
 
     val barCode = ObservableField<String>(cost.barCode)
 
@@ -43,6 +48,7 @@ class PaymentVoucherViewModel @Inject constructor(
     }
 
     private fun generateCost() = (cost as CostsModel).copy(
-        paymentVoucher = paymentVoucherUri.get()
+        paymentVoucher = paymentVoucherUri.get(),
+        datePayment = datePayment.get()
     )
 }

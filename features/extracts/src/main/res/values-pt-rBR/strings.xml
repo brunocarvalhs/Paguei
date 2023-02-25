@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="item_cost_date">Vence em %1$s</string>
+    <string name="fragment_extracts_item_cost_date">Foi pago em %1$s</string>
     <string name="item_cost_value">R$ %1$s</string>
     <string name="textfield_name_hilt">Nome do boleto</string>
     <string name="textfield_prompt_hilt">Vencimento</string>
@@ -8,4 +8,5 @@
     <string name="textfield_barcode_hilt">Código</string>
     <string name="fragment_extract_reader_button_open_text">Visualizar comprovante</string>
     <string name="textfield_payment_voucher_hilt">URL do comprovante</string>
+    <string name="fragment_extract_reader_textfield_date_payment_hilt">Data de pagamento</string>
 </resources>

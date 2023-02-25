@@ -106,27 +106,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/date_payment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="15dp"
-                            android:hint="@string/billet_registration_textfield_date_payment_hilt"
-                            app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                            app:endIconMode="custom"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/value"
-                            app:startIconDrawable="@drawable/ic_baseline_calendar_today_24">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@={viewModel.datePayment}"
-                                android:inputType="date" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
 
                     <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/barcode"
@@ -138,7 +117,7 @@
                             app:endIconMode="custom"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/date_payment"
+                            app:layout_constraintTop_toBottomOf="@+id/value"
                             app:startIconDrawable="@drawable/ic_baseline_barcode_24">
 
                         <com.google.android.material.textfield.TextInputEditText

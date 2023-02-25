@@ -13,5 +13,4 @@
     <string name="billet_registration_textfield_barcode_hilt">Código</string>
     <string name="fragment_billet_registration_form_button_cancel_text">Cancelar</string>
     <string name="fragment_billet_registration_form_button_registration_text">Cadastrar</string>
-    <string name="billet_registration_textfield_date_payment_hilt">Data de pagamento</string>
 </resources>

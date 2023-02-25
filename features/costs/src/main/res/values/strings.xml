@@ -25,4 +25,6 @@
     <string name="question_delete_message">Do you really want to delete the bill %1$s for the amount of %2$s?</string>
     <string name="question_delete_negative_text">No</string>
     <string name="question_delete_positive_text">Yes</string>
+    <string name="copy_success">Code successfully copied</string>
+    <string name="fragment_payment_voucher_textfield_date_payment_hilt">Payment date</string>
 </resources>
