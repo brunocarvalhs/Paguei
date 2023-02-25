@@ -1,6 +1,5 @@
 package br.com.brunocarvalhs.billet_registration.barcode_scanner
 
-import android.annotation.SuppressLint
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -24,6 +23,7 @@ class BarcodeAnalyzer(
     }
 
     private fun scanBarcodes(image: InputImage) {
+        var value: String? = null
         val options = BarcodeScannerOptions.Builder()
             .setBarcodeFormats(
                 Barcode.FORMAT_QR_CODE,
@@ -35,36 +35,15 @@ class BarcodeAnalyzer(
 
         val result = scanner.process(image)
             .addOnSuccessListener { barcodes ->
-                // Task completed successfully
-                // [START_EXCLUDE]
-                // [START get_barcodes]
                 for (barcode in barcodes) {
-                    val bounds = barcode.boundingBox
-                    val corners = barcode.cornerPoints
-
-                    val rawValue = barcode.rawValue
-
-                    val valueType = barcode.valueType
-                    // See API reference for complete list of supported types
-                    when (valueType) {
-                        Barcode.TYPE_WIFI -> {
-                            val ssid = barcode.wifi!!.ssid
-                            val password = barcode.wifi!!.password
-                            val type = barcode.wifi!!.encryptionType
-                        }
-                        Barcode.TYPE_URL -> {
-                            val title = barcode.url!!.title
-                            val url = barcode.url!!.url
-                        }
-                    }
+                    value = barcode.rawValue
                 }
-                // [END get_barcodes]
-                // [END_EXCLUDE]
             }
             .addOnFailureListener {
-                // Task failed with an exception
-                // ...
+
             }
-        // [END run_detector]
+
+        result.addOnSuccessListener { value?.let { barcodeListener.onScanSuccess(it) } }
+            .addOnFailureListener { barcodeListener.onScanError(it.message) }
     }
 }

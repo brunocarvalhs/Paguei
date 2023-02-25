@@ -56,11 +56,11 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun search(field: String, value: String): UserEntities? =
+    override suspend fun search(field: String, value: String): UserEntities =
         withContext(Dispatchers.IO) {
             try {
                 val result = collection.whereEqualTo(field, value).get().await()
-                return@withContext result.first().toObject(UserModel::class.java) ?: null
+                return@withContext result.first().toObject(UserModel::class.java)
             } catch (error: Exception) {
                 throw error
             }

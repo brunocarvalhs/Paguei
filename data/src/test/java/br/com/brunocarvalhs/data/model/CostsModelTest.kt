@@ -17,7 +17,14 @@ class CostsModelTest {
         val paymentVoucher = "VOUCHER123"
 
         // Act
-        val costsModel = CostsModel(id, name, prompt, value, barCode, paymentVoucher)
+        val costsModel = CostsModel(
+            id = id,
+            name = name,
+            prompt = prompt,
+            value = value,
+            barCode = barCode,
+            paymentVoucher = paymentVoucher,
+        )
 
         // Assert
         assertEquals(id, costsModel.id)

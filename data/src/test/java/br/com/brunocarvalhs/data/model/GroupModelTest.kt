@@ -14,7 +14,7 @@ class GroupModelTest {
         val members = listOf("member1", "member2")
 
         // Act
-        val homesModel = GroupsModel(id, name, members)
+        val homesModel = GroupsModel(id = id, name = name, members = members)
 
         // Assert
         assertEquals(id, homesModel.id)

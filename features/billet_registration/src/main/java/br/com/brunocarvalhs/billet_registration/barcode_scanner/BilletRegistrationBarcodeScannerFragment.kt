@@ -106,7 +106,7 @@ class BilletRegistrationBarcodeScannerFragment :
         viewModel.barcodeScanner(barcode)
     }
 
-    override fun onScanError(error: String) {
+    override fun onScanError(error: String?) {
         showBottomSheet()
     }
 

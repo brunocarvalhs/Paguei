@@ -19,7 +19,13 @@ class UserModelTest {
         val salary = "12345.00"
 
         // Act
-        val userModel = UserModel(id, name, photoUrl, email, salary, token)
+        val userModel = UserModel(
+            id = id, name = name,
+            photoUrl = photoUrl,
+            email = email,
+            salary = salary,
+            token = token
+        )
 
         // Assert
         assertEquals(id, userModel.id)
