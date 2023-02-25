@@ -3,7 +3,7 @@ package br.com.brunocarvalhs.data.model
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 
 data class CostsModel(
@@ -26,8 +26,6 @@ data class CostsModel(
         const val BAR_CODE = "barCode"
         const val PAYMENT_VOUCHER = "paymentVoucher"
         const val DATE_PAYMENT = "datePayment"
-
-        const val FORMAT_VALUE = "#,###.00"
     }
 
     override fun toMap(): Map<String?, Any?> =
@@ -35,5 +33,5 @@ data class CostsModel(
 
     override fun toJson(): String = Gson().toJson(this)
     override fun formatValue(): String =
-        DecimalFormat(FORMAT_VALUE).format((this.value ?: "0").toDouble())
+        NumberFormat.getInstance(Locale.getDefault()).format((this.value ?: "0").toDouble())
 }
