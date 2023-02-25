@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/billet_registration_navigation"
-        app:startDestination="@id/billetRegistrationBarcodeScannerFragment">
+        app:startDestination="@id/billetRegistrationFormFragment">
 
     <fragment
             android:id="@+id/billetRegistrationBarcodeScannerFragment"
@@ -13,11 +13,13 @@
         <deepLink app:uri="@string/deeplink_billet_registration_barcode_scanner" />
 
         <action
-                android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationFormFragment"
-                app:destination="@id/billetRegistrationFormFragment" />
-        <action
                 android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationDialogFragment"
                 app:destination="@id/billetRegistrationDialogFragment" />
+        <action
+                android:id="@+id/action_billetRegistrationBarcodeScannerFragment_to_billetRegistrationFormFragment"
+                app:destination="@id/billetRegistrationFormFragment"
+                app:popUpTo="@id/billetRegistrationFormFragment"
+                app:popUpToInclusive="true" />
     </fragment>
 
     <dialog
@@ -42,6 +44,9 @@
                 android:defaultValue=""
                 app:argType="string"
                 app:nullable="true" />
+        <action
+                android:id="@+id/action_billetRegistrationFormFragment_to_billetRegistrationBarcodeScannerFragment"
+                app:destination="@id/billetRegistrationBarcodeScannerFragment" />
 
     </fragment>
 

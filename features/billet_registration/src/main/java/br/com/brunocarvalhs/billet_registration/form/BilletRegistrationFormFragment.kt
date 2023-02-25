@@ -35,6 +35,11 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
             .build()
     }
 
+    private val datePickerPayment by lazy {
+        MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+            .build()
+    }
+
     private val calendar by lazy { Calendar.getInstance() }
 
     override fun createBinding(
@@ -69,6 +74,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         setupTextFieldPrompt()
         setupTextFieldValue()
         setupTextFieldDatePayment()
+        setupTextFieldBarcode()
     }
 
     private fun setupButtonRegister() {
@@ -77,6 +83,18 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     private fun setupButtonCancel() {
         binding.cancel.setOnClickListener { cancelRegistration() }
+    }
+
+    private fun setupTextFieldBarcode() {
+        binding.barcode.setEndIconOnClickListener {
+            navigateToBarcodeScanner()
+        }
+    }
+
+    private fun navigateToBarcodeScanner() {
+        val action = BilletRegistrationFormFragmentDirections
+            .actionBilletRegistrationFormFragmentToBilletRegistrationBarcodeScannerFragment()
+        findNavController().navigate(action)
     }
 
     override fun loading() {
@@ -90,19 +108,27 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     private fun setupTextFieldPrompt() {
         initDateConfig(binding.prompt.editText)
-        binding.prompt.setEndIconOnClickListener {
-            datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
-        }
+        binding.prompt.setEndIconOnClickListener { showDateAlert(datePicker) }
+        eventSetDateTextField(binding.prompt.editText, datePicker)
+    }
+
+    private fun showDateAlert(datePicker: MaterialDatePicker<Long>) {
+        datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
+    }
+
+    private fun eventSetDateTextField(editText: EditText?, datePicker: MaterialDatePicker<Long>) {
         datePicker.addOnPositiveButtonClickListener {
             calendar.time = Date(it)
             calendar.add(Calendar.DATE, 1)
             val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(calendar.time)
-            binding.prompt.editText?.setText(date)
+            editText?.setText(date)
         }
     }
 
     private fun setupTextFieldDatePayment() {
         initDateConfig(binding.datePayment.editText)
+        binding.datePayment.setEndIconOnClickListener { showDateAlert(datePickerPayment) }
+        eventSetDateTextField(binding.datePayment.editText, datePickerPayment)
     }
 
     private fun initDateConfig(editText: EditText?) {

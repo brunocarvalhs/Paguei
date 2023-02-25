@@ -137,7 +137,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
 
     private fun navigateToAddCosts() {
-        val action = navigation.navigateToBilletRegistrationBarcodeScanner()
+        val action = navigation.navigateToBilletRegistrationForm()
         findNavController().navigate(action)
     }
 
