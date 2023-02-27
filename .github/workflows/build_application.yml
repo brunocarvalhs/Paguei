@@ -71,7 +71,7 @@ jobs:
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - if: !startsWith(github.ref, 'refs/heads/master')
+      - if: github.ref != 'refs/heads/master'
         name: Run unit tests debug
         run: ./gradlew testDebug
         env:
