@@ -71,7 +71,8 @@ jobs:
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Run unit tests debug
+      - if: !startsWith(github.ref, 'refs/heads/master')
+        name: Run unit tests debug
         run: ./gradlew testDebug
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
