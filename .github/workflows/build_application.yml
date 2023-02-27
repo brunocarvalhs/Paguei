@@ -101,7 +101,8 @@ jobs:
       - if: needs.preparing_environment.outputs.has-exec-permissions == 'false'
         run: chmod +x gradlew
 
-      - name: Android Lint Debug
+      - if: github.ref != 'refs/heads/master'
+        name: Android Lint Debug
         run: ./gradlew lintDebug
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
@@ -110,7 +111,7 @@ jobs:
           GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
 
       - if: startsWith(github.ref, 'refs/heads/master')
-        name: Android Lint Debug
+        name: Android Lint Release
         run: ./gradlew lintRelease
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
@@ -135,7 +136,8 @@ jobs:
       - if: needs.preparing_environment.outputs.has-exec-permissions == 'false'
         run: chmod +x gradlew
 
-      - name: Build Application Debug
+      - if: github.ref != 'refs/heads/master'
+        name: Build Application Debug
         if: startsWith(github.ref, 'refs/heads/develop')
         run: ./gradlew assembleDebug
         env:
