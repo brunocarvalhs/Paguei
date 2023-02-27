@@ -136,8 +136,7 @@ jobs:
       - if: needs.preparing_environment.outputs.has-exec-permissions == 'false'
         run: chmod +x gradlew
 
-      - if: github.ref != 'refs/heads/master'
-        name: Build Application Debug
+      - name: Build Application Debug
         if: startsWith(github.ref, 'refs/heads/develop')
         run: ./gradlew assembleDebug
         env:
