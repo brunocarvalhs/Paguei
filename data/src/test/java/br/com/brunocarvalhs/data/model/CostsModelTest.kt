@@ -3,9 +3,17 @@ package br.com.brunocarvalhs.data.model
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import com.google.gson.Gson
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
+import java.util.*
+
 
 class CostsModelTest {
+
+    @Before
+    fun setup() {
+        Locale.setDefault(Locale("pt", "BR"))
+    }
 
     @Test
     fun testCostsModel() {
