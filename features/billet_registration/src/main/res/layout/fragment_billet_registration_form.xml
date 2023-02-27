@@ -52,7 +52,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="15dp"
-                            android:hint="@string/textfield_name_hilt"
+                            android:hint="@string/billet_registration_textfield_name_hilt"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:startIconDrawable="@drawable/ic_baseline_doc_24"
@@ -71,8 +71,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="15dp"
-                            android:hint="@string/textfield_prompt_hilt"
-                            app:endIconDrawable="@drawable/ic_baseline_calendar_today_24"
+                            android:hint="@string/billet_registration_textfield_prompt_hilt"
+                            app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
                             app:endIconMode="custom"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +92,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="15dp"
-                            android:hint="@string/textfield_value_hilt"
+                            android:hint="@string/billet_registration_textfield_value_hilt"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/prompt"
@@ -106,12 +106,15 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+
                     <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/barcode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="15dp"
-                            android:hint="@string/textfield_barcode_hilt"
+                            android:hint="@string/billet_registration_textfield_barcode_hilt"
+                            app:endIconDrawable="@drawable/ic_baseline_camera_alt_24"
+                            app:endIconMode="custom"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/value"

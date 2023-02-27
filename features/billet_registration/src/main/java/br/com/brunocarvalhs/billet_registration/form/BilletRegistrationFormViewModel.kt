@@ -43,6 +43,6 @@ class BilletRegistrationFormViewModel @Inject constructor(
         name = name.get(),
         prompt = prompt.get(),
         value = value.get()?.replace("[^0-9,]".toRegex(), "")?.replace(",", "."),
-        barCode = barCode.get()
+        barCode = barCode.get(),
     )
 }

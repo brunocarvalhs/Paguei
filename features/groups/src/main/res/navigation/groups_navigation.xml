@@ -19,11 +19,15 @@
 
     <fragment
             android:id="@+id/groupsRegisterFragment"
-            android:name="br.com.brunocarvalhs.groups.register.HomesRegisterFragment"
-            tools:layout="@layout/fragment_homes_register">
+            android:name="br.com.brunocarvalhs.groups.register.GroupRegisterFragment"
+            tools:layout="@layout/fragment_group_register">
 
         <deepLink app:uri="@string/deeplink_group_register" />
 
     </fragment>
+    <fragment
+            android:id="@+id/editGroupFragment"
+            android:name="br.com.brunocarvalhs.groups.edit.fragment.EditGroupFragment"
+            tools:layout="@layout/fragment_edit_group" />
 
 </navigation>

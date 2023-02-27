@@ -22,6 +22,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     @Inject
     lateinit var navigation: Navigation
+
     private val viewModel: LoginViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {

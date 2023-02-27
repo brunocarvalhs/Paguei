@@ -77,18 +77,24 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     }
 
     private fun setupHeader() {
-        viewModel.user?.let {
-            it.photoUrl?.let { photoUrl ->
-                Glide.with(this).load(photoUrl).centerCrop().into(binding.avatar)
-            } ?: run {
+        viewModel.header.let {
+            binding.avatarContainer.visibility = if (it.isGroup) View.GONE else View.VISIBLE
+            if (it.photoUrl.isNullOrEmpty()) {
                 binding.avatar.visibility = View.GONE
                 binding.avatarText.visibility = View.VISIBLE
-                binding.avatarText.text = it.initialsName()
+                binding.avatarText.text = it.initials
+            } else {
+                Glide.with(this).load(it.photoUrl).centerCrop().into(binding.avatar)
             }
+
             binding.name.text =
-                requireActivity().getString(R.string.home_title_header, it.fistName())
-            binding.avatar.setOnClickListener { navigateToProfile() }
-            binding.name.setOnClickListener { navigateToProfile() }
+                if (it.isGroup) requireActivity().getString(R.string.home_title_group_header, it.name)
+                else requireActivity().getString(R.string.home_title_header, it.name)
+
+            if (!it.isGroup) {
+                binding.avatar.setOnClickListener { navigateToProfile() }
+                binding.name.setOnClickListener { navigateToProfile() }
+            }
             binding.cadastrados.setOnClickListener { navigateToReport() }
         }
     }
@@ -103,6 +109,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.extractFragment -> navigateToExtracts()
+                R.id.groupsFragment -> navigateToGroups()
                 else -> false
             }
         }
@@ -119,6 +126,12 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         return true
     }
 
+    private fun navigateToGroups(): Boolean {
+        val action = navigation.navigateToGroups()
+        findNavController().navigate(action)
+        return true
+    }
+
     private fun navigateToReaderCost(cost: CostsEntities) {
         val action = CostsFragmentDirections.actionCostsFragmentToCostReaderFragment(cost)
         findNavController().navigate(action)
@@ -126,7 +139,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
 
     private fun navigateToAddCosts() {
-        val action = navigation.navigateToBilletRegistrationBarcodeScanner()
+        val action = navigation.navigateToBilletRegistrationForm()
         findNavController().navigate(action)
     }
 

@@ -1,6 +1,9 @@
 package br.com.brunocarvalhs.data.model
 
 import br.com.brunocarvalhs.domain.entities.GroupEntities
+import br.com.brunocarvalhs.domain.entities.GroupEntities.Companion.ID
+import br.com.brunocarvalhs.domain.entities.GroupEntities.Companion.NAME
+import br.com.brunocarvalhs.domain.entities.GroupEntities.Companion.MEMBERS
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -10,15 +13,6 @@ data class GroupsModel(
     @SerializedName(NAME) override val name: String? = null,
     @SerializedName(MEMBERS) override val members: List<String> = emptyList()
 ) : GroupEntities {
-    companion object {
-
-        const val COLLECTION = "homes"
-
-        const val ID = "id"
-        const val NAME = "name"
-        const val MEMBERS = "members"
-    }
-
     override fun toMap(): Map<String?, Any?> =
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 

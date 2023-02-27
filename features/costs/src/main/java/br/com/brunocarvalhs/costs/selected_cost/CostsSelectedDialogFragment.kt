@@ -8,12 +8,17 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.DialogCostsSelectedBinding
+import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSelectedBinding>() {
+
+    @Inject
+    lateinit var navigation: Navigation
 
     private val viewModel: CostsSelectedViewModel by viewModels()
 
@@ -42,7 +47,8 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
     }
 
     private fun successDelete() {
-        findNavController().popBackStack()
+        val action = navigation.navigateToCostsRegister()
+        findNavController().navigate(action)
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -51,11 +57,17 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
 
     private fun questionDelete() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Confirmação de remoção.")
-            .setMessage("Deseja realemente deletar o \nboleto ${viewModel.cost.name} do valor de ${viewModel.cost.value}")
-            .setNegativeButton("Não") { _, _ ->
-                findNavController().popBackStack(R.id.costsFragment, inclusive = false)
-            }.setPositiveButton("Sim") { _, _ ->
+            .setTitle(getString(R.string.question_delete_title))
+            .setMessage(
+                getString(
+                    R.string.question_delete_message,
+                    viewModel.cost.name,
+                    viewModel.cost.value
+                )
+            )
+            .setNegativeButton(getString(R.string.question_delete_negative_text)) { _, _ ->
+                findNavController().popBackStack()
+            }.setPositiveButton(getString(R.string.question_delete_positive_text)) { _, _ ->
                 viewModel.deleteCost()
             }.show()
     }

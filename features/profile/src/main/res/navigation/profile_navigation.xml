@@ -15,17 +15,24 @@
                 android:id="@+id/action_profileFragment_to_editProfileFragment"
                 app:destination="@id/editProfileFragment" />
         <action
-                android:id="@+id/action_profileFragment_to_abortFragment"
-                app:destination="@id/abortFragment" />
+                android:id="@+id/action_profileFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
 
     </fragment>
 
     <fragment
-            android:id="@+id/abortFragment"
-            android:name="br.com.brunocarvalhs.profile.abort.AbortFragment" />
-
-    <fragment
             android:id="@+id/editProfileFragment"
             android:name="br.com.brunocarvalhs.profile.edit_profile.EditProfileFragment"
-            tools:layout="@layout/fragment_edit_profile" />
+            tools:layout="@layout/fragment_edit_profile" >
+        <action
+                android:id="@+id/action_editProfileFragment_to_profileFragment"
+                app:destination="@id/profileFragment"
+                app:popUpTo="@id/profileFragment"
+                app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/settingsFragment"
+            android:name="br.com.brunocarvalhs.profile.settings.SettingsFragment" />
+
 </navigation>

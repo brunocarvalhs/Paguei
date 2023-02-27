@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.billet_registration.barcode_scanner
+package br.com.brunocarvalhs.billet_registration.barcode_scanner
 
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.lifecycle.ProcessCameraProvider

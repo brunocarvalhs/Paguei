@@ -1,21 +1,30 @@
 <resources>
     <string name="home_title_header">Hi, %1$s</string>
-    <string name="costs_total_text">You have %1$s tickets\nregistered to pay</string>
+    <string name="home_title_group_header">%1$s</string>
+    <string name="costs_total_text">You have %1$s bills\nregistered to pay</string>
     <string name="item_cost_date">Expires in %1$s</string>
     <string name="item_cost_value">$ %1$s</string>
     <string name="selected_cost_description">Was the %1$s\npayment of BRL %2$s\npaid?</string>
     <string name="costs_list_header_subtitle">Keep your accounts up to date</string>
     <string name="dialog_costs_selected_not_text">Not yet</string>
     <string name="dialog_costs_selected_yes_text">Yes</string>
-    <string name="dialog_costs_selected_delete_text">Delete ticket</string>
-    <string name="textfield_name_hilt">Bank slip name</string>
+    <string name="dialog_costs_selected_delete_text">Delete bill</string>
+    <string name="textfield_name_hilt">Bill name</string>
     <string name="textfield_prompt_hilt">Due date</string>
     <string name="textfield_value_hilt">Value</string>
-    <string name="textfield_barcode_hilt">Bar code</string>
+    <string name="textfield_barcode_hilt">Barcode</string>
     <string name="fragment_cost_reader_button_update_text">Update</string>
     <string name="textfield_payment_voucher_hilt">Voucher URL</string>
-    <string name="fragment_payment_voucher_registration_button_text">Salvar comprovante</string>
+    <string name="fragment_payment_voucher_registration_button_text">Save voucher</string>
     <string name="menu_text_extract">Extracts</string>
-    <string name="fragment_costs_list_button_add_text">Add Bank slip</string>
-    <string name="dialog_homes_list_button_create_text">Add Group</string>
+    <string name="fragment_costs_list_button_add_text">Add bill</string>
+    <string name="dialog_homes_list_button_create_text">Add group</string>
+    <string name="textfield_name_text">Group name</string>
+    <string name="textfield_members_text">Members</string>
+    <string name="question_delete_title">Removal Confirmation</string>
+    <string name="question_delete_message">Do you really want to delete the bill %1$s for the amount of %2$s?</string>
+    <string name="question_delete_negative_text">No</string>
+    <string name="question_delete_positive_text">Yes</string>
+    <string name="copy_success">Code successfully copied</string>
+    <string name="fragment_payment_voucher_textfield_date_payment_hilt">Payment date</string>
 </resources>

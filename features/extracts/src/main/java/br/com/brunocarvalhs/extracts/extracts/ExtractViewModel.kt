@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.costs.extracts
+package br.com.brunocarvalhs.extracts.extracts
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel

@@ -47,7 +47,7 @@ android {
         }
         buildTypes {
             getByName("release") {
-                resValue("string", "app_name", "paguei!")
+                resValue("string", "app_name", "Paguei!")
 
                 isDebuggable = false
                 isJniDebuggable = false
@@ -57,7 +57,7 @@ android {
                 )
             }
             getByName("debug") {
-                resValue("string", "app_name", "paguei! - Debug")
+                resValue("string", "app_name", "Paguei! - Debug")
 
                 applicationIdSuffix = ".debug"
                 isMinifyEnabled = false
@@ -137,4 +137,5 @@ dependencies {
     implementation(Dependencies.Firebase.CRASHLYTICS)
     implementation(Dependencies.Firebase.ANALYTICS)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx")
 }

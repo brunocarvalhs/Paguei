@@ -1,0 +1,62 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            app:key="about_category"
+            app:title="@string/settings_about_category">
+
+        <Preference
+                android:key="about_version"
+                android:title="@string/settings_about_version_title" />
+
+        <Preference
+                android:key="about_develop_github"
+                android:title="@string/settings_about_develop_github_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="notifications_category"
+            app:title="@string/settings_notifications_category">
+
+        <SwitchPreferenceCompat
+                app:key="notifications"
+                app:title="@string/settings_notifications_title"
+                app:summary="@string/settings_notifications_summary" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="analytics_category"
+            app:title="@string/settings_analytics_category">
+
+        <SwitchPreferenceCompat
+                app:key="analytics"
+                app:title="@string/settings_analytics_title"
+                app:summary="@string/settings_analytics_summary" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="help_category"
+            app:title="@string/settings_help_category">
+
+        <Preference
+                app:key="feedback"
+                app:summary="@string/settings_help_summary"
+                app:title="@string/settings_help_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="account_category"
+            app:title="@string/settings_delete_account_category">
+
+        <Preference
+                app:key="account"
+                app:summary="@string/settings_delete_account_summary"
+                app:title="@string/settings_delete_account_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

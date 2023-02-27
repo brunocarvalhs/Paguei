@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ReportFragment">
@@ -10,42 +10,32 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <include
                 android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/seed"
+                layout="@layout/component_header"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:background="@color/seed"
-                    android:layout_margin="20dp" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/total_pay"
-                android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/header"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/total_costs"
-                app:layout_constraintTop_toBottomOf="@id/header" />
+                android:id="@+id/constraintLayout">
 
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/total_costs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header" />
+            <include
+                    layout="@layout/component_report"
+                    android:id="@+id/report_costs"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <include
+                    layout="@layout/component_report"
+                    android:id="@+id/report_pay"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

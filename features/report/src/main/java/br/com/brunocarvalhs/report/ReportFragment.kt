@@ -1,20 +1,19 @@
 package br.com.brunocarvalhs.report
 
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.report.databinding.FragmentReportBinding
-import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis.XAxisPosition
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
 
 
 @AndroidEntryPoint
@@ -37,13 +36,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     }
 
     private fun displayData() {
-        binding.totalCosts.text = getString(
-            R.string.total_costs, getString(R.string.formated_money, viewModel.totalCosts())
-        )
-        binding.totalPay.text = getString(
-            R.string.total_pay, getString(R.string.formated_money, viewModel.totalPay())
-        )
-        setupChart()
+        defineValuesReportPay()
+        defineValuesReportCosts()
+        setupFilters()
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -52,6 +47,54 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     override fun initView() {
         visibilityToolbar(true)
+        setupReportPay()
+        setupReportCosts()
+        setupFilters()
+    }
+
+    private fun setupFilters() {
+        binding.header.filters.removeAllViews()
+        val list = viewModel.defineFilters()
+        list.forEach { addFilter(it) }
+    }
+
+    private fun addFilter(filter: String?) {
+        filter?.let { date ->
+            val chip = Chip(requireContext())
+            chip.text = date
+            chip.setOnClickListener { viewModel.selectedFilter(date) }
+            binding.header.filters.addView(chip)
+        }
+    }
+
+    private fun setupReportCosts() {
+        defineValuesReportCosts()
+        binding.reportCosts.name.text = getString(R.string.total_costs)
+        binding.reportCosts.icon.setImageDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(),
+                R.drawable.ic_baseline_trending_down_24
+            )
+        )
+    }
+
+    private fun setupReportPay() {
+        defineValuesReportPay()
+        binding.reportPay.name.text = getString(R.string.total_pay)
+        binding.reportPay.icon.setImageDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(),
+                R.drawable.ic_baseline_trending_up_24
+            )
+        )
+    }
+
+    private fun defineValuesReportCosts() {
+        binding.reportCosts.value.text = getString(R.string.formated_money, viewModel.totalCosts())
+    }
+
+    private fun defineValuesReportPay() {
+        binding.reportPay.value.text = getString(R.string.formated_money, viewModel.totalPay())
     }
 
     override fun loading() {
@@ -61,62 +104,5 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     override fun onStart() {
         super.onStart()
         viewModel.fetchData()
-    }
-
-    private fun setupChart() {
-        val chart = binding.chart
-
-        val entries = mutableListOf<BarEntry>()
-        val valuesFormatter = mutableListOf<String>()
-        entries.add(BarEntry(0f, viewModel.totalCosts))
-        valuesFormatter.add("Total Pago (R$)")
-        entries.add(BarEntry(1f, viewModel.totalPay))
-        valuesFormatter.add("Total de Custos (R$)")
-        viewModel.totalRender?.let {
-            entries.add(BarEntry(2f, it))
-            valuesFormatter.add("Total de Renda (R$)")
-        }
-
-        val set = BarDataSet(entries, " ")
-        set.colors = listOf(Color.RED, Color.GREEN, Color.BLUE)
-        set.valueTextColor = Color.WHITE
-
-        val data = BarData(set)
-        chart.data = data
-
-        val xAxis = chart.xAxis
-        xAxis.position = XAxisPosition.BOTTOM
-        xAxis.textSize = 10f
-        xAxis.textColor = Color.WHITE
-        xAxis.gridColor = Color.TRANSPARENT
-        xAxis.axisLineColor = Color.TRANSPARENT
-        xAxis.setDrawAxisLine(true)
-        xAxis.setDrawGridLines(false)
-        xAxis.valueFormatter = IndexAxisValueFormatter(valuesFormatter)
-
-        val description: Description = chart.description
-        description.isEnabled = false
-
-        val l: Legend = chart.legend
-        l.isEnabled = false
-        chart.setVisibleXRangeMaximum(5f)
-
-        chart.setTouchEnabled(false)
-        chart.isDragEnabled = false
-        chart.setScaleEnabled(false)
-        chart.isScaleXEnabled = false
-        chart.isScaleYEnabled = false
-        chart.setPinchZoom(false)
-        chart.isDoubleTapToZoomEnabled = false
-
-        chart.axisRight.isEnabled = true
-        chart.axisRight.textColor = Color.WHITE
-        chart.axisRight.gridColor = Color.WHITE
-
-        chart.axisLeft.isEnabled = false
-
-        chart.animateXY(1000, 1000)
-        chart.setPinchZoom(true)
-        chart.invalidate()
     }
 }

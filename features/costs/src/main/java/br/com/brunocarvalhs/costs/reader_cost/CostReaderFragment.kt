@@ -9,13 +9,19 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.FragmentCostReaderBinding
+import br.com.brunocarvalhs.data.utils.FORMAT_DATE
+import br.com.brunocarvalhs.data.utils.PROMPT_FORMAT
+import br.com.brunocarvalhs.data.utils.REGEX_TEXT
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputLayout
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
@@ -77,49 +83,57 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
     }
 
     private fun setupName() {
-        binding.name.setEndIconOnClickListener {
-            if (binding.name.editText?.isEnabled == false) {
-                binding.name.editText?.defineEnabled()
-                binding.name.isEndIconVisible = false
-                defineUpdateButton()
-            }
-        }
+        setupEditTextField(binding.name)
     }
 
     private fun setupPrompt() {
-        binding.prompt.setEndIconOnClickListener {
-            if (binding.prompt.editText?.isEnabled == false) {
-                binding.prompt.editText?.defineEnabled()
-                binding.prompt.setEndIconDrawable(R.drawable.ic_baseline_calendar_today_24)
-                defineUpdateButton()
-            } else {
-                datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
-            }
+        setupEditTextField(
+            binding.prompt,
+            R.drawable.ic_baseline_calendar_month_24
+        ) { showDateAlert(datePicker) }
+        formattedDate(binding.prompt.editText)
+        eventSetDateTextField(binding.prompt.editText, datePicker)
+    }
+
+    private fun showDateAlert(datePicker: MaterialDatePicker<Long>) {
+        datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
+    }
+
+    private fun eventSetDateTextField(editText: EditText?, datePicker: MaterialDatePicker<Long>) {
+        datePicker.addOnPositiveButtonClickListener {
+            calendar.time = Date(it)
+            calendar.add(Calendar.DATE, 1)
+            val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(calendar.time)
+            editText?.setText(date)
         }
-        binding.prompt.editText?.let {
+    }
+
+    private fun formattedDate(editText: EditText?) {
+        editText?.let {
             val listener =
                 MaskedTextChangedListener(PROMPT_FORMAT, it)
             it.addTextChangedListener(listener)
             it.onFocusChangeListener = listener
         }
-        datePicker.addOnPositiveButtonClickListener {
-            calendar.time = Date(it)
-            calendar.add(Calendar.DATE, 1)
-            val date = SimpleDateFormat(
-                FORMAT_DATE, Locale.getDefault()
-            ).format(calendar.time)
-            binding.prompt.editText?.setText(date)
+    }
+
+    private fun setupEditTextField(
+        input: TextInputLayout,
+        @DrawableRes icon: Int? = null,
+        event: () -> Unit = {}
+    ) {
+        input.setEndIconOnClickListener {
+            if (input.editText?.isEnabled == false) {
+                input.editText?.defineEnabled()
+                icon?.let { input.setEndIconDrawable(it) }
+                    ?: kotlin.run { input.isEndIconVisible = false }
+                defineUpdateButton()
+            } else event.invoke()
         }
     }
 
     private fun setupValue() {
-        binding.value.setEndIconOnClickListener {
-            if (binding.value.editText?.isEnabled == false) {
-                binding.value.editText?.defineEnabled()
-                binding.value.isEndIconVisible = false
-                defineUpdateButton()
-            }
-        }
+        setupEditTextField(binding.value)
         setupTextFieldValue()
     }
 
@@ -131,7 +145,8 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
         val clipboardManager =
             requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         clipboardManager.setPrimaryClip(ClipData.newPlainText("", textCopied))
-        Toast.makeText(requireContext(), "Código copiado com sucesso.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.copy_success), Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun View.defineEnabled() {
@@ -172,11 +187,5 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
 
     private fun defineUpdateButton() {
         binding.update.visibility = View.VISIBLE
-    }
-
-    companion object {
-        const val FORMAT_DATE = "dd/MM/yyyy"
-        const val PROMPT_FORMAT = "[00]{/}[00]{/}[0000]"
-        const val REGEX_TEXT = "[^\\d]"
     }
 }

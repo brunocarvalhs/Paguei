@@ -2,13 +2,14 @@ package br.com.brunocarvalhs.report
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,11 +28,13 @@ class ReportViewModel @Inject constructor(
     var totalCosts = 0f
         private set
 
-    var totalPay = 0f
+    private var totalPay = 0f
         private set
 
-    var totalRender = sessionManager.getUser()?.salary?.toFloat()
+    var totalRender = sessionManager.getUser()?.salary
         private set
+
+    private var filterDate: String? = null
 
     fun fetchData() {
         viewModelScope.launch {
@@ -42,6 +45,35 @@ class ReportViewModel @Inject constructor(
             } catch (error: Exception) {
                 mutableState.value = ReportViewState.Error(error.message)
             }
+        }
+    }
+
+    fun selectedFilter(date: String) {
+        mutableState.value = ReportViewState.Loading
+        filterDate = date
+        mutableState.value = ReportViewState.Success
+    }
+
+    fun defineFilters(): List<String?> {
+        return listCosts
+            .groupBy { convertDate(it.datePayment) }
+            .map { it.key }
+            .sortedBy { orderByDate(it) }
+    }
+
+    private fun convertDate(date: String?): String? {
+        return date?.let {
+            val formatoEntrada = SimpleDateFormat("dd/MM/yyyy")
+            val formatoSaida = SimpleDateFormat("MMMM / yyyy", Locale.getDefault())
+            val data = formatoEntrada.parse(date)
+            formatoSaida.format(data)
+        }
+    }
+
+    private fun orderByDate(date: String?): Date? {
+        return date?.let {
+            val formatoSaida = SimpleDateFormat("MMMM / yyyy", Locale.getDefault())
+            formatoSaida.parse(it)
         }
     }
 
@@ -61,6 +93,10 @@ class ReportViewModel @Inject constructor(
         return formattedDecimal(totalPay.toDouble())
     }
 
-    private fun formattedDecimal(value: Double) =
-        DecimalFormat(CostsModel.FORMAT_VALUE).format(value)
+    private fun formattedDecimal(value: Double): String  {
+        val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+        numberFormat.maximumFractionDigits = 2
+        numberFormat.minimumFractionDigits = 2
+        return numberFormat.format(value)
+    }
 }

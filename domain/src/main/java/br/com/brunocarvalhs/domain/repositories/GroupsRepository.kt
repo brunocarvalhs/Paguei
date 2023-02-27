@@ -2,7 +2,7 @@ package br.com.brunocarvalhs.domain.repositories
 
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 
-interface HomesRepository {
+interface GroupsRepository {
     suspend fun add(homes: GroupEntities)
     suspend fun list(): List<GroupEntities>
     suspend fun update(homes: GroupEntities): GroupEntities

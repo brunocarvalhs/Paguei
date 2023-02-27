@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="home_title_header">Olá, %1$s</string>
+    <string name="home_title_group_header">%1$s</string>
     <string name="costs_total_text">Você tem %1$s boletos\ncadastrados para pagar</string>
     <string name="item_cost_date">Vence em %1$s</string>
     <string name="item_cost_value">R$ %1$s</string>
-    <string name="selected_cost_description">O boleto %1$s\nno valor de R$ %2$s\nfoi pago ?</string>
+    <string name="selected_cost_description">O boleto %1$s\nno valor de R$ %2$s\nfoi pago?</string>
     <string name="costs_list_header_subtitle">Mantenha suas contas em dia</string>
     <string name="dialog_costs_selected_not_text">Ainda não</string>
     <string name="dialog_costs_selected_yes_text">Sim</string>
@@ -21,4 +22,10 @@
     <string name="menu_text_extract">Extrato</string>
     <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
     <string name="dialog_homes_list_button_create_text">Adicionar Grupo</string>
+    <string name="question_delete_title">Confirmação de remoção</string>
+    <string name="question_delete_message">Deseja realemente deletar o boleto %1$s do valor de %2$s</string>
+    <string name="question_delete_negative_text">Não</string>
+    <string name="question_delete_positive_text">Sim</string>
+    <string name="copy_success">Código copiado com sucesso</string>
+    <string name="fragment_payment_voucher_textfield_date_payment_hilt">Data de pagamento</string>
 </resources>

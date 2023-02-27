@@ -95,7 +95,7 @@ jobs:
         if: ${{ success() }}
         uses: mb2dev/github-action-comment-pull-request@1.0.0
         with:
-          message: "Bot: Testes Unitários com sucesso, código funcional."
+          message: "Testes Unitários com sucesso, código funcional."
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           reactions: "+1 | laugh | rocket"
 

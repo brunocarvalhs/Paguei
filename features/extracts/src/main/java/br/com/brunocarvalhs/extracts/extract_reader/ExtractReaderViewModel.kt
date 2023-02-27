@@ -7,12 +7,18 @@ import android.net.Uri
 import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.data.utils.FORMAT_DATE
+import br.com.brunocarvalhs.extracts.R
 import br.com.brunocarvalhs.paguei.features.costs.extract_reader.ExtractReaderViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class ExtractReaderViewModel @Inject constructor(
+    @ApplicationContext context: Context,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<ExtractReaderViewState>() {
 
@@ -22,7 +28,9 @@ class ExtractReaderViewModel @Inject constructor(
 
     val prompt = ObservableField<String>(cost.prompt)
 
-    val value = ObservableField(cost.formatValue())
+    val value = ObservableField(context.getString(R.string.item_cost_value, cost.formatValue()))
+
+    val datePayment = ObservableField(cost.datePayment)
 
     val barCode = ObservableField<String>(cost.barCode)
 

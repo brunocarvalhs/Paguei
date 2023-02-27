@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.billet_registration.databinding.FragmentBilletRegistrationBarcodeScannerBinding
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.domain.listeners.BarcodeScanListener
-import br.com.brunocarvalhs.paguei.features.billet_registration.barcode_scanner.BilletRegistrationBarcodeScannerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -107,7 +106,7 @@ class BilletRegistrationBarcodeScannerFragment :
         viewModel.barcodeScanner(barcode)
     }
 
-    override fun onScanError(error: String) {
+    override fun onScanError(error: String?) {
         showBottomSheet()
     }
 

@@ -1,24 +1,21 @@
-package br.com.brunocarvalhs.paguei.features.costs.extracts
+package br.com.brunocarvalhs.extracts.extracts
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.entities.CostsEntities
 import br.com.brunocarvalhs.extracts.databinding.FragmentExtractListBinding
-import br.com.brunocarvalhs.extracts.extracts.ExtractRecyclerViewAdapter
-import br.com.brunocarvalhs.extracts.extracts.ExtractViewState
+import com.google.android.material.search.SearchView.TransitionState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
-    ExtractRecyclerViewAdapter.ExtractClickListener,
-    SearchView.OnQueryTextListener {
+    ExtractRecyclerViewAdapter.ExtractClickListener {
 
     private val viewModel: ExtractViewModel by viewModels()
 
@@ -50,12 +47,23 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     }
 
     private fun setupSearch() {
-        binding.search.setOnQueryTextListener(this)
+        binding.searchView.editText.apply {
+            doOnTextChanged { text, _, _, _ ->
+                adapter.filter(text.toString())
+            }
+        }
+        binding.searchView.addTransitionListener { _, _, newState ->
+            val state = newState === TransitionState.HIDDEN
+            visibilityToolbar(state)
+            if (state) adapter.filter(String())
+        }
     }
 
     private fun setupList() {
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
+        binding.listSeachr.adapter = adapter
+        binding.listSeachr.layoutManager = LinearLayoutManager(context)
     }
 
     override fun loading() {
@@ -67,22 +75,12 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     }
 
     override fun onClick(cost: CostsEntities) {
-        val action = ExtractFragmentDirections
-            .actionExtractFragmentToExtractReaderFragment(cost as CostsModel)
+        val action = ExtractFragmentDirections.actionExtractFragmentToExtractReaderFragment(cost)
         findNavController().navigate(action)
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        adapter.getFilter().filter(newText)
-        return false
     }
 }
