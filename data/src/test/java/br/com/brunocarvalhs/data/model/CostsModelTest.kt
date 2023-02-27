@@ -92,6 +92,6 @@ class CostsModelTest {
         )
 
         assertNotNull(costsModel.value)
-        assertEquals("0", costsModel.formatValue())
+        assertEquals("0,00", costsModel.formatValue())
     }
 }
