@@ -21,6 +21,7 @@ android {
         targetSdk = AndroidConfig.TARGET_SDK_VERSION
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
+        multiDexEnabled = true
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
         vectorDrawables {
@@ -30,16 +31,24 @@ android {
     android {
         signingConfigs {
             create("release") {
-                storeFile = file(System.getenv("KEYSTORE_PATH") ?: "keystore.jks")
-                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
-                keyAlias = System.getenv("KEYSTORE_ALIAS") ?: ""
-                keyPassword = System.getenv("KEYSTORE_ALIAS_PASSWORD") ?: ""
-                enableV1Signing = true
-                enableV2Signing = true
+                if (
+                    System.getenv("KEYSTORE_PASSWORD") != null &&
+                    System.getenv("KEYSTORE_ALIAS") != null &&
+                    System.getenv("KEY_PASSWORD") != null
+                ) {
+                    storeFile = file("release.keystore")
+                    storePassword = System.getenv("KEYSTORE_PASSWORD")
+                    keyAlias = System.getenv("KEYSTORE_ALIAS")
+                    keyPassword = System.getenv("KEY_PASSWORD")
+                    enableV1Signing = true
+                    enableV2Signing = true
+                }
             }
         }
         buildTypes {
             getByName("release") {
+                resValue("string", "app_name", "Paguei!")
+
                 isDebuggable = false
                 isJniDebuggable = false
                 signingConfig = signingConfigs.getByName("release")
@@ -48,6 +57,8 @@ android {
                 )
             }
             getByName("debug") {
+                resValue("string", "app_name", "Paguei! - Debug")
+
                 applicationIdSuffix = ".debug"
                 isMinifyEnabled = false
                 isDebuggable = true
@@ -80,6 +91,15 @@ android {
 }
 
 dependencies {
+    // Features
+    implementation(project(mapOf("path" to ":features:auth")))
+    implementation(project(mapOf("path" to ":features:billet_registration")))
+    implementation(project(mapOf("path" to ":features:costs")))
+    implementation(project(mapOf("path" to ":features:extracts")))
+    implementation(project(mapOf("path" to ":features:groups")))
+    implementation(project(mapOf("path" to ":features:profile")))
+    implementation(project(mapOf("path" to ":features:report")))
+
     // Modules
     implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":domain")))
@@ -87,6 +107,7 @@ dependencies {
 
     // Core dependencies
     implementation(Dependencies.Core.KTX)
+    implementation(Dependencies.Core.MULTIDEX)
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
     implementation(Dependencies.Core.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.Core.LIFECYCLE_VIEWMODEL)
@@ -96,9 +117,6 @@ dependencies {
     implementation(Dependencies.UI.APPCOMPAT)
     implementation(Dependencies.UI.FRAGMENT_KTX)
     implementation(Dependencies.UI.DATABINDING_COMMON)
-    implementation("com.google.android.material:material:1.7.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.test.ext:junit-ktx:1.1.3")
     implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
     implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
@@ -106,8 +124,6 @@ dependencies {
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
-    testImplementation(Dependencies.Test.MOCKITO)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
     androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
 
@@ -120,27 +136,6 @@ dependencies {
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.CRASHLYTICS)
     implementation(Dependencies.Firebase.ANALYTICS)
-    implementation(Dependencies.Firebase.AUTH)
-    implementation(Dependencies.Firebase.FIRESTORE)
-    implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
-    implementation(Dependencies.Firebase.UI_AUTH)
-
-    // Network dependencies
-    implementation(Dependencies.Network.GSON)
-
-    // Glide dependencies
-    implementation(Dependencies.Glide.GLIDE)
-    kapt(Dependencies.Glide.GLIDE_COMPILER)
-
-    // Camera
-    implementation("androidx.camera:camera-core:1.2.0")
-    implementation("androidx.camera:camera-view:1.2.0")
-    implementation("androidx.camera:camera-camera2:1.2.0")
-    implementation("androidx.camera:camera-lifecycle:1.2.0")
-    implementation("androidx.camera:camera-extensions:1.2.0")
-    implementation("com.google.mlkit:barcode-scanning:17.0.3")
-
-    // Mascara
-    implementation("com.redmadrobot:input-mask-android:6.1.0")
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx")
 }

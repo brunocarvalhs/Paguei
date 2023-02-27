@@ -1,5 +1,6 @@
 package br.com.brunocarvalhs.data.model
 
+import br.com.brunocarvalhs.domain.entities.GroupEntities
 import com.google.gson.Gson
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -7,28 +8,28 @@ import org.junit.Test
 class GroupModelTest {
 
     @Test
-    fun testHomesModel() {
+    fun testGroupsModel() {
         // Arrange
         val id = "123456"
         val name = "Test Name"
         val members = listOf("member1", "member2")
 
         // Act
-        val homesModel = GroupsModel(id, name, members)
+        val groupsModel = GroupsModel(id = id, name = name, members = members)
 
         // Assert
-        assertEquals(id, homesModel.id)
-        assertEquals(name, homesModel.name)
-        assertEquals(members, homesModel.members)
+        assertEquals(id, groupsModel.id)
+        assertEquals(name, groupsModel.name)
+        assertEquals(members, groupsModel.members)
 
-        val map = homesModel.toMap()
-        assertEquals(id, map[GroupsModel.ID])
-        assertEquals(name, map[GroupsModel.NAME])
-        assertEquals(members, map[GroupsModel.MEMBERS])
+        val map = groupsModel.toMap()
+        assertEquals(id, map[GroupEntities.ID])
+        assertEquals(name, map[GroupEntities.NAME])
+        assertEquals(members, map[GroupEntities.MEMBERS])
 
-        val json = homesModel.toJson()
+        val json = groupsModel.toJson()
         val gson = Gson()
         val fromJson = gson.fromJson(json, GroupsModel::class.java)
-        assertEquals(homesModel, fromJson)
+        assertEquals(groupsModel, fromJson)
     }
 }

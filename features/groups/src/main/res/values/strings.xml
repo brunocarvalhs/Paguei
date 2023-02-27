@@ -1,0 +1,10 @@
+<resources>
+    <string name="fragment_homes_register_button_registration_text">Register</string>
+    <string name="fragment_homes_register_button_cancel_text">Cancel</string>
+    <string name="textfield_name_text">Group name</string>
+    <string name="textfield_members_text">Members</string>
+    <string name="fragment_payment_voucher_registration_button_text">Save voucher</string>
+    <string name="fragment_homes_register_title">Fill in the\ngroup details</string>
+    <string name="fragment_costs_list_button_add_text">Add ticket</string>
+    <string name="dialog_homes_list_button_create_text">Add group</string>
+</resources>

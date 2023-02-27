@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/costs_navigation"
+        app:startDestination="@id/costsFragment">
+
+    <fragment
+            android:id="@+id/costsFragment"
+            android:name="br.com.brunocarvalhs.costs.costs_list.CostsFragment"
+            tools:layout="@layout/fragment_costs_list">
+
+        <deepLink
+                app:uri="@string/deeplink_costs"
+                android:autoVerify="true" />
+
+        <action
+                android:id="@+id/action_homeFragment_to_itemListDialogFragment"
+                app:destination="@id/itemListDialogFragment" />
+
+        <action
+                android:id="@+id/action_costsFragment_to_costReaderFragment"
+                app:destination="@id/costReaderFragment" />
+    </fragment>
+
+    <dialog
+            android:id="@+id/itemListDialogFragment"
+            android:name="br.com.brunocarvalhs.costs.selected_cost.CostsSelectedDialogFragment"
+            tools:layout="@layout/dialog_costs_selected">
+
+        <argument
+                android:name="costs"
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
+        <action
+                android:id="@+id/action_itemListDialogFragment_to_paymentVoucherFragment"
+                app:destination="@id/paymentVoucherFragment" />
+    </dialog>
+
+    <fragment
+            android:id="@+id/costReaderFragment"
+            android:name="br.com.brunocarvalhs.costs.reader_cost.CostReaderFragment"
+            tools:layout="@layout/fragment_cost_reader">
+        <argument
+                android:name="cost"
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
+        <action
+                android:id="@+id/action_costReaderFragment_to_costsFragment"
+                app:destination="@id/costsFragment"
+                app:popUpTo="@id/costsFragment"
+                app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/paymentVoucherFragment"
+            android:name="br.com.brunocarvalhs.costs.payment_voucher.PaymentVoucherFragment"
+            tools:layout="@layout/fragment_payment_voucher">
+        <argument
+                android:name="cost"
+                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
+    </fragment>
+
+</navigation>

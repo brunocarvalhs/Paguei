@@ -1,0 +1,11 @@
+<resources>
+    <string name="fragment_extracts_item_cost_date">It was paid in %1$s</string>
+    <string name="item_cost_value">$ %1$s</string>
+    <string name="textfield_name_hilt">Bank slip name</string>
+    <string name="textfield_prompt_hilt">Due date</string>
+    <string name="textfield_value_hilt">Value</string>
+    <string name="textfield_barcode_hilt">Bar code</string>
+    <string name="fragment_extract_reader_button_open_text">View receipt</string>
+    <string name="textfield_payment_voucher_hilt">URI</string>
+    <string name="fragment_extract_reader_textfield_date_payment_hilt">Payment date</string>
+</resources>

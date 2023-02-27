@@ -1,40 +1,51 @@
 name: Build Application
 on:
   push:
-    branches:
-      - master
-      - develop
+    branches: [ master, develop ]
   pull_request:
     types: [ closed ]
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+  KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  JDK_VERSION: 11
+  ANDROID_SDK_TOOLS: latest
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+
 jobs:
-  build:
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-      KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  preparing_environment:
     runs-on: ubuntu-latest
+    name: Preparing Environment
+    outputs:
+      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
+      jdk-version: ${{ env.JDK_VERSION }}
+      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
+      gradle-opts: ${{ env.GRADLE_OPTS }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
 
-      - name: Setup JDK
-        uses: actions/setup-java@v3
+      - name: Set up JDK ${{ env.JDK_VERSION }}
+        uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: ${{ env.JDK_VERSION }}
 
-      - name: Setup Gradle
-        run: |
-          mkdir ~/.gradle
-          echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
-          echo "org.gradle.jvmargs=-Xmx3072m" >> ~/.gradle/gradle.properties
-       
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
-          android-sdk-tools: latest
+          sdk-version: ${{ env.ANDROID_SDK_TOOLS }}
+
+      - name: Setup Gradle
+        run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
 
       - name: Extract version from VERSION.md
         run: echo "::set-env name=version::$(cat VERSION.md)"
@@ -42,38 +53,152 @@ jobs:
       - name: Get Build Date
         run: echo "::set-env name=date::$(date +%Y-%m-%d)"
 
-      - name: Give gradlew execute permissions
+  unit_tests:
+    needs: preparing_environment
+    runs-on: ubuntu-latest
+    name: Unit Tests
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - if: needs.preparing_environment.outputs.has-exec-permissions == 'false'
         run: chmod +x gradlew
 
-      - name: Copy google-services file
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Create google-services release file
         run: |
+          rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Copy keystore file
+      - name: Run unit tests debug
+        run: ./gradlew testDebug
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Run unit tests release
+        run: ./gradlew testRelease
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+  android_lint:
+    needs: preparing_environment
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - if: needs.preparing_environment.outputs.has-exec-permissions == 'false'
+        run: chmod +x gradlew
+
+      - name: Android Lint Debug
+        run: ./gradlew lintDebug
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Android Lint Debug
+        run: ./gradlew lintRelease
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+  build:
+    needs: [ preparing_environment, unit_tests, android_lint ]
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - if: startsWith(github.ref, 'refs/heads/master')
         run: |
-          echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > app/keystore.jks
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+      - if: needs.preparing_environment.outputs.has-exec-permissions == 'false'
+        run: chmod +x gradlew
 
       - name: Build Application Debug
         if: startsWith(github.ref, 'refs/heads/develop')
-        run: env version="${{ env.version }}" ./gradlew assembleDebug
-      
+        run: ./gradlew assembleDebug
+        env:
+          VERSION: ${{ needs.preparing_environment.outputs.version }}
+
       - name: Build Application Release
         if: startsWith(github.ref, 'refs/heads/master')
-        run: |
-           env version="${{ env.version }}" ./gradlew bundleRelease
-           export PATH=$PATH:$ANDROID_HOME/build-tools/29.0.3
+        run: ./gradlew bundleRelease
+        env:
+          VERSION: ${{ needs.preparing_environment.outputs.version }}
 
-      - name: Upload signed AAR
+  upload:
+    needs: [ build ]
+    name: Upload the signed artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Sign artifact Debug
+        if: startsWith(github.ref, 'refs/heads/develop')
+        uses: r0adkll/sign-android-release@v1.0.1
+        with:
+          releaseDirectory: app/build/outputs/apk/
+          alias: ${{ env.KEYSTORE_ALIAS }}
+          signingKeyBase64: ${{ env.KEYSTORE_FILE }}
+          keyStorePassword: ${{ env.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ env.KEY_PASSWORD }}
+
+      - name: Sign artifact Production
+        if: startsWith(github.ref, 'refs/heads/master')
+        uses: r0adkll/sign-android-release@v1.0.1
+        with:
+          releaseDirectory: app/build/outputs/bundle/
+          alias: ${{ env.KEYSTORE_ALIAS }}
+          signingKeyBase64: ${{ env.KEYSTORE_FILE }}
+          keyStorePassword: ${{ env.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ env.KEY_PASSWORD }}
+
+      - name: Upload AAB
+        if: startsWith(github.ref, 'refs/heads/master')
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ env.version }}-${{ env.date }}.aar
+          name: ${{ github.repository }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
           path: app/build/outputs/bundle/
 
       - name: Upload APK
+        if: startsWith(github.ref, 'refs/heads/develop')
         uses: actions/upload-artifact@v2
         with:
-          name: paguei-${{ env.version }}-${{ env.date }}.apk
+          name: ${{ github.repository }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
           path: app/build/outputs/apk/
+
+  git:
+    needs: [ build ]
+    name: Create branch release or tags
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          key: ${{ github.sha }}
 
       - name: Create Branch Release
         if: startsWith(github.ref, 'refs/heads/develop')
@@ -83,3 +208,10 @@ jobs:
         with:
           branch: release/v${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
+
+      - name: Releasing using Hub
+        if: startsWith(github.ref, 'refs/heads/master')
+        uses: kyze8439690/action-release-releaseapk@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          APP_FOLDER: app

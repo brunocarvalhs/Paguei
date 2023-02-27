@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fragment_profile_abort_button_text">Sobre</string>
+    <string name="fragment_profile_logout_button_text">Sair</string>
+    <string name="fragment_profile_settings_button_text">Configurações</string>
+    <string name="fragment_profile_edit_profile_button_text">Editar Perfil</string>
+    <string name="settings_help_category">Ajuda</string>
+    <string name="settings_help_title">Enviar feedback</string>
+    <string name="settings_help_summary">Reportar problemas técnicos ou sugerir novas funcionalidades</string>
+    <string name="settings_notifications_category">Notificações</string>
+    <string name="settings_notifications_title">Ativar notificações de mensagem</string>
+    <string name="settings_notifications_summary">Escolha se deseja receber notificações do aplicativo ou não. Personalize suas preferências de notificação de acordo com suas necessidades.</string>
+    <string name="settings_analytics_category">Analytics</string>
+    <string name="settings_analytics_title">Ativar coleta de dados para análise</string>
+    <string name="settings_analytics_summary">Ative ou desative a coleta de dados de uso do aplicativo. Esses dados nos ajudarão a melhorar sua experiência.</string>
+    <string name="settings_delete_account_category">Conta</string>
+    <string name="settings_delete_account_title">Excluir conta</string>
+    <string name="settings_delete_account_summary">Esta opção removerá permanentemente sua conta, incluindo todos os dados associados. Esta ação não pode ser desfeita, certifique-se de que deseja prosseguir com a exclusão.</string>
+    <string name="settings_delete_account_dialog_decline">Cancelar</string>
+    <string name="settings_delete_account_dialog_accept">Excluir tudo</string>
+    <string name="fragment_edit_profile_button_update_text">Atualizar</string>
+    <string name="fragment_edit_profile_textfield_name_hilt">Nome</string>
+    <string name="fragment_edit_profile_textfield_email_hilt">E-mail</string>
+    <string name="fragment_edit_profile_textfield_salary_hilt">Salário</string>
+    <string name="settings_about_category">Sobre</string>
+    <string name="settings_about_version_title">Versão</string>
+    <string name="settings_about_develop_github_title">Desenvolvedor</string>
+</resources>

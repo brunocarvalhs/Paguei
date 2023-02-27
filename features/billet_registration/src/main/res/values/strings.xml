@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_billet_registration_title_text">Could not identify a barcode.</string>
+    <string name="dialog_billet_registration_content_text">Please try scanning again or enter the code manually.</string>
+    <string name="dialog_billet_registration_try_new_text">Scan again</string>
+    <string name="dialog_billet_registration_enter_code_text">Enter code</string>
+    <string name="fragment_billet_registration_barcode_scanner_title_text">Scan the barcode on your bill</string>
+    <string name="fragment_billet_registration_barcode_scanner_next_text">Enter code manually</string>
+    <string name="fragment_billet_registration_form_title_text">Fill in the bill details</string>
+    <string name="billet_registration_textfield_name_hilt">Bill name</string>
+    <string name="billet_registration_textfield_prompt_hilt">Due date</string>
+    <string name="billet_registration_textfield_value_hilt">Value</string>
+    <string name="billet_registration_textfield_barcode_hilt">Code</string>
+    <string name="fragment_billet_registration_form_button_cancel_text">Cancel</string>
+    <string name="fragment_billet_registration_form_button_registration_text">Register</string>
+</resources>

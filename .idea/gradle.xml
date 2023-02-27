@@ -16,6 +16,14 @@
             <option value="$PROJECT_DIR$/commons" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/auth" />
+            <option value="$PROJECT_DIR$/features/billet_registration" />
+            <option value="$PROJECT_DIR$/features/costs" />
+            <option value="$PROJECT_DIR$/features/extracts" />
+            <option value="$PROJECT_DIR$/features/groups" />
+            <option value="$PROJECT_DIR$/features/profile" />
+            <option value="$PROJECT_DIR$/features/report" />
           </set>
         </option>
       </GradleProjectSettings>

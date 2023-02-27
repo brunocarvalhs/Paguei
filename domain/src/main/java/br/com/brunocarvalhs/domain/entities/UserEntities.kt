@@ -7,6 +7,8 @@ interface UserEntities : Serializable {
     val name: String?
     val photoUrl: String?
     val email: String?
+    val salary: String?
+    val token: String?
 
     fun toMap(): Map<String?, Any?>
     fun toJson(): String
@@ -15,4 +17,16 @@ interface UserEntities : Serializable {
     fun lastName(): String?
 
     fun initialsName(): String?
+    fun formatSalary(): String
+
+    companion object {
+        const val COLLECTION = "users"
+
+        const val ID = "id"
+        const val NAME = "name"
+        const val PHOTO_URL = "photoUrl"
+        const val EMAIL = "email"
+        const val SALARY = "salary"
+        const val TOKEN = "token"
+    }
 }

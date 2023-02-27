@@ -9,4 +9,13 @@ interface GroupEntities : Serializable {
 
     fun toMap(): Map<String?, Any?>
     fun toJson(): String
+
+    companion object {
+
+        const val COLLECTION = "groups"
+
+        const val ID = "id"
+        const val NAME = "name"
+        const val MEMBERS = "members"
+    }
 }

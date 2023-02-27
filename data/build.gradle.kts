@@ -2,7 +2,6 @@ import config.AndroidConfig
 import dependencies.Dependencies
 import flavor.BuildTypeDebug
 import flavor.BuildTypeRelease
-import interfaces.BuildType
 
 plugins {
     id("com.android.library")
@@ -25,13 +24,13 @@ android {
     }
 
     buildTypes {
-        getByName(BuildType.RELEASE) {
+        getByName("release") {
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
-        getByName(BuildType.DEBUG) {
+        getByName("debug") {
             isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
             isJniDebuggable = BuildTypeDebug.isDebuggable
         }
@@ -41,7 +40,7 @@ android {
         targetCompatibility = AndroidConfig.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = AndroidConfig.JAVA_VERSION.toString()
+        jvmTarget = "1.8"
     }
 }
 
@@ -53,13 +52,17 @@ dependencies {
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
 
     // Firebase dependencies
+    implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.AUTH)
     implementation(Dependencies.Firebase.FIRESTORE)
     implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
+    implementation(Dependencies.Firebase.ANALYTICS)
 
     // Network dependencies
     implementation(Dependencies.Network.GSON)
+    implementation("androidx.navigation:navigation-common-ktx:2.5.3")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.1.1")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
