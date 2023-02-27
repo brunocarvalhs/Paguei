@@ -66,7 +66,6 @@ jobs:
         run: chmod +x gradlew
 
       - if: startsWith(github.ref, 'refs/heads/master')
-        name: Create google-services release file
         run: |
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
@@ -109,6 +108,11 @@ jobs:
           JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
           ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
           GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+      - if: startsWith(github.ref, 'refs/heads/master')
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
       - if: startsWith(github.ref, 'refs/heads/master')
         name: Android Lint Release
