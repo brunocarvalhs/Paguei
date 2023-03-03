@@ -155,17 +155,7 @@ jobs:
         run: ./gradlew bundleRelease
         env:
           VERSION: ${{ needs.preparing_environment.outputs.version }}
-
-  upload:
-    needs: [ build ]
-    name: Upload the signed artifact
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
-
+          
       - name: Sign artifact Debug
         if: startsWith(github.ref, 'refs/heads/develop')
         uses: r0adkll/sign-android-release@v1.0.1
@@ -191,14 +181,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.repository }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
-          path: app/build/outputs/bundle/
+          path: app/build/outputs/bundle/release/app-release.aab
 
       - name: Upload APK
         if: startsWith(github.ref, 'refs/heads/develop')
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.repository }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
-          path: app/build/outputs/apk/
+          path: app/build/outputs/apk/debug/app-debug.apk
 
   git:
     needs: [ build ]
@@ -219,9 +209,48 @@ jobs:
           branch: release/v${{ env.version }}
           sha: '${{ github.event.pull_request.head.sha }}'
 
-      - name: Releasing using Hub
-        if: startsWith(github.ref, 'refs/heads/master')
-        uses: kyze8439690/action-release-releaseapk@master
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Download APK from build
+        uses: actions/download-artifact@v1
+        with:
+          name: apk
+      
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Download AAB from build
+        uses: actions/download-artifact@v1
+        with:
+          name: aab
+          
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          APP_FOLDER: app
+        with:
+          tag_name: ${{ needs.preparing_environment.outputs.version }}
+          release_name: ${{ github.event.repository.name }} v${{ needs.preparing_environment.outputs.version }}
+          
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Upload Release APK
+        id: upload_release_asset_apk
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: apk/app-debug.apk
+          asset_name: ${{ github.event.repository.name }}.apk
+          asset_content_type: application/zip
+          
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Upload Release AAB
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: aab/app-release.aab
+          asset_name: ${{ github.event.repository.name }}.aab
+          asset_content_type: application/zip
