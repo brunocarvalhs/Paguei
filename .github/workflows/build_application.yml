@@ -14,6 +14,7 @@ env:
   JDK_VERSION: 11
   ANDROID_SDK_TOOLS: latest
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+  APP_NAME: "paguei"
 
 jobs:
   preparing_environment:
@@ -180,14 +181,14 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/master')
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.repository }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
+          name: ${{ env.APP_NAME }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
           path: app/build/outputs/bundle/release/app-release.aab
 
       - name: Upload APK
         if: startsWith(github.ref, 'refs/heads/develop')
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.repository }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
+          name: ${{ env.APP_NAME }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
           path: app/build/outputs/apk/debug/app-debug.apk
 
   git:
@@ -229,7 +230,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: ${{ needs.preparing_environment.outputs.version }}
-          release_name: ${{ github.event.repository.name }} v${{ needs.preparing_environment.outputs.version }}
+          release_name: ${{ env.APP_NAME }} v${{ needs.preparing_environment.outputs.version }}
           
       - if: startsWith(github.ref, 'refs/heads/master')
         name: Upload Release APK
@@ -240,7 +241,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: apk/app-debug.apk
-          asset_name: ${{ github.event.repository.name }}.apk
+          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.apk
           asset_content_type: application/zip
           
       - if: startsWith(github.ref, 'refs/heads/master')
@@ -252,5 +253,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: aab/app-release.aab
-          asset_name: ${{ github.event.repository.name }}.aab
+          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.aab
           asset_content_type: application/zip
