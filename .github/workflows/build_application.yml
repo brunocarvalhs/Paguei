@@ -145,6 +145,10 @@ jobs:
         run: ./gradlew assembleDebug
         env:
           VERSION: ${{ needs.preparing_environment.outputs.version }}
+          
+      - if: startsWith(github.ref, 'refs/heads/master')
+        run: |
+          echo ${{ env.KEYSTORE_FILE }} | base64 --decode > app/release.keystore
 
       - name: Build Application Release
         if: startsWith(github.ref, 'refs/heads/master')
