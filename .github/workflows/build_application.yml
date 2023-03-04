@@ -15,6 +15,8 @@ env:
   ANDROID_SDK_TOOLS: latest
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
   APP_NAME: "paguei"
+  VERSION: ""
+  DATE: ""
 
 jobs:
   preparing_environment:
@@ -42,17 +44,15 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-        with:
-          sdk-version: ${{ env.ANDROID_SDK_TOOLS }}
 
       - name: Setup Gradle
         run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
 
       - name: Extract version from VERSION.md
-        run: echo "::set-env name=version::$(cat VERSION.md)"
+        run: echo "::set-env name=VERSION::$(cat VERSION.md)"
 
       - name: Get Build Date
-        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
+        run: echo "::set-env name=DATE::$(date +%Y-%m-%d)"
 
   unit_tests:
     needs: preparing_environment
@@ -145,7 +145,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/develop')
         run: ./gradlew assembleDebug
         env:
-          VERSION: ${{ needs.preparing_environment.outputs.version }}
+          VERSION: ${{ env.VERSION }}
           
       - if: startsWith(github.ref, 'refs/heads/master')
         run: |
@@ -155,7 +155,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/master')
         run: ./gradlew bundleRelease
         env:
-          VERSION: ${{ needs.preparing_environment.outputs.version }}
+          VERSION: ${{ env.VERSION }}
           
       - name: Sign artifact Debug
         if: startsWith(github.ref, 'refs/heads/develop')
@@ -181,39 +181,15 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/master')
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.APP_NAME }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
+          name: ${{ env.APP_NAME }}-${{ env.VERSION }}-${{ env.DATE }}
           path: app/build/outputs/bundle/release/app-release.aab
 
       - name: Upload APK
         if: startsWith(github.ref, 'refs/heads/develop')
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.APP_NAME }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
+          name: ${{ env.APP_NAME }}-${{ env.VERSION }}-${{ env.DATE }}
           path: app/build/outputs/apk/debug/app-debug.apk
-
-      - if: startsWith(github.ref, 'refs/heads/master')
-        name: Upload Release APK
-        id: upload_release_asset_apk
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/debug/app-debug.apk
-          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.apk
-          asset_content_type: application/zip
-          
-      - if: startsWith(github.ref, 'refs/heads/master')
-        name: Upload Release AAB
-        id: upload_release_asset_aab
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/bundle/release/app-release.aab
-          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.aab
-          asset_content_type: application/zip
 
   release:
     needs: [ build ]
@@ -231,7 +207,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          branch: release/v${{ env.version }}
+          branch: release/v${{ env.VERSION }}
           sha: '${{ github.event.pull_request.head.sha }}'
 
       - if: startsWith(github.ref, 'refs/heads/master')
@@ -253,5 +229,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          tag_name: ${{ needs.preparing_environment.outputs.version }}
-          release_name: ${{ env.APP_NAME }} v${{ needs.preparing_environment.outputs.version }}
+          tag_name: ${{ env.VERSION }}
+          release_name: ${{ env.APP_NAME }} v${{ env.VERSION }}
