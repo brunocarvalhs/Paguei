@@ -191,7 +191,31 @@ jobs:
           name: ${{ env.APP_NAME }}-${{ needs.preparing_environment.outputs.version }}-${{ needs.preparing_environment.outputs.date }}
           path: app/build/outputs/apk/debug/app-debug.apk
 
-  git:
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Upload Release APK
+        id: upload_release_asset_apk
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/debug/app-debug.apk
+          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.apk
+          asset_content_type: application/zip
+          
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Upload Release AAB
+        id: upload_release_asset_aab
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/bundle/release/app-release.aab
+          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.aab
+          asset_content_type: application/zip
+
+  release:
     needs: [ build ]
     name: Create branch release or tags
     runs-on: ubuntu-latest
@@ -231,27 +255,3 @@ jobs:
         with:
           tag_name: ${{ needs.preparing_environment.outputs.version }}
           release_name: ${{ env.APP_NAME }} v${{ needs.preparing_environment.outputs.version }}
-          
-      - if: startsWith(github.ref, 'refs/heads/master')
-        name: Upload Release APK
-        id: upload_release_asset_apk
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: apk/app-debug.apk
-          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.apk
-          asset_content_type: application/zip
-          
-      - if: startsWith(github.ref, 'refs/heads/master')
-        name: Upload Release AAB
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: aab/app-release.aab
-          asset_name: ${{ env.APP_NAME }}${{ needs.preparing_environment.outputs.version }}.aab
-          asset_content_type: application/zip
