@@ -105,7 +105,10 @@ jobs:
           ref: ${{ github.ref }}
 
       - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
+        run: |
+          chmod +x gradlew
+          chmod +w build/outputs/bundle/release/*.aab
+          chmod +w build/outputs/apk/release/*.apk
 
       - name: Create google-services release file
         run: |
