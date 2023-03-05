@@ -214,13 +214,13 @@ jobs:
         name: Download APK from build
         uses: actions/download-artifact@v1
         with:
-          name: apk
+          name: app/build/outputs/apk/debug/app-debug.apk
       
       - if: startsWith(github.ref, 'refs/heads/master')
         name: Download AAB from build
         uses: actions/download-artifact@v1
         with:
-          name: aab
+          name: app/build/outputs/bundle/release/app-release.aab
           
       - if: startsWith(github.ref, 'refs/heads/master')
         name: Create Release
