@@ -7,10 +7,6 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  ALIAS: ${{ secrets.ALIAS }}
-  PASSWORD_ALIAS: ${{ secrets.PASSWORD_ALIAS }}
-  KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
-  PASSWORD_KEY: ${{ secrets.PASSWORD_KEY }}
   JDK_VERSION: 11
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
   BUILD_TOOLS_VERSION: "30.0.2"
@@ -91,6 +87,10 @@ jobs:
     needs: [ preparing_environment, unit_tests, android_lint ]
     runs-on: ubuntu-latest
     name: Build
+    env:
+      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
+      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
+      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -110,20 +110,6 @@ jobs:
 
       - name: Build AAB
         run: ./gradlew bundleDebug
-
-      - name: Android Sign
-        uses: Tlaster/android-sign@v1.2.2
-        with:
-           Directory: |
-            app/build/outputs/apk/debug
-            app/build/outputs/bundle/debug
-          signingKeyBase64: ${{ env.KEYSTORE_FILE }}
-          output: build/debug/signed
-          alias: ${{ env.ALIAS }}
-          keyStorePassword: ${{ env.PASSWORD_ALIAS }}
-          keyPassword: ${{ env.PASSWORD_KEY }}
-        env:
-          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOLS_VERSION }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
