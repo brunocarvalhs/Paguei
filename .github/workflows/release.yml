@@ -5,13 +5,8 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  ALIAS: ${{ secrets.ALIAS }}
-  PASSWORD_ALIAS: ${{ secrets.PASSWORD_ALIAS }}
-  KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
-  PASSWORD_KEY: ${{ secrets.PASSWORD_KEY }}
   JDK_VERSION: 11
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
-  BUILD_TOOLS_VERSION: "33.0.1"
   APP_NAME: "Paguei"
 
 jobs:
@@ -56,11 +51,6 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
       - name: Unit tests
         run: ./gradlew testRelease --stacktrace
         env:
@@ -81,11 +71,6 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
       - if: startsWith(github.ref, 'refs/heads/master')
         name: Android Lint
         run: ./gradlew lintRelease
@@ -99,6 +84,10 @@ jobs:
     needs: [ preparing_environment, unit_tests, android_lint ]
     runs-on: ubuntu-latest
     name: Build
+    env:
+      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
+      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
+      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -124,25 +113,6 @@ jobs:
 
       - name: Build AAB
         run: ./gradlew bundleRelease
-
-      - name: Give execution permissions to builds
-        run: |
-          chmod +w build/outputs/bundle/release/*.aab
-          chmod +w build/outputs/apk/release/*.apk
-
-      - name: Android Sign
-        uses: Tlaster/android-sign@v1.2.2
-        with:
-          releaseDirectory: |
-            app/build/outputs/apk/release
-            app/build/outputs/bundle/release
-          signingKeyBase64: ${{ env.KEYSTORE_FILE }}
-          output: build/release/signed
-          alias: ${{ env.ALIAS }}
-          keyStorePassword: ${{ env.PASSWORD_ALIAS }}
-          keyPassword: ${{ env.PASSWORD_KEY }}
-        env:
-          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOLS_VERSION }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
