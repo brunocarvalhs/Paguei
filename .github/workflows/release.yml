@@ -1,4 +1,4 @@
-name: Build Application
+name: Build Application Release
 on:
   push:
     branches: [ master ]
@@ -15,15 +15,22 @@ env:
   APP_NAME: "Paguei"
 
 jobs:
-  release:
+  preparing_environment:
     runs-on: ubuntu-latest
-    name: Release
+    name: Preparing Environment
+    outputs:
+      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
+      jdk-version: ${{ env.JDK_VERSION }}
+      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
+      gradle-opts: ${{ env.GRADLE_OPTS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
 
       - name: Set up JDK ${{ env.JDK_VERSION }}
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: ${{ env.JDK_VERSION }}
@@ -37,34 +44,88 @@ jobs:
       - name: Setup Gradle
         run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
 
-      - name: Extract version from VERSION.md
-        run: echo "::set-env name=version::$(cat VERSION.md)"
+  unit_tests:
+    needs: preparing_environment
+    runs-on: ubuntu-latest
+    name: Unit Tests
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
 
-      - name: Get Build Date
-        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
 
       - name: Create google-services release file
         run: |
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Android Lint
-        run: ./gradlew lintRelease
-
       - name: Unit tests
-        run: bash ./gradlew test --stacktrace
+        run: ./gradlew testRelease --stacktrace
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
 
-      - name: Run Tests
-        run: ./gradlew test
+  android_lint:
+    needs: preparing_environment
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Android Lint Release
+        run: ./gradlew lintRelease
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+  build:
+    needs: [ preparing_environment, unit_tests, android_lint ]
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+      - name: Extract version from VERSION.md
+        run: echo "::set-env name=version::$(cat VERSION.md)"
+
+      - name: Get Build Date
+        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
 
       - name: Build Project
         run: ./gradlew assemble
 
-      - name: Build Debug APK
-        run: bash ./gradlew :app:assembleDebug
-
-      - name: build release
+      - name: Build APK
         run: ./gradlew assembleRelease
+
+      - name: Build AAB
+        run: ./gradlew bundleRelease
 
       - name: Android Sign
         uses: Tlaster/android-sign@v1.2.2
@@ -84,15 +145,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: App
-          path: ${{ github.workspace}} build/release/signed/app-release.apk
+          path: ${{ github.workspace}} build/release/signed/*.apk
 
-      - name: Create Branch
-        uses: peterjgrainger/action-create-branch@v2.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
         with:
-          branch: release/v${{ env.VERSION }}
-          sha: '${{ github.event.pull_request.head.sha }}'
+          name: App
+          path: ${{ github.workspace}} build/release/signed/*.aab
 
       - name: Create Release
         uses: actions/create-release@v1
