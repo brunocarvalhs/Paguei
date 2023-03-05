@@ -51,6 +51,11 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
       - name: Unit tests
         run: ./gradlew testRelease --stacktrace
         env:
@@ -71,8 +76,12 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - if: startsWith(github.ref, 'refs/heads/master')
-        name: Android Lint
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+      - name: Android Lint
         run: ./gradlew lintRelease
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
