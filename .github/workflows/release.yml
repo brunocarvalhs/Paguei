@@ -107,8 +107,6 @@ jobs:
       - name: Give execution permissions to gradlew
         run: |
           chmod +x gradlew
-          chmod +w build/outputs/bundle/release/*.aab
-          chmod +w build/outputs/apk/release/*.apk
 
       - name: Create google-services release file
         run: |
@@ -126,6 +124,11 @@ jobs:
 
       - name: Build AAB
         run: ./gradlew bundleRelease
+
+      - name: Give execution permissions to builds
+        run: |
+          find build/outputs/bundle/ -name '*.aab' -exec chmod +w {} \;
+          find build/outputs/apk/ -name '*.apk' -exec chmod +w {} \;
 
       - name: Android Sign
         uses: Tlaster/android-sign@v1.2.2
