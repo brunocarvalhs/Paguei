@@ -36,9 +36,9 @@ android {
                     System.getenv("KEYSTORE_PASSWORD") != null &&
                     System.getenv("KEYSTORE_ALIAS") != null &&
                     System.getenv("KEY_PASSWORD") != null &&
-                    file("release.jks").exists()
+                    file("./release.jks").exists()
                 ) {
-                    storeFile = file("release.jks")
+                    storeFile = file("./release.jks")
                     storePassword = System.getenv("KEYSTORE_PASSWORD")
                     keyAlias = System.getenv("KEYSTORE_ALIAS")
                     keyPassword = System.getenv("KEY_PASSWORD")
