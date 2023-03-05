@@ -1,0 +1,61 @@
+name: Build Application Debug
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    types: [ closed ]
+
+  env:
+    KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+    KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+    KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+    KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    JDK_VERSION: 11
+    ANDROID_SDK_TOOLS: latest
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      name: Build
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: ${{ github.ref }}
+
+        - name: Set up JDK ${{ env.JDK_VERSION }}
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'temurin'
+            java-version: ${{ env.JDK_VERSION }}
+
+        - name: Give execution permissions to gradlew
+          run: chmod +x gradlew
+
+        - name: Setup Android SDK
+          uses: android-actions/setup-android@v2
+
+        - name: Setup Gradle
+          run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
+
+        - name: Extract version from VERSION.md
+          run: echo "::set-env name=VERSION::$(cat VERSION.md)"
+
+        - name: Get Build Date
+          run: echo "::set-env name=DATE::$(date +%Y-%m-%d)"
+
+        - name: Run unit tests
+          run: ./gradlew testDebug
+
+        - name: Android Lint
+          run: ./gradlew lintDebug
+
+        - name: Build Application
+          run: ./gradlew assembleDebug
+
+        - name: Upload APK
+          uses: actions/upload-artifact@v2
+          with:
+            name: ${{ env.APP_NAME }}-${{ env.VERSION }}-${{ env.DATE }}
+            path: app/build/outputs/apk/debug/app-debug.apk

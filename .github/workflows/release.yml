@@ -1,0 +1,102 @@
+name: Build Application
+on:
+  push:
+    branches: [ master ]
+
+env:
+  KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+  KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  JDK_VERSION: 11
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+  BUILD_TOOLS_VERSION: "30.0.2"
+  APP_NAME: "Paguei"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK ${{ env.JDK_VERSION }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JDK_VERSION }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Gradle
+        run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
+
+      - name: Extract version from VERSION.md
+        run: echo "::set-env name=version::$(cat VERSION.md)"
+
+      - name: Get Build Date
+        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+      - name: Android Lint
+        run: ./gradlew lintRelease
+
+      - name: Unit tests
+        run: bash ./gradlew test --stacktrace
+
+      - name: Run Tests
+        run: ./gradlew test
+
+      - name: Build Project
+        run: ./gradlew assemble
+
+      - name: Build Debug APK
+        run: bash ./gradlew :app:assembleDebug
+
+      - name: build release
+        run: ./gradlew assembleRelease
+
+      - name: Android Sign
+        uses: Tlaster/android-sign@v1.2.2
+        with:
+          releaseDirectory: |
+            app/build/outputs/apk/release
+            app/build/outputs/bundle/release
+          signingKeyBase64: ${{ env.KEYSTORE_FILE }}
+          output: build/release/signed
+          alias: ${{ env.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ env.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ env.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOLS_VERSION }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: App
+          path: ${{ github.workspace}} build/release/signed/app-release.apk
+
+      - name: Create Branch
+        uses: peterjgrainger/action-create-branch@v2.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          branch: release/v${{ env.VERSION }}
+          sha: '${{ github.event.pull_request.head.sha }}'
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: ${{ env.APP_NAME }} v${{ env.VERSION }}
