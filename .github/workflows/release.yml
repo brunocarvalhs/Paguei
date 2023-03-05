@@ -5,10 +5,10 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  ALIAS: ${{ secrets.ALIAS }}
+  PASSWORD_ALIAS: ${{ secrets.PASSWORD_ALIAS }}
   KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
-  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-  KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  PASSWORD_KEY: ${{ secrets.PASSWORD_KEY }}
   JDK_VERSION: 11
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
   BUILD_TOOLS_VERSION: "30.0.2"
@@ -132,9 +132,9 @@ jobs:
             app/build/outputs/bundle/release
           signingKeyBase64: ${{ env.KEYSTORE_FILE }}
           output: build/release/signed
-          alias: ${{ env.KEYSTORE_ALIAS }}
-          keyStorePassword: ${{ env.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ env.KEY_PASSWORD }}
+          alias: ${{ env.ALIAS }}
+          keyStorePassword: ${{ env.PASSWORD_ALIAS }}
+          keyPassword: ${{ env.PASSWORD_KEY }}
         env:
           BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOLS_VERSION }}
 
