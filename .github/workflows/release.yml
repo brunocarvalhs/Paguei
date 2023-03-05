@@ -127,8 +127,8 @@ jobs:
 
       - name: Give execution permissions to builds
         run: |
-          find build/outputs/bundle/ -name '*.aab' -exec chmod +w {} \;
-          find build/outputs/apk/ -name '*.apk' -exec chmod +w {} \;
+          chmod +w build/outputs/bundle/release/*.aab
+          chmod +w build/outputs/apk/release/*.apk
 
       - name: Android Sign
         uses: Tlaster/android-sign@v1.2.2
