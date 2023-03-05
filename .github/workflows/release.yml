@@ -87,7 +87,7 @@ jobs:
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
       - if: startsWith(github.ref, 'refs/heads/master')
-        name: Android Lint Release
+        name: Android Lint
         run: ./gradlew lintRelease
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
@@ -118,9 +118,6 @@ jobs:
       - name: Get Build Date
         run: echo "::set-env name=date::$(date +%Y-%m-%d)"
 
-      - name: Build Project
-        run: ./gradlew assemble
-
       - name: Build APK
         run: ./gradlew assembleRelease
 
@@ -144,13 +141,13 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: App
+          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-apk
           path: ${{ github.workspace}} build/release/signed/*.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: App
+          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-aab
           path: ${{ github.workspace}} build/release/signed/*.aab
 
       - name: Create Release
@@ -158,5 +155,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          tag_name: ${{ env.VERSION }}
-          release_name: ${{ env.APP_NAME }} v${{ env.VERSION }}
+          tag_name: ${{ env.version }}
+          release_name: ${{ env.APP_NAME }} v${{ env.version }}
