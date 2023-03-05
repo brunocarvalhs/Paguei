@@ -22,6 +22,7 @@ android {
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
         multiDexEnabled = true
+        buildToolsVersion = "33.0.1"
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
         vectorDrawables {
@@ -29,22 +30,6 @@ android {
         }
     }
     android {
-        signingConfigs {
-            create("release") {
-                if (
-                    System.getenv("KEYSTORE_PASSWORD") != null &&
-                    System.getenv("KEYSTORE_ALIAS") != null &&
-                    System.getenv("KEY_PASSWORD") != null
-                ) {
-                    storeFile = file("release.keystore")
-                    storePassword = System.getenv("KEYSTORE_PASSWORD")
-                    keyAlias = System.getenv("KEYSTORE_ALIAS")
-                    keyPassword = System.getenv("KEY_PASSWORD")
-                    enableV1Signing = true
-                    enableV2Signing = true
-                }
-            }
-        }
         buildTypes {
             getByName("release") {
                 resValue("string", "app_name", "Paguei!")
