@@ -35,20 +35,15 @@ android {
                 val keyStorePassword = System.getenv("KEYSTORE_PASSWORD")
                 val keyStoreAlias = System.getenv("KEYSTORE_ALIAS")
                 val keyStoreAliasPassword = System.getenv("KEY_PASSWORD")
-                val fileKeyStore = file("release.keystore")
-
                 if (
                     keyStorePassword != null &&
                     keyStoreAlias != null &&
-                    keyStoreAliasPassword != null &&
-                    fileKeyStore.exists()
+                    keyStoreAliasPassword != null
                 ) {
-                    storeFile = fileKeyStore
+                    storeFile = file("release.keystore")
                     storePassword = keyStorePassword
                     keyAlias = keyStoreAlias
                     keyPassword = keyStoreAliasPassword
-                    enableV1Signing = true
-                    enableV2Signing = true
                 }
             }
         }
