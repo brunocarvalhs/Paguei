@@ -38,9 +38,9 @@ android {
                 val fileKeyStore = file("./release.jks")
 
                 if (
-                    keyStorePassword.isNotEmpty() &&
-                    keyStoreAlias.isNotEmpty() &&
-                    keyStoreAliasPassword.isNotEmpty() &&
+                    keyStorePassword != null &&
+                    keyStoreAlias != null &&
+                    keyStoreAliasPassword != null &&
                     fileKeyStore.exists()
                 ) {
                     storeFile = fileKeyStore
