@@ -32,16 +32,21 @@ android {
     android {
         signingConfigs {
             create("release") {
+                val keyStorePassword = System.getenv("KEYSTORE_PASSWORD")
+                val keyStoreAlias = System.getenv("KEYSTORE_ALIAS")
+                val keyStoreAliasPassword = System.getenv("KEY_PASSWORD")
+                val fileKeyStore = file("./release.jks")
+
                 if (
-                    System.getenv("KEYSTORE_PASSWORD") != null &&
-                    System.getenv("KEYSTORE_ALIAS") != null &&
-                    System.getenv("KEY_PASSWORD") != null &&
-                    file("./release.jks").exists()
+                    keyStorePassword.isNotEmpty() &&
+                    keyStoreAlias.isNotEmpty() &&
+                    keyStoreAliasPassword.isNotEmpty() &&
+                    fileKeyStore.exists()
                 ) {
-                    storeFile = file("./release.jks")
-                    storePassword = System.getenv("KEYSTORE_PASSWORD")
-                    keyAlias = System.getenv("KEYSTORE_ALIAS")
-                    keyPassword = System.getenv("KEY_PASSWORD")
+                    storeFile = fileKeyStore
+                    storePassword = keyStorePassword
+                    keyAlias = keyStoreAlias
+                    keyPassword = keyStoreAliasPassword
                     enableV1Signing = true
                     enableV2Signing = true
                 }
