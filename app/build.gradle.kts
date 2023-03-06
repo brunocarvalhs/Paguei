@@ -35,7 +35,7 @@ android {
                 val keyStorePassword = System.getenv("KEYSTORE_PASSWORD")
                 val keyStoreAlias = System.getenv("KEYSTORE_ALIAS")
                 val keyStoreAliasPassword = System.getenv("KEY_PASSWORD")
-                val fileKeyStore = file("./release.jks")
+                val fileKeyStore = file("release.keystore")
 
                 if (
                     keyStorePassword != null &&
