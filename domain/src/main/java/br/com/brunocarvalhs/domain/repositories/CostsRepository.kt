@@ -1,11 +1,11 @@
 package br.com.brunocarvalhs.domain.repositories
 
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 
 interface CostsRepository {
-    suspend fun add(cost: CostsEntities)
-    suspend fun list(): List<CostsEntities>
-    suspend fun update(cost: CostsEntities): CostsEntities
-    suspend fun delete(cost: CostsEntities)
-    suspend fun view(cost: CostsEntities): CostsEntities?
+    suspend fun add(cost: CostEntities)
+    suspend fun list(): List<CostEntities>
+    suspend fun update(cost: CostEntities): CostEntities
+    suspend fun delete(cost: CostEntities)
+    suspend fun view(cost: CostEntities): CostEntities?
 }

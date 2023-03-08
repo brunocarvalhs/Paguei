@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.extracts.R
 import br.com.brunocarvalhs.extracts.databinding.ItemExtractBinding
 
@@ -13,8 +13,8 @@ class ExtractRecyclerViewAdapter(
     private val listener: ExtractClickListener,
 ) : RecyclerView.Adapter<ExtractRecyclerViewAdapter.ViewHolder>() {
 
-    private var values = listOf<CostsEntities>()
-    private var filteredValues = listOf<CostsEntities>()
+    private var values = listOf<CostEntities>()
+    private var filteredValues = listOf<CostEntities>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         ItemExtractBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,7 +30,7 @@ class ExtractRecyclerViewAdapter(
 
     override fun getItemCount(): Int = filteredValues.size
 
-    fun submitList(list: List<CostsEntities>) {
+    fun submitList(list: List<CostEntities>) {
         values = list
         filteredValues = list
         notifyDataSetChanged()
@@ -57,6 +57,6 @@ class ExtractRecyclerViewAdapter(
     }
 
     interface ExtractClickListener {
-        fun onClick(cost: CostsEntities)
+        fun onClick(cost: CostEntities)
     }
 }

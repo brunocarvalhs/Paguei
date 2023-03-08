@@ -1,13 +1,13 @@
 package br.com.brunocarvalhs.data.model
 
-import br.com.brunocarvalhs.domain.entities.CostsEntities
-import br.com.brunocarvalhs.domain.entities.CostsEntities.Companion.ID
-import br.com.brunocarvalhs.domain.entities.CostsEntities.Companion.NAME
-import br.com.brunocarvalhs.domain.entities.CostsEntities.Companion.PROMPT
-import br.com.brunocarvalhs.domain.entities.CostsEntities.Companion.VALUE
-import br.com.brunocarvalhs.domain.entities.CostsEntities.Companion.BAR_CODE
-import br.com.brunocarvalhs.domain.entities.CostsEntities.Companion.PAYMENT_VOUCHER
-import br.com.brunocarvalhs.domain.entities.CostsEntities.Companion.DATE_PAYMENT
+import br.com.brunocarvalhs.domain.entities.CostEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.ID
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.NAME
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.PROMPT
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.VALUE
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.BAR_CODE
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.PAYMENT_VOUCHER
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.DATE_PAYMENT
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.text.NumberFormat
@@ -21,7 +21,7 @@ data class CostsModel(
     @SerializedName(BAR_CODE) override val barCode: String? = null,
     @SerializedName(PAYMENT_VOUCHER) override val paymentVoucher: String? = null,
     @SerializedName(DATE_PAYMENT) override val datePayment: String? = null,
-) : CostsEntities {
+) : CostEntities {
     override fun toMap(): Map<String?, Any?> =
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 

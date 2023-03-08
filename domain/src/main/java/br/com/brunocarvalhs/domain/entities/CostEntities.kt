@@ -2,7 +2,7 @@ package br.com.brunocarvalhs.domain.entities
 
 import java.io.Serializable
 
-interface CostsEntities : Serializable {
+interface CostEntities : Serializable {
     val id: String
     val name: String?
     val prompt: String?
