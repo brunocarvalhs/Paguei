@@ -2,7 +2,7 @@ package br.com.brunocarvalhs.report
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.domain.services.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ class ReportViewModel @Inject constructor(
     sessionManager: SessionManager
 ) : BaseViewModel<ReportViewState>() {
 
-    private var listCosts = mutableListOf<CostsEntities>()
+    private var listCosts = mutableListOf<CostEntities>()
         set(value) {
             if (!listCosts.containsAll(value)) {
                 field = value

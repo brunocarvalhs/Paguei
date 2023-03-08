@@ -1,7 +1,7 @@
 package br.com.brunocarvalhs.data.repositories
 
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
@@ -19,13 +19,13 @@ class CostsRepositoryImpl @Inject constructor(
 
     private val routerCollection =
         if (sessionManager.isGroupSession())
-            "${GroupEntities.COLLECTION}/${sessionManager.getGroup()?.id}/${CostsEntities.COLLECTION}"
+            "${GroupEntities.COLLECTION}/${sessionManager.getGroup()?.id}/${CostEntities.COLLECTION}"
         else
-            "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostsEntities.COLLECTION}"
+            "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostEntities.COLLECTION}"
 
     private val collection = database.collection(routerCollection)
 
-    override suspend fun add(cost: CostsEntities) = withContext(Dispatchers.IO) {
+    override suspend fun add(cost: CostEntities) = withContext(Dispatchers.IO) {
         try {
             collection.document(cost.id).set(cost.toMap()).await()
             return@withContext
@@ -34,7 +34,7 @@ class CostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun list(): List<CostsEntities> = withContext(Dispatchers.IO) {
+    override suspend fun list(): List<CostEntities> = withContext(Dispatchers.IO) {
         try {
             val result = collection.get().await()
             return@withContext result.map { it.toObject(CostsModel::class.java) }
@@ -43,7 +43,7 @@ class CostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun view(cost: CostsEntities): CostsEntities? = withContext(Dispatchers.IO) {
+    override suspend fun view(cost: CostEntities): CostEntities? = withContext(Dispatchers.IO) {
         try {
             sessionManager.getUser()?.let {
                 val result = collection.document(it.id).get().await()
@@ -54,7 +54,7 @@ class CostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun update(cost: CostsEntities): CostsEntities = withContext(Dispatchers.IO) {
+    override suspend fun update(cost: CostEntities): CostEntities = withContext(Dispatchers.IO) {
         try {
             collection.document(cost.id).update(cost.toMap()).await()
             return@withContext cost
@@ -63,7 +63,7 @@ class CostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun delete(cost: CostsEntities) = withContext(Dispatchers.IO) {
+    override suspend fun delete(cost: CostEntities) = withContext(Dispatchers.IO) {
         try {
             collection.document(cost.id).delete().await()
             return@withContext

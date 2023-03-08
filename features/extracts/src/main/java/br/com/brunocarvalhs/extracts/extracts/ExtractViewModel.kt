@@ -2,9 +2,8 @@ package br.com.brunocarvalhs.extracts.extracts
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
-import br.com.brunocarvalhs.extracts.extracts.ExtractViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +13,7 @@ class ExtractViewModel @Inject constructor(
     private val repository: CostsRepository,
 ) : BaseViewModel<ExtractViewState>() {
 
-    private var listCosts = mutableListOf<CostsEntities>()
+    private var listCosts = mutableListOf<CostEntities>()
         set(value) {
             if (!listCosts.containsAll(value)) {
                 field = value

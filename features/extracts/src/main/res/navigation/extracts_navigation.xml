@@ -22,7 +22,7 @@
             android:name="br.com.brunocarvalhs.extracts.extract_reader.ExtractReaderFragment">
         <argument
                 android:name="cost"
-                app:argType="br.com.brunocarvalhs.domain.entities.CostsEntities" />
+                app:argType="br.com.brunocarvalhs.domain.entities.CostEntities" />
     </fragment>
 
 </navigation>

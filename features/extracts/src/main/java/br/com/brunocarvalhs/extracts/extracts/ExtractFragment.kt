@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.extracts.databinding.FragmentExtractListBinding
 import com.google.android.material.search.SearchView.TransitionState
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,11 +70,11 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
 
     }
 
-    private fun displayData(list: List<CostsEntities>) {
+    private fun displayData(list: List<CostEntities>) {
         adapter.submitList(list)
     }
 
-    override fun onClick(cost: CostsEntities) {
+    override fun onClick(cost: CostEntities) {
         val action = ExtractFragmentDirections.actionExtractFragmentToExtractReaderFragment(cost)
         findNavController().navigate(action)
     }
