@@ -11,7 +11,7 @@ import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.FragmentCostsListBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,7 +45,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         viewModel.fetchData()
     }
 
-    private fun displayData(list: List<CostsEntities>) {
+    private fun displayData(list: List<CostEntities>) {
         defineTotalCosts(list.size)
         adapter.submitList(list)
     }
@@ -132,7 +132,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         return true
     }
 
-    private fun navigateToReaderCost(cost: CostsEntities) {
+    private fun navigateToReaderCost(cost: CostEntities) {
         val action = CostsFragmentDirections.actionCostsFragmentToCostReaderFragment(cost)
         findNavController().navigate(action)
     }
@@ -143,9 +143,9 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         findNavController().navigate(action)
     }
 
-    override fun onClick(cost: CostsEntities) = navigateToReaderCost(cost)
+    override fun onClick(cost: CostEntities) = navigateToReaderCost(cost)
 
-    override fun onLongClick(cost: CostsEntities): Boolean {
+    override fun onLongClick(cost: CostEntities): Boolean {
         val action =
             CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost)
         findNavController().navigate(action)

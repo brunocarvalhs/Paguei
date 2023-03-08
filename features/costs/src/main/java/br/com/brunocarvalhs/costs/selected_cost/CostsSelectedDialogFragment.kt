@@ -9,7 +9,7 @@ import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.DialogCostsSelectedBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -76,7 +76,7 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
 
     }
 
-    private fun navigateToPaymentVoucher(cost: CostsEntities) {
+    private fun navigateToPaymentVoucher(cost: CostEntities) {
         val action = CostsSelectedDialogFragmentDirections
             .actionItemListDialogFragmentToPaymentVoucherFragment(cost)
         findNavController().navigate(action)

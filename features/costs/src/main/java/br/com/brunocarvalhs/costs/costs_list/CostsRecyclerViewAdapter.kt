@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.ItemCostsBinding
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 
 class CostsRecyclerViewAdapter(
     private val context: Context,
     private val listener: CostClickListener,
 ) : RecyclerView.Adapter<CostsRecyclerViewAdapter.ViewHolder>() {
 
-    private val values = mutableListOf<CostsEntities>()
+    private val values = mutableListOf<CostEntities>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         ItemCostsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,7 +30,7 @@ class CostsRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    fun submitList(list: List<CostsEntities>) {
+    fun submitList(list: List<CostEntities>) {
         values.clear()
         values.addAll(list)
         notifyDataSetChanged()
@@ -44,8 +44,8 @@ class CostsRecyclerViewAdapter(
     }
 
     interface CostClickListener {
-        fun onClick(cost: CostsEntities)
+        fun onClick(cost: CostEntities)
 
-        fun onLongClick(cost: CostsEntities): Boolean
+        fun onLongClick(cost: CostEntities): Boolean
     }
 }

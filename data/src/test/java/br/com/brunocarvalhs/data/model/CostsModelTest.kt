@@ -1,6 +1,6 @@
 package br.com.brunocarvalhs.data.model
 
-import br.com.brunocarvalhs.domain.entities.CostsEntities
+import br.com.brunocarvalhs.domain.entities.CostEntities
 import com.google.gson.Gson
 import org.junit.Assert.*
 import org.junit.Before
@@ -44,12 +44,12 @@ class CostsModelTest {
         assertEquals(paymentVoucher, costsModel.paymentVoucher)
 
         val map = costsModel.toMap()
-        assertEquals(id, map[CostsEntities.ID])
-        assertEquals(name, map[CostsEntities.NAME])
-        assertEquals(prompt, map[CostsEntities.PROMPT])
-        assertEquals(value, map[CostsEntities.VALUE])
-        assertEquals(barCode, map[CostsEntities.BAR_CODE])
-        assertEquals(paymentVoucher, map[CostsEntities.PAYMENT_VOUCHER])
+        assertEquals(id, map[CostEntities.ID])
+        assertEquals(name, map[CostEntities.NAME])
+        assertEquals(prompt, map[CostEntities.PROMPT])
+        assertEquals(value, map[CostEntities.VALUE])
+        assertEquals(barCode, map[CostEntities.BAR_CODE])
+        assertEquals(paymentVoucher, map[CostEntities.PAYMENT_VOUCHER])
 
         val json = costsModel.toJson()
         val gson = Gson()
