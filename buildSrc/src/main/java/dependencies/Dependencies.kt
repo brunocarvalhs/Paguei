@@ -102,7 +102,9 @@ object Dependencies {
         const val MATERIAL_WINDOW = "androidx.compose.material3:material3-window-size-class"
 
         const val ACTIVITY = "androidx.activity:activity-compose:1.6.1"
-        const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+        const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0"
         const val LIVE_DATA = "androidx.compose.runtime:runtime-livedata"
+
+        const val NAVIGATION = "androidx.navigation:navigation-compose:2.5.3"
     }
 }
