@@ -66,7 +66,7 @@ class ReportViewModel @Inject constructor(
             val formatoEntrada = SimpleDateFormat("dd/MM/yyyy")
             val formatoSaida = SimpleDateFormat("MMMM / yyyy", Locale.getDefault())
             val data = formatoEntrada.parse(date)
-            formatoSaida.format(data)
+            data?.let { formatoSaida.format(it) }
         }
     }
 

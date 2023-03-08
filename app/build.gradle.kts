@@ -22,6 +22,7 @@ android {
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
         multiDexEnabled = true
+        buildToolsVersion = "33.0.1"
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
         vectorDrawables {
@@ -31,17 +32,18 @@ android {
     android {
         signingConfigs {
             create("release") {
+                val keyStorePassword = System.getenv("KEYSTORE_PASSWORD")
+                val keyStoreAlias = System.getenv("KEYSTORE_ALIAS")
+                val keyStoreAliasPassword = System.getenv("KEY_PASSWORD")
                 if (
-                    System.getenv("KEYSTORE_PASSWORD") != null &&
-                    System.getenv("KEYSTORE_ALIAS") != null &&
-                    System.getenv("KEY_PASSWORD") != null
+                    keyStorePassword != null &&
+                    keyStoreAlias != null &&
+                    keyStoreAliasPassword != null
                 ) {
                     storeFile = file("release.keystore")
-                    storePassword = System.getenv("KEYSTORE_PASSWORD")
-                    keyAlias = System.getenv("KEYSTORE_ALIAS")
-                    keyPassword = System.getenv("KEY_PASSWORD")
-                    enableV1Signing = true
-                    enableV2Signing = true
+                    storePassword = keyStorePassword
+                    keyAlias = keyStoreAlias
+                    keyPassword = keyStoreAliasPassword
                 }
             }
         }
@@ -51,6 +53,7 @@ android {
 
                 isDebuggable = false
                 isJniDebuggable = false
+                isMinifyEnabled = true
                 signingConfig = signingConfigs.getByName("release")
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"

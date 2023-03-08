@@ -1,0 +1,132 @@
+name: Build Application Debug
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    types: [ closed ]
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  JDK_VERSION: 11
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+  BUILD_TOOLS_VERSION: "30.0.2"
+  APP_NAME: "Paguei"
+
+jobs:
+  preparing_environment:
+    runs-on: ubuntu-latest
+    name: Preparing Environment
+    outputs:
+      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
+      jdk-version: ${{ env.JDK_VERSION }}
+      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
+      gradle-opts: ${{ env.GRADLE_OPTS }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Set up JDK ${{ env.JDK_VERSION }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JDK_VERSION }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Gradle
+        run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
+
+  unit_tests:
+    needs: preparing_environment
+    runs-on: ubuntu-latest
+    name: Unit Tests
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Unit tests
+        run: ./gradlew testDebug --stacktrace
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+  android_lint:
+    needs: preparing_environment
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
+      - if: startsWith(github.ref, 'refs/heads/master')
+        name: Android Lint
+        run: ./gradlew lintDebug
+        env:
+          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
+          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
+          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+
+  build:
+    needs: [ preparing_environment, unit_tests, android_lint ]
+    runs-on: ubuntu-latest
+    name: Build
+    env:
+      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
+      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
+      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Extract version from VERSION.md
+        run: echo "::set-env name=version::$(cat VERSION.md)"
+
+      - name: Get Build Date
+        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
+
+      - name: Build APK
+        run: ./gradlew assembleDebug
+
+      - name: Build AAB
+        run: ./gradlew bundleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-apk
+          path: ${{ github.workspace}} build/debug/signed/*.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-aab
+          path: ${{ github.workspace}} build/debug/signed/*.aab
+
+      - name: Create Branch
+        uses: peterjgrainger/action-create-branch@v2.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          branch: release/v${{ env.VERSION }}
+          sha: '${{ github.event.pull_request.head.sha }}'
