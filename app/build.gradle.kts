@@ -22,7 +22,6 @@ android {
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
         multiDexEnabled = true
-        buildToolsVersion = "33.0.1"
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
         vectorDrawables {
@@ -53,7 +52,6 @@ android {
 
                 isDebuggable = false
                 isJniDebuggable = false
-                isMinifyEnabled = true
                 signingConfig = signingConfigs.getByName("release")
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
