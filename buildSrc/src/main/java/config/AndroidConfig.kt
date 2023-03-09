@@ -7,8 +7,8 @@ object AndroidConfig {
     const val MIN_SDK_VERSION = 21
     const val TARGET_SDK_VERSION = 33
 
-    const val VERSION_CODE = 12
-    const val VERSION_NAME = "6.0.1"
+    const val VERSION_CODE = 13
+    const val VERSION_NAME = "6.1.0"
 
     const val APP_ID = "br.com.brunocarvalhs.paguei"
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
