@@ -16,7 +16,7 @@ class CostsViewModel @Inject constructor(
 ) : BaseViewModel<CostsViewState>() {
 
     val header: Header = Header(
-        name = sessionManager.getGroup()?.name ?: sessionManager.getUser()?.fistName(),
+        name = sessionManager.getGroup()?.name ?: sessionManager.getUser()?.firstName(),
         photoUrl = sessionManager.getUser()?.photoUrl,
         initials = sessionManager.getUser()?.initialsName(),
         isGroup = sessionManager.isGroupSession()
