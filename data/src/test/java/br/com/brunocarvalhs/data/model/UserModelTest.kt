@@ -48,7 +48,7 @@ class UserModelTest {
         val fromJson = gson.fromJson(json, UserModel::class.java)
         assertEquals(userModel, fromJson)
 
-        assertEquals("John", userModel.fistName())
+        assertEquals("John", userModel.firstName())
         assertEquals("Doe", userModel.lastName())
         assertEquals("JD", userModel.initialsName())
     }

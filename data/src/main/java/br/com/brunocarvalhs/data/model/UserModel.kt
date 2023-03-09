@@ -25,10 +25,15 @@ data class UserModel(
 
     override fun toJson(): String = Gson().toJson(this)
 
-    override fun fistName(): String? = name?.split(" ")?.first()
+    override fun firstName(): String? = name?.split(" ")?.first()
 
     override fun lastName(): String? = name?.split(" ")?.last()
-    override fun initialsName(): String = fistName()?.substring(0, 1) + lastName()?.substring(0, 1)
+
+    override fun initialsName(): String {
+        val firstInitial = firstName()?.takeIf { it.isNotEmpty() }?.substring(0, 1) ?: ""
+        val lastInitial = lastName()?.takeIf { it.isNotEmpty() }?.substring(0, 1) ?: ""
+        return "$firstInitial$lastInitial"
+    }
 
     override fun formatSalary(): String {
         val numberFormat = NumberFormat.getInstance(Locale.getDefault())

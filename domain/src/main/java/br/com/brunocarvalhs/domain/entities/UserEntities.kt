@@ -13,7 +13,7 @@ interface UserEntities : Serializable {
     fun toMap(): Map<String?, Any?>
     fun toJson(): String
 
-    fun fistName(): String?
+    fun firstName(): String?
     fun lastName(): String?
 
     fun initialsName(): String?
