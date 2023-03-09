@@ -54,6 +54,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 LoginViewState.Loading -> loading()
                 LoginViewState.Success -> navigateToHome()
                 is LoginViewState.Error -> showError(state.message)
+                else -> {}
             }
         }
     }

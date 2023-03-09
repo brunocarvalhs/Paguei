@@ -36,6 +36,10 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.2"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -96,4 +100,24 @@ dependencies {
     implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
     implementation(Dependencies.Firebase.UI_AUTH)
+
+    // Compose
+    implementation(platform(Dependencies.Compose.BOM))
+    androidTestImplementation(platform(Dependencies.Compose.BOM))
+    implementation(Dependencies.Compose.MATERIAL_YOU)
+    implementation(Dependencies.Compose.MATERIAL)
+    implementation(Dependencies.Compose.FOUNDATION)
+    implementation(Dependencies.Compose.UI)
+    implementation(Dependencies.Compose.UI_TOOLING_PREVIEW)
+    debugImplementation(Dependencies.Compose.UI_TOOLING_PREVIEW_DEBUG)
+    androidTestImplementation(Dependencies.Compose.UI_TEST)
+    debugImplementation(Dependencies.Compose.UI_TEST_MANIFEST)
+    implementation(Dependencies.Compose.MATERIAL_ICONS_CORE)
+    implementation(Dependencies.Compose.MATERIAL_ICONS_EXTENDED)
+    implementation(Dependencies.Compose.MATERIAL_WINDOW)
+    implementation(Dependencies.Compose.ACTIVITY)
+    implementation(Dependencies.Compose.VIEW_MODEL)
+    implementation(Dependencies.Compose.LIVE_DATA)
+    implementation(Dependencies.Compose.NAVIGATION)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
