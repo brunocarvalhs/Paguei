@@ -123,17 +123,13 @@ jobs:
       - name: Build AAB
         run: ./gradlew bundleRelease
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-apk
-          path: build/release/signed/*.apk
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-aab
-          path: build/release/signed/*.aab
+          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}
+          path: |
+            app/build/outputs/bundle/**/*.aab
+            app/build/outputs/apk/**/*.apk
 
       - name: Create Release
         uses: actions/create-release@v1
