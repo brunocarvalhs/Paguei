@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/extractFragment"
-            android:name="br.com.brunocarvalhs.extracts.extracts.ExtractFragment"
+            android:name="br.com.brunocarvalhs.extracts.extracts.ExtractComposeFragment"
             tools:layout="@layout/fragment_extract_list">
 
         <deepLink app:uri="@string/deeplink_extracts" />

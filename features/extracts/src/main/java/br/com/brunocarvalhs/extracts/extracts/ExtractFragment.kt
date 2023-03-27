@@ -75,7 +75,8 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     }
 
     override fun onClick(cost: CostEntities) {
-        val action = ExtractFragmentDirections.actionExtractFragmentToExtractReaderFragment(cost)
+        val action =
+            ExtractComposeFragmentDirections.actionExtractFragmentToExtractReaderFragment(cost)
         findNavController().navigate(action)
     }
 
