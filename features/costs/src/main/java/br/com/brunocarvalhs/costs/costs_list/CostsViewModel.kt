@@ -22,10 +22,6 @@ class CostsViewModel @Inject constructor(
         isGroup = sessionManager.isGroupSession()
     )
 
-//    val user: UserEntities? = sessionManager.getUser()
-
-//    var group: GroupEntities? = sessionManager.getGroup()
-
     private var listCosts = mutableListOf<CostEntities>()
         set(value) {
             if (!listCosts.containsAll(value)) {
