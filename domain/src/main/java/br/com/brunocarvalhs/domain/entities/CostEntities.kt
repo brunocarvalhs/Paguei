@@ -10,6 +10,7 @@ interface CostEntities : Serializable {
     val barCode: String?
     val paymentVoucher: String?
     val datePayment: String?
+    val dateReferenceMonth: String?
 
     fun toMap(): Map<String?, Any?>
     fun toJson(): String
@@ -26,5 +27,6 @@ interface CostEntities : Serializable {
         const val BAR_CODE = "barCode"
         const val PAYMENT_VOUCHER = "paymentVoucher"
         const val DATE_PAYMENT = "datePayment"
+        const val DATE_REFERENCE_MONTH = "dateReferenceMonth"
     }
 }

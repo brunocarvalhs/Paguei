@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.billet_registration.databinding.FragmentBilletRegistrationFormBinding
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
-import br.com.brunocarvalhs.data.utils.FORMAT_DATE
+import br.com.brunocarvalhs.data.utils.FORMAT_MONTH
 import br.com.brunocarvalhs.data.utils.PROMPT_FORMAT
 import br.com.brunocarvalhs.data.utils.moneyToDouble
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -35,8 +35,9 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
             .build()
     }
 
-    private val datePickerPayment by lazy {
-        MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+    private val datePickerReferringMonth by lazy {
+        MaterialDatePicker.Builder.datePicker()
+            .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
     }
 
@@ -74,6 +75,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         setupTextFieldPrompt()
         setupTextFieldValue()
         setupTextFieldBarcode()
+        setupTextFieldReferringMonth()
     }
 
     private fun setupButtonRegister() {
@@ -111,6 +113,12 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         eventSetDateTextField(binding.prompt.editText, datePicker)
     }
 
+    private fun setupTextFieldReferringMonth() {
+        initDateConfig(binding.referringMonth.editText)
+        binding.referringMonth.setEndIconOnClickListener { showDateAlert(datePickerReferringMonth) }
+        eventSetDateTextField(binding.referringMonth.editText, datePickerReferringMonth)
+    }
+
     private fun showDateAlert(datePicker: MaterialDatePicker<Long>) {
         datePicker.show(requireActivity().supportFragmentManager, datePicker.toString())
     }
@@ -119,7 +127,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         datePicker.addOnPositiveButtonClickListener {
             calendar.time = Date(it)
             calendar.add(Calendar.DATE, 1)
-            val date = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(calendar.time)
+            val date = SimpleDateFormat(FORMAT_MONTH, Locale.getDefault()).format(calendar.time)
             editText?.setText(date)
         }
     }
