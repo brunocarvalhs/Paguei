@@ -1,26 +1,19 @@
 package br.com.brunocarvalhs.report
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.report.databinding.FragmentReportBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.Calendar
-
 
 @AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val viewModel: ReportViewModel by viewModels()
-
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentReportBinding = FragmentReportBinding.inflate(inflater, container, attachToParent)
@@ -95,10 +88,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private fun defineValuesReportPay() {
         binding.reportPay.value.text = getString(R.string.formated_money, viewModel.totalPay())
-    }
-
-    override fun loading() {
-
     }
 
     override fun onStart() {

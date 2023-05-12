@@ -4,15 +4,15 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.commons.utils.FORMAT_DATE
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.data.utils.FORMAT_DATE
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.repositories.CostsRepository
 import br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel

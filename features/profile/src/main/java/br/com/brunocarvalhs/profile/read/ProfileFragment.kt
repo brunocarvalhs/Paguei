@@ -52,10 +52,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         binding.editProfile.setOnClickListener { navigateToEditProfile() }
     }
 
-    override fun loading() {
-
-    }
-
     private fun logout() {
         viewModel.logout()
         navigateToLogin()

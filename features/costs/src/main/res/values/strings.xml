@@ -10,6 +10,7 @@
     <string name="dialog_costs_selected_yes_text">Yes</string>
     <string name="dialog_costs_selected_delete_text">Delete bill</string>
     <string name="textfield_name_hilt">Bill name</string>
+    <string name="textfield_reference_month_hilt">Due date</string>
     <string name="textfield_prompt_hilt">Due date</string>
     <string name="textfield_value_hilt">Value</string>
     <string name="textfield_barcode_hilt">Barcode</string>

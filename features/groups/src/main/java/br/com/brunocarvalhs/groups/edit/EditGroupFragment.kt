@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.groups.edit.fragment
+package br.com.brunocarvalhs.groups.edit
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.groups.databinding.FragmentGroupRegisterBinding
-import br.com.brunocarvalhs.groups.edit.state.EditGroupViewState
-import br.com.brunocarvalhs.groups.edit.viewmodel.EditGroupViewModel
 
 class EditGroupFragment : BaseFragment<FragmentGroupRegisterBinding>() {
 
@@ -39,10 +37,6 @@ class EditGroupFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     }
 
     override fun initView() {
-
-    }
-
-    override fun loading() {
 
     }
 }

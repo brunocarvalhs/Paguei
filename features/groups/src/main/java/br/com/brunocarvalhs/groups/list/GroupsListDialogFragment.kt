@@ -66,10 +66,6 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
 
     }
 
-    override fun loading() {
-
-    }
-
     override fun onClick(group: GroupEntities?) = selected(group)
 
     private fun selected(group: GroupEntities?) {

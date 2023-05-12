@@ -90,10 +90,6 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
         binding.registration.setOnClickListener { viewModel.save() }
     }
 
-    override fun loading() {
-
-    }
-
     private fun createMembersToContainer(member: UserEntities) {
         val chip = Chip(requireContext())
         chip.text = member.name

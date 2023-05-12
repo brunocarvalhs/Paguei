@@ -27,21 +27,17 @@ class BilletRegistrationBarcodeScannerFragment :
     BaseFragment<FragmentBilletRegistrationBarcodeScannerBinding>(), BarcodeScanListener {
 
     private val viewModel: BilletRegistrationBarcodeScannerViewModel by viewModels()
+    private val cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+    private val imageAnalysis by lazy { ImageAnalysis.Builder().build() }
+    private val preview by lazy { Preview.Builder().build() }
+    private val cameraSelector by lazy { CameraSelector.DEFAULT_BACK_CAMERA }
+
 
     private val requestPermissionLauncher by lazy {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) startCamera()
         }
     }
-
-    private val cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-
-    private val imageAnalysis by lazy { ImageAnalysis.Builder().build() }
-
-    private val preview by lazy { Preview.Builder().build() }
-
-    private val cameraSelector by lazy { CameraSelector.DEFAULT_BACK_CAMERA }
-
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -72,10 +68,6 @@ class BilletRegistrationBarcodeScannerFragment :
         this.visibilityToolbar(true)
         requestPermission()
         binding.next.setOnClickListener { navigateToForm() }
-    }
-
-    override fun loading() {
-
     }
 
     private fun requestPermission() {

@@ -1,12 +1,10 @@
-package br.com.brunocarvalhs.auth.viewmodels
+package br.com.brunocarvalhs.auth
 
 import androidx.lifecycle.viewModelScope
-import br.com.brunocarvalhs.auth.states.LoginViewState
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.domain.repositories.UserRepository
 import br.com.brunocarvalhs.domain.services.Authentication
 import br.com.brunocarvalhs.domain.services.SessionManager
-import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

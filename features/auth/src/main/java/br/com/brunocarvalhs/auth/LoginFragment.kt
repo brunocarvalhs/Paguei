@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.auth.fragments
+package br.com.brunocarvalhs.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.auth.databinding.FragmentLoginBinding
-import br.com.brunocarvalhs.auth.states.LoginViewState
-import br.com.brunocarvalhs.auth.viewmodels.LoginViewModel
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.paguei.commons.R
@@ -22,7 +20,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     @Inject
     lateinit var navigation: Navigation
-
     private val viewModel: LoginViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
@@ -68,13 +65,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initView() {
-        binding.button.setOnClickListener {
-            signInLauncher.launch(signInIntent)
-        }
-    }
-
-    override fun loading() {
-
+        binding.button.setOnClickListener { signInLauncher.launch(signInIntent) }
     }
 
     override fun onStart() {

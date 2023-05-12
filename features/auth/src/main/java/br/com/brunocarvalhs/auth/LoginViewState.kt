@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.auth.states
+package br.com.brunocarvalhs.auth
 
 sealed class LoginViewState {
     object Loading : LoginViewState()

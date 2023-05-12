@@ -19,7 +19,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var navigation: Navigation
-
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.groups.edit.state
+package br.com.brunocarvalhs.groups.edit
 
 sealed class EditGroupViewState {
     object Loading : EditGroupViewState()

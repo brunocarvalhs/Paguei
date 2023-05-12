@@ -46,7 +46,9 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     abstract fun initView()
 
-    abstract fun loading()
+    protected fun loading() {
+
+    }
 
     protected fun showError(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
