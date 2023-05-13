@@ -7,7 +7,7 @@ import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.commons.utils.FORMAT_MONTH
 import br.com.brunocarvalhs.commons.utils.moneyReplace
-import br.com.brunocarvalhs.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.domain.usecase.cost.AddCostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BilletRegistrationFormViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: CostsRepository,
+    private val useCase: AddCostUseCase,
 ) : BaseViewModel<BilletRegistrationFormViewState>() {
 
     val name = ObservableField<String>()
@@ -30,11 +30,10 @@ class BilletRegistrationFormViewModel @Inject constructor(
 
     fun saveCost() {
         viewModelScope.launch {
-            try {
-                mutableState.value = BilletRegistrationFormViewState.Loading
-                repository.add(generateCost())
+            mutableState.value = BilletRegistrationFormViewState.Loading
+            useCase.invoke(generateCost()).onSuccess {
                 mutableState.value = BilletRegistrationFormViewState.Success
-            } catch (error: Exception) {
+            }.onFailure { error ->
                 mutableState.value = BilletRegistrationFormViewState.Error(error.message)
             }
         }

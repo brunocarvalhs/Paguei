@@ -55,4 +55,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         binding.salary.setupEditTextField(binding.update)
         binding.salary.editText?.setupTextFieldValue()
     }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchData()
+    }
 }

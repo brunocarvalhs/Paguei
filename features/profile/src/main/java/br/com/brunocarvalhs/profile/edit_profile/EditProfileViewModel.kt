@@ -5,19 +5,19 @@ import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.domain.entities.UserEntities
-import br.com.brunocarvalhs.domain.repositories.UserRepository
-import br.com.brunocarvalhs.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.usecase.auth.GetUserSessionUseCase
+import br.com.brunocarvalhs.domain.usecase.auth.UpdateUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
-    private val sessionManager: SessionManager,
-    private val repository: UserRepository
+    private val getUserSessionUseCase: GetUserSessionUseCase,
+    private val updateUserUseCase: UpdateUserUseCase
 ) : BaseViewModel<EditProfileViewState>() {
 
-    private val user: UserEntities? = sessionManager.getUser()
+    private var user: UserEntities? = getUserSessionUseCase.invoke().getOrNull()
 
     val name = ObservableField<String>(user?.name)
 
@@ -27,14 +27,21 @@ class EditProfileViewModel @Inject constructor(
 
     fun update() {
         viewModelScope.launch {
-            try {
-                mutableState.value = EditProfileViewState.Loading
-                val result = repository.update(updateUser())
-                sessionManager.login(result, null)
+            mutableState.value = EditProfileViewState.Loading
+            updateUserUseCase.invoke(updateUser()).onSuccess {
                 mutableState.value = EditProfileViewState.Success
-            } catch (error: Exception) {
+            }.onFailure { error ->
                 mutableState.value = EditProfileViewState.Error(error.message)
             }
+        }
+    }
+
+    fun fetchData() {
+        viewModelScope.launch {
+            mutableState.value = EditProfileViewState.Loading
+            getUserSessionUseCase.invoke()
+                .onSuccess { user = it }
+                .onFailure { mutableState.value = EditProfileViewState.Error(it.message) }
         }
     }
 

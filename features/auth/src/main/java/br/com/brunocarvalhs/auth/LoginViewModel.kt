@@ -2,51 +2,44 @@ package br.com.brunocarvalhs.auth
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.domain.repositories.UserRepository
-import br.com.brunocarvalhs.domain.services.Authentication
-import br.com.brunocarvalhs.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.usecase.auth.AuthenticateUserUseCase
+import br.com.brunocarvalhs.domain.usecase.auth.GetUserFromDatabaseSessionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authService: Authentication,
-    private val repository: UserRepository,
-    private val sessionManager: SessionManager
+    private val authenticateUserUseCase: AuthenticateUserUseCase,
+    private val getUserFromSessionUseCase: GetUserFromDatabaseSessionUseCase
 ) : BaseViewModel<LoginViewState>() {
 
     fun onSignInResult() {
         viewModelScope.launch {
-            try {
-                mutableState.value = LoginViewState.Loading
-                val session = authService.session()
-                session?.let {
-                    val user = repository.create(it)
-                    sessionManager.login(user, null)
+            mutableState.value = LoginViewState.Loading
+            authenticateUserUseCase.invoke().onSuccess {
+                it?.let {
                     mutableState.value = LoginViewState.Success
+                }.run {
+                    mutableState.value = LoginViewState.Error("Authentication failed")
                 }
-            } catch (error: Exception) {
+            }.onFailure { error ->
                 mutableState.value = LoginViewState.Error(error.message)
-                throw error
             }
         }
     }
 
     fun onSession() {
         viewModelScope.launch {
-            try {
-                mutableState.value = LoginViewState.Loading
-                val session = authService.session()
-                session?.let {
-                    repository.read(it.id)?.let { user ->
-                        sessionManager.login(user, null)
-                        mutableState.value = LoginViewState.Success
-                    }
+            mutableState.value = LoginViewState.Loading
+            getUserFromSessionUseCase.invoke().onSuccess {
+                it?.let {
+                    mutableState.value = LoginViewState.Success
+                }.run {
+                    mutableState.value = LoginViewState.Error("User not found")
                 }
-            } catch (error: Exception) {
+            }.onFailure { error ->
                 mutableState.value = LoginViewState.Error(error.message)
-                throw error
             }
         }
     }

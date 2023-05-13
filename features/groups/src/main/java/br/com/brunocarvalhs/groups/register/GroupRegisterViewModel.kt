@@ -9,7 +9,7 @@ import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.repositories.GroupsRepository
 import br.com.brunocarvalhs.domain.services.NotificationService
 import br.com.brunocarvalhs.domain.services.SessionManager
-import br.com.brunocarvalhs.domain.usecase.GetUserForEmailUseCase
+import br.com.brunocarvalhs.domain.usecase.auth.GetUserForEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,15 +36,15 @@ class GroupRegisterViewModel @Inject constructor(
     fun registerMember() {
         member.get()?.let { email ->
             viewModelScope.launch {
-                try {
-                    mutableState.value = GroupRegisterViewState.Loading
-                    getUserForEmailUseCase(email)?.let { userEntities ->
+                mutableState.value = GroupRegisterViewState.Loading
+                getUserForEmailUseCase(email).onSuccess {
+                    it?.let { userEntities ->
                         if (!members.contains(userEntities)) {
                             members.add(userEntities)
                         }
                     }
                     mutableState.value = GroupRegisterViewState.MemberSearchSuccess
-                } catch (error: Exception) {
+                }.onFailure { error ->
                     mutableState.value = GroupRegisterViewState.Error(error.message)
                 }
             }

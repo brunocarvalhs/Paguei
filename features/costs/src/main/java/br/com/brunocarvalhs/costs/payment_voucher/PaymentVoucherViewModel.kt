@@ -7,7 +7,7 @@ import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.commons.utils.FORMAT_DATE
 import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.entities.CostEntities
-import br.com.brunocarvalhs.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.domain.usecase.cost.UpdateCostUseCase
 import br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PaymentVoucherViewModel @Inject constructor(
-    private val repository: CostsRepository,
+    private val useCase: UpdateCostUseCase,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<PaymentVoucherViewState>() {
 
@@ -37,11 +37,10 @@ class PaymentVoucherViewModel @Inject constructor(
 
     fun savePaymentVoucher() {
         viewModelScope.launch {
-            try {
-                mutableState.value = PaymentVoucherViewState.Loading
-                val data = repository.update(generateCost())
-                mutableState.value = PaymentVoucherViewState.Success(data)
-            } catch (error: Exception) {
+            mutableState.value = PaymentVoucherViewState.Loading
+            useCase.invoke(generateCost()).onSuccess {
+                mutableState.value = PaymentVoucherViewState.Success(it)
+            }.onFailure { error ->
                 mutableState.value = PaymentVoucherViewState.Error(error.message)
             }
         }

@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.profile.databinding.FragmentProfileBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
-
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is ProfileViewState.Error -> this.showError(it.message)
+                ProfileViewState.Loading -> this.loading()
+                is ProfileViewState.Success -> this.displayData(it.user)
+            }
+        }
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -35,26 +42,32 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun initView() {
         visibilityToolbar(visibility = true)
-        viewModel.user?.let {
-            it.photoUrl?.let { photoUrl ->
-                glide.load(photoUrl).centerCrop().into(binding.avatar)
-            } ?: kotlin.run {
-                binding.avatar.visibility = View.GONE
-                binding.avatarText.visibility = View.VISIBLE
-                binding.avatarText.text = it.initialsName()
-            }
-
-            binding.name.text = it.name
-            binding.contact.text = it.email
-        }
         binding.logout.setOnClickListener { logout() }
         binding.settings.setOnClickListener { navigateToSettings() }
         binding.editProfile.setOnClickListener { navigateToEditProfile() }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchData()
+    }
+
+    private fun displayData(user: UserEntities?) {
+        user?.let {
+            user.photoUrl?.let { photoUrl ->
+                glide.load(photoUrl).centerCrop().into(binding.avatar)
+            } ?: kotlin.run {
+                binding.avatar.visibility = View.GONE
+                binding.avatarText.visibility = View.VISIBLE
+                binding.avatarText.text = user.initialsName()
+            }
+            binding.name.text = user.name
+            binding.contact.text = user.email
+        }
+    }
+
     private fun logout() {
-        viewModel.logout()
-        navigateToLogin()
+        viewModel.logout { navigateToLogin() }
     }
 
     private fun navigateToSettings() {

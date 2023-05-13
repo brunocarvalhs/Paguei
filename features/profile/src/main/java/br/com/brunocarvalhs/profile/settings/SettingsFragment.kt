@@ -103,7 +103,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun deleteData() {
-        navigation.navigateToLoginRegister()
-        viewModel.deleteData()
+        viewModel.deleteData { navigation.navigateToLoginRegister() }
     }
 }
