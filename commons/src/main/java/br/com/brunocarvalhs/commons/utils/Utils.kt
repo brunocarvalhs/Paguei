@@ -120,6 +120,12 @@ fun EditText.initDateConfig() {
     this.onFocusChangeListener = listener
 }
 
+fun EditText.initMonthConfig() {
+    val listener = MaskedTextChangedListener(PROMPT_MONTH_FORMAT, this)
+    this.addTextChangedListener(listener)
+    this.onFocusChangeListener = listener
+}
+
 fun TextInputLayout.setupTextFieldDate(
     fragment: Fragment,
     datePicker: MaterialDatePicker<Long>,
@@ -135,7 +141,7 @@ fun TextInputLayout.setupTextFieldMonth(
     datePicker: MaterialDatePicker<Long>,
     calendar: Calendar
 ) {
-    this.editText?.initDateConfig()
+    this.editText?.initMonthConfig()
     this.setEndIconOnClickListener { datePicker.showDateAlert(fragment) }
     this.editText?.eventSetMonthTextField(calendar, datePicker)
 }
