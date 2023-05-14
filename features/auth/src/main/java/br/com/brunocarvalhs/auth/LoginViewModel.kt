@@ -20,7 +20,7 @@ class LoginViewModel @Inject constructor(
             authenticateUserUseCase.invoke().onSuccess {
                 it?.let {
                     mutableState.value = LoginViewState.Success
-                }.run {
+                } ?: kotlin.run {
                     mutableState.value = LoginViewState.Error("Authentication failed")
                 }
             }.onFailure { error ->
@@ -35,7 +35,7 @@ class LoginViewModel @Inject constructor(
             getUserFromSessionUseCase.invoke().onSuccess {
                 it?.let {
                     mutableState.value = LoginViewState.Success
-                }.run {
+                } ?: run {
                     mutableState.value = LoginViewState.Error("User not found")
                 }
             }.onFailure { error ->

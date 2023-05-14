@@ -14,16 +14,14 @@ class GetUserFromDatabaseSessionUseCaseImpl @Inject constructor(
 ) : GetUserFromDatabaseSessionUseCase {
     override suspend fun invoke(): Result<UserEntities?> {
         return try {
-            val session = authService.session()
-            if (session != null) {
-                repository.read(session.id)?.let { user ->
-                    sessionManager.login(user, null)
-                    Result.success(user)
+            var user: UserEntities? = null
+            authService.session()?.let { session ->
+                repository.read(session.id)?.let {
+                    sessionManager.login(it, null)
+                    user = it
                 }
-                Result.success(null)
-            } else {
-                Result.success(null)
             }
+            Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
         }
