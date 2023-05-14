@@ -3,19 +3,24 @@ package br.com.brunocarvalhs.report
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.report.databinding.FragmentReportBinding
-import com.google.android.material.chip.Chip
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val viewModel: ReportViewModel by viewModels()
+    private lateinit var viewPager: ViewPager2
+    private lateinit var adapter: ReportFragmentStateAdapter
+
     override fun createBinding(
-        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
     ): FragmentReportBinding = FragmentReportBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
@@ -28,66 +33,35 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun displayData() {
-        defineValuesReportPay()
-        defineValuesReportCosts()
-        setupFilters()
-    }
-
     override fun argumentsView(arguments: Bundle) {
 
     }
 
+    private fun displayData() {
+        setupFilters()
+    }
+
     override fun initView() {
         visibilityToolbar(true)
-        setupReportPay()
-        setupReportCosts()
+        viewPager = binding.myPager
+        adapter = ReportFragmentStateAdapter(this)
         setupFilters()
     }
 
     private fun setupFilters() {
-        binding.header.filters.removeAllViews()
         val list = viewModel.defineFilters()
-        list.forEach { addFilter(it) }
-    }
 
-    private fun addFilter(filter: String?) {
-        filter?.let { date ->
-            val chip = Chip(requireContext())
-            chip.text = date
-            chip.setOnClickListener { viewModel.selectedFilter(date) }
-            binding.header.filters.addView(chip)
+        viewPager.adapter = adapter
+
+        list.forEach { item ->
+            adapter.addFragment(ReportMonthFragment.newInstance(item.value))
+            val index = list.keys.indexOf(item.key)
+            viewPager.setCurrentItem(index, false)
         }
-    }
 
-    private fun setupReportCosts() {
-        defineValuesReportCosts()
-        binding.reportCosts.name.text = getString(R.string.total_costs)
-        binding.reportCosts.icon.setImageDrawable(
-            AppCompatResources.getDrawable(
-                requireContext(),
-                R.drawable.ic_baseline_trending_down_24
-            )
-        )
-    }
-
-    private fun setupReportPay() {
-        defineValuesReportPay()
-        binding.reportPay.name.text = getString(R.string.total_pay)
-        binding.reportPay.icon.setImageDrawable(
-            AppCompatResources.getDrawable(
-                requireContext(),
-                R.drawable.ic_baseline_trending_up_24
-            )
-        )
-    }
-
-    private fun defineValuesReportCosts() {
-        binding.reportCosts.value.text = getString(R.string.formated_money, viewModel.totalCosts())
-    }
-
-    private fun defineValuesReportPay() {
-        binding.reportPay.value.text = getString(R.string.formated_money, viewModel.totalPay())
+        TabLayoutMediator(binding.tabs, viewPager) { tab, position ->
+            tab.text = list.keys.toMutableList()[position]
+        }.attach()
     }
 
     override fun onStart() {

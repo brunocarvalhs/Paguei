@@ -3,4 +3,6 @@
     <string name="total_pay">Total Pay</string>
     <string name="total_costs">Total Costs</string>
     <string name="formated_money">$ %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
