@@ -9,7 +9,6 @@ import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.commons.utils.setupTextFieldDate
 import br.com.brunocarvalhs.costs.databinding.FragmentPaymentVoucherBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
-import br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherViewState
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker

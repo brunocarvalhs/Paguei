@@ -8,7 +8,6 @@ import br.com.brunocarvalhs.commons.utils.FORMAT_DATE
 import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.usecase.cost.UpdateCostUseCase
-import br.com.brunocarvalhs.paguei.features.costs.payment_voucher.PaymentVoucherViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -24,6 +23,8 @@ class PaymentVoucherViewModel @Inject constructor(
     val cost: CostEntities = PaymentVoucherFragmentArgs.fromSavedStateHandle(savedStateHandle).cost
 
     val name = ObservableField<String>(cost.name)
+
+    val referenceMonth = ObservableField<String>(cost.dateReferenceMonth)
 
     val prompt = ObservableField<String>(cost.prompt)
 

@@ -8,4 +8,5 @@
     <string name="fragment_extract_reader_button_open_text">View receipt</string>
     <string name="textfield_payment_voucher_hilt">URI</string>
     <string name="fragment_extract_reader_textfield_date_payment_hilt">Payment date</string>
+    <string name="fragment_extract_reader_textfield_referring_month_hilt">Referring Month</string>
 </resources>

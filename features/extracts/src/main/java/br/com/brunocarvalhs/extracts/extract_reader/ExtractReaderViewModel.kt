@@ -23,6 +23,8 @@ class ExtractReaderViewModel @Inject constructor(
 
     val name = ObservableField<String>(cost.name)
 
+    val referenceMonth = ObservableField<String>(cost.dateReferenceMonth)
+
     val prompt = ObservableField<String>(cost.prompt)
 
     val value = ObservableField(context.getString(R.string.item_cost_value, cost.formatValue()))

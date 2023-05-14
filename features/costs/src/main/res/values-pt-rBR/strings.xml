@@ -11,6 +11,7 @@
     <string name="dialog_costs_selected_yes_text">Sim</string>
     <string name="dialog_costs_selected_delete_text">Deletar boleto</string>
     <string name="textfield_name_hilt">Nome do boleto</string>
+    <string name="textfield_reference_month_hilt">Mês referente</string>
     <string name="textfield_prompt_hilt">Vencimento</string>
     <string name="textfield_value_hilt">Valor</string>
     <string name="textfield_barcode_hilt">Código</string>
