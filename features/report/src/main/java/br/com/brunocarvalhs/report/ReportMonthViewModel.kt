@@ -1,41 +1,71 @@
 package br.com.brunocarvalhs.report
 
+import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.usecase.report.CalculateExpenseFrequencyUseCase
+import br.com.brunocarvalhs.domain.usecase.report.CalculateExpensesByCategoryUseCase
+import br.com.brunocarvalhs.domain.usecase.report.CalculateMonthlyExpensesUseCase
+import br.com.brunocarvalhs.domain.usecase.report.CalculatePaymentPromptnessUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class ReportMonthViewModel @Inject constructor(
-    sessionManager: SessionManager
-) : BaseViewModel<ReportViewState>() {
+    sessionManager: SessionManager,
+    private val calculateExpenseFrequencyUseCase: CalculateExpenseFrequencyUseCase,
+    private val calculateExpensesByCategoryUseCase: CalculateExpensesByCategoryUseCase,
+    private val calculateMonthlyExpensesUseCase: CalculateMonthlyExpensesUseCase,
+) : BaseViewModel<ReportMonthViewState>() {
 
-    private var totalCosts = 0f
+    var list: List<CostEntities> = emptyList()
+
+    var month: String? = null
+
+    var totalCosts: String? = null
         private set
 
-    private var totalPay = 0f
+    var totalPay: String? = null
         private set
 
-    var totalRender = sessionManager.getUser()?.salary
+    var frequency: Map<String, Int>? = null
         private set
 
-    fun totalCosts(list: List<CostEntities>): String {
-        val total = list.filter { it.paymentVoucher.isNullOrEmpty() }.map {
-            it.value?.toDouble()
-        }
-        totalCosts = total.filterNotNull().sumOf { it }.toFloat()
-        return formattedDecimal(totalCosts.toDouble())
+    var totalRender: String? = sessionManager.getUser()?.salary
+        private set
+
+    fun fetchData() {
+        mutableState.value = ReportMonthViewState.Loading
+        this.calculatePaymentPromptness()
+        this.calculateMonthlyExpenses()
+        this.calculateExpenseFrequency()
+        this.calculateTotalPay()
+        this.calculateTotalCosts()
+        mutableState.value = ReportMonthViewState.Success
     }
 
-    fun totalPay(list: List<CostEntities>): String {
-        val total = list.filter { it.paymentVoucher != null }.map {
-            it.value?.toDouble()
+    private fun calculateTotalCosts() {
+        viewModelScope.launch {
+            val total = list.map {
+                it.value?.toDouble()
+            }
+            val result = total.filterNotNull().sumOf { it }
+            totalCosts = formattedDecimal(result)
         }
-        totalPay = total.filterNotNull().sumOf { it }.toFloat()
-        return formattedDecimal(totalPay.toDouble())
+    }
+
+    private fun calculateTotalPay() {
+        viewModelScope.launch {
+            val total = list.filter { it.paymentVoucher != null }.map {
+                it.value?.toDouble()
+            }
+            val result = total.filterNotNull().sumOf { it }
+            totalPay = formattedDecimal(result)
+        }
     }
 
     private fun formattedDecimal(value: Double): String {
@@ -44,4 +74,35 @@ class ReportMonthViewModel @Inject constructor(
         numberFormat.minimumFractionDigits = 2
         return numberFormat.format(value)
     }
+
+    private fun calculateExpenseFrequency() {
+        // Utilize o calculateExpenseFrequencyUseCase para calcular a frequência das despesas
+        viewModelScope.launch {
+            frequency = calculateExpenseFrequencyUseCase.invoke(list)
+        }
+    }
+
+    fun calculateExpensesByCategory() {
+        // Utilize o calculateExpensesByCategoryUseCase para calcular as despesas por categoria
+        viewModelScope.launch {
+            val result = calculateExpensesByCategoryUseCase.invoke(list)
+        }
+    }
+
+    private fun calculateMonthlyExpenses() {
+        // Utilize o calculateMonthlyExpensesUseCase para calcular as despesas mensais
+        viewModelScope.launch {
+            month?.let { month ->
+                val result = calculateMonthlyExpensesUseCase.invoke(list, month)
+            }
+        }
+    }
+
+    private fun calculatePaymentPromptness() {
+        // Utilize o calculatePaymentPromptnessUseCaseFactory para calcular a pontualidade de pagamento
+        viewModelScope.launch {
+//            val result = calculatePaymentPromptnessUseCase.invoke(list, Date(month))
+        }
+    }
+
 }

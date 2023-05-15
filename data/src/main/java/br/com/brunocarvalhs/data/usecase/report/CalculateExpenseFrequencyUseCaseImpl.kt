@@ -2,8 +2,10 @@ package br.com.brunocarvalhs.data.usecase.report
 
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.usecase.report.CalculateExpenseFrequencyUseCase
+import javax.inject.Inject
 
-class CalculateExpenseFrequencyUseCaseImpl : CalculateExpenseFrequencyUseCase {
+class CalculateExpenseFrequencyUseCaseImpl @Inject constructor() :
+    CalculateExpenseFrequencyUseCase {
     override suspend fun invoke(costs: List<CostEntities>): Map<String, Int> {
         val frequency = mutableMapOf<String, Int>()
         for (cost in costs) {

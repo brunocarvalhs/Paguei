@@ -15,8 +15,8 @@ class ReportViewModel @Inject constructor(
     private val repository: CostsRepository,
 ) : BaseViewModel<ReportViewState>() {
 
-    private var listCosts = mutableListOf<CostEntities>()
-        set(value) {
+    var listCosts = mutableListOf<CostEntities>()
+        private set(value) {
             if (!listCosts.containsAll(value)) {
                 field = value
             }
@@ -42,7 +42,15 @@ class ReportViewModel @Inject constructor(
             .toMutableMap()
     }
 
-    private fun convertDate(date: String?): String? {
+    fun defineBarChart(): List<CostEntities> {
+        return listCosts
+            .groupBy { convertDate(it.datePayment) }
+            .mapValues { (_, values) -> values.sortedByDescending { it.datePayment } }
+            .toSortedMap(compareByDescending { it })
+            .flatMap { it.value }
+    }
+
+    fun convertDate(date: String?): String? {
         return date?.let {
             val formatoEntrada = SimpleDateFormat("dd/MM/yyyy")
             val formatoSaida = SimpleDateFormat("MMMM / yyyy", Locale.getDefault())

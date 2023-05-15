@@ -2,8 +2,9 @@ package br.com.brunocarvalhs.data.usecase.report
 
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.usecase.report.CalculateExpensesByCategoryUseCase
+import javax.inject.Inject
 
-class CalculateExpensesByCategoryUseCaseImpl : CalculateExpensesByCategoryUseCase {
+class CalculateExpensesByCategoryUseCaseImpl @Inject constructor() : CalculateExpensesByCategoryUseCase {
     override suspend fun invoke(costs: List<CostEntities>): Map<String, Double> {
         val costItCategory = mutableMapOf<String, Double>()
         for (cost in costs) {
