@@ -1,6 +1,5 @@
 package br.com.brunocarvalhs.report
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -84,7 +83,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
             binding.lineChart.data = data
             binding.lineChart.xAxis.valueFormatter =
-                IndexAxisValueFormatter(costs.map { viewModel.convertDate(it.datePayment) })
+                IndexAxisValueFormatter(costs.map { viewModel.convertDate(it.dateReferenceMonth) })
             binding.lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
             binding.lineChart.animateY(1000)
 
