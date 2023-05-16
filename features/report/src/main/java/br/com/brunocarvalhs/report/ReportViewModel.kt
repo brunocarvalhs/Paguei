@@ -36,23 +36,23 @@ class ReportViewModel @Inject constructor(
 
     fun defineFilters(): MutableMap<String?, List<CostEntities>> {
         return listCosts
-            .groupBy { convertDate(it.datePayment) }
-            .mapValues { (_, values) -> values.sortedByDescending { it.datePayment } }
+            .groupBy { convertDate(it.dateReferenceMonth) }
+            .mapValues { (_, values) -> values.sortedByDescending { it.dateReferenceMonth } }
             .toSortedMap(compareByDescending { it })
             .toMutableMap()
     }
 
     fun defineBarChart(): List<CostEntities> {
         return listCosts
-            .groupBy { convertDate(it.datePayment) }
-            .mapValues { (_, values) -> values.sortedByDescending { it.datePayment } }
+            .groupBy { convertDate(it.dateReferenceMonth) }
+            .mapValues { (_, values) -> values.sortedByDescending { it.dateReferenceMonth } }
             .toSortedMap(compareByDescending { it })
             .flatMap { it.value }
     }
 
     fun convertDate(date: String?): String? {
         return date?.let {
-            val formatoEntrada = SimpleDateFormat("dd/MM/yyyy")
+            val formatoEntrada = SimpleDateFormat("MM/yyyy")
             val formatoSaida = SimpleDateFormat("MMMM / yyyy", Locale.getDefault())
             val data = formatoEntrada.parse(date)
             data?.let { formatoSaida.format(it) }
