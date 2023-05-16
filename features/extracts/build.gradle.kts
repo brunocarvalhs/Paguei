@@ -81,6 +81,7 @@ dependencies {
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
     testImplementation(Dependencies.Test.MOCKITO)
+    testImplementation(Dependencies.Test.MOCKITO_INLINE)
     testImplementation("androidx.test.ext:junit-ktx:1.1.5")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)

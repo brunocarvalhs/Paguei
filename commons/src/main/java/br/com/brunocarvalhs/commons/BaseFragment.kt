@@ -14,7 +14,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     private var _binding: T? = null
     protected val binding get() = requireNotNull(_binding)
 
-    protected abstract fun createBinding(
+    abstract fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
         attachToParent: Boolean = false
@@ -46,13 +46,19 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     abstract fun initView()
 
+<<<<<<< Updated upstream
     abstract fun loading()
+=======
+    fun loading() {
 
-    protected fun showError(message: String?) {
+    }
+>>>>>>> Stashed changes
+
+    fun showError(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
-    protected fun visibilityToolbar(visibility: Boolean = false) {
+    fun visibilityToolbar(visibility: Boolean = false) {
         if (visibility) (requireActivity() as ManagerToolbar).showToolbar()
         else (requireActivity() as ManagerToolbar).hideToolbar()
     }

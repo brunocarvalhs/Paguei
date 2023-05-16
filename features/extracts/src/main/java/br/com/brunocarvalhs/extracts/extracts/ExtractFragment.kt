@@ -17,9 +17,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     ExtractRecyclerViewAdapter.ExtractClickListener {
 
+<<<<<<< Updated upstream
     private val viewModel: ExtractViewModel by viewModels()
 
     private val adapter by lazy { ExtractRecyclerViewAdapter(requireContext(), this) }
+=======
+    val viewModel: ExtractViewModel by viewModels()
+    val adapter by lazy { ExtractRecyclerViewAdapter(requireContext(), this) }
+>>>>>>> Stashed changes
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -46,7 +51,7 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
         this.setupSearch()
     }
 
-    private fun setupSearch() {
+    fun setupSearch() {
         binding.searchView.editText.apply {
             doOnTextChanged { text, _, _, _ ->
                 adapter.filter(text.toString())
@@ -59,13 +64,14 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
         }
     }
 
-    private fun setupList() {
+    fun setupList() {
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
         binding.listSeachr.adapter = adapter
         binding.listSeachr.layoutManager = LinearLayoutManager(context)
     }
 
+<<<<<<< Updated upstream
     override fun loading() {
 
     }
@@ -73,6 +79,9 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     private fun displayData(list: List<CostEntities>) {
         adapter.submitList(list)
     }
+=======
+    fun displayData(list: List<CostEntities>) = adapter.submitList(list)
+>>>>>>> Stashed changes
 
     override fun onClick(cost: CostEntities) {
         val action = ExtractFragmentDirections.actionExtractFragmentToExtractReaderFragment(cost)

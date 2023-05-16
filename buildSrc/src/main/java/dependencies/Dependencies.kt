@@ -38,6 +38,7 @@ object Dependencies {
         const val ESPRESSO_CORE =
             "androidx.test.espresso:espresso-core:${Versions.Test.ESPRESSO_CORE}"
         const val MOCKITO = "org.mockito:mockito-core:${Versions.Test.MOCKITO}"
+        const val MOCKITO_INLINE = "org.mockito:mockito-inline:3.12.4"
     }
 
     object Navigation {
