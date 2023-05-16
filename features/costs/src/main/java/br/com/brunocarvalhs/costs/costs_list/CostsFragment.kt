@@ -67,10 +67,6 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         binding.list.adapter = adapter
     }
 
-    override fun loading() {
-
-    }
-
     private fun defineTotalCosts(total: Int = 0) {
         binding.textTotalCosts.text =
             requireActivity().getString(R.string.costs_total_text, total.toString())
@@ -88,7 +84,10 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             }
 
             binding.name.text =
-                if (it.isGroup) requireActivity().getString(R.string.home_title_group_header, it.name)
+                if (it.isGroup) requireActivity().getString(
+                    R.string.home_title_group_header,
+                    it.name
+                )
                 else requireActivity().getString(R.string.home_title_header, it.name)
 
             if (!it.isGroup) {

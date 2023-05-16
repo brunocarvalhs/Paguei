@@ -35,8 +35,4 @@ class BilletRegistrationDialogFragment :
     override fun argumentsView(arguments: Bundle) {
 
     }
-
-    override fun loading() {
-
-    }
 }

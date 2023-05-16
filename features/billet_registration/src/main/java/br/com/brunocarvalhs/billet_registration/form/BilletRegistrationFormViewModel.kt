@@ -5,35 +5,35 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.commons.utils.FORMAT_MONTH
+import br.com.brunocarvalhs.commons.utils.moneyReplace
+import br.com.brunocarvalhs.domain.usecase.cost.AddCostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class BilletRegistrationFormViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: CostsRepository,
+    private val useCase: AddCostUseCase,
 ) : BaseViewModel<BilletRegistrationFormViewState>() {
 
     val name = ObservableField<String>()
-
     val prompt = ObservableField<String>()
-
     val value = ObservableField<String>()
-
     val barCode = ObservableField<String>(
-        BilletRegistrationFormFragmentArgs
-            .fromSavedStateHandle(savedStateHandle).barcode
+        BilletRegistrationFormFragmentArgs.fromSavedStateHandle(savedStateHandle).barcode
     )
+    val dateReferenceMonth = ObservableField(SimpleDateFormat(FORMAT_MONTH).format(Date()))
 
     fun saveCost() {
         viewModelScope.launch {
-            try {
-                mutableState.value = BilletRegistrationFormViewState.Loading
-                repository.add(generateCost())
+            mutableState.value = BilletRegistrationFormViewState.Loading
+            useCase.invoke(generateCost()).onSuccess {
                 mutableState.value = BilletRegistrationFormViewState.Success
-            } catch (error: Exception) {
+            }.onFailure { error ->
                 mutableState.value = BilletRegistrationFormViewState.Error(error.message)
             }
         }
@@ -42,7 +42,8 @@ class BilletRegistrationFormViewModel @Inject constructor(
     private fun generateCost() = CostsModel(
         name = name.get(),
         prompt = prompt.get(),
-        value = value.get()?.replace("[^0-9,]".toRegex(), "")?.replace(",", "."),
+        value = value.get()?.moneyReplace(),
         barCode = barCode.get(),
+        dateReferenceMonth = dateReferenceMonth.get()
     )
 }

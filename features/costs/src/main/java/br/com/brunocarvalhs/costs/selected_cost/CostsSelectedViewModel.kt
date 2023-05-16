@@ -3,14 +3,14 @@ package br.com.brunocarvalhs.costs.selected_cost
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.domain.usecase.cost.DeleteCostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CostsSelectedViewModel @Inject constructor(
-    private val repository: CostsRepository,
+    private val useCase: DeleteCostUseCase,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<CostsSelectedViewState>() {
 
@@ -18,13 +18,12 @@ class CostsSelectedViewModel @Inject constructor(
 
     fun deleteCost() {
         viewModelScope.launch {
-            try {
-                mutableState.value = CostsSelectedViewState.Loading
-                repository.delete(cost)
-                mutableState.value = CostsSelectedViewState.Success
-            } catch (error: Exception) {
-                mutableState.value = CostsSelectedViewState.Error(error.message)
-            }
+            mutableState.value = CostsSelectedViewState.Loading
+            useCase.invoke(cost)
+                .onSuccess { mutableState.value = CostsSelectedViewState.Success }
+                .onFailure { error ->
+                    mutableState.value = CostsSelectedViewState.Error(error.message)
+                }
         }
     }
 }

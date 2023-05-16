@@ -19,7 +19,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var navigation: Navigation
-
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -104,7 +103,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun deleteData() {
-        navigation.navigateToLoginRegister()
-        viewModel.deleteData()
+        viewModel.deleteData { navigation.navigateToLoginRegister() }
     }
 }

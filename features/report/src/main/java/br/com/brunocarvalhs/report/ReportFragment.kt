@@ -1,28 +1,33 @@
 package br.com.brunocarvalhs.report
 
-import android.os.Build
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.report.databinding.FragmentReportBinding
-import com.google.android.material.chip.Chip
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.Calendar
-
 
 @AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val viewModel: ReportViewModel by viewModels()
+    private lateinit var viewPager: ViewPager2
+    private lateinit var adapter: ReportFragmentStateAdapter
 
     override fun createBinding(
-        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
     ): FragmentReportBinding = FragmentReportBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
@@ -35,70 +40,72 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun displayData() {
-        defineValuesReportPay()
-        defineValuesReportCosts()
-        setupFilters()
-    }
-
     override fun argumentsView(arguments: Bundle) {
 
     }
 
-    override fun initView() {
-        visibilityToolbar(true)
-        setupReportPay()
-        setupReportCosts()
+    private fun displayData() {
+        defineChart()
         setupFilters()
     }
 
-    private fun setupFilters() {
-        binding.header.filters.removeAllViews()
-        val list = viewModel.defineFilters()
-        list.forEach { addFilter(it) }
+    override fun initView() {
+        visibilityToolbar(true)
+        viewPager = binding.myPager
+        adapter = ReportFragmentStateAdapter(this)
+        setupFilters()
     }
 
-    private fun addFilter(filter: String?) {
-        filter?.let { date ->
-            val chip = Chip(requireContext())
-            chip.text = date
-            chip.setOnClickListener { viewModel.selectedFilter(date) }
-            binding.header.filters.addView(chip)
+    private fun defineChart() {
+        val costs = viewModel.defineBarChart()
+
+        if (costs.isNotEmpty()) {
+            val entries = mutableListOf<Entry>()
+            for ((index, cost) in costs.withIndex()) {
+                val xValue = index.toFloat()
+                val yValue = cost.value?.toFloat() ?: 0f
+                entries.add(Entry(xValue, yValue))
+            }
+
+            val dataSet = LineDataSet(entries, "Custos Mensais")
+            dataSet.setDrawCircleHole(false)
+            dataSet.setDrawValues(false)
+
+            val data = LineData(dataSet)
+
+            val xAxis = binding.lineChart.xAxis
+            xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.lineChartColor)
+
+            val leftYAxis = binding.lineChart.axisLeft
+            leftYAxis.textColor = ContextCompat.getColor(requireContext(), R.color.lineChartColor)
+
+            val rightYAxis = binding.lineChart.axisRight
+            rightYAxis.textColor = ContextCompat.getColor(requireContext(), R.color.lineChartColor)
+
+            binding.lineChart.data = data
+            binding.lineChart.xAxis.valueFormatter =
+                IndexAxisValueFormatter(costs.map { viewModel.convertDate(it.datePayment) })
+            binding.lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+            binding.lineChart.animateY(1000)
+
+            binding.lineChart.invalidate()
         }
     }
 
-    private fun setupReportCosts() {
-        defineValuesReportCosts()
-        binding.reportCosts.name.text = getString(R.string.total_costs)
-        binding.reportCosts.icon.setImageDrawable(
-            AppCompatResources.getDrawable(
-                requireContext(),
-                R.drawable.ic_baseline_trending_down_24
-            )
-        )
-    }
+    private fun setupFilters() {
+        val list = viewModel.defineFilters()
 
-    private fun setupReportPay() {
-        defineValuesReportPay()
-        binding.reportPay.name.text = getString(R.string.total_pay)
-        binding.reportPay.icon.setImageDrawable(
-            AppCompatResources.getDrawable(
-                requireContext(),
-                R.drawable.ic_baseline_trending_up_24
-            )
-        )
-    }
+        viewPager.adapter = adapter
 
-    private fun defineValuesReportCosts() {
-        binding.reportCosts.value.text = getString(R.string.formated_money, viewModel.totalCosts())
-    }
+        list.forEach { item ->
+            adapter.addFragment(ReportMonthFragment.newInstance(item.value, item.key))
+            val index = list.keys.indexOf(item.key)
+            viewPager.setCurrentItem(index, false)
+        }
 
-    private fun defineValuesReportPay() {
-        binding.reportPay.value.text = getString(R.string.formated_money, viewModel.totalPay())
-    }
-
-    override fun loading() {
-
+        TabLayoutMediator(binding.tabs, viewPager) { tab, position ->
+            tab.text = list.keys.toMutableList()[position]
+        }.attach()
     }
 
     override fun onStart() {

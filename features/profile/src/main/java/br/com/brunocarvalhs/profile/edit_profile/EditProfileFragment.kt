@@ -1,17 +1,15 @@
 package br.com.brunocarvalhs.profile.edit_profile
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.commons.utils.setupEditTextField
+import br.com.brunocarvalhs.commons.utils.setupTextFieldValue
 import br.com.brunocarvalhs.profile.databinding.FragmentEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
@@ -50,71 +48,16 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         binding.lifecycleOwner = this
         binding.update.setOnClickListener { viewModel.update() }
         setupSalary()
-        setupName()
-    }
-
-    override fun loading() {
-
-    }
-
-    private fun setupName() {
-        binding.name.setEndIconOnClickListener {
-            if (binding.name.editText?.isEnabled == false) {
-                binding.name.editText?.defineEnabled()
-                binding.name.isEndIconVisible = false
-                defineUpdateButton()
-            }
-        }
+        binding.name.setupEditTextField(binding.update)
     }
 
     private fun setupSalary() {
-        binding.salary.setEndIconOnClickListener {
-            if (binding.salary.editText?.isEnabled == false) {
-                binding.salary.editText?.defineEnabled()
-                binding.salary.isEndIconVisible = false
-                defineUpdateButton()
-            }
-        }
-        setupTextFieldValue()
+        binding.salary.setupEditTextField(binding.update)
+        binding.salary.editText?.setupTextFieldValue()
     }
 
-    private fun View.defineEnabled() {
-        this.isEnabled = !this.isEnabled
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchData()
     }
-
-    private fun setupTextFieldValue() {
-        binding.salary.editText?.let { valueEditText ->
-            val currencyFormat = DecimalFormat.getCurrencyInstance()
-            val textWatcher = object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    s?.let {
-                        if (s.isNotEmpty()) {
-                            val parsed = s.toString().moneyToDouble() / 100
-                            val formatted = currencyFormat.format(parsed)
-                            valueEditText.removeTextChangedListener(this)
-                            valueEditText.setText(formatted)
-                            valueEditText.setSelection(formatted.length)
-                            valueEditText.addTextChangedListener(this)
-                        }
-                    }
-                }
-
-                override fun beforeTextChanged(
-                    s: CharSequence?, start: Int, count: Int, after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-            }
-            valueEditText.addTextChangedListener(textWatcher)
-        }
-    }
-
-    private fun defineUpdateButton() {
-        binding.update.visibility = View.VISIBLE
-    }
-
-    private fun String.moneyToDouble() =
-        this.replace("\\D".toRegex(), "").toDouble()
 }
