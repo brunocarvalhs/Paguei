@@ -18,7 +18,6 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     ExtractRecyclerViewAdapter.ExtractClickListener {
 
     private val viewModel: ExtractViewModel by viewModels()
-
     private val adapter by lazy { ExtractRecyclerViewAdapter(requireContext(), this) }
 
     override fun createBinding(
@@ -66,13 +65,7 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
         binding.listSeachr.layoutManager = LinearLayoutManager(context)
     }
 
-    override fun loading() {
-
-    }
-
-    private fun displayData(list: List<CostEntities>) {
-        adapter.submitList(list)
-    }
+    private fun displayData(list: List<CostEntities>) = adapter.submitList(list)
 
     override fun onClick(cost: CostEntities) {
         val action = ExtractFragmentDirections.actionExtractFragmentToExtractReaderFragment(cost)

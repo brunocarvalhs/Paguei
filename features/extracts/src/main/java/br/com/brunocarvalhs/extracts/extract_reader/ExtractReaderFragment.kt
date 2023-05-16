@@ -59,10 +59,6 @@ class ExtractReaderFragment : BaseFragment<FragmentExtractReaderBinding>() {
         }
     }
 
-    override fun loading() {
-
-    }
-
     private fun textCopyThenPost(textCopied: String) {
         clipboardManager.setPrimaryClip(ClipData.newPlainText("", textCopied))
         Toast.makeText(requireContext(), "Código copiado com sucesso.", Toast.LENGTH_SHORT).show()

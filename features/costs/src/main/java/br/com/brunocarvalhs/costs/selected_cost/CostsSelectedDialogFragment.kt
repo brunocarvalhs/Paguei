@@ -72,10 +72,6 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
             }.show()
     }
 
-    override fun loading() {
-
-    }
-
     private fun navigateToPaymentVoucher(cost: CostEntities) {
         val action = CostsSelectedDialogFragmentDirections
             .actionItemListDialogFragmentToPaymentVoucherFragment(cost)

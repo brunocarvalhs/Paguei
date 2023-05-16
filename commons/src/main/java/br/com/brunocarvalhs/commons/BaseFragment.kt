@@ -24,6 +24,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = createBinding(inflater, container)
+        arguments?.let { argumentsView(it) }
         visibilityToolbar()
         initView()
         return binding.root
@@ -32,7 +33,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewObservation()
-        savedInstanceState?.let { argumentsView(it) }
     }
 
     override fun onDestroyView() {
@@ -46,7 +46,9 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     abstract fun initView()
 
-    abstract fun loading()
+    protected fun loading() {
+
+    }
 
     protected fun showError(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()

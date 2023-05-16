@@ -4,15 +4,16 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.commons.utils.moneyReplace
 import br.com.brunocarvalhs.data.model.CostsModel
-import br.com.brunocarvalhs.domain.repositories.CostsRepository
+import br.com.brunocarvalhs.domain.usecase.cost.UpdateCostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CostReaderViewModel @Inject constructor(
-    private val repository: CostsRepository,
+    private val useCase: UpdateCostUseCase,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<CostReaderViewState>() {
     val cost = CostReaderFragmentArgs.fromSavedStateHandle(savedStateHandle).cost as CostsModel
@@ -25,13 +26,14 @@ class CostReaderViewModel @Inject constructor(
 
     val barCode = ObservableField<String>(cost.barCode)
 
+    val dateReferenceMonth = ObservableField<String>(cost.dateReferenceMonth)
+
     fun updateCost() {
         viewModelScope.launch {
-            try {
-                mutableState.value = CostReaderViewState.Loading
-                val update = repository.update(generateCost())
-                mutableState.value = CostReaderViewState.Success(update)
-            } catch (error: Exception) {
+            mutableState.value = CostReaderViewState.Loading
+            useCase.invoke(generateCost()).onSuccess {
+                mutableState.value = CostReaderViewState.Success(it)
+            }.onFailure { error ->
                 mutableState.value = CostReaderViewState.Error(error.message)
             }
         }
@@ -40,7 +42,8 @@ class CostReaderViewModel @Inject constructor(
     private fun generateCost() = cost.copy(
         name = name.get(),
         prompt = prompt.get(),
-        value = value.get()?.replace("[^0-9,]".toRegex(), "")?.replace(",", "."),
-        barCode = barCode.get()
+        value = value.get()?.moneyReplace(),
+        barCode = barCode.get(),
+        dateReferenceMonth = dateReferenceMonth.get()
     )
 }

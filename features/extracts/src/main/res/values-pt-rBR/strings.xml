@@ -9,4 +9,5 @@
     <string name="fragment_extract_reader_button_open_text">Visualizar comprovante</string>
     <string name="textfield_payment_voucher_hilt">URL do comprovante</string>
     <string name="fragment_extract_reader_textfield_date_payment_hilt">Data de pagamento</string>
+    <string name="fragment_extract_reader_textfield_referring_month_hilt">Mês referente</string>
 </resources>
