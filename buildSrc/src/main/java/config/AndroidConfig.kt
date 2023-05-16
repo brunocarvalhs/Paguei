@@ -7,7 +7,7 @@ object AndroidConfig {
     const val MIN_SDK_VERSION = 24
     const val TARGET_SDK_VERSION = 33
 
-    const val VERSION_CODE = 14
+    const val VERSION_CODE = 15
     const val VERSION_NAME = "7.0.1"
 
     const val APP_ID = "br.com.brunocarvalhs.paguei"
