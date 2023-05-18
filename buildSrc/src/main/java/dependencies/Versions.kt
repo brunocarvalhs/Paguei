@@ -3,15 +3,15 @@ package dependencies
 object Versions {
     object Core {
         const val MULTIDEX = "2.0.1"
-        const val KTX = "1.9.0"
+        const val KTX = "1.10.1"
         const val LIFECYCLE_RUNTIME = "2.5.1"
     }
 
     object UI {
-        const val MATERIAL = "1.7.0"
+        const val MATERIAL = "1.9.0"
         const val FRAGMENT_KTX = "1.5.5"
         const val LIFECYCLE_VIEWMODEL_KTX = "2.5.1"
-        const val APPCOMPAT = "1.5.1"
+        const val APPCOMPAT = "1.6.1"
         const val DATABINDING_COMMON = "7.4.0"
         const val DATABINDING_COMPILER = "7.4.0"
         const val CONSTRAINT_LAYOUT = "2.1.4"
@@ -22,8 +22,8 @@ object Versions {
 
     object Test {
         const val JUNIT = "4.13.2"
-        const val JUNIT_ANDROID = "1.1.4"
-        const val ESPRESSO_CORE = "3.5.0"
+        const val JUNIT_ANDROID = "1.1.5"
+        const val ESPRESSO_CORE = "3.5.1"
         const val MOCKITO = "4.11.0"
     }
 
