@@ -1,3 +1,5 @@
+import config.AndroidConfig
+
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
@@ -5,6 +7,6 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = AndroidConfig.JAVA_VERSION
+    targetCompatibility = AndroidConfig.JAVA_VERSION
 }

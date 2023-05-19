@@ -1,8 +1,7 @@
 import config.AndroidConfig
-import interfaces.BuildType
-import flavor.BuildTypeRelease
-import flavor.BuildTypeDebug
 import dependencies.Dependencies
+import flavor.BuildTypeDebug
+import flavor.BuildTypeRelease
 
 plugins {
     id("com.android.library")
@@ -22,13 +21,13 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        getByName(BuildTypeRelease.name.value) {
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
-        getByName("debug") {
+        getByName(BuildTypeDebug.name.value) {
             isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
             isJniDebuggable = BuildTypeDebug.isDebuggable
         }

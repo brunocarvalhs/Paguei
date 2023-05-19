@@ -1,5 +1,7 @@
 import config.AndroidConfig
 import dependencies.Dependencies
+import flavor.BuildTypeDebug
+import flavor.BuildTypeRelease
 
 plugins {
     id("com.android.application")
@@ -28,42 +30,40 @@ android {
             useSupportLibrary = true
         }
     }
-    android {
-        signingConfigs {
-            create("release") {
-                val keyStorePassword = System.getenv("KEYSTORE_PASSWORD")
-                val keyStoreAlias = System.getenv("KEYSTORE_ALIAS")
-                val keyStoreAliasPassword = System.getenv("KEY_PASSWORD")
-                if (
-                    keyStorePassword != null &&
-                    keyStoreAlias != null &&
-                    keyStoreAliasPassword != null
-                ) {
-                    storeFile = file("release.keystore")
-                    storePassword = keyStorePassword
-                    keyAlias = keyStoreAlias
-                    keyPassword = keyStoreAliasPassword
-                }
+    signingConfigs {
+        create(BuildTypeRelease.name.value) {
+            val keyStorePassword = System.getenv("KEYSTORE_PASSWORD")
+            val keyStoreAlias = System.getenv("KEYSTORE_ALIAS")
+            val keyStoreAliasPassword = System.getenv("KEY_PASSWORD")
+            if (
+                keyStorePassword != null &&
+                keyStoreAlias != null &&
+                keyStoreAliasPassword != null
+            ) {
+                storeFile = file("release.keystore")
+                storePassword = keyStorePassword
+                keyAlias = keyStoreAlias
+                keyPassword = keyStoreAliasPassword
             }
         }
-        buildTypes {
-            getByName("release") {
-                resValue("string", "app_name", "Paguei!")
+    }
+    buildTypes {
+        getByName(BuildTypeRelease.name.value) {
+            resValue("string", "app_name", "Paguei!")
 
-                isDebuggable = false
-                isJniDebuggable = false
-                signingConfig = signingConfigs.getByName("release")
-                proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-                )
-            }
-            getByName("debug") {
-                resValue("string", "app_name", "Paguei! - Debug")
+            isDebuggable = BuildTypeRelease.isDebuggable
+            isJniDebuggable = false
+            signingConfig = signingConfigs.getByName("release")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
+        }
+        getByName(BuildTypeDebug.name.value) {
+            resValue("string", "app_name", "Paguei! - Debug")
 
-                applicationIdSuffix = ".debug"
-                isMinifyEnabled = false
-                isDebuggable = true
-            }
+            applicationIdSuffix = ".debug"
+            isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
+            isDebuggable = BuildTypeDebug.isDebuggable
         }
     }
     compileOptions {
@@ -71,7 +71,7 @@ android {
         targetCompatibility = AndroidConfig.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AndroidConfig.JAVA_VERSION.toString()
     }
     buildFeatures {
         viewBinding = true
