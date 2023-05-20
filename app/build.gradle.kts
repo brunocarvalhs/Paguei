@@ -112,6 +112,7 @@ dependencies {
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
     implementation(Dependencies.Core.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.Core.LIFECYCLE_VIEWMODEL)
+    implementation("com.google.android.play:app-update-ktx:2.0.1")
 
     // UI dependencies
     implementation(Dependencies.UI.MATERIAL)
