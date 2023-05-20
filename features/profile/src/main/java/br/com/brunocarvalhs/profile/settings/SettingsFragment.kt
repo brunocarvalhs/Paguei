@@ -8,6 +8,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.profile.BuildConfig
 import br.com.brunocarvalhs.profile.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,6 +21,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
     @Inject
     lateinit var navigation: Navigation
     private val viewModel: SettingsViewModel by viewModels()
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            SettingsFragment::class.simpleName.orEmpty(),
+            SettingsFragment::class
+        )
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_preferences, rootKey)

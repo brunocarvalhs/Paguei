@@ -11,6 +11,7 @@ import br.com.brunocarvalhs.commons.utils.setupTextFieldDate
 import br.com.brunocarvalhs.commons.utils.setupTextFieldMonth
 import br.com.brunocarvalhs.commons.utils.setupTextFieldValue
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
@@ -33,6 +34,18 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     private val datePickerReferringMonth by lazy {
         MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
+    }
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            BilletRegistrationFormFragment::class.simpleName.orEmpty(),
+            BilletRegistrationFormFragment::class
+        )
     }
 
     override fun createBinding(

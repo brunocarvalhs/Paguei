@@ -10,6 +10,7 @@ import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.DialogCostsSelectedBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,6 +22,17 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
     lateinit var navigation: Navigation
 
     private val viewModel: CostsSelectedViewModel by viewModels()
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            CostsSelectedDialogFragment::class.simpleName.orEmpty(),
+            CostsSelectedDialogFragment::class
+        )
+    }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

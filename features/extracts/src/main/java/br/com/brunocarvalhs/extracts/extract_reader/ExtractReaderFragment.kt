@@ -10,9 +10,11 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.extracts.databinding.FragmentExtractReaderBinding
 import br.com.brunocarvalhs.paguei.features.costs.extract_reader.ExtractReaderViewState
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -22,6 +24,18 @@ class ExtractReaderFragment : BaseFragment<FragmentExtractReaderBinding>() {
 
     private val clipboardManager by lazy {
         requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+    }
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            ExtractReaderFragment::class.simpleName.orEmpty(),
+            ExtractReaderFragment::class
+        )
     }
 
     override fun createBinding(

@@ -6,9 +6,23 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.billet_registration.databinding.DialogBilletRegistrationBinding
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
+import br.com.brunocarvalhs.domain.services.AnalyticsService
+import javax.inject.Inject
 
 class BilletRegistrationDialogFragment :
     BaseBottomSheetDialogFragment<DialogBilletRegistrationBinding>() {
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            BilletRegistrationDialogFragment::class.simpleName.orEmpty(),
+            BilletRegistrationDialogFragment::class
+        )
+    }
 
     override fun createBinding(
         inflater: LayoutInflater,

@@ -9,6 +9,7 @@ import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.commons.utils.setupTextFieldDate
 import br.com.brunocarvalhs.costs.databinding.FragmentPaymentVoucherBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -30,6 +31,22 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
     private val datePickerPayment by lazy {
         MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
             .setCalendarConstraints(constraints).build()
+    }
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            PaymentVoucherFragment::class.simpleName.orEmpty(),
+            PaymentVoucherFragment::class
+        )
+        analyticsService.trackEvent(
+            AnalyticsService.Events.SELECT_ITEM,
+            viewModel.cost.toMap(),
+            PaymentVoucherFragment::class
+        )
     }
 
     override fun createBinding(
