@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_UPDATE) {
             if (resultCode != RESULT_OK) {
-                Log.e("MY_APP", "Update flow failed! Result code: $resultCode")
+                Log.e(getString(R.string.app_name), "Update flow failed! Result code: $resultCode")
             }
         }
     }
