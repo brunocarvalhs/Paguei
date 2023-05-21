@@ -10,6 +10,7 @@ import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.groups.databinding.DialogGroupsListBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,18 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
     lateinit var navigation: Navigation
     private val viewModel: GroupsListViewModel by viewModels()
     private val adapter by lazy { GroupsRecyclerViewAdapter(requireContext(), this) }
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            GroupsListDialogFragment::class.simpleName.orEmpty(),
+            GroupsListDialogFragment::class
+        )
+    }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

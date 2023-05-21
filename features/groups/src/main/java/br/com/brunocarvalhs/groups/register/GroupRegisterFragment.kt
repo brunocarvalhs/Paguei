@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.groups.R
 import br.com.brunocarvalhs.groups.databinding.FragmentGroupRegisterBinding
 import com.google.android.material.chip.Chip
@@ -24,6 +25,18 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     lateinit var navigation: Navigation
 
     private val viewModel: GroupRegisterViewModel by viewModels()
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            GroupRegisterFragment::class.simpleName.orEmpty(),
+            GroupRegisterFragment::class
+        )
+    }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

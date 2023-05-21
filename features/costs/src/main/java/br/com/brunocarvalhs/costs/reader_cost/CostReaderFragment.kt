@@ -13,9 +13,11 @@ import br.com.brunocarvalhs.commons.utils.setupEditTextFieldValue
 import br.com.brunocarvalhs.commons.utils.textCopyThenPost
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.FragmentCostReaderBinding
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -34,6 +36,22 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
     }
 
     private val calendar by lazy { Calendar.getInstance() }
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            CostReaderFragment::class.simpleName.orEmpty(),
+            CostReaderFragment::class
+        )
+        analyticsService.trackEvent(
+            AnalyticsService.Events.SELECT_ITEM,
+            viewModel.cost.toMap(),
+            CostReaderFragment::class
+        )
+    }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

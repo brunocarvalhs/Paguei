@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
@@ -51,7 +52,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     }
 
     protected fun showError(message: String?) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        Snackbar.make(binding.root, message.orEmpty(), Toast.LENGTH_LONG).show()
     }
 
     protected fun visibilityToolbar(visibility: Boolean = false) {

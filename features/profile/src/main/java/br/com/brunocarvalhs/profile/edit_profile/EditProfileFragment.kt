@@ -8,13 +8,27 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.commons.utils.setupEditTextField
 import br.com.brunocarvalhs.commons.utils.setupTextFieldValue
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.profile.databinding.FragmentEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
 
     private val viewModel: EditProfileViewModel by viewModels()
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            EditProfileFragment::class.simpleName.orEmpty(),
+            EditProfileFragment::class
+        )
+    }
 
     override fun createBinding(
         inflater: LayoutInflater,

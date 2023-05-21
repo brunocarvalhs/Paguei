@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.profile.databinding.FragmentProfileBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +22,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     lateinit var navigation: Navigation
     private val viewModel: ProfileViewModel by viewModels()
     private val glide by lazy { Glide.with(this) }
+
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            ProfileFragment::class.simpleName.orEmpty(),
+            ProfileFragment::class
+        )
+    }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.auth.databinding.FragmentLoginBinding
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.paguei.commons.R
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -40,6 +41,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             .setAvailableProviders(providers)
             .build()
     }
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            LoginFragment::class.simpleName.orEmpty(),
+            LoginFragment::class
+        )
+    }
+
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean

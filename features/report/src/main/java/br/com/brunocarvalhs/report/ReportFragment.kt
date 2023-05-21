@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.report.databinding.FragmentReportBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
@@ -23,10 +25,18 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private lateinit var viewPager: ViewPager2
     private lateinit var adapter: ReportFragmentStateAdapter
 
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            ReportFragment::class.simpleName.orEmpty(), ReportFragment::class
+        )
+    }
+
     override fun createBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        attachToParent: Boolean
+        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentReportBinding = FragmentReportBinding.inflate(inflater, container, attachToParent)
 
     override fun viewObservation() {
