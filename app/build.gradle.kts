@@ -49,6 +49,7 @@ android {
         buildTypes {
             getByName("release") {
                 resValue("string", "app_name", "Paguei!")
+                resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~1018252717")
 
                 isDebuggable = false
                 isJniDebuggable = false
@@ -59,6 +60,7 @@ android {
             }
             getByName("debug") {
                 resValue("string", "app_name", "Paguei! - Debug")
+                resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~1018252717")
 
                 applicationIdSuffix = ".debug"
                 isMinifyEnabled = false
