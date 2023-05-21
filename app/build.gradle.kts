@@ -49,7 +49,7 @@ android {
         buildTypes {
             getByName("release") {
                 resValue("string", "app_name", "Paguei!")
-                resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~1018252717")
+                resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~6485504377")
 
                 isDebuggable = false
                 isJniDebuggable = false

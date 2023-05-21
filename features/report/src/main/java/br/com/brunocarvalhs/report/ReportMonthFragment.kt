@@ -56,7 +56,7 @@ class ReportMonthFragment : BaseFragment<FragmentReportMonthBinding>() {
         visibilityToolbar(true)
         viewModel.fetchData()
         adsService.start()
-        adsService.banner(binding.container,)
+        adsService.banner(binding.container, getString(R.string.banner_report))
     }
 
     override fun onStart() {
