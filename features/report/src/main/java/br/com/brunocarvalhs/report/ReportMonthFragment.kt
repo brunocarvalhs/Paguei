@@ -8,16 +8,21 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.domain.entities.CostEntities
+import br.com.brunocarvalhs.domain.services.AdsService
 import br.com.brunocarvalhs.report.databinding.FragmentReportMonthBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ReportMonthFragment : BaseFragment<FragmentReportMonthBinding>() {
 
     private val viewModel: ReportMonthViewModel by viewModels()
+
+    @Inject
+    lateinit var adsService: AdsService
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -50,6 +55,8 @@ class ReportMonthFragment : BaseFragment<FragmentReportMonthBinding>() {
     override fun initView() {
         visibilityToolbar(true)
         viewModel.fetchData()
+        adsService.start()
+        adsService.banner(binding.container, getString(R.string.banner_report))
     }
 
     override fun onStart() {

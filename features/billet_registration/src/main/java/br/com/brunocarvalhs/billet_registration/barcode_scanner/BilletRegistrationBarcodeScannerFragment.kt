@@ -17,9 +17,11 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.billet_registration.databinding.FragmentBilletRegistrationBarcodeScannerBinding
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.domain.listeners.BarcodeScanListener
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
 @ExperimentalGetImage
 @AndroidEntryPoint
@@ -32,6 +34,17 @@ class BilletRegistrationBarcodeScannerFragment :
     private val preview by lazy { Preview.Builder().build() }
     private val cameraSelector by lazy { CameraSelector.DEFAULT_BACK_CAMERA }
 
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            BilletRegistrationBarcodeScannerFragment::class.simpleName.orEmpty(),
+            BilletRegistrationBarcodeScannerFragment::class
+        )
+    }
 
     private val requestPermissionLauncher by lazy {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->

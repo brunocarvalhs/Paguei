@@ -2,6 +2,7 @@ package br.com.brunocarvalhs.auth
 
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.domain.usecase.auth.AuthenticateUserUseCase
 import br.com.brunocarvalhs.domain.usecase.auth.GetUserFromDatabaseSessionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +12,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authenticateUserUseCase: AuthenticateUserUseCase,
-    private val getUserFromSessionUseCase: GetUserFromDatabaseSessionUseCase
+    private val getUserFromSessionUseCase: GetUserFromDatabaseSessionUseCase,
+    private val analyticsService: AnalyticsService,
 ) : BaseViewModel<LoginViewState>() {
 
     fun onSignInResult() {
@@ -19,6 +21,7 @@ class LoginViewModel @Inject constructor(
             mutableState.value = LoginViewState.Loading
             authenticateUserUseCase.invoke().onSuccess {
                 it?.let {
+                    analyticsService.setUserId(it.id)
                     mutableState.value = LoginViewState.Success
                 } ?: run {
                     mutableState.value = LoginViewState.Error("Authentication failed")
@@ -34,6 +37,7 @@ class LoginViewModel @Inject constructor(
             mutableState.value = LoginViewState.Loading
             getUserFromSessionUseCase.invoke().onSuccess {
                 it?.let {
+                    analyticsService.setUserId(it.id)
                     mutableState.value = LoginViewState.Success
                 } ?: run {
                     mutableState.value = LoginViewState.Error("User not found")

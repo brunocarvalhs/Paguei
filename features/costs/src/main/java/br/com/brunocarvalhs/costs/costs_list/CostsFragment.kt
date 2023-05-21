@@ -12,6 +12,7 @@ import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.FragmentCostsListBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,6 +23,10 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
     @Inject
     lateinit var navigation: Navigation
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
     private val viewModel: CostsViewModel by viewModels()
     private val adapter by lazy { CostsRecyclerViewAdapter(requireContext(), this) }
 
@@ -38,6 +43,14 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
                 is CostsViewState.Error -> this.showError(it.message)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            CostsFragment::class.simpleName.orEmpty(),
+            CostsFragment::class
+        )
     }
 
     override fun onStart() {
