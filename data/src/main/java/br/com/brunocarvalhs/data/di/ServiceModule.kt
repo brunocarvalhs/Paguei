@@ -1,8 +1,10 @@
 package br.com.brunocarvalhs.data.di
 
+import br.com.brunocarvalhs.data.services.AdsServiceImpl
 import br.com.brunocarvalhs.data.services.AnalyticsServiceImpl
 import br.com.brunocarvalhs.data.services.AuthenticationService
 import br.com.brunocarvalhs.data.services.NotificationServiceImpl
+import br.com.brunocarvalhs.domain.services.AdsService
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.domain.services.Authentication
 import br.com.brunocarvalhs.domain.services.NotificationService
@@ -26,4 +28,8 @@ object ServiceModule {
     @Provides
     @Singleton
     fun providerNotificationService(service: NotificationServiceImpl): NotificationService = service
+
+    @Provides
+    @Singleton
+    fun providerAdsService(service: AdsServiceImpl): AdsService = service
 }
