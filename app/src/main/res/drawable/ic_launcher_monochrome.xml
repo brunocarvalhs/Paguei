@@ -25,82 +25,82 @@
                 android:fillType="evenOdd"
                 android:pathData="M0 66v2h2 10v-2H2V56H0v10Z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M11 10H16V16H11z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M11 20H16V58H11z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M26 10H29V16H26z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M26 20H29V58H26z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M39 10H41V16H39z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M39 20H41V58H39z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M52 10H54V16H52z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M52 20H54V58H52z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M65 10H67V16H65z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M65 20H67V58H65z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M78 10H82V16H78z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M78 20H82V58H78z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M91 10H95V16H91z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M91 20H95V58H91z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M20 10H23V48H20z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M20 53H23V58H20z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M32 10H37V48H32z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M32 53H37V58H32z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M44 10H48V48H44z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M44 53H48V58H44z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M58 10H62V48H58z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M58 53H62V58H58z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M70 10H75V48H70z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M70 53H75V58H70z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M85 10H87V48H85z" />
         <path
-                android:fillColor="?attr/colorOnSurface"
+                android:fillColor="#FF585666"
                 android:pathData="M85 53H87V58H85z" />
         <path
                 android:fillColor="@color/seed"
