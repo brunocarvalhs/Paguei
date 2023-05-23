@@ -10,6 +10,7 @@ import br.com.brunocarvalhs.domain.repositories.GroupsRepository
 import br.com.brunocarvalhs.domain.services.NotificationService
 import br.com.brunocarvalhs.domain.services.SessionManager
 import br.com.brunocarvalhs.domain.usecase.auth.GetUserForEmailUseCase
+import br.com.brunocarvalhs.domain.usecase.auth.GetUserForIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +20,7 @@ class GroupRegisterViewModel @Inject constructor(
     private val repository: GroupsRepository,
     private val sessionManager: SessionManager,
     private val getUserForEmailUseCase: GetUserForEmailUseCase,
+    private val getUserForIdUseCase: GetUserForIdUseCase,
     private val notificationService: NotificationService
 ) : BaseViewModel<GroupRegisterViewState>() {
 
@@ -33,21 +35,42 @@ class GroupRegisterViewModel @Inject constructor(
         sessionManager.getUser()?.let { members.add(it) }
     }
 
-    fun registerMember() {
+    fun registerMember(id: String? = null) {
+        id?.let { registerMemberById(it) }
         member.get()?.let { email ->
-            viewModelScope.launch {
-                mutableState.value = GroupRegisterViewState.Loading
-                getUserForEmailUseCase(email).onSuccess {
-                    it?.let { userEntities ->
-                        if (!members.contains(userEntities)) {
-                            members.add(userEntities)
-                        }
-                    }
-                    mutableState.value = GroupRegisterViewState.MemberSearchSuccess
-                }.onFailure { error ->
-                    mutableState.value = GroupRegisterViewState.Error(error.message)
+            registerMemberByEmail(email)
+        }
+    }
+
+    private fun registerMemberByEmail(email: String) = viewModelScope.launch {
+        mutableState.value = GroupRegisterViewState.Loading
+        getUserForEmailUseCase(email).onSuccess {
+            it?.let { userEntities ->
+                if (!members.contains(userEntities)) {
+                    members.add(userEntities)
+                } else {
+                    mutableState.value = GroupRegisterViewState.Error("Usuário já vinculado")
                 }
             }
+            mutableState.value = GroupRegisterViewState.MemberSearchSuccess
+        }.onFailure { error ->
+            mutableState.value = GroupRegisterViewState.Error(error.message)
+        }
+    }
+
+    private fun registerMemberById(id: String) = viewModelScope.launch {
+        mutableState.value = GroupRegisterViewState.Loading
+        getUserForIdUseCase(id).onSuccess {
+            it?.let { userEntities ->
+                if (!members.contains(userEntities)) {
+                    members.add(userEntities)
+                } else {
+                    mutableState.value = GroupRegisterViewState.Error("Usuário já vinculado")
+                }
+            }
+            mutableState.value = GroupRegisterViewState.MemberSearchSuccess
+        }.onFailure { error ->
+            mutableState.value = GroupRegisterViewState.Error(error.message)
         }
     }
 

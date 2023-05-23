@@ -15,6 +15,9 @@ import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.groups.R
 import br.com.brunocarvalhs.groups.databinding.FragmentGroupRegisterBinding
 import com.google.android.material.chip.Chip
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -33,8 +36,7 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analyticsService.trackScreenView(
-            GroupRegisterFragment::class.simpleName.orEmpty(),
-            GroupRegisterFragment::class
+            GroupRegisterFragment::class.simpleName.orEmpty(), GroupRegisterFragment::class
         )
     }
 
@@ -75,6 +77,14 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
         setupButtonRegistration()
         setupButtonCancel()
         setupMembers()
+
+        binding.name.editText?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.name.error = null
+        }
+
+        binding.members.editText?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.members.error = null
+        }
     }
 
     private fun setupButtonCancel() {
@@ -84,6 +94,7 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     }
 
     private fun setupMembers() {
+        binding.members.setEndIconOnClickListener { startBarcodeScanner() }
         binding.members.editText?.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.registerMember()
@@ -100,7 +111,7 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     }
 
     private fun setupButtonRegistration() {
-        binding.registration.setOnClickListener { viewModel.save() }
+        binding.registration.setOnClickListener { save() }
     }
 
     private fun createMembersToContainer(member: UserEntities) {
@@ -115,5 +126,53 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
         }
         chip.setPadding(32)
         binding.membersContainer.addView(chip)
+    }
+
+    private fun save() {
+        if (validateFields()) {
+            viewModel.save()
+        }
+    }
+
+    private fun validateFields(): Boolean {
+        var isValid = true
+
+        binding.name.error = null
+        binding.members.error = null
+
+        if (binding.name.editText?.text.isNullOrBlank()) {
+            binding.name.error = getString(
+                R.string.error_empty_field, getString(R.string.textfield_name_text)
+            )
+            isValid = false
+        }
+
+        if (binding.members.editText?.text.isNullOrBlank()) {
+            binding.members.error = getString(
+                R.string.error_empty_field, getString(R.string.textfield_members_text_edit)
+            )
+            isValid = false
+        }
+
+        return isValid
+    }
+
+    private val barcodeLauncher = registerForActivityResult(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents != null) {
+            val qrCode = result.contents.reversed()
+            viewModel.registerMember(qrCode)
+        }
+    }
+
+    private fun startBarcodeScanner() {
+        val options = ScanOptions()
+        options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+        options.setCameraId(0)
+        options.setBeepEnabled(false)
+        options.setBarcodeImageEnabled(true)
+        options.setOrientationLocked(false)
+        barcodeLauncher.launch(options)
     }
 }
