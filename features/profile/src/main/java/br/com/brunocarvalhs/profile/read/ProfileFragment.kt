@@ -117,9 +117,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             image.setImageBitmap(it)
             MaterialAlertDialogBuilder(requireContext())
                 .setView(image)
-                .setNegativeButton("OK") { _, _ ->
-                    findNavController().popBackStack()
-                }.show()
+                .setNegativeButton("OK") { _, _ -> }.show()
         }
     }
 

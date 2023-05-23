@@ -25,4 +25,5 @@
     <string name="settings_about_version_title">Version</string>
     <string name="settings_about_develop_github_title">Developer</string>
     <string name="fragment_profile_qr_code_button_text">QR Code</string>
+    <string name="error_empty_field">Field %1$s cannot be empty</string>
 </resources>
