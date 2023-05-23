@@ -44,18 +44,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         )
     }
 
-
-    @Inject
-    lateinit var analyticsService: AnalyticsService
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        analyticsService.trackScreenView(
-            ProfileFragment::class.simpleName.orEmpty(),
-            ProfileFragment::class
-        )
-    }
-
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, attachToParent)

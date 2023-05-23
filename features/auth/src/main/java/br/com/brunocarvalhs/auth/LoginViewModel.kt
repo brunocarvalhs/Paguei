@@ -39,8 +39,6 @@ class LoginViewModel @Inject constructor(
                 it?.let {
                     analyticsService.setUserId(it.id)
                     mutableState.value = LoginViewState.Success
-                } ?: run {
-                    mutableState.value = LoginViewState.Error("User not found")
                 }
             }.onFailure { error ->
                 mutableState.value = LoginViewState.Error(error.message)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
-    android:width="375dp"
-    android:height="316dp"
+    android:width="200dp"
+    android:height="200dp"
     android:viewportWidth="375"
     android:viewportHeight="316">
 
@@ -30,11 +30,11 @@
                         android:type="radial">
 
                         <item
-                            android:color="@color/md_theme_light_inversePrimary"
+                            android:color="?attr/colorSecondaryContainer"
                             android:offset="0" />
 
                         <item
-                            android:color="@color/seed"
+                            android:color="?attr/colorSecondaryContainer"
                             android:offset="1" />
 
                     </gradient>
