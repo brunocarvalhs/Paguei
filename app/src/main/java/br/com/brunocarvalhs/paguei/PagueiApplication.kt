@@ -8,6 +8,12 @@ import dagger.hilt.android.HiltAndroidApp
 class PagueiApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
-//        DynamicColors.applyToActivitiesIfAvailable(this)
+        dynamicColor()
+    }
+
+    private fun dynamicColor(toogle: Boolean = true) {
+        if (DynamicColors.isDynamicColorAvailable() && toogle) {
+            DynamicColors.applyToActivitiesIfAvailable(this)
+        }
     }
 }
