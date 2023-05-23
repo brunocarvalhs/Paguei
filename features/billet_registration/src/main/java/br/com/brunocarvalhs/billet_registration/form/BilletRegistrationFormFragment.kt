@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import br.com.brunocarvalhs.billet_registration.R
 import br.com.brunocarvalhs.billet_registration.databinding.FragmentBilletRegistrationFormBinding
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.commons.utils.setupTextFieldDate
@@ -13,6 +14,9 @@ import br.com.brunocarvalhs.commons.utils.setupTextFieldValue
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import javax.inject.Inject
@@ -35,7 +39,6 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
     }
-
 
     @Inject
     lateinit var analyticsService: AnalyticsService
@@ -71,22 +74,107 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         visibilityToolbar(visibility = true)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.registration.setOnClickListener { viewModel.saveCost() }
+        binding.registration.setOnClickListener { saveCost() }
         binding.cancel.setOnClickListener { cancelRegistration() }
         binding.prompt.setupTextFieldDate(this, datePicker, calendar)
         binding.value.editText?.setupTextFieldValue()
-        binding.barcode.setEndIconOnClickListener { navigateToBarcodeScanner() }
+        binding.barcode.setEndIconOnClickListener { startBarcodeScanner() }
         binding.referringMonth.setupTextFieldMonth(this, datePickerReferringMonth, calendar)
+
+        binding.name.editText?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.name.error = null
+            }
+        }
+
+        binding.prompt.editText?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.prompt.error = null
+            }
+        }
+
+        binding.value.editText?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.value.error = null
+            }
+        }
+
+        binding.barcode.editText?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.barcode.error = null
+            }
+        }
     }
 
-    private fun navigateToBarcodeScanner() {
-        val action = BilletRegistrationFormFragmentDirections
-            .actionBilletRegistrationFormFragmentToBilletRegistrationBarcodeScannerFragment()
-        findNavController().navigate(action)
+    private fun saveCost() {
+        if (validateFields()) {
+            viewModel.saveCost()
+        }
+    }
+
+    private fun validateFields(): Boolean {
+        var isValid = true
+
+        binding.name.error = null
+        binding.prompt.error = null
+        binding.value.error = null
+        binding.barcode.error = null
+
+        if (binding.name.editText?.text.isNullOrBlank()) {
+            binding.name.error = getString(
+                R.string.error_empty_field,
+                getString(R.string.billet_registration_textfield_name_hilt)
+            )
+            isValid = false
+        }
+
+        if (binding.prompt.editText?.text.isNullOrBlank()) {
+            binding.prompt.error = getString(
+                R.string.error_empty_field,
+                getString(R.string.billet_registration_textfield_prompt_hilt)
+            )
+            isValid = false
+        }
+
+        if (binding.value.editText?.text.isNullOrBlank()) {
+            binding.value.error = getString(
+                R.string.error_empty_field,
+                getString(R.string.billet_registration_textfield_value_hilt)
+            )
+            isValid = false
+        }
+
+        if (binding.barcode.editText?.text.isNullOrBlank()) {
+            binding.barcode.error = getString(
+                R.string.error_empty_field,
+                getString(R.string.billet_registration_textfield_barcode_hilt)
+            )
+            isValid = false
+        }
+
+        return isValid
     }
 
     private fun cancelRegistration() {
         val action = navigation.navigateToCostsRegister()
         findNavController().navigate(action)
+    }
+
+    private val barcodeLauncher = registerForActivityResult(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents != null) {
+            val barcode = result.contents
+            viewModel.barCode.set(barcode)
+        }
+    }
+
+    private fun startBarcodeScanner() {
+        val options = ScanOptions()
+        options.setDesiredBarcodeFormats(ScanOptions.ITF, ScanOptions.QR_CODE)
+        options.setCameraId(0)
+        options.setBeepEnabled(false)
+        options.setBarcodeImageEnabled(true)
+        barcodeLauncher.launch(options)
     }
 }

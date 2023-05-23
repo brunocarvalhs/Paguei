@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dialog_billet_registration_title_text">Não foi possível identificar um código de barras.</string>
-    <string name="dialog_billet_registration_content_text">Tente escanear novamente ou digite o código do seu boleto.</string>
-    <string name="dialog_billet_registration_try_new_text">Escanear novamente</string>
-    <string name="dialog_billet_registration_enter_code_text">Digitar código</string>
-    <string name="fragment_billet_registration_barcode_scanner_title_text">Escaneie o código de barras do boleto</string>
-    <string name="fragment_billet_registration_barcode_scanner_next_text">Inserir código do boleto</string>
     <string name="fragment_billet_registration_form_title_text">Preencha os dados\ndo boleto</string>
     <string name="billet_registration_textfield_name_hilt">Nome do boleto</string>
     <string name="billet_registration_textfield_prompt_hilt">Vencimento</string>
     <string name="billet_registration_textfield_value_hilt">Valor</string>
-    <string name="billet_registration_textfield_barcode_hilt">Código</string>
+    <string name="billet_registration_textfield_barcode_hilt">Código de barras / Chave Pix</string>
     <string name="fragment_billet_registration_form_button_cancel_text">Cancelar</string>
     <string name="fragment_billet_registration_form_button_registration_text">Cadastrar</string>
     <string name="billet_registration_textfield_referring_month_hilt">Mês referente</string>
+    <string name="error_empty_field">Campo %1$s não pode ficar vazio</string>
 </resources>
