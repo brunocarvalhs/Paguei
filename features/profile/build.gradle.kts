@@ -102,4 +102,7 @@ dependencies {
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
+
+    // QR Code
+    implementation("com.google.zxing:core:3.5.1")
 }
