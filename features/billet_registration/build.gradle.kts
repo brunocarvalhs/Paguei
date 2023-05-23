@@ -95,13 +95,7 @@ dependencies {
     kapt(Dependencies.Glide.GLIDE_COMPILER)
 
     // Camera
-    implementation("androidx.camera:camera-core:1.2.1")
-    implementation("androidx.camera:camera-view:1.2.1")
-    implementation("androidx.camera:camera-camera2:1.2.1")
-    implementation("androidx.camera:camera-lifecycle:1.2.1")
-    implementation("androidx.camera:camera-extensions:1.2.1")
-    implementation("com.google.mlkit:barcode-scanning:17.0.3")
-    implementation("com.google.guava:guava:28.2-jre")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
     // Mascara
     implementation("com.redmadrobot:input-mask-android:6.1.0")

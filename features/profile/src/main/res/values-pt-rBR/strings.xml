@@ -25,4 +25,6 @@
     <string name="settings_about_category">Sobre</string>
     <string name="settings_about_version_title">Versão</string>
     <string name="settings_about_develop_github_title">Desenvolvedor</string>
+    <string name="fragment_profile_qr_code_button_text">QR Code</string>
+    <string name="error_empty_field">Campo %1$s não pode ficar vazio</string>
 </resources>

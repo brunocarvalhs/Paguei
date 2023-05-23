@@ -9,6 +9,7 @@ import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.commons.utils.setupEditTextField
 import br.com.brunocarvalhs.commons.utils.setupTextFieldValue
 import br.com.brunocarvalhs.domain.services.AnalyticsService
+import br.com.brunocarvalhs.profile.R
 import br.com.brunocarvalhs.profile.databinding.FragmentEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -17,7 +18,6 @@ import javax.inject.Inject
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
 
     private val viewModel: EditProfileViewModel by viewModels()
-
 
     @Inject
     lateinit var analyticsService: AnalyticsService
@@ -60,9 +60,15 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         this.visibilityToolbar(true)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.update.setOnClickListener { viewModel.update() }
+        binding.update.setOnClickListener { update() }
         setupSalary()
         binding.name.setupEditTextField(binding.update)
+    }
+
+    private fun update() {
+        if (validateFields()) {
+            viewModel.update()
+        }
     }
 
     private fun setupSalary() {
@@ -73,5 +79,21 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
     override fun onStart() {
         super.onStart()
         viewModel.fetchData()
+    }
+
+    private fun validateFields(): Boolean {
+        var isValid = true
+
+        binding.name.error = null
+
+        if (binding.name.editText?.text.isNullOrBlank()) {
+            binding.name.error = getString(
+                R.string.error_empty_field,
+                getString(R.string.fragment_edit_profile_textfield_name_hilt)
+            )
+            isValid = false
+        }
+
+        return isValid
     }
 }

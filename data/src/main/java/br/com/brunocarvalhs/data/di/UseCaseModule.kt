@@ -28,6 +28,10 @@ object UseCaseModule {
         useCase
 
     @Provides
+    fun useCaseGetUserForIdUseCase(useCase: GetUserForIdUseCaseImpl): GetUserForIdUseCase =
+        useCase
+
+    @Provides
     fun useCaseGetUserFromSessionUseCase(useCase: GetUserFromDatabaseSessionUseCaseImpl): GetUserFromDatabaseSessionUseCase =
         useCase
 
