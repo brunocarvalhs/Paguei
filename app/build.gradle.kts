@@ -102,6 +102,7 @@ dependencies {
     implementation(project(mapOf("path" to ":features:groups")))
     implementation(project(mapOf("path" to ":features:profile")))
     implementation(project(mapOf("path" to ":features:report")))
+    implementation(project(mapOf("path" to ":features:calculation")))
 
     // Modules
     implementation(project(mapOf("path" to ":data")))

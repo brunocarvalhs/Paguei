@@ -16,4 +16,6 @@
     <string name="deeplink_billet_registration_form">android-app://paguei.app/billet_registration/form</string>
     <!--  Report  -->
     <string name="deeplink_report">android-app://paguei.app/report_fragment</string>
+    <!--  Calculation  -->
+    <string name="deeplink_calculation">android-app://paguei.app/calculation_fragment</string>
 </resources>
