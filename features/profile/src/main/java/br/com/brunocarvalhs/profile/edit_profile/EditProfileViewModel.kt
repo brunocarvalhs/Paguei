@@ -24,7 +24,7 @@ class EditProfileViewModel @Inject constructor(
 
     val email = ObservableField<String>(user?.email)
 
-    val salary = ObservableField<String>(user?.formatSalary())
+    val salary = ObservableField(user?.formatSalary())
 
     fun update() {
         viewModelScope.launch {

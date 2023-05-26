@@ -22,7 +22,7 @@ class CalculationAccountsSelectsViewModel @Inject constructor(
 
     var listMembers: List<String> = emptyList()
     var listCosts: List<String> = emptyList()
-    val totalSalary = ObservableField<String>("0,00")
+    val totalSalary = ObservableField("0,00")
 
     fun fetchData() {
         viewModelScope.launch {

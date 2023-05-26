@@ -1,5 +1,6 @@
 package br.com.brunocarvalhs.calculation.cost_resume
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
@@ -22,14 +23,15 @@ class CalculationCostResumeViewModel @Inject constructor(
     private val list =
         CalculationCostResumeFragmentArgs.fromSavedStateHandle(savedStateHandle).costs
 
-    var totalCosts: String? = null
+    var totalCosts = ObservableField<String>()
 
     fun fetchData() {
         viewModelScope.launch {
             try {
                 mutableState.value = CalculationCostResumeViewState.Loading
                 val result = list.map { CostsModel.fromJson(it) }
-                totalCosts = result.sumOf { it.value?.toDouble() ?: 0.0 }.toString()
+                    .filter { it.datePayment.isNullOrEmpty() }
+                totalCosts.set(result.sumOf { it.value?.toDouble() ?: 0.0 }.toString())
                 mutableState.value = CalculationCostResumeViewState.Success(result)
             } catch (e: Exception) {
                 mutableState.value = CalculationCostResumeViewState.Error(e.message)

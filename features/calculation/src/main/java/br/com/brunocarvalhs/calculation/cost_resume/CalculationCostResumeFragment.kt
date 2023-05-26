@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.calculation.databinding.FragmentCalculationCostResumeBinding
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.commons.utils.toMoney
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CalculationCostResumeFragment : BaseFragment<FragmentCalculationCostResumeBinding>() {
 
     private val viewModel: CalculationCostResumeViewModel by viewModels()
+    private val adapter by lazy { CalculationCostsRecyclerViewAdapter(requireContext()) }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -32,8 +33,8 @@ class CalculationCostResumeFragment : BaseFragment<FragmentCalculationCostResume
     }
 
     private fun displayData(list: List<CostEntities>) {
+        adapter.submitList(list)
         binding.add.isEnabled = list.isNotEmpty()
-        binding.totalValueCosts.text = viewModel.totalCosts?.toMoney()
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -42,15 +43,23 @@ class CalculationCostResumeFragment : BaseFragment<FragmentCalculationCostResume
 
     override fun initView() {
         this.visibilityToolbar(true)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        setupList()
         binding.add.isEnabled = false
         binding.add.setOnClickListener { this.navigateToCalculationResume() }
+    }
+
+    private fun setupList() {
+        binding.list.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = adapter
     }
 
     private fun navigateToCalculationResume() {
         val action = CalculationCostResumeFragmentDirections
             .actionCalculationCostResumeFragmentToCalculationResumeFragment(
                 totalSalary = viewModel.totalSalary,
-                totalCosts = viewModel.totalCosts.orEmpty(),
+                totalCosts = viewModel.totalCosts.get().orEmpty(),
                 members = viewModel.listMembers
             )
         findNavController().navigate(action)

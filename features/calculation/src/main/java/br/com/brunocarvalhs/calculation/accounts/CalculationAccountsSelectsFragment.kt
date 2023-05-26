@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.calculation.databinding.FragmentCalculationAccountsSelectsBinding
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.commons.utils.moneyToDouble
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import dagger.hilt.android.AndroidEntryPoint
 

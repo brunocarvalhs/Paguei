@@ -95,4 +95,7 @@ dependencies {
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
+
+    // Chart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
