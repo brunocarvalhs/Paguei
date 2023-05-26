@@ -42,5 +42,7 @@ data class UserModel(
         return numberFormat.format((this.salary)?.toDouble())
     }
 
-    companion object
+    companion object {
+        fun fromJson(value: String): UserEntities = Gson().fromJson(value, UserModel::class.java)
+    }
 }

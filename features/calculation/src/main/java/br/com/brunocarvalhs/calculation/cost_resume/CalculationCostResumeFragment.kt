@@ -1,32 +1,63 @@
 package br.com.brunocarvalhs.calculation.cost_resume
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import br.com.brunocarvalhs.calculation.R
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import br.com.brunocarvalhs.calculation.databinding.FragmentCalculationCostResumeBinding
+import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.commons.utils.toMoney
+import br.com.brunocarvalhs.domain.entities.CostEntities
+import dagger.hilt.android.AndroidEntryPoint
 
-class CalculationCostResumeFragment : Fragment() {
+@AndroidEntryPoint
+class CalculationCostResumeFragment : BaseFragment<FragmentCalculationCostResumeBinding>() {
 
-    companion object {
-        fun newInstance() = CalculationCostResumeFragment()
+    private val viewModel: CalculationCostResumeViewModel by viewModels()
+
+    override fun createBinding(
+        inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
+    ): FragmentCalculationCostResumeBinding =
+        FragmentCalculationCostResumeBinding.inflate(inflater, container, attachToParent)
+
+    override fun viewObservation() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is CalculationCostResumeViewState.Error -> this.showError(it.message)
+                CalculationCostResumeViewState.Loading -> this.loading()
+                is CalculationCostResumeViewState.Success -> this.displayData(it.list)
+            }
+        }
     }
 
-    private lateinit var viewModel: CalculationCostResumeViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_calculation_cost_resume, container, false)
+    private fun displayData(list: List<CostEntities>) {
+        binding.add.isEnabled = list.isNotEmpty()
+        binding.totalValueCosts.text = viewModel.totalCosts?.toMoney()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CalculationCostResumeViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun argumentsView(arguments: Bundle) {
+
     }
 
+    override fun initView() {
+        this.visibilityToolbar(true)
+        binding.add.isEnabled = false
+        binding.add.setOnClickListener { this.navigateToCalculationResume() }
+    }
+
+    private fun navigateToCalculationResume() {
+        val action = CalculationCostResumeFragmentDirections
+            .actionCalculationCostResumeFragmentToCalculationResumeFragment(
+                totalSalary = viewModel.totalSalary,
+                totalCosts = viewModel.totalCosts.orEmpty(),
+                members = viewModel.listMembers
+            )
+        findNavController().navigate(action)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchData()
+    }
 }

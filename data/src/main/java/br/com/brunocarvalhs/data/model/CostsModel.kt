@@ -34,4 +34,8 @@ data class CostsModel(
         numberFormat.minimumFractionDigits = 2
         return numberFormat.format((this.value)?.toDouble())
     }
+
+    companion object {
+        fun fromJson(value: String): CostEntities = Gson().fromJson(value, CostsModel::class.java)
+    }
 }

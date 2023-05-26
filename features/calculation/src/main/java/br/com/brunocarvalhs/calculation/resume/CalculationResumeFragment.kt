@@ -1,32 +1,50 @@
 package br.com.brunocarvalhs.calculation.resume
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import br.com.brunocarvalhs.calculation.R
+import androidx.fragment.app.viewModels
+import br.com.brunocarvalhs.calculation.databinding.FragmentCalculationCostResumeBinding
+import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.domain.entities.UserEntities
+import dagger.hilt.android.AndroidEntryPoint
 
-class CalculationResumeFragment : Fragment() {
+@AndroidEntryPoint
+class CalculationResumeFragment : BaseFragment<FragmentCalculationCostResumeBinding>() {
 
-    companion object {
-        fun newInstance() = CalculationResumeFragment()
+    private val viewModel: CalculationResumeViewModel by viewModels()
+    override fun createBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): FragmentCalculationCostResumeBinding =
+        FragmentCalculationCostResumeBinding.inflate(inflater, container, attachToParent)
+
+    override fun viewObservation() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is CalculationResumeViewState.Error -> this.showError(it.message)
+                CalculationResumeViewState.Loading -> this.loading()
+                is CalculationResumeViewState.Success -> this.displayData(it.percentagesToMembers)
+            }
+        }
     }
 
-    private lateinit var viewModel: CalculationResumeViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_calculation_resume, container, false)
+    private fun displayData(percentagesToMembers: HashMap<UserEntities, Double>) {
+        binding.totalValueCosts.text =
+            percentagesToMembers.map { Pair(it.key.firstName(), it.value) }.toMap().toString()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CalculationResumeViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun argumentsView(arguments: Bundle) {
+
     }
 
+    override fun initView() {
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchData()
+    }
 }

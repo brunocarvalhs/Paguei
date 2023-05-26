@@ -91,4 +91,8 @@ dependencies {
     implementation(Dependencies.Hilt.ANDROID)
     kapt(Dependencies.Hilt.ANDROID_COMPILER)
     kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+
+    // Glide dependencies
+    implementation(Dependencies.Glide.GLIDE)
+    kapt(Dependencies.Glide.GLIDE_COMPILER)
 }

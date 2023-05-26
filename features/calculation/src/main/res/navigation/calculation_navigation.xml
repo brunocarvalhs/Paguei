@@ -23,9 +23,28 @@
         <action
                 android:id="@+id/action_calculationCostResumeFragment_to_calculationResumeFragment"
                 app:destination="@id/calculationResumeFragment" />
+        <argument
+                android:name="costs"
+                app:argType="string[]" />
+        <argument
+                android:name="totalSalary"
+                app:argType="string" />
+        <argument
+                android:name="members"
+                app:argType="string[]" />
     </fragment>
     <fragment
             android:id="@+id/calculationResumeFragment"
             android:name="br.com.brunocarvalhs.calculation.resume.CalculationResumeFragment"
-            tools:layout="@layout/fragment_calculation_resume" />
+            tools:layout="@layout/fragment_calculation_resume" >
+        <argument
+                android:name="totalSalary"
+                app:argType="string" />
+        <argument
+                android:name="totalCosts"
+                app:argType="string" />
+        <argument
+                android:name="members"
+                app:argType="string[]" />
+    </fragment>
 </navigation>
