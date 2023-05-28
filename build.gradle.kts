@@ -11,7 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.0" apply false
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0" apply false
     id("com.google.dagger.hilt.android") version "2.46" apply false
-    id("com.google.gms.google-services") version "4.3.15"  apply false
+    id("com.google.gms.google-services") version "4.3.15" apply false
     id("androidx.navigation.safeargs") version "2.5.3" apply false
 }
 
