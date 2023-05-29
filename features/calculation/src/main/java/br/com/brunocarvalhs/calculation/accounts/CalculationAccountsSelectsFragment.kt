@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.calculation.databinding.FragmentCalculationAccountsSelectsBinding
 import br.com.brunocarvalhs.commons.BaseFragment
-import br.com.brunocarvalhs.commons.utils.moneyToDouble
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +40,7 @@ class CalculationAccountsSelectsFragment :
         }
     }
 
-    private fun displayData(list: List<UserEntities?>) {
+    private fun displayData(list: List<UserEntities>) {
         adapter.submitList(list)
         binding.add.isEnabled = list.isNotEmpty()
     }
@@ -67,13 +66,15 @@ class CalculationAccountsSelectsFragment :
     private fun navigationToCalculationCost() {
         val list = viewModel.listCosts.toTypedArray()
         val total = viewModel.totalSalary.get().orEmpty()
-        val members = viewModel.listMembers.toTypedArray()
-        val action =
-            CalculationAccountsSelectsFragmentDirections
-                .actionCalculationAccountsSelectsFragmentToCalculationCostResumeFragment(
-                    costs = list, totalSalary = total, members = members
-                )
-        findNavController().navigate(action)
+        val members = viewModel.listMembersSelected.toTypedArray()
+        if (list.isNotEmpty() && total.isNotEmpty() && members.isNotEmpty()) {
+            val action =
+                CalculationAccountsSelectsFragmentDirections
+                    .actionCalculationAccountsSelectsFragmentToCalculationCostResumeFragment(
+                        costs = list, totalSalary = total, members = members
+                    )
+            findNavController().navigate(action)
+        }
     }
 
     override fun onStart() {
@@ -81,7 +82,7 @@ class CalculationAccountsSelectsFragment :
         viewModel.fetchData()
     }
 
-    override fun onLongClickListener(list: MutableList<UserEntities?>): Boolean {
+    override fun onLongClickListener(list: MutableList<UserEntities>): Boolean {
         viewModel.replaceCalculation(list)
         binding.add.isEnabled = list.isNotEmpty()
         return true

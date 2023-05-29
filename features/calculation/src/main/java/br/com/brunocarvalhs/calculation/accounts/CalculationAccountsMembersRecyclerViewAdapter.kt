@@ -14,8 +14,8 @@ class CalculationAccountsMembersRecyclerViewAdapter(
     private val listener: CalculationAccountsMembersClickListener,
 ) : RecyclerView.Adapter<CalculationAccountsMembersRecyclerViewAdapter.ViewHolder>() {
 
-    private val values = mutableListOf<UserEntities?>()
-    private val listSelects = mutableListOf<UserEntities?>()
+    private val values = mutableListOf<UserEntities>()
+    private val listSelects = mutableListOf<UserEntities>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         ItemCalculationMembersBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,7 +30,7 @@ class CalculationAccountsMembersRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    fun submitList(list: List<UserEntities?>) {
+    fun submitList(list: List<UserEntities>) {
         values.clear()
         values.addAll(list)
         listSelects.clear()
@@ -78,6 +78,6 @@ class CalculationAccountsMembersRecyclerViewAdapter(
     }
 
     interface CalculationAccountsMembersClickListener {
-        fun onLongClickListener(user: MutableList<UserEntities?>): Boolean
+        fun onLongClickListener(user: MutableList<UserEntities>): Boolean
     }
 }

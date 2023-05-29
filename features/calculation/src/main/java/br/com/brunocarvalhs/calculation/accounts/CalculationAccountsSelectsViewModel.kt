@@ -21,6 +21,7 @@ class CalculationAccountsSelectsViewModel @Inject constructor(
     private val group = sessionManager.getGroup()
 
     var listMembers: List<String> = emptyList()
+    var listMembersSelected: List<String> = emptyList()
     var listCosts: List<String> = emptyList()
     val totalSalary = ObservableField("0,00")
 
@@ -40,7 +41,9 @@ class CalculationAccountsSelectsViewModel @Inject constructor(
                             "%.2f",
                             members.sumOf { it?.salary?.toDouble() ?: 0.0 })
                     )
-                    mutableState.value = CalculationAccountsSelectsViewState.Success(members)
+                    listMembersSelected = listMembers
+                    mutableState.value =
+                        CalculationAccountsSelectsViewState.Success(members.mapNotNull { it })
                 }
             } catch (e: Exception) {
                 mutableState.value = CalculationAccountsSelectsViewState.Error(e.message)
@@ -48,11 +51,12 @@ class CalculationAccountsSelectsViewModel @Inject constructor(
         }
     }
 
-    fun replaceCalculation(members: List<UserEntities?>) {
+    fun replaceCalculation(members: List<UserEntities>) {
         val result = String.format(
             "%.2f",
-            members.sumOf { it?.salary?.toDouble() ?: 0.0 })
+            members.sumOf { it.salary?.toDouble() ?: 0.0 })
 
         totalSalary.set(result)
+        listMembersSelected = members.map { cost -> cost.toJson() }
     }
 }
