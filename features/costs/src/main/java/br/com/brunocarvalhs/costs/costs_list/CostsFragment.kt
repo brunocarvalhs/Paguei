@@ -65,6 +65,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     }
 
     private fun displayData(list: List<CostEntities>) {
+        setupHeader(list)
         defineTotalCosts(list.size)
         adapter.submitList(list)
     }
@@ -91,7 +92,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             requireActivity().getString(R.string.costs_total_text, total.toString())
     }
 
-    private fun setupHeader() {
+    private fun setupHeader(list: List<CostEntities>? = null) {
         viewModel.header.let {
             binding.avatarContainer.visibility = if (it.isGroup) View.GONE else View.VISIBLE
             if (it.photoUrl.isNullOrEmpty()) {
@@ -115,7 +116,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             }
             binding.cadastrados.setOnClickListener { navigateToReport() }
 
-            if (it.isGroup) {
+            if (it.isGroup && list?.isNotEmpty() == true) {
                 binding.bottomAppBar.menu
                     .add(
                         MenuItem.SHOW_AS_ACTION_IF_ROOM,
