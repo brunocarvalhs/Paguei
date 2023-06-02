@@ -23,7 +23,17 @@ import java.util.Locale
 
 fun String.moneyToDouble() = this.replace(REGEX_TEXT.toRegex(), "").toDouble()
 
+fun String.replateCommaToPoint() = this.replace(",", ".")
+
 fun CharSequence.moneyReplace() = this.replace("[^0-9,]".toRegex(), "").replace(",", ".")
+
+fun String.toMoney() = this.replace(".", ",")
+
+fun Double.formatDecimal(): String = String.format(FORMAT_MONEY, this)
+
+fun Double?.orEmpty(): Double = this ?: 0.0
+
+fun Double.percentage(value: Double) = ((this / 100.0) * value)
 
 fun EditText.eventSetMonthTextField(calendar: Calendar, datePicker: MaterialDatePicker<Long>) {
     datePicker.addOnPositiveButtonClickListener {
@@ -63,6 +73,17 @@ fun TextInputLayout.setupEditTextField(
             this.editText?.defineEnabled()
             icon?.let { this.setEndIconDrawable(it) } ?: run { this.isEndIconVisible = false }
             button.defineUpdateButton()
+        } else event.invoke()
+    }
+}
+
+fun TextInputLayout.setupEditTextField(
+    @DrawableRes icon: Int? = null, event: () -> Unit = {}
+) {
+    this.setEndIconOnClickListener {
+        if (this.editText?.isEnabled == false) {
+            this.editText?.defineEnabled()
+            icon?.let { this.setEndIconDrawable(it) } ?: run { this.isEndIconVisible = false }
         } else event.invoke()
     }
 }

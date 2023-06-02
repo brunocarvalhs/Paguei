@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.groups.R
 import br.com.brunocarvalhs.groups.databinding.FragmentGroupRegisterBinding
-import com.google.android.material.chip.Chip
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -22,7 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
+class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>(),
+    GroupRegisterMembersRecyclerViewAdapter.GroupRegisterMembersListeners {
 
     @Inject
     lateinit var navigation: Navigation
@@ -32,6 +31,14 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
 
     @Inject
     lateinit var analyticsService: AnalyticsService
+
+    private val adapter by lazy {
+        GroupRegisterMembersRecyclerViewAdapter(
+            requireContext(),
+            viewModel,
+            this
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +64,6 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     }
 
     private fun displayData() {
-        binding.membersContainer.removeAllViews()
         renderListMembers()
     }
 
@@ -77,14 +83,15 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
         setupButtonRegistration()
         setupButtonCancel()
         setupMembers()
-
+        setupList()
         binding.name.editText?.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) binding.name.error = null
         }
+    }
 
-        binding.members.editText?.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) binding.members.error = null
-        }
+    private fun setupList() {
+        binding.list.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = adapter
     }
 
     private fun setupButtonCancel() {
@@ -107,25 +114,11 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
     }
 
     private fun renderListMembers() {
-        viewModel.members.forEach { createMembersToContainer(it) }
+        adapter.submitList(viewModel.members)
     }
 
     private fun setupButtonRegistration() {
         binding.registration.setOnClickListener { save() }
-    }
-
-    private fun createMembersToContainer(member: UserEntities) {
-        val chip = Chip(requireContext())
-        chip.text = member.name
-        chip.closeIcon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_baseline_add_24)
-        chip.isCloseIconVisible = viewModel.isIconCloseVisibility(member)
-        chip.setOnCloseIconClickListener { view ->
-            viewModel.removeMember(member) {
-                binding.membersContainer.removeView(view)
-            }
-        }
-        chip.setPadding(32)
-        binding.membersContainer.addView(chip)
     }
 
     private fun save() {
@@ -143,13 +136,6 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
         if (binding.name.editText?.text.isNullOrBlank()) {
             binding.name.error = getString(
                 R.string.error_empty_field, getString(R.string.textfield_name_text)
-            )
-            isValid = false
-        }
-
-        if (binding.members.editText?.text.isNullOrBlank()) {
-            binding.members.error = getString(
-                R.string.error_empty_field, getString(R.string.textfield_members_text_edit)
             )
             isValid = false
         }
@@ -174,5 +160,11 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>() {
         options.setBarcodeImageEnabled(true)
         options.setOrientationLocked(false)
         barcodeLauncher.launch(options)
+    }
+
+    override fun onRemoveUser(member: UserEntities) {
+        viewModel.removeMember(member) {
+            adapter.removeUser(member)
+        }
     }
 }
