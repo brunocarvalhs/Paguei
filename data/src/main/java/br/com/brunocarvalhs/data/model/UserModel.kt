@@ -39,8 +39,10 @@ data class UserModel(
         val numberFormat = NumberFormat.getInstance(Locale.getDefault())
         numberFormat.maximumFractionDigits = 2
         numberFormat.minimumFractionDigits = 2
-        return numberFormat.format((this.salary)?.toDouble())
+        return numberFormat.format((this.salary ?: "0.0").toDouble())
     }
 
-    companion object
+    companion object {
+        fun fromJson(value: String): UserEntities = Gson().fromJson(value, UserModel::class.java)
+    }
 }

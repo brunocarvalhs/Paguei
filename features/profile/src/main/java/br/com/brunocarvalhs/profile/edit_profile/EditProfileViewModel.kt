@@ -3,6 +3,7 @@ package br.com.brunocarvalhs.profile.edit_profile
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.commons.utils.moneyReplace
 import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.usecase.auth.GetUserSessionUseCase
@@ -23,7 +24,7 @@ class EditProfileViewModel @Inject constructor(
 
     val email = ObservableField<String>(user?.email)
 
-    val salary = ObservableField<String>(user?.salary)
+    val salary = ObservableField(user?.formatSalary())
 
     fun update() {
         viewModelScope.launch {
@@ -47,6 +48,6 @@ class EditProfileViewModel @Inject constructor(
 
     private fun updateUser(): UserEntities = (user as UserModel).copy(
         name = this.name.get(),
-        salary = this.salary.get()
+        salary = this.salary.get()?.moneyReplace()
     )
 }

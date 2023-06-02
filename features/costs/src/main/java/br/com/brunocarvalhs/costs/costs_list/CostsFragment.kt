@@ -2,6 +2,7 @@ package br.com.brunocarvalhs.costs.costs_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -58,7 +59,13 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         viewModel.fetchData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        findNavController().clearBackStack(R.id.costsFragment)
+    }
+
     private fun displayData(list: List<CostEntities>) {
+        setupHeader(list)
         defineTotalCosts(list.size)
         adapter.submitList(list)
     }
@@ -85,7 +92,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             requireActivity().getString(R.string.costs_total_text, total.toString())
     }
 
-    private fun setupHeader() {
+    private fun setupHeader(list: List<CostEntities>? = null) {
         viewModel.header.let {
             binding.avatarContainer.visibility = if (it.isGroup) View.GONE else View.VISIBLE
             if (it.photoUrl.isNullOrEmpty()) {
@@ -108,6 +115,17 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
                 binding.name.setOnClickListener { navigateToProfile() }
             }
             binding.cadastrados.setOnClickListener { navigateToReport() }
+
+            if (it.isGroup && list?.isNotEmpty() == true) {
+                binding.bottomAppBar.menu
+                    .add(
+                        MenuItem.SHOW_AS_ACTION_IF_ROOM,
+                        R.id.calculationFragment,
+                        MenuItem.SHOW_AS_ACTION_IF_ROOM,
+                        getString(R.string.menu_text_calculation)
+                    )
+                    .setIcon(R.drawable.ic_baseline_calculate_24)
+            }
         }
     }
 
@@ -122,9 +140,16 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             when (menuItem.itemId) {
                 R.id.extractFragment -> navigateToExtracts()
                 R.id.groupsFragment -> navigateToGroups()
+                R.id.calculationFragment -> navigateToCalculation()
                 else -> false
             }
         }
+    }
+
+    private fun navigateToCalculation(): Boolean {
+        val action = navigation.navigateToCalculation()
+        findNavController().navigate(action)
+        return true
     }
 
     private fun navigateToProfile() {

@@ -21,6 +21,7 @@
     <string name="textfield_members_text">Membros</string>
     <string name="fragment_payment_voucher_registration_button_text">Salvar comprovante</string>
     <string name="menu_text_extract">Extrato</string>
+    <string name="menu_text_calculation">Calcular</string>
     <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
     <string name="dialog_homes_list_button_create_text">Adicionar Grupo</string>
     <string name="question_delete_title">Confirmação de remoção</string>

@@ -78,4 +78,9 @@ class Navigation @Inject constructor(
         }
     }
 
+    fun navigateToCalculation(): NavDeepLinkRequest {
+        return validationAuth {
+            createDeeplink(context.getString(R.string.deeplink_calculation).toUri())
+        }
+    }
 }
