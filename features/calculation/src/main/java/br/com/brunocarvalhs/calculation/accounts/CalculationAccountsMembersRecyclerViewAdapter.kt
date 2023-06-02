@@ -23,9 +23,7 @@ class CalculationAccountsMembersRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        item?.let {
-            holder.bind(item)
-        } ?: kotlin.run { holder.root.isEnabled = false }
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = values.size

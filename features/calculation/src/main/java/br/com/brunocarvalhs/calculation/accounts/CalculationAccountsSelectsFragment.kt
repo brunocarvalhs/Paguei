@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.brunocarvalhs.calculation.R
 import br.com.brunocarvalhs.calculation.databinding.FragmentCalculationAccountsSelectsBinding
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.services.AdsService
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CalculationAccountsSelectsFragment :
@@ -17,10 +21,15 @@ class CalculationAccountsSelectsFragment :
     CalculationAccountsMembersRecyclerViewAdapter.CalculationAccountsMembersClickListener {
 
     private val viewModel: CalculationAccountsSelectsViewModel by viewModels()
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    @Inject
+    lateinit var adsService: AdsService
+
     private val adapter by lazy {
-        CalculationAccountsMembersRecyclerViewAdapter(
-            requireContext(), this
-        )
+        CalculationAccountsMembersRecyclerViewAdapter(requireContext(), this)
     }
 
     override fun createBinding(
@@ -29,6 +38,15 @@ class CalculationAccountsSelectsFragment :
         FragmentCalculationAccountsSelectsBinding.inflate(
             inflater, container, attachToParent
         )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            CalculationAccountsSelectsFragment::class.simpleName.orEmpty(),
+            CalculationAccountsSelectsFragment::class
+        )
+        adsService.initFullBanner(getString(R.string.full_banner))
+    }
 
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {
@@ -82,9 +100,9 @@ class CalculationAccountsSelectsFragment :
         viewModel.fetchData()
     }
 
-    override fun onLongClickListener(list: MutableList<UserEntities>): Boolean {
-        viewModel.replaceCalculation(list)
-        binding.add.isEnabled = list.isNotEmpty()
+    override fun onLongClickListener(user: MutableList<UserEntities>): Boolean {
+        viewModel.replaceCalculation(user)
+        binding.add.isEnabled = user.isNotEmpty()
         return true
     }
 }

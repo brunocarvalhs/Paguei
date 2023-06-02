@@ -1,11 +1,15 @@
 package br.com.brunocarvalhs.calculation.resume
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.brunocarvalhs.calculation.databinding.ItemCalculationResumeMembersBinding
+import br.com.brunocarvalhs.commons.utils.formatDecimal
+import br.com.brunocarvalhs.commons.utils.orEmpty
+import br.com.brunocarvalhs.commons.utils.percentage
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import com.bumptech.glide.Glide
 
@@ -42,6 +46,7 @@ class CalculationResumeMembersRecyclerViewAdapter(
         private val salary = binding.salary
         private val percent = binding.percentage
 
+        @SuppressLint("SetTextI18n")
         fun bind(entry: Map.Entry<UserEntities, Double>) {
             val user = entry.key
             val percentage = entry.value
@@ -54,9 +59,8 @@ class CalculationResumeMembersRecyclerViewAdapter(
                 Glide.with(context).load(user.photoUrl).centerCrop().into(avatar)
             }
             name.text = user.firstName()
-            salary.text =
-                String.format("%.2f", ((percentage / 100.0) * (user.salary?.toDouble() ?: 0.0)))
-            percent.text = "${String.format(" % .2f", percentage)}%"
+            salary.text = percentage.percentage(user.salary?.toDouble().orEmpty()).formatDecimal()
+            percent.text = percentage.formatDecimal() + "%"
         }
     }
 }

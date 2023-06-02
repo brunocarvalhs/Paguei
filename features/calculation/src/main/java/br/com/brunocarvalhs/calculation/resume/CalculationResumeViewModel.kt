@@ -4,6 +4,10 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
+import br.com.brunocarvalhs.commons.utils.formatDecimal
+import br.com.brunocarvalhs.commons.utils.orEmpty
+import br.com.brunocarvalhs.commons.utils.percentage
+import br.com.brunocarvalhs.commons.utils.replateCommaToPoint
 import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,9 +25,7 @@ class CalculationResumeViewModel @Inject constructor(
         }
 
     private val totalSalary =
-        CalculationResumeFragmentArgs.fromSavedStateHandle(savedStateHandle).totalSalary.replace(
-            ",", "."
-        )
+        CalculationResumeFragmentArgs.fromSavedStateHandle(savedStateHandle).totalSalary.replateCommaToPoint()
 
     val totalCosts =
         ObservableField(CalculationResumeFragmentArgs.fromSavedStateHandle(savedStateHandle).totalCosts)
@@ -55,24 +57,19 @@ class CalculationResumeViewModel @Inject constructor(
     }
 
     private fun calculatePercent(user: HashMap<UserEntities, Double>) {
-        val result = user.map { (user, percent) ->
-            (percent / 100.0) * (user.salary?.toDouble() ?: 0.0)
-        }
-        totalSalaryPercent.set(
-            String.format("%.2f", result.sum()).replace(
-                ",", "."
-            )
-        )
+        val result =
+            user.map { (user, percent) -> percent.percentage(user.salary?.toDouble().orEmpty()) }
+        totalSalaryPercent.set(result.sum().formatDecimal().replateCommaToPoint())
     }
 
     private fun calculateResume() {
-        val salaries: Double = totalSalaryPercent.get()?.toDouble() ?: 0.0
-        val costs: Double = totalCosts.get()?.toDouble() ?: 0.0
-        val result = salaries.minus(costs)
-        totalResume.set(
-            "${if (result < 0) "-" else ""}${String.format("%.2f", result)}".replace(
-                ",", "."
-            )
-        )
+        val salaries: Double = totalSalaryPercent.get()?.toDouble().orEmpty()
+        val costs: Double = totalCosts.get()?.toDouble().orEmpty()
+        val resultResume = salaries.minus(costs)
+        totalResume.set(moneyFormatMoney(resultResume))
+    }
+
+    private fun moneyFormatMoney(value: Double): String {
+        return value.formatDecimal().replateCommaToPoint()
     }
 }

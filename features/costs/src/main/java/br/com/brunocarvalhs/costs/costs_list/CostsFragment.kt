@@ -59,6 +59,11 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         viewModel.fetchData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        findNavController().clearBackStack(R.id.costsFragment)
+    }
+
     private fun displayData(list: List<CostEntities>) {
         defineTotalCosts(list.size)
         adapter.submitList(list)

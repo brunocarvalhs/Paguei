@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="full_banner" translatable="false">ca-app-pub-1765514781734091/8130018602</string>
     <string name="item_calculation_members_textfield_salary_hilt">Salary</string>
     <string name="item_calculation_cost_value">R$ %1$s</string>
+    <string name="calculation_resume_label">Percent per member</string>
+    <string name="button_next_floating_action_text">Next</string>
+    <string name="button_finished_floating_action_text">Finished</string>
+    <string name="fragment_calculation_accounts_selects_title_text">Total Income</string>
+    <string name="value_text_tools">$ 2000.00</string>
+    <string name="name_text_tools">Name</string>
+    <string name="parcentage_text_tools">100%</string>
+    <string name="fragment_calculation_cost_resume_title_text">Total contas a pagar</string>
+    <string name="fragment_calculation_resume_result">Result</string>
 </resources>

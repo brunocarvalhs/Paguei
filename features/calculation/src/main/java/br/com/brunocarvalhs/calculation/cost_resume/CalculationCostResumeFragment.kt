@@ -9,10 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.calculation.databinding.FragmentCalculationCostResumeBinding
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.domain.entities.CostEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CalculationCostResumeFragment : BaseFragment<FragmentCalculationCostResumeBinding>() {
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
 
     private val viewModel: CalculationCostResumeViewModel by viewModels()
     private val adapter by lazy { CalculationCostsRecyclerViewAdapter(requireContext()) }
@@ -21,6 +26,14 @@ class CalculationCostResumeFragment : BaseFragment<FragmentCalculationCostResume
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentCalculationCostResumeBinding =
         FragmentCalculationCostResumeBinding.inflate(inflater, container, attachToParent)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            CalculationCostResumeFragment::class.simpleName.orEmpty(),
+            CalculationCostResumeFragment::class
+        )
+    }
 
     override fun viewObservation() {
         viewModel.state.observe(viewLifecycleOwner) {
