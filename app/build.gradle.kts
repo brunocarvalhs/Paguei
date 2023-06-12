@@ -95,6 +95,7 @@ android {
 
 dependencies {
     // Features
+    implementation(project(mapOf("path" to ":features:splash")))
     implementation(project(mapOf("path" to ":features:auth")))
     implementation(project(mapOf("path" to ":features:billet_registration")))
     implementation(project(mapOf("path" to ":features:costs")))
