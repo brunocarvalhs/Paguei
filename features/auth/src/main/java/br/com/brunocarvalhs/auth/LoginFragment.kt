@@ -80,9 +80,4 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun initView() {
         binding.button.setOnClickListener { signInLauncher.launch(signInIntent) }
     }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.onSession()
-    }
 }

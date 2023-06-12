@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/features/groups" />
             <option value="$PROJECT_DIR$/features/profile" />
             <option value="$PROJECT_DIR$/features/report" />
+            <option value="$PROJECT_DIR$/features/splash" />
           </set>
         </option>
       </GradleProjectSettings>
