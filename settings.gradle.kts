@@ -16,6 +16,7 @@ dependencyResolutionManagement {
 rootProject.name = "Paguei"
 include(":app", ":domain", ":data", ":commons")
 
+include(":features:splash")
 include(":features:auth")
 include(":features:costs")
 include(":features:profile")

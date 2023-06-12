@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.auth
+package br.com.brunocarvalhs.splash
 
 import org.junit.Test
 
