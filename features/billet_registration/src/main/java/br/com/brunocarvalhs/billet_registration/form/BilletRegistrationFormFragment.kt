@@ -21,7 +21,6 @@ import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import javax.inject.Inject
-import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -165,9 +164,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     private fun cancelRegistration() {
         val action = navigation.navigateToCostsRegister()
         findNavController().navigate(action)
-        if (Random.nextBoolean()) {
-            adsService.fullBanner(requireActivity())
-        }
+        adsService.fullBanner(requireActivity())
     }
 
     private val barcodeLauncher = registerForActivityResult(
