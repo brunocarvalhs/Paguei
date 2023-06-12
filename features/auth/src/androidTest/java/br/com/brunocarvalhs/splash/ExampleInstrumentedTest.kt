@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.auth
+package br.com.brunocarvalhs.splash
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

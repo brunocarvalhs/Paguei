@@ -2,8 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/navigation"
-        app:startDestination="@id/auth_navigation">
+        app:startDestination="@id/splash_navigation">
 
+    <include app:graph="@navigation/splash_navigation" />
     <include app:graph="@navigation/auth_navigation" />
     <include app:graph="@navigation/billet_registration_navigation" />
     <include app:graph="@navigation/costs_navigation" />
