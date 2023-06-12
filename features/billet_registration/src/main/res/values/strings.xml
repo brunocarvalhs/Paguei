@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="costs_register_banner" translatable="false">ca-app-pub-1765514781734091/4337003434</string>
+    <string name="costs_register_banner" translatable="false">ca-app-pub-1765514781734091/9124094558</string>
     <string name="fragment_billet_registration_form_title_text">Fill in the bill details</string>
     <string name="billet_registration_textfield_name_hilt">Bill name</string>
     <string name="billet_registration_textfield_prompt_hilt">Due date</string>
