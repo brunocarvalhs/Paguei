@@ -12,6 +12,7 @@ import br.com.brunocarvalhs.commons.utils.setupTextFieldDate
 import br.com.brunocarvalhs.commons.utils.setupTextFieldMonth
 import br.com.brunocarvalhs.commons.utils.setupTextFieldValue
 import br.com.brunocarvalhs.data.navigation.Navigation
+import br.com.brunocarvalhs.domain.services.AdsService
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.journeyapps.barcodescanner.ScanContract
@@ -20,6 +21,7 @@ import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -27,6 +29,10 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
 
     @Inject
     lateinit var navigation: Navigation
+
+    @Inject
+    lateinit var adsService: AdsService
+
     private val viewModel: BilletRegistrationFormViewModel by viewModels()
     private val calendar by lazy { Calendar.getInstance() }
 
@@ -49,6 +55,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
             BilletRegistrationFormFragment::class.simpleName.orEmpty(),
             BilletRegistrationFormFragment::class
         )
+        adsService.initFullBanner(getString(R.string.costs_register_banner))
     }
 
     override fun createBinding(
@@ -158,6 +165,9 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     private fun cancelRegistration() {
         val action = navigation.navigateToCostsRegister()
         findNavController().navigate(action)
+        if (Random.nextBoolean()) {
+            adsService.fullBanner(requireActivity())
+        }
     }
 
     private val barcodeLauncher = registerForActivityResult(
