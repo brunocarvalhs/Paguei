@@ -71,6 +71,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun navigateToHome() {
         val request = navigation.navigateToCostsRegister()
         findNavController().navigate(request)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.SCREEN_VIEWED,
+            mapOf(
+                Pair("transition_to", "costs_list"),
+                Pair("transition_from", "Login")
+            ),
+            LoginFragment::class,
+            customAttributes = null
+        )
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -78,6 +88,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initView() {
-        binding.button.setOnClickListener { signInLauncher.launch(signInIntent) }
+        binding.button.setOnClickListener {
+            signInLauncher.launch(signInIntent)
+
+            analyticsService.trackEvent(
+                AnalyticsService.Events.LOGIN,
+                mapOf(),
+                LoginFragment::class,
+                customAttributes = null
+            )
+        }
     }
 }

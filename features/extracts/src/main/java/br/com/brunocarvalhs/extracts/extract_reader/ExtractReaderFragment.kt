@@ -67,14 +67,29 @@ class ExtractReaderFragment : BaseFragment<FragmentExtractReaderBinding>() {
         binding.viewModel = viewModel
         binding.paymentVoucherUri.setEndIconOnClickListener {
             textCopyThenPost(viewModel.cost.paymentVoucher.toString())
+            analyticsService.trackEvent(
+                AnalyticsService.Events.ICON_CLICKED,
+                mapOf(Pair("icon_name", "barcode")),
+                ExtractReaderFragment::class
+            )
         }
         binding.open.setOnClickListener {
             viewModel.openFile(requireContext(), viewModel.cost.paymentVoucher)
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "open_file")),
+                ExtractReaderFragment::class
+            )
         }
     }
 
     private fun textCopyThenPost(textCopied: String) {
         clipboardManager.setPrimaryClip(ClipData.newPlainText("", textCopied))
         Toast.makeText(requireContext(), "Código copiado com sucesso.", Toast.LENGTH_SHORT).show()
+        analyticsService.trackEvent(
+            AnalyticsService.Events.COPY_EVENT,
+            mapOf(Pair("event_name", "copy")),
+            ExtractReaderFragment::class
+        )
     }
 }

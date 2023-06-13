@@ -63,12 +63,26 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
         binding.searchView.editText.apply {
             doOnTextChanged { text, _, _, _ ->
                 adapter.filter(text.toString())
+
+                analyticsService.trackEvent(
+                    AnalyticsService.Events.SEARCH,
+                    mapOf("query" to text.toString()),
+                    ExtractFragment::class
+                )
             }
         }
         binding.searchView.addTransitionListener { _, _, newState ->
             val state = newState === TransitionState.HIDDEN
             visibilityToolbar(state)
-            if (state) adapter.filter(String())
+            if (state) {
+                adapter.filter(String())
+
+                analyticsService.trackEvent(
+                    AnalyticsService.Events.SEARCH_CLOSED,
+                    mapOf(),
+                    ExtractFragment::class
+                )
+            }
         }
     }
 
@@ -84,6 +98,12 @@ class ExtractFragment : BaseFragment<FragmentExtractListBinding>(),
     override fun onClick(cost: CostEntities) {
         val action = ExtractFragmentDirections.actionExtractFragmentToExtractReaderFragment(cost)
         findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.COST_ITEM_CLICKED,
+            mapOf("cost_name" to cost.name),
+            ExtractFragment::class
+        )
     }
 
     override fun onResume() {

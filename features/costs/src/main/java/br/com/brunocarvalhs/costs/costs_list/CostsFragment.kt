@@ -132,6 +132,12 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private fun navigateToReport() {
         val action = navigation.navigateToReport()
         findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.REPORT_SCREEN_VIEWED,
+            mapOf(),
+            CostsFragment::class
+        )
     }
 
     private fun setupNavigation() {
@@ -149,6 +155,13 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private fun navigateToCalculation(): Boolean {
         val action = navigation.navigateToCalculation()
         findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.CALCULATION_MENU_SELECTED,
+            mapOf(),
+            CostsFragment::class
+        )
+
         return true
     }
 
@@ -160,12 +173,26 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private fun navigateToExtracts(): Boolean {
         val action = navigation.navigateToExtractsList()
         findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.EXTRACTS_MENU_SELECTED,
+            mapOf(),
+            CostsFragment::class
+        )
+
         return true
     }
 
     private fun navigateToGroups(): Boolean {
         val action = navigation.navigateToGroups()
         findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.EXTRACTS_MENU_SELECTED,
+            mapOf(),
+            CostsFragment::class
+        )
+
         return true
     }
 
@@ -178,14 +205,34 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private fun navigateToAddCosts() {
         val action = navigation.navigateToBilletRegistrationForm()
         findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.ADD_COST_BUTTON_CLICKED,
+            mapOf(),
+            CostsFragment::class
+        )
     }
 
-    override fun onClick(cost: CostEntities) = navigateToReaderCost(cost)
+    override fun onClick(cost: CostEntities) {
+        navigateToReaderCost(cost)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.COST_ITEM_CLICKED,
+            mapOf(Pair("cost_id", cost.id)),
+            CostsFragment::class
+        )
+    }
 
     override fun onLongClick(cost: CostEntities): Boolean {
         val action =
             CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost)
         findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.COST_ITEM_LONG_CLICKED,
+            mapOf(Pair("cost_id", cost.id)),
+            CostsFragment::class
+        )
 
         return true
     }

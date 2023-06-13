@@ -54,6 +54,11 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
             BilletRegistrationFormFragment::class.simpleName.orEmpty(),
             BilletRegistrationFormFragment::class
         )
+        analyticsService.trackEvent(
+            AnalyticsService.Events.SCREEN_VIEWED,
+            mapOf(Pair("screen_name", "BilletRegistrationForm")),
+            BilletRegistrationFormFragment::class
+        )
         adsService.initFullBanner(getString(R.string.costs_register_banner))
     }
 
@@ -80,11 +85,32 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         visibilityToolbar(visibility = true)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.registration.setOnClickListener { saveCost() }
-        binding.cancel.setOnClickListener { cancelRegistration() }
+        binding.registration.setOnClickListener {
+            saveCost()
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "registration")),
+                BilletRegistrationFormFragment::class
+            )
+        }
+        binding.cancel.setOnClickListener {
+            cancelRegistration()
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "cancel")),
+                BilletRegistrationFormFragment::class
+            )
+        }
         binding.prompt.setupTextFieldDate(this, datePicker, calendar)
         binding.value.editText?.setupTextFieldValue()
-        binding.barcode.setEndIconOnClickListener { startBarcodeScanner() }
+        binding.barcode.setEndIconOnClickListener {
+            startBarcodeScanner()
+            analyticsService.trackEvent(
+                AnalyticsService.Events.ICON_CLICKED,
+                mapOf(Pair("icon_name", "barcode")),
+                BilletRegistrationFormFragment::class
+            )
+        }
         binding.referringMonth.setupTextFieldMonth(this, datePickerReferringMonth, calendar)
 
         binding.name.editText?.setOnFocusChangeListener { _, hasFocus ->
