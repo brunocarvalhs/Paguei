@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.GroupEntities
+import br.com.brunocarvalhs.domain.entities.UserEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.groups.databinding.DialogGroupsListBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,13 +25,24 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
     private val viewModel: GroupsListViewModel by viewModels()
     private val adapter by lazy { GroupsRecyclerViewAdapter(requireContext(), this) }
 
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            GroupsListDialogFragment::class.simpleName.orEmpty(),
+            GroupsListDialogFragment::class
+        )
+    }
+
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): DialogGroupsListBinding =
         DialogGroupsListBinding.inflate(inflater, container, attachToParent)
 
     override fun initView() {
-        this.setupOptionMyProfile()
         this.setupButtonCreate()
         this.setupList()
     }
@@ -37,8 +50,8 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
     private fun setupButtonCreate() =
         binding.create.setOnClickListener { navigateToRegisterGroups() }
 
-    private fun setupOptionMyProfile() {
-        viewModel.user?.let {
+    private fun setupOptionMyProfile(user: UserEntities?) {
+        user?.let {
             Glide.with(requireActivity()).load(it.photoUrl).centerCrop().into(binding.avatar)
             binding.nameUser.text = it.name
             binding.avatarGroup.setOnClickListener { selected(null) }
@@ -56,6 +69,7 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
                 GroupsListViewState.Loading -> this.loading()
                 is GroupsListViewState.Success -> this.displayData(it.list)
                 is GroupsListViewState.Error -> this.showError(it.error)
+                is GroupsListViewState.SuccessUser -> this.setupOptionMyProfile(it.user)
             }
         }
     }
@@ -63,10 +77,6 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
     private fun displayData(list: List<GroupEntities>) = adapter.submitList(list)
 
     override fun argumentsView(arguments: Bundle) {
-
-    }
-
-    override fun loading() {
 
     }
 

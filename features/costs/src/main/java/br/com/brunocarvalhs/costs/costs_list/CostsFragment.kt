@@ -2,6 +2,7 @@ package br.com.brunocarvalhs.costs.costs_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -12,6 +13,7 @@ import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.FragmentCostsListBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,6 +24,10 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
 
     @Inject
     lateinit var navigation: Navigation
+
+    @Inject
+    lateinit var analyticsService: AnalyticsService
+
     private val viewModel: CostsViewModel by viewModels()
     private val adapter by lazy { CostsRecyclerViewAdapter(requireContext(), this) }
 
@@ -40,12 +46,26 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsService.trackScreenView(
+            CostsFragment::class.simpleName.orEmpty(),
+            CostsFragment::class
+        )
+    }
+
     override fun onStart() {
         super.onStart()
         viewModel.fetchData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        findNavController().clearBackStack(R.id.costsFragment)
+    }
+
     private fun displayData(list: List<CostEntities>) {
+        setupHeader(list)
         defineTotalCosts(list.size)
         adapter.submitList(list)
     }
@@ -67,16 +87,12 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         binding.list.adapter = adapter
     }
 
-    override fun loading() {
-
-    }
-
     private fun defineTotalCosts(total: Int = 0) {
         binding.textTotalCosts.text =
             requireActivity().getString(R.string.costs_total_text, total.toString())
     }
 
-    private fun setupHeader() {
+    private fun setupHeader(list: List<CostEntities>? = null) {
         viewModel.header.let {
             binding.avatarContainer.visibility = if (it.isGroup) View.GONE else View.VISIBLE
             if (it.photoUrl.isNullOrEmpty()) {
@@ -88,7 +104,10 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             }
 
             binding.name.text =
-                if (it.isGroup) requireActivity().getString(R.string.home_title_group_header, it.name)
+                if (it.isGroup) requireActivity().getString(
+                    R.string.home_title_group_header,
+                    it.name
+                )
                 else requireActivity().getString(R.string.home_title_header, it.name)
 
             if (!it.isGroup) {
@@ -96,6 +115,17 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
                 binding.name.setOnClickListener { navigateToProfile() }
             }
             binding.cadastrados.setOnClickListener { navigateToReport() }
+
+            if (it.isGroup && list?.isNotEmpty() == true) {
+                binding.bottomAppBar.menu
+                    .add(
+                        MenuItem.SHOW_AS_ACTION_IF_ROOM,
+                        R.id.calculationFragment,
+                        MenuItem.SHOW_AS_ACTION_IF_ROOM,
+                        getString(R.string.menu_text_calculation)
+                    )
+                    .setIcon(R.drawable.ic_baseline_calculate_24)
+            }
         }
     }
 
@@ -110,9 +140,16 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             when (menuItem.itemId) {
                 R.id.extractFragment -> navigateToExtracts()
                 R.id.groupsFragment -> navigateToGroups()
+                R.id.calculationFragment -> navigateToCalculation()
                 else -> false
             }
         }
+    }
+
+    private fun navigateToCalculation(): Boolean {
+        val action = navigation.navigateToCalculation()
+        findNavController().navigate(action)
+        return true
     }
 
     private fun navigateToProfile() {

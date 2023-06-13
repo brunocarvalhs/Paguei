@@ -23,6 +23,7 @@ class CostsRecyclerViewAdapter(
         val item = values[position]
         holder.root.setOnClickListener { listener.onClick(item) }
         holder.root.setOnLongClickListener { listener.onLongClick(item) }
+        holder.icon.setOnClickListener { listener.onLongClick(item) }
         holder.name.text = item.name
         holder.prompt.text = context.getString(R.string.item_cost_date, item.prompt.toString())
         holder.value.text = context.getString(R.string.item_cost_value, item.formatValue())
@@ -41,6 +42,7 @@ class CostsRecyclerViewAdapter(
         val name = binding.name
         val prompt = binding.prompt
         val value = binding.value
+        val icon = binding.icon
     }
 
     interface CostClickListener {

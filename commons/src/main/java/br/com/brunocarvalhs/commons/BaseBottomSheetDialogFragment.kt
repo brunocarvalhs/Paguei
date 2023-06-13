@@ -34,7 +34,9 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
 
     abstract fun argumentsView(arguments: Bundle)
 
-    abstract fun loading()
+    protected fun loading() {
+
+    }
 
     protected fun showError(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()

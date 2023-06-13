@@ -27,7 +27,7 @@
     </fragment>
     <fragment
             android:id="@+id/editGroupFragment"
-            android:name="br.com.brunocarvalhs.groups.edit.fragment.EditGroupFragment"
+            android:name="br.com.brunocarvalhs.groups.edit.EditGroupFragment"
             tools:layout="@layout/fragment_edit_group" />
 
 </navigation>

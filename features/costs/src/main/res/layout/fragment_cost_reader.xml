@@ -56,6 +56,28 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/referring_month"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="15dp"
+                            android:hint="@string/textfield_reference_month_hilt"
+                            app:endIconDrawable="@drawable/ic_baseline_edit_24"
+                            app:endIconMode="custom"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/name"
+                            app:startIconDrawable="@drawable/ic_baseline_calendar_view_month_24">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@={viewModel.dateReferenceMonth}"
+                                android:inputType="date"
+                                android:enabled="false" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/prompt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -65,13 +87,14 @@
                             app:endIconMode="custom"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/name"
+                            app:layout_constraintTop_toBottomOf="@+id/referring_month"
                             app:startIconDrawable="@drawable/ic_baseline_prompt_24">
 
                         <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@={viewModel.prompt}"
+                                android:inputType="date"
                                 android:enabled="false" />
 
                     </com.google.android.material.textfield.TextInputLayout>

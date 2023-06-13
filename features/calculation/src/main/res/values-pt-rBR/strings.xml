@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="item_calculation_members_textfield_salary_hilt">Salário</string>
+    <string name="item_calculation_cost_value">R$ %1$s</string>
+    <string name="calculation_resume_label">Porcentagem por membro</string>
+    <string name="button_next_floating_action_text">Continuar</string>
+    <string name="button_finished_floating_action_text">Finalizar</string>
+    <string name="fragment_calculation_accounts_selects_title_text">Total Renda</string>
+    <string name="value_text_tools">R$ 2000,00</string>
+    <string name="name_text_tools">Name</string>
+    <string name="parcentage_text_tools">100%</string>
+    <string name="fragment_calculation_cost_resume_title_text">Total contas a pagar</string>
+    <string name="fragment_calculation_resume_result">Resultado</string>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/calculation_navigation"
+        app:startDestination="@id/calculationAccountsSelectsFragment">
+
+    <fragment
+            android:id="@+id/calculationAccountsSelectsFragment"
+            android:name="br.com.brunocarvalhs.calculation.accounts.CalculationAccountsSelectsFragment"
+            tools:layout="@layout/fragment_calculation_accounts_selects">
+
+        <deepLink app:uri="@string/deeplink_calculation" />
+
+        <action
+                android:id="@+id/action_calculationAccountsSelectsFragment_to_calculationCostResumeFragment"
+                app:destination="@id/calculationCostResumeFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/calculationCostResumeFragment"
+            android:name="br.com.brunocarvalhs.calculation.cost_resume.CalculationCostResumeFragment"
+            tools:layout="@layout/fragment_calculation_cost_resume">
+        <action
+                android:id="@+id/action_calculationCostResumeFragment_to_calculationResumeFragment"
+                app:destination="@id/calculationResumeFragment" />
+        <argument
+                android:name="costs"
+                app:argType="string[]" />
+        <argument
+                android:name="totalSalary"
+                app:argType="string" />
+        <argument
+                android:name="members"
+                app:argType="string[]" />
+    </fragment>
+    <fragment
+            android:id="@+id/calculationResumeFragment"
+            android:name="br.com.brunocarvalhs.calculation.resume.CalculationResumeFragment"
+            tools:layout="@layout/fragment_calculation_resume" >
+        <argument
+                android:name="totalSalary"
+                app:argType="string" />
+        <argument
+                android:name="totalCosts"
+                app:argType="string" />
+        <argument
+                android:name="members"
+                app:argType="string[]" />
+    </fragment>
+</navigation>

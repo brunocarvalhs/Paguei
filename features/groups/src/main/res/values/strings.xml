@@ -7,4 +7,6 @@
     <string name="fragment_homes_register_title">Fill in the\ngroup details</string>
     <string name="fragment_costs_list_button_add_text">Add ticket</string>
     <string name="dialog_homes_list_button_create_text">Add group</string>
+    <string name="error_empty_field">Field %1$s cannot be empty</string>
+    <string name="textfield_members_text_edit">E-mail</string>
 </resources>

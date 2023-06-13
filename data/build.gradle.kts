@@ -58,6 +58,7 @@ dependencies {
     implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
     implementation(Dependencies.Firebase.ANALYTICS)
+    implementation("com.google.android.gms:play-services-ads:22.0.0")
 
     // Network dependencies
     implementation(Dependencies.Network.GSON)

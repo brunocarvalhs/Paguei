@@ -69,6 +69,9 @@ dependencies {
     androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
     androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
 
+    // Mask
+    implementation("com.redmadrobot:input-mask-android:6.1.0")
+
     // Compose
     implementation(platform(Dependencies.Compose.BOM))
     androidTestImplementation(platform(Dependencies.Compose.BOM))

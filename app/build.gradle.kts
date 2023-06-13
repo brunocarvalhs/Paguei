@@ -22,7 +22,6 @@ android {
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
         multiDexEnabled = true
-        buildToolsVersion = "33.0.1"
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
         vectorDrawables {
@@ -50,10 +49,10 @@ android {
         buildTypes {
             getByName("release") {
                 resValue("string", "app_name", "Paguei!")
+                resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~6485504377")
 
                 isDebuggable = false
                 isJniDebuggable = false
-                isMinifyEnabled = true
                 signingConfig = signingConfigs.getByName("release")
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
@@ -61,6 +60,7 @@ android {
             }
             getByName("debug") {
                 resValue("string", "app_name", "Paguei! - Debug")
+                resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~1018252717")
 
                 applicationIdSuffix = ".debug"
                 isMinifyEnabled = false
@@ -95,6 +95,7 @@ android {
 
 dependencies {
     // Features
+    implementation(project(mapOf("path" to ":features:splash")))
     implementation(project(mapOf("path" to ":features:auth")))
     implementation(project(mapOf("path" to ":features:billet_registration")))
     implementation(project(mapOf("path" to ":features:costs")))
@@ -102,6 +103,7 @@ dependencies {
     implementation(project(mapOf("path" to ":features:groups")))
     implementation(project(mapOf("path" to ":features:profile")))
     implementation(project(mapOf("path" to ":features:report")))
+    implementation(project(mapOf("path" to ":features:calculation")))
 
     // Modules
     implementation(project(mapOf("path" to ":data")))
@@ -114,6 +116,7 @@ dependencies {
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
     implementation(Dependencies.Core.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.Core.LIFECYCLE_VIEWMODEL)
+    implementation("com.google.android.play:app-update-ktx:2.0.1")
 
     // UI dependencies
     implementation(Dependencies.UI.MATERIAL)

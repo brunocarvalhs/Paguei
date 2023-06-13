@@ -98,6 +98,9 @@ dependencies {
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
 
+    // Camera
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
     // Compose
     implementation(platform(Dependencies.Compose.BOM))
     androidTestImplementation(platform(Dependencies.Compose.BOM))

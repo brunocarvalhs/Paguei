@@ -107,6 +107,9 @@ dependencies {
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
 
+    // QR Code
+    implementation("com.google.zxing:core:3.5.1")
+
     // Compose
     implementation(platform(Dependencies.Compose.BOM))
     androidTestImplementation(platform(Dependencies.Compose.BOM))

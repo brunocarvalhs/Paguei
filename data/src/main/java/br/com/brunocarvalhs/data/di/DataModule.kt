@@ -3,16 +3,8 @@ package br.com.brunocarvalhs.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import br.com.brunocarvalhs.data.navigation.Navigation
-import br.com.brunocarvalhs.data.repositories.CostsRepositoryImpl
-import br.com.brunocarvalhs.data.repositories.GroupsRepositoryImpl
-import br.com.brunocarvalhs.data.repositories.UserRepositoryImpl
 import br.com.brunocarvalhs.data.services.*
-import br.com.brunocarvalhs.data.usecase.GetUserForEmailUseCaseImpl
-import br.com.brunocarvalhs.domain.repositories.CostsRepository
-import br.com.brunocarvalhs.domain.repositories.GroupsRepository
-import br.com.brunocarvalhs.domain.repositories.UserRepository
 import br.com.brunocarvalhs.domain.services.*
-import br.com.brunocarvalhs.domain.usecase.GetUserForEmailUseCase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -68,30 +60,5 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun providerNotificationService(service: NotificationServiceImpl): NotificationService = service
-
-    @Provides
-    @Singleton
     fun providerSessionManager(service: SessionManagerService): SessionManager = service
-
-    @Provides
-    @Singleton
-    fun providerAnalyticsService(service: AnalyticsServiceImpl): AnalyticsService = service
-
-    @Provides
-    fun providerAuthService(service: AuthenticationService): Authentication =
-        service
-
-    @Provides
-    fun providerUserRepository(repository: UserRepositoryImpl): UserRepository = repository
-
-    @Provides
-    fun providerCostsRepository(repository: CostsRepositoryImpl): CostsRepository = repository
-
-    @Provides
-    fun providerGroupsRepository(repository: GroupsRepositoryImpl): GroupsRepository = repository
-
-    @Provides
-    fun useCaseGetUserForEmailUseCase(useCase: GetUserForEmailUseCaseImpl): GetUserForEmailUseCase =
-        useCase
 }

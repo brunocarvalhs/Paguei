@@ -32,9 +32,9 @@ object Versions {
     }
 
     object Hilt {
-        const val ANDROID = "2.45"
-        const val ANDROID_COMPILER = "2.45"
-        const val ANDROID_TESTING = "2.45"
+        const val ANDROID = "2.46"
+        const val ANDROID_COMPILER = "2.46"
+        const val ANDROID_TESTING = "2.46"
     }
 
     object Firebase {
