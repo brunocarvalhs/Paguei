@@ -44,7 +44,7 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
         )
         analyticsService.trackEvent(
             AnalyticsService.Events.SELECT_ITEM,
-            viewModel.cost.toMap(),
+            mapOf(Pair("cost_id", viewModel.cost.id)),
             PaymentVoucherFragment::class
         )
     }
@@ -77,7 +77,15 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
         this.visibilityToolbar(visibility = true)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.registration.setOnClickListener { viewModel.savePaymentVoucher() }
+        binding.registration.setOnClickListener {
+            viewModel.savePaymentVoucher()
+
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "registration")),
+                PaymentVoucherFragment::class
+            )
+        }
         binding.datePayment.setupTextFieldDate(this, datePickerPayment, calendar)
     }
 }

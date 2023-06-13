@@ -20,6 +20,11 @@ class LoginViewModel @Inject constructor(
             authenticateUserUseCase.invoke().onSuccess {
                 it?.let {
                     analyticsService.setUserId(it.id)
+                    analyticsService.trackEvent(
+                        AnalyticsService.Events.LOGIN,
+                        mapOf("user_id" to it.id),
+                        LoginFragment::class
+                    )
                     mutableState.value = LoginViewState.Success
                 } ?: run {
                     mutableState.value = LoginViewState.Error("Authentication failed")
