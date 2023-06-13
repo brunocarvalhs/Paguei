@@ -48,7 +48,7 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
         )
         analyticsService.trackEvent(
             AnalyticsService.Events.SELECT_ITEM,
-            viewModel.cost.toMap(),
+            mapOf(Pair("cost_id", viewModel.cost.id)),
             CostReaderFragment::class
         )
     }
@@ -85,6 +85,11 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
             viewModel.cost.barCode?.let {
                 requireContext().textCopyThenPost(it, R.string.copy_success)
             }
+            analyticsService.trackEvent(
+                AnalyticsService.Events.ICON_CLICKED,
+                mapOf(Pair("icon_name", "copy")),
+                CostReaderFragment::class
+            )
         }
         binding.referringMonth.setupEditTextFieldMonth(
             this,
@@ -93,6 +98,14 @@ class CostReaderFragment : BaseFragment<FragmentCostReaderBinding>() {
             dateMonthPicker,
             calendar
         )
-        binding.update.setOnClickListener { viewModel.updateCost() }
+        binding.update.setOnClickListener {
+            viewModel.updateCost()
+
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "update_cost")),
+                CostReaderFragment::class
+            )
+        }
     }
 }

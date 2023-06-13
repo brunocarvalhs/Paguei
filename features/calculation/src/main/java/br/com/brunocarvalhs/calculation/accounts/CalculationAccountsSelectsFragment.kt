@@ -73,7 +73,14 @@ class CalculationAccountsSelectsFragment :
         binding.viewModel = viewModel
         setupList()
         binding.add.isEnabled = false
-        binding.add.setOnClickListener { this.navigationToCalculationCost() }
+        binding.add.setOnClickListener {
+            this.navigationToCalculationCost()
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "next")),
+                CalculationAccountsSelectsFragment::class
+            )
+        }
     }
 
     private fun setupList() {
@@ -103,6 +110,12 @@ class CalculationAccountsSelectsFragment :
     override fun onLongClickListener(user: MutableList<UserEntities>): Boolean {
         viewModel.replaceCalculation(user)
         binding.add.isEnabled = user.isNotEmpty()
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.MEMBER_LONG_CLICKED,
+            mapOf("user_list_size" to user.size.toString()),
+            CalculationAccountsSelectsFragment::class
+        )
         return true
     }
 }

@@ -60,7 +60,15 @@ class CalculationCostResumeFragment : BaseFragment<FragmentCalculationCostResume
         binding.viewModel = viewModel
         setupList()
         binding.add.isEnabled = false
-        binding.add.setOnClickListener { this.navigateToCalculationResume() }
+        binding.add.setOnClickListener {
+            this.navigateToCalculationResume()
+
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "next")),
+                CalculationCostResumeFragment::class
+            )
+        }
     }
 
     private fun setupList() {

@@ -81,6 +81,12 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
                 findNavController().popBackStack()
             }.setPositiveButton(getString(R.string.question_delete_positive_text)) { _, _ ->
                 viewModel.deleteCost()
+
+                analyticsService.trackEvent(
+                    AnalyticsService.Events.CLICK_EVENT,
+                    mapOf(Pair("event_name", "delete_cost")),
+                    CostsSelectedDialogFragment::class
+                )
             }.show()
     }
 

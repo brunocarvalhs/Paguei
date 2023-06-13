@@ -93,7 +93,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun logout() {
-        viewModel.logout { navigateToLogin() }
+        viewModel.logout {
+            navigateToLogin()
+
+            analyticsService.trackEvent(
+                AnalyticsService.Events.LOGOUT,
+                mapOf(),
+                ProfileFragment::class
+            )
+        }
     }
 
     private fun navigateToSettings() {

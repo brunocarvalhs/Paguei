@@ -7,6 +7,7 @@ import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.commons.utils.FORMAT_MONTH
 import br.com.brunocarvalhs.commons.utils.moneyReplace
 import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.domain.usecase.cost.AddCostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class BilletRegistrationFormViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val useCase: AddCostUseCase,
+    private val analyticsService: AnalyticsService,
 ) : BaseViewModel<BilletRegistrationFormViewState>() {
 
     val name = ObservableField<String>()
@@ -32,8 +34,18 @@ class BilletRegistrationFormViewModel @Inject constructor(
         viewModelScope.launch {
             mutableState.value = BilletRegistrationFormViewState.Loading
             useCase.invoke(generateCost()).onSuccess {
+                analyticsService.trackEvent(
+                    AnalyticsService.Events.SAVE_SUCCESS,
+                    mapOf(Pair("event_name", "register_cost")),
+                    BilletRegistrationFormViewModel::class
+                )
                 mutableState.value = BilletRegistrationFormViewState.Success
             }.onFailure { error ->
+                analyticsService.trackEvent(
+                    AnalyticsService.Events.SAVE_FAILURE,
+                    mapOf(Pair("event_name", "register_cost")),
+                    BilletRegistrationFormViewModel::class
+                )
                 mutableState.value = BilletRegistrationFormViewState.Error(error.message)
             }
         }

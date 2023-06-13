@@ -100,7 +100,15 @@ class CalculationResumeFragment : BaseFragment<FragmentCalculationResumeBinding>
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         setupList()
-        binding.add.setOnClickListener { navigateToCost() }
+        binding.add.setOnClickListener {
+            navigateToCost()
+
+            analyticsService.trackEvent(
+                AnalyticsService.Events.BUTTON_CLICKED,
+                mapOf(Pair("button_name", "finish")),
+                CalculationResumeFragment::class
+            )
+        }
     }
 
     private fun navigateToCost() {
