@@ -1,11 +1,17 @@
-package br.com.brunocarvalhs.auth.fragments
+package br.com.brunocarvalhs.auth.ui
 
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -28,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import br.com.brunocarvalhs.auth.LoginViewState
 import br.com.brunocarvalhs.auth.R
-import br.com.brunocarvalhs.auth.states.LoginViewState
 import br.com.brunocarvalhs.auth.viewmodels.ILoginViewModel
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import br.com.brunocarvalhs.commons.theme.SeedRed
@@ -72,8 +77,8 @@ private fun LoginContent(
                 painter = painterResource(id = R.drawable.image),
                 contentDescription = "",
                 contentScale = ContentScale.Fit,
-                    modifier = Modifier.height(400.dp)
-                )
+                modifier = Modifier.height(400.dp)
+            )
         }
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -92,17 +97,20 @@ private fun LoginContent(
                 LoginViewState.Loading -> {
                     CircularProgressIndicator()
                 }
+
                 LoginViewState.Success -> {
                     LaunchedEffect(Unit) {
                         navController.navigate("home")
                     }
                 }
+
                 is LoginViewState.Error -> {
                     Text(
                         text = state.message.orEmpty(),
                         style = MaterialTheme.typography.labelMedium
                     )
                 }
+
                 LoginViewState.Idle -> {
                     Text(
                         text = stringResource(id = R.string.login_button_text),
@@ -128,10 +136,6 @@ fun LoginScreenPreview(
         override val stateCompose: StateFlow<LoginViewState> = _state.asStateFlow()
 
         override fun onSignInResult() {
-            // do nothing
-        }
-
-        override fun onSession() {
             // do nothing
         }
 

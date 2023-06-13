@@ -1,6 +1,7 @@
 package br.com.brunocarvalhs.auth
 
 import androidx.lifecycle.viewModelScope
+import br.com.brunocarvalhs.auth.viewmodels.ILoginViewModel
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.domain.usecase.auth.AuthenticateUserUseCase
