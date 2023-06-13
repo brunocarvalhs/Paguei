@@ -10,9 +10,9 @@ import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.report.databinding.FragmentReportBinding
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,18 +69,17 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         val costs = viewModel.defineBarChart()
 
         if (costs.isNotEmpty()) {
-            val entries = mutableListOf<Entry>()
+            val entries = mutableListOf<BarEntry>()
             for ((index, cost) in costs.withIndex()) {
                 val xValue = index.toFloat()
-                val yValue = cost.value?.toFloat() ?: 0f
-                entries.add(Entry(xValue, yValue))
+                val yValue = cost.totalValue.toFloat()
+                entries.add(BarEntry(xValue, yValue))
             }
 
-            val dataSet = LineDataSet(entries, "Custos Mensais")
-            dataSet.setDrawCircleHole(false)
+            val dataSet = BarDataSet(entries, "Custos Mensais")
             dataSet.setDrawValues(false)
 
-            val data = LineData(dataSet)
+            val data = BarData(dataSet)
 
             val xAxis = binding.lineChart.xAxis
             xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.lineChartColor)
@@ -92,11 +91,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             rightYAxis.textColor = ContextCompat.getColor(requireContext(), R.color.lineChartColor)
 
             binding.lineChart.data = data
-            binding.lineChart.xAxis.valueFormatter =
-                IndexAxisValueFormatter(costs.map { viewModel.convertDate(it.dateReferenceMonth) })
+            binding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(costs.map { it.date })
             binding.lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
             binding.lineChart.animateY(1000)
-
+            binding.lineChart.isHorizontalScrollBarEnabled = true
+            binding.lineChart.isVerticalScrollBarEnabled = false
             binding.lineChart.invalidate()
         }
     }
