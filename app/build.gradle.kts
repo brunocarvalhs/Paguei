@@ -9,6 +9,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 
 android {
@@ -127,6 +128,7 @@ dependencies {
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
     implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
     implementation(Dependencies.UI.NAVIGATION_UI)
+    implementation("com.google.firebase:firebase-perf-ktx:20.3.0")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
