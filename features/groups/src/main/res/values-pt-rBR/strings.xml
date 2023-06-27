@@ -9,4 +9,10 @@
     <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
     <string name="dialog_homes_list_button_create_text">Adicionar Grupo</string>
     <string name="textfield_members_text_edit">E-mail</string>
+    <string name="fragment_homes_edit_title">Preencha os dados\ndo grupo</string>
+    <string name="question_exit_group_title">Saindo do grupo</string>
+    <string name="question_exit_group_message">Você realmente quer sair do grupo %1$s? Caso seja o único membro, os dados desse grupo serão excluídos.</string>
+    <string name="question_exit_group_negative_text">Não</string>
+    <string name="question_exit_group_positive_text">Sim, sair agora.</string>
+    <string name="fragment_homes_edit_button_edit_text">Atualizar</string>
 </resources>
