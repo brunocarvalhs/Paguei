@@ -257,6 +257,7 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             }.setPositiveButton(getString(R.string.question_delete_positive_text)) { _, _ ->
                 viewModel.deleteCost(costEntities) {
                     adapter.removeItem(position)
+                    defineTotalCosts(adapter.values.size)
                 }
 
                 analyticsService.trackEvent(

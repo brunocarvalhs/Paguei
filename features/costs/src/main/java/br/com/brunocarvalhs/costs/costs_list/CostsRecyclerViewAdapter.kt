@@ -19,7 +19,8 @@ class CostsRecyclerViewAdapter(
     private val listener: CostClickListener,
 ) : RecyclerView.Adapter<CostsRecyclerViewAdapter.ViewHolder>() {
 
-    private val values = mutableListOf<CostEntities>()
+    var values = mutableListOf<CostEntities>()
+        private set
 
     val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback =
         object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
