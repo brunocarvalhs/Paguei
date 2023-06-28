@@ -83,7 +83,7 @@
                                         android:layout_alignParentStart="true"
                                         android:layout_alignParentTop="true"
                                         android:gravity="top"
-                                        android:text="@string/costs_total_text"
+                                        android:text="@string/costs_total_text_default"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent" />
@@ -199,6 +199,7 @@
                 android:layout_height="wrap_content"
                 app:layout_anchor="@id/bottomAppBar"
                 android:text="@string/fragment_costs_list_button_add_text"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
                 app:icon="@drawable/ic_baseline_add_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

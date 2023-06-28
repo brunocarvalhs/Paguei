@@ -9,4 +9,10 @@
     <string name="dialog_homes_list_button_create_text">Add group</string>
     <string name="error_empty_field">Field %1$s cannot be empty</string>
     <string name="textfield_members_text_edit">E-mail</string>
+    <string name="fragment_homes_edit_title">Fill in the\ngroup details</string>
+    <string name="question_exit_group_title">Exit of group</string>
+    <string name="question_exit_group_message">Do you really want to leave the %1$s group? If you are the only member, the data for that group will be deleted.</string>
+    <string name="question_exit_group_negative_text">No</string>
+    <string name="question_exit_group_positive_text">Yes, exit now.</string>
+    <string name="fragment_homes_edit_button_edit_text">Update</string>
 </resources>

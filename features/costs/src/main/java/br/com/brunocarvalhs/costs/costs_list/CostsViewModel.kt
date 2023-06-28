@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.services.SessionManager
+import br.com.brunocarvalhs.domain.usecase.cost.DeleteCostUseCase
 import br.com.brunocarvalhs.domain.usecase.cost.FetchCostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,6 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CostsViewModel @Inject constructor(
     private val useCase: FetchCostsUseCase,
+    private val deleteCostUseCase: DeleteCostUseCase,
     sessionManager: SessionManager
 ) : BaseViewModel<CostsViewState>() {
 
@@ -36,6 +38,14 @@ class CostsViewModel @Inject constructor(
                 listCosts = it.toMutableList()
                 mutableState.value = CostsViewState.Success(listCosts)
             }.onFailure { error -> mutableState.value = CostsViewState.Error(error.message) }
+        }
+    }
+
+    fun deleteCost(cost: CostEntities, callback: () -> Unit) {
+        viewModelScope.launch {
+            deleteCostUseCase.invoke(cost)
+                .onSuccess { callback.invoke() }
+                .onFailure { error -> mutableState.value = CostsViewState.Error(error.message) }
         }
     }
 
