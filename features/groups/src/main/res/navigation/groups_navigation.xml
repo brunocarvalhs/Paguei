@@ -15,6 +15,9 @@
         <action
                 android:id="@+id/action_homesListDialogFragment_to_homesRegisterFragment"
                 app:destination="@id/groupsRegisterFragment" />
+        <action
+                android:id="@+id/action_groupsListDialogFragment_to_editGroupFragment"
+                app:destination="@id/editGroupFragment" />
     </dialog>
 
     <fragment
@@ -25,9 +28,14 @@
         <deepLink app:uri="@string/deeplink_group_register" />
 
     </fragment>
+
     <fragment
             android:id="@+id/editGroupFragment"
             android:name="br.com.brunocarvalhs.groups.edit.EditGroupFragment"
-            tools:layout="@layout/fragment_edit_group" />
+            tools:layout="@layout/fragment_edit_group" >
+        <argument
+                android:name="group"
+                app:argType="br.com.brunocarvalhs.domain.entities.GroupEntities" />
+    </fragment>
 
 </navigation>

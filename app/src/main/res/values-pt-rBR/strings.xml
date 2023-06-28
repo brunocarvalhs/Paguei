@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="update_success">Atualização</string>
+    <string name="update_message">Agora será necessário reiniciar o aplicativo para finalizar a atualização.</string>
+    <string name="update_button">OK</string>
+</resources>

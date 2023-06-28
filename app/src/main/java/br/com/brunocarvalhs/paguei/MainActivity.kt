@@ -2,7 +2,6 @@ package br.com.brunocarvalhs.paguei
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -12,23 +11,24 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import br.com.brunocarvalhs.commons.ManagerToolbar
 import br.com.brunocarvalhs.paguei.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.gms.tasks.Task
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ManagerToolbar {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
     private lateinit var appUpdateManager: AppUpdateManager
-    private lateinit var listener: InstallStateUpdatedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,67 +67,55 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
         navController.handleDeepLink(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
-        appUpdateManager = AppUpdateManagerFactory.create(this)
-        listener = InstallStateUpdatedListener { state ->
-            if (state.installStatus() == InstallStatus.DOWNLOADING) {
-                popupSnackbarForCompleteUpdate()
-            }
-        }
-        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                popupSnackbarForCompleteUpdate()
-            } else {
-                upgrade(appUpdateInfo)
-            }
-        }
-        appUpdateManager.registerListener(listener)
+    private fun triggerAppUpdate(appUpdateInfo: AppUpdateInfo) {
+        showFlexibleUpdate(appUpdateInfo)
     }
 
-    private fun popupSnackbarForCompleteUpdate() {
-        Snackbar.make(
-            binding.root,
-            "An update has just been downloaded.",
-            Snackbar.LENGTH_INDEFINITE
-        ).apply {
-            setAction("RESTART") { appUpdateManager.completeUpdate() }
-            show()
-        }
-    }
-
-    private fun upgrade(appUpdateInfo: AppUpdateInfo) {
-        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-            && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
-        ) {
+    private fun showImmediateUpdate(appUpdateInfo: AppUpdateInfo) {
+        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE || appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS || appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
             appUpdateManager.startUpdateFlowForResult(
-                appUpdateInfo,
-                AppUpdateType.FLEXIBLE,
-                this,
-                REQUEST_UPDATE
+                appUpdateInfo, AppUpdateType.IMMEDIATE, this, APP_UPDATE_REQUEST_CODE
             )
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_UPDATE) {
-            if (resultCode != RESULT_OK) {
-                Log.e(getString(R.string.app_name), "Update flow failed! Result code: $resultCode")
+    private fun showFlexibleUpdate(appUpdateInfo: AppUpdateInfo) {
+        if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+            showInstallAlert(onOKClick = {
+                appUpdateManager.completeUpdate()
+            })
+        } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS || appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+            appUpdateManager.startUpdateFlowForResult(
+                appUpdateInfo, AppUpdateType.FLEXIBLE, this, APP_UPDATE_REQUEST_CODE
+            )
+        }
+    }
+
+    private fun showInstallAlert(onOKClick: () -> Task<Void>) {
+        MaterialAlertDialogBuilder(this).setTitle(getString(R.string.update_success))
+            .setMessage(getString(R.string.update_message))
+            .setNeutralButton(getString(R.string.update_button)) { _, _ ->
+                onOKClick.invoke()
+            }.show()
+    }
+
+    private fun updateApplication() {
+        if (BuildConfig.DEBUG) {
+            appUpdateManager = FakeAppUpdateManager(this)
+            (appUpdateManager as FakeAppUpdateManager).setUpdateAvailable(2)
+
+            appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+                triggerAppUpdate(appUpdateInfo)
+            }
+        } else {
+            appUpdateManager = AppUpdateManagerFactory.create(this)
+            appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+                triggerAppUpdate(appUpdateInfo)
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        appUpdateManager.unregisterListener(listener)
-    }
-
-    private fun updateApplication() {
-        appUpdateManager = AppUpdateManagerFactory.create(this)
-    }
-
     companion object {
-        private const val REQUEST_UPDATE = 3456
+        private const val APP_UPDATE_REQUEST_CODE = 3
     }
 }

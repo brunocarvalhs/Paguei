@@ -11,7 +11,6 @@ import br.com.brunocarvalhs.costs.databinding.DialogCostsSelectedBinding
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.services.AnalyticsService
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,7 +42,6 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
         binding.content.text = requireContext().getString(
             R.string.selected_cost_description, viewModel.cost.name, viewModel.cost.value.toString()
         )
-        binding.delete.setOnClickListener { questionDelete() }
         binding.yes.setOnClickListener { navigateToPaymentVoucher(viewModel.cost) }
         binding.not.setOnClickListener { navigateToCancel() }
     }
@@ -65,29 +63,6 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
 
     override fun argumentsView(arguments: Bundle) {
 
-    }
-
-    private fun questionDelete() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.question_delete_title))
-            .setMessage(
-                getString(
-                    R.string.question_delete_message,
-                    viewModel.cost.name,
-                    viewModel.cost.value
-                )
-            )
-            .setNegativeButton(getString(R.string.question_delete_negative_text)) { _, _ ->
-                findNavController().popBackStack()
-            }.setPositiveButton(getString(R.string.question_delete_positive_text)) { _, _ ->
-                viewModel.deleteCost()
-
-                analyticsService.trackEvent(
-                    AnalyticsService.Events.CLICK_EVENT,
-                    mapOf(Pair("event_name", "delete_cost")),
-                    CostsSelectedDialogFragment::class
-                )
-            }.show()
     }
 
     private fun navigateToPaymentVoucher(cost: CostEntities) {

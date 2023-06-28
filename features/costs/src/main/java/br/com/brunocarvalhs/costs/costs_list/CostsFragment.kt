@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.commons.BaseFragment
 import br.com.brunocarvalhs.costs.R
@@ -15,8 +16,10 @@ import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
@@ -85,6 +88,8 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
     private fun setupList() {
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
+        ItemTouchHelper(adapter.simpleItemTouchCallback)
+            .attachToRecyclerView(binding.list)
     }
 
     private fun defineTotalCosts(total: Int = 0) {
@@ -235,5 +240,38 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
         )
 
         return true
+    }
+
+    override fun onSwipeLeft(costEntities: CostEntities, position: Int) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.question_delete_title))
+            .setMessage(
+                getString(
+                    R.string.question_delete_message,
+                    costEntities.name,
+                    costEntities.value
+                )
+            )
+            .setNegativeButton(getString(R.string.question_delete_negative_text)) { _, _ ->
+                adapter.notifyDataSetChanged()
+            }.setPositiveButton(getString(R.string.question_delete_positive_text)) { _, _ ->
+                viewModel.deleteCost(costEntities) {
+                    adapter.removeItem(position)
+                    defineTotalCosts(adapter.values.size)
+                }
+
+                analyticsService.trackEvent(
+                    AnalyticsService.Events.CLICK_EVENT,
+                    mapOf(Pair("event_name", "delete_cost")),
+                    CostsFragment::class
+                )
+            }.show()
+    }
+
+    override fun onSwipeRight(costEntities: CostEntities, position: Int) {
+        val action =
+            CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(costEntities)
+        findNavController().navigate(action)
+
     }
 }
