@@ -35,6 +35,26 @@ data class CostsModel(
         return numberFormat.format((this.value)?.toDouble())
     }
 
+    override fun copyWith(
+        name: String?,
+        prompt: String?,
+        value: String?,
+        barCode: String?,
+        paymentVoucher: String?,
+        datePayment: String?,
+        dateReferenceMonth: String?
+    ): CostEntities {
+        return this.copy(
+            id = id,
+            name = prompt,
+            prompt = value,
+            value = barCode,
+            barCode = paymentVoucher,
+            paymentVoucher = datePayment,
+            datePayment = dateReferenceMonth
+        )
+    }
+
     companion object {
         fun fromJson(value: String): CostEntities = Gson().fromJson(value, CostsModel::class.java)
     }
