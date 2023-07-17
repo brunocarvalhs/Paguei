@@ -9,6 +9,7 @@
     <string name="fragment_billet_registration_form_button_cancel_text">Cancel</string>
     <string name="fragment_billet_registration_form_button_registration_text">Register</string>
     <string name="billet_registration_textfield_referring_month_hilt">Referring Month</string>
+    <string name="billet_registration_textfield_type_hilt">Type of cost</string>
     <string name="error_empty_field">Field %1$s cannot be empty</string>
     <string name="type_fix">Fix</string>
     <string name="type_variable">Variable</string>
