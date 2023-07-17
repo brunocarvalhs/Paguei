@@ -78,6 +78,10 @@ object UseCaseModule {
     fun useCaseFetchExtractsCostsUseCase(useCase: FetchExtractsCostsUseCaseImpl): FetchExtractsCostsUseCase =
         useCase
 
+    @Provides
+    fun useCasMoveCostUseCase(useCase: MoveCostUseCaseImpl): MoveCostUseCase =
+        useCase
+
     // Group
 
     @Provides
