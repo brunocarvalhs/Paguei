@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/groupsFragment"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="Groups"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/groupsFragment"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="@string/menu_text_group"
+            app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/extractFragment"
-        android:icon="@drawable/ic_baseline_extracts_24"
-        android:title="@string/menu_text_extract"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/extractFragment"
+            android:icon="@drawable/ic_baseline_extracts_24"
+            android:title="@string/menu_text_extract"
+            app:showAsAction="ifRoom" />
+
+    <item
+            android:id="@+id/calculationFragment"
+            android:icon="@drawable/ic_baseline_calculate_24"
+            android:title="@string/menu_text_calculation"
+            android:visible="false" />
+
+    <item
+            android:id="@+id/checkListFragment"
+            android:icon="@drawable/ic_baseline_checklist_24"
+            android:title="@string/menu_text_check_list" />
+
 </menu>

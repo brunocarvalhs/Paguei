@@ -58,13 +58,37 @@
                             app:startIconDrawable="@drawable/ic_baseline_doc_24"
                             app:layout_constraintTop_toBottomOf="@+id/text">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/name_auto_complete"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@={viewModel.name}"
                                 android:inputType="text" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/type"
+                            android:text="Tipo"
+                            android:layout_marginTop="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    <RadioGroup
+                            android:id="@+id/types"
+                            android:checkedButton="@+id/radio_button_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill_horizontal"
+                            android:orientation="horizontal"
+                            android:layout_above="@+id/type"
+                            android:layout_marginBottom="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/type" />
 
                     <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/referring_month"
@@ -76,7 +100,7 @@
                             app:endIconMode="custom"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/name"
+                            app:layout_constraintTop_toBottomOf="@+id/types"
                             app:startIconDrawable="@drawable/ic_baseline_calendar_view_month_24">
 
                         <com.google.android.material.textfield.TextInputEditText

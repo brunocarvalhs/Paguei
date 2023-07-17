@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/billet_registration" />
             <option value="$PROJECT_DIR$/features/calculation" />
+            <option value="$PROJECT_DIR$/features/check_list" />
             <option value="$PROJECT_DIR$/features/costs" />
             <option value="$PROJECT_DIR$/features/extracts" />
             <option value="$PROJECT_DIR$/features/groups" />

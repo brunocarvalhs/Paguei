@@ -9,6 +9,8 @@ import br.com.brunocarvalhs.commons.utils.moneyReplace
 import br.com.brunocarvalhs.data.model.CostsModel
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.domain.usecase.cost.AddCostUseCase
+import br.com.brunocarvalhs.domain.usecase.cost.FetchCostsUseCase
+import br.com.brunocarvalhs.domain.usecase.cost.FetchExtractsCostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -19,6 +21,8 @@ import javax.inject.Inject
 class BilletRegistrationFormViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val useCase: AddCostUseCase,
+    private val fetchCostsUseCase: FetchCostsUseCase,
+    private val fetchExtractsCostsUseCase: FetchExtractsCostsUseCase,
     private val analyticsService: AnalyticsService,
 ) : BaseViewModel<BilletRegistrationFormViewState>() {
 
@@ -29,6 +33,7 @@ class BilletRegistrationFormViewModel @Inject constructor(
         BilletRegistrationFormFragmentArgs.fromSavedStateHandle(savedStateHandle).barcode
     )
     val dateReferenceMonth = ObservableField(SimpleDateFormat(FORMAT_MONTH).format(Date()))
+    val type = ObservableField<String>()
 
     fun saveCost() {
         viewModelScope.launch {
@@ -51,11 +56,20 @@ class BilletRegistrationFormViewModel @Inject constructor(
         }
     }
 
-    private fun generateCost() = CostsModel(
-        name = name.get(),
+    private fun generateCost() = CostsModel(name = name.get(),
         prompt = prompt.get(),
         value = value.get()?.moneyReplace(),
         barCode = barCode.get(),
-        dateReferenceMonth = dateReferenceMonth.get()
-    )
+        dateReferenceMonth = dateReferenceMonth.get(),
+        type = type.get()?.let { TypeCost.valueOf(it).name } ?: TypeCost.FIX.name)
+
+    fun fetchData() {
+        viewModelScope.launch {
+            mutableState.value = BilletRegistrationFormViewState.Loading
+            val list: MutableList<String?> = emptyList<String?>().toMutableList()
+            fetchCostsUseCase.invoke().getOrNull()?.map { list.add(it.name) }
+            fetchExtractsCostsUseCase.invoke().getOrNull()?.map { list.add(it.name) }
+            mutableState.value = BilletRegistrationFormViewState.ListName(list.mapNotNull { it })
+        }
+    }
 }

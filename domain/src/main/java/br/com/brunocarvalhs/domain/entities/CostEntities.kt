@@ -5,6 +5,7 @@ import java.io.Serializable
 interface CostEntities : Serializable {
     val id: String
     val name: String?
+    val type: String?
     val prompt: String?
     val value: String?
     val barCode: String?
@@ -24,7 +25,7 @@ interface CostEntities : Serializable {
         paymentVoucher: String? = this.paymentVoucher,
         datePayment: String? = this.datePayment,
         dateReferenceMonth: String? = this.dateReferenceMonth
-    ) : CostEntities
+    ): CostEntities
 
     companion object {
 
@@ -32,6 +33,7 @@ interface CostEntities : Serializable {
 
         const val ID = "id"
         const val NAME = "name"
+        const val TYPE_COST = "type"
         const val PROMPT = "prompt"
         const val VALUE = "value"
         const val BAR_CODE = "barCode"

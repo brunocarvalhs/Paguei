@@ -1,10 +1,12 @@
 package br.com.brunocarvalhs.data.di
 
 import br.com.brunocarvalhs.data.usecase.auth.*
+import br.com.brunocarvalhs.data.usecase.check_list.CheckListUseCaseImpl
 import br.com.brunocarvalhs.data.usecase.cost.*
 import br.com.brunocarvalhs.data.usecase.group.*
 import br.com.brunocarvalhs.data.usecase.report.*
 import br.com.brunocarvalhs.domain.usecase.auth.*
+import br.com.brunocarvalhs.domain.usecase.check_list.CheckListUseCase
 import br.com.brunocarvalhs.domain.usecase.cost.*
 import br.com.brunocarvalhs.domain.usecase.group.*
 import br.com.brunocarvalhs.domain.usecase.report.*
@@ -109,5 +111,11 @@ object UseCaseModule {
 
     @Provides
     fun useCaseCalculatePaymentPromptnessUseCase(useCase: CalculatePaymentPromptnessUseCaseImpl): CalculatePaymentPromptnessUseCase =
+        useCase
+
+    // Check List
+
+    @Provides
+    fun useCaseCheckListUseCaseImpl(useCase: CheckListUseCaseImpl): CheckListUseCase =
         useCase
 }

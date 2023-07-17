@@ -83,4 +83,10 @@ class Navigation @Inject constructor(
             createDeeplink(context.getString(R.string.deeplink_calculation).toUri())
         }
     }
+
+    fun navigateToCheckList(): NavDeepLinkRequest {
+        return validationAuth {
+            createDeeplink(context.getString(R.string.deeplink_check_list).toUri())
+        }
+    }
 }

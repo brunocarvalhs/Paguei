@@ -2,7 +2,6 @@ package br.com.brunocarvalhs.costs.costs_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -121,16 +120,8 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
             }
             binding.cadastrados.setOnClickListener { navigateToReport() }
 
-            if (it.isGroup && list?.isNotEmpty() == true) {
-                binding.bottomAppBar.menu
-                    .add(
-                        MenuItem.SHOW_AS_ACTION_IF_ROOM,
-                        R.id.calculationFragment,
-                        MenuItem.SHOW_AS_ACTION_IF_ROOM,
-                        getString(R.string.menu_text_calculation)
-                    )
-                    .setIcon(R.drawable.ic_baseline_calculate_24)
-            }
+            binding.bottomAppBar.menu.findItem(R.id.calculationFragment).isVisible =
+                it.isGroup && list?.isNotEmpty() == true
         }
     }
 
@@ -152,9 +143,23 @@ class CostsFragment : BaseFragment<FragmentCostsListBinding>(),
                 R.id.extractFragment -> navigateToExtracts()
                 R.id.groupsFragment -> navigateToGroups()
                 R.id.calculationFragment -> navigateToCalculation()
+                R.id.checkListFragment -> navigateToCheckList()
                 else -> false
             }
         }
+    }
+
+    private fun navigateToCheckList(): Boolean {
+        val action = navigation.navigateToCheckList()
+        findNavController().navigate(action)
+
+        analyticsService.trackEvent(
+            AnalyticsService.Events.CHECK_LIST_MENU_SELECTED,
+            mapOf(),
+            CostsFragment::class
+        )
+
+        return true
     }
 
     private fun navigateToCalculation(): Boolean {

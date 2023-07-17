@@ -3,6 +3,8 @@ package br.com.brunocarvalhs.billet_registration.form
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.billet_registration.R
@@ -62,6 +64,11 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         adsService.initFullBanner(getString(R.string.costs_register_banner))
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchData()
+    }
+
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
     ): FragmentBilletRegistrationFormBinding =
@@ -73,6 +80,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
                 is BilletRegistrationFormViewState.Error -> this.showError(it.error)
                 BilletRegistrationFormViewState.Loading -> this.loading()
                 BilletRegistrationFormViewState.Success -> cancelRegistration()
+                is BilletRegistrationFormViewState.ListName -> this.setupAutoCompleteName(it.names)
             }
         }
     }
@@ -136,6 +144,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
                 binding.barcode.error = null
             }
         }
+        setupTypes()
     }
 
     private fun saveCost() {
@@ -209,5 +218,28 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         options.setBeepEnabled(false)
         options.setBarcodeImageEnabled(true)
         barcodeLauncher.launch(options)
+    }
+
+    private fun setupAutoCompleteName(names: List<String>) {
+        val adapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_dropdown_item_1line, names
+        )
+        binding.nameAutoComplete.setAdapter(adapter)
+    }
+
+    private fun setupTypes() {
+        val list = TypeCost.values().map { createType(it) }
+        list.forEach { binding.types.addView(it) }
+        binding.types.check(TypeCost.FIX.ordinal)
+        binding.types.setOnCheckedChangeListener { _, checkedId ->
+            viewModel.type.set(TypeCost.ordinalOf(checkedId).name)
+        }
+    }
+
+    private fun createType(type: TypeCost): RadioButton {
+        val button = RadioButton(requireContext())
+        button.id = type.ordinal
+        button.text = getString(type.value)
+        return button
     }
 }

@@ -8,6 +8,7 @@ import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.ID
 import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.NAME
 import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.PAYMENT_VOUCHER
 import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.PROMPT
+import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.TYPE_COST
 import br.com.brunocarvalhs.domain.entities.CostEntities.Companion.VALUE
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
@@ -23,6 +24,7 @@ data class CostsModel(
     @SerializedName(PAYMENT_VOUCHER) override val paymentVoucher: String? = null,
     @SerializedName(DATE_PAYMENT) override val datePayment: String? = null,
     @SerializedName(DATE_REFERENCE_MONTH) override val dateReferenceMonth: String? = null,
+    @SerializedName(TYPE_COST) override val type: String? = null,
 ) : CostEntities {
     override fun toMap(): Map<String?, Any?> =
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)

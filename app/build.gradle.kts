@@ -105,6 +105,7 @@ dependencies {
     implementation(project(mapOf("path" to ":features:profile")))
     implementation(project(mapOf("path" to ":features:report")))
     implementation(project(mapOf("path" to ":features:calculation")))
+    implementation(project(mapOf("path" to ":features:check_list")))
 
     // Modules
     implementation(project(mapOf("path" to ":data")))
