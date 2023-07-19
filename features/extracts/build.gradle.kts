@@ -71,25 +71,25 @@ dependencies {
     implementation(Dependencies.UI.APPCOMPAT)
     implementation(Dependencies.UI.FRAGMENT_KTX)
     implementation(Dependencies.UI.DATABINDING_COMMON)
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
     implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
     implementation(Dependencies.UI.COORDINATOR_LAYOUT)
     implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
     implementation(Dependencies.UI.NAVIGATION_UI)
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.9.0")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
     testImplementation(Dependencies.Test.MOCKITO)
     testImplementation("androidx.test.ext:junit-ktx:1.1.5")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
     androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
     androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
 
     // Hilt dependencies
     implementation(Dependencies.Hilt.ANDROID)
     kapt(Dependencies.Hilt.ANDROID_COMPILER)
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.6.0")
 
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)
