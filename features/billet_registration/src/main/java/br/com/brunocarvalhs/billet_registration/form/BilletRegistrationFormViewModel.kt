@@ -69,7 +69,8 @@ class BilletRegistrationFormViewModel @Inject constructor(
             val list: MutableList<String?> = emptyList<String?>().toMutableList()
             fetchCostsUseCase.invoke().getOrNull()?.map { list.add(it.name) }
             fetchExtractsCostsUseCase.invoke().getOrNull()?.map { list.add(it.name) }
-            mutableState.value = BilletRegistrationFormViewState.ListName(list.mapNotNull { it })
+            mutableState.value =
+                BilletRegistrationFormViewState.ListName(list.distinct().mapNotNull { it })
         }
     }
 }

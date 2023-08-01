@@ -9,6 +9,7 @@ import br.com.brunocarvalhs.check_list.databinding.ItemCheckBinding
 
 class CheckListRecyclerViewAdapter(
     private val context: Context,
+    private val listeners: Listeners,
 ) : RecyclerView.Adapter<CheckListRecyclerViewAdapter.ViewHolder>() {
 
     var values = mutableListOf<CheckListData>()
@@ -42,7 +43,8 @@ class CheckListRecyclerViewAdapter(
         val check = CheckBox(context)
         check.text = name
         check.isChecked = state
-        check.isEnabled = false
+        check.isEnabled = !state
+        check.setOnClickListener { listeners.onSelect(name) }
         return check
     }
 
@@ -55,4 +57,8 @@ class CheckListRecyclerViewAdapter(
     data class CheckListData(
         val name: String, val values: Map<String?, Boolean>
     )
+
+    interface Listeners {
+        fun onSelect(name: String?)
+    }
 }

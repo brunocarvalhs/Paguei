@@ -197,7 +197,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
     }
 
     private fun cancelRegistration() {
-        val action = navigation.navigateToCostsRegister()
+        val action = navigation.navigateToCosts()
         findNavController().navigate(action)
         adsService.fullBanner(requireActivity())
     }

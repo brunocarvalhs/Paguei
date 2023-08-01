@@ -4,16 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.brunocarvalhs.check_list.databinding.FragmentCheckListBinding
 import br.com.brunocarvalhs.commons.BaseFragment
+import br.com.brunocarvalhs.data.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class CheckListFragment : BaseFragment<FragmentCheckListBinding>() {
+class CheckListFragment : BaseFragment<FragmentCheckListBinding>(),
+    CheckListRecyclerViewAdapter.Listeners {
+
+    @Inject
+    lateinit var navigation: Navigation
 
     private val viewModel: CheckListViewModel by viewModels()
-    private val adapter by lazy { CheckListRecyclerViewAdapter(requireContext()) }
+    private val adapter by lazy { CheckListRecyclerViewAdapter(requireContext(), this) }
 
     override fun createBinding(
         inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean
@@ -57,5 +64,10 @@ class CheckListFragment : BaseFragment<FragmentCheckListBinding>() {
     private fun setupList() {
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
+    }
+
+    override fun onSelect(name: String?) {
+        val action = navigation.navigateToCostRegister()
+        findNavController().navigate(action)
     }
 }

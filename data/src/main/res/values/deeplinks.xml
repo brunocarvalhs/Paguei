@@ -7,6 +7,8 @@
     <string name="deeplink_group_register">android-app://paguei.app/group/register</string>
     <!--  Costs  -->
     <string name="deeplink_costs">android-app://paguei.app/costs</string>
+    <string name="deeplink_cost_read">android-app://paguei.app/cost/{cost}</string>
+    <string name="deeplink_cost_register">android-app://paguei.app/cost/register</string>
     <!--  Auth  -->
     <string name="deeplink_login">android-app://paguei.app/login</string>
     <!--  Extracts  -->
