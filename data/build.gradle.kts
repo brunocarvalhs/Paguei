@@ -35,6 +35,9 @@ android {
             isJniDebuggable = BuildTypeDebug.isDebuggable
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions {
         sourceCompatibility = AndroidConfig.JAVA_VERSION
         targetCompatibility = AndroidConfig.JAVA_VERSION
@@ -50,6 +53,7 @@ dependencies {
     // Core dependencies
     implementation(Dependencies.Core.KTX)
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
+    implementation("com.google.android.play:app-update-ktx:2.0.1")
 
     // Firebase dependencies
     implementation(platform(Dependencies.Firebase.BOM))
@@ -64,6 +68,7 @@ dependencies {
     implementation(Dependencies.Network.GSON)
     implementation("androidx.navigation:navigation-common-ktx:2.6.0")
     implementation("com.google.firebase:firebase-messaging-ktx:23.2.0")
+    implementation("com.google.android.material:material:1.9.0")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
