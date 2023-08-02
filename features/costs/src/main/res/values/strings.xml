@@ -18,6 +18,7 @@
     <string name="fragment_cost_reader_button_update_text">Update</string>
     <string name="textfield_payment_voucher_hilt">Voucher URL</string>
     <string name="fragment_payment_voucher_registration_button_text">Save voucher</string>
+    <string name="menu_text_group">Group</string>
     <string name="menu_text_extract">Extracts</string>
     <string name="menu_text_calculation">Calculation</string>
     <string name="fragment_costs_list_button_add_text">Add bill</string>
@@ -30,4 +31,5 @@
     <string name="question_delete_positive_text">Yes</string>
     <string name="copy_success">Code successfully copied</string>
     <string name="fragment_payment_voucher_textfield_date_payment_hilt">Payment date</string>
+    <string name="menu_text_check_list">Check List</string>
 </resources>

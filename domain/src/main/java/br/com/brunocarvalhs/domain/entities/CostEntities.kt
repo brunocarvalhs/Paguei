@@ -5,6 +5,7 @@ import java.io.Serializable
 interface CostEntities : Serializable {
     val id: String
     val name: String?
+    val type: String?
     val prompt: String?
     val value: String?
     val barCode: String?
@@ -16,12 +17,23 @@ interface CostEntities : Serializable {
     fun toJson(): String
     fun formatValue(): String
 
+    fun copyWith(
+        name: String? = this.name,
+        prompt: String? = this.prompt,
+        value: String? = this.value,
+        barCode: String? = this.barCode,
+        paymentVoucher: String? = this.paymentVoucher,
+        datePayment: String? = this.datePayment,
+        dateReferenceMonth: String? = this.dateReferenceMonth
+    ): CostEntities
+
     companion object {
 
         const val COLLECTION = "costs"
 
         const val ID = "id"
         const val NAME = "name"
+        const val TYPE_COST = "type"
         const val PROMPT = "prompt"
         const val VALUE = "value"
         const val BAR_CODE = "barCode"

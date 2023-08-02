@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CostsRepositoryImpl @Inject constructor(
-    database: FirebaseFirestore,
+    private val database: FirebaseFirestore,
     private val sessionManager: SessionManager,
 ) : CostsRepository {
 
@@ -66,6 +66,36 @@ class CostsRepositoryImpl @Inject constructor(
     override suspend fun delete(cost: CostEntities) = withContext(Dispatchers.IO) {
         try {
             collection.document(cost.id).delete().await()
+            return@withContext
+        } catch (error: Exception) {
+            throw error
+        }
+    }
+
+    override suspend fun moveDocumentToCollection(
+        cost: CostEntities,
+        targetCollection: String,
+        targetId: String
+    ) = withContext(Dispatchers.IO) {
+        try {
+            val sourceCollection = when {
+                sessionManager.isGroupSession() -> "${GroupEntities.COLLECTION}/${sessionManager.getGroup()?.id}/${CostEntities.COLLECTION}"
+                else -> "${UserEntities.COLLECTION}/${sessionManager.getUser()?.id}/${CostEntities.COLLECTION}"
+            }
+
+            val sourceDocRef = database.collection(sourceCollection).document(cost.id)
+            val targetDocRef = database.collection(targetCollection).document(cost.id)
+
+            database.runTransaction { transaction ->
+                val sourceDocument = transaction.get(sourceDocRef)
+                if (sourceDocument.exists()) {
+                    transaction.set(targetDocRef, sourceDocument.data!!)
+                    transaction.delete(sourceDocRef)
+                } else {
+                    throw Exception("Document does not exist in the source collection.")
+                }
+            }.await()
+
             return@withContext
         } catch (error: Exception) {
             throw error

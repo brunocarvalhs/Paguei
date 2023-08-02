@@ -76,7 +76,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             viewModel.dataStore.put(preference.key, newValue.toString())
             true
         }
-        notifications?.callChangeListener(viewModel.dataStore.get("notifications", true))
+        notifications?.callChangeListener(viewModel.dataStore.getBoolean("notifications", true))
     }
 
     private fun setupFeedback() {
@@ -103,7 +103,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             viewModel.dataStore.put(preference.key, newValue.toString())
             true
         }
-        analytics?.callChangeListener(viewModel.dataStore.get("analytics", true))
+        analytics?.callChangeListener(viewModel.dataStore.getBoolean("analytics", true))
     }
 
     private fun dialogDeleteData() {

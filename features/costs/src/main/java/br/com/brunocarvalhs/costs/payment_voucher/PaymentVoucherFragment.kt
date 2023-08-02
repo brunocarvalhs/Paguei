@@ -65,7 +65,7 @@ class PaymentVoucherFragment : BaseFragment<FragmentPaymentVoucherBinding>() {
     }
 
     private fun navigateToCosts() {
-        val action = navigation.navigateToCostsRegister()
+        val action = navigation.navigateToCosts()
         findNavController().navigate(action)
     }
 

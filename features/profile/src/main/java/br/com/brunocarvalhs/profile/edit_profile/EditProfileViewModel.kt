@@ -4,7 +4,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.commons.utils.moneyReplace
-import br.com.brunocarvalhs.data.model.UserModel
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.usecase.auth.GetUserSessionUseCase
 import br.com.brunocarvalhs.domain.usecase.auth.UpdateUserUseCase
@@ -29,10 +28,12 @@ class EditProfileViewModel @Inject constructor(
     fun update() {
         viewModelScope.launch {
             mutableState.value = EditProfileViewState.Loading
-            updateUserUseCase.invoke(updateUser()).onSuccess {
-                mutableState.value = EditProfileViewState.Success
-            }.onFailure { error ->
-                mutableState.value = EditProfileViewState.Error(error.message)
+            updateUser()?.let {
+                updateUserUseCase.invoke(it).onSuccess {
+                    mutableState.value = EditProfileViewState.Success
+                }.onFailure { error ->
+                    mutableState.value = EditProfileViewState.Error(error.message)
+                }
             }
         }
     }
@@ -46,7 +47,7 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    private fun updateUser(): UserEntities = (user as UserModel).copy(
+    private fun updateUser(): UserEntities? = user?.copyWith(
         name = this.name.get(),
         salary = this.salary.get()?.moneyReplace()
     )

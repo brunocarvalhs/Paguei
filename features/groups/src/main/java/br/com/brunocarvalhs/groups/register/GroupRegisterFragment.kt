@@ -68,7 +68,7 @@ class GroupRegisterFragment : BaseFragment<FragmentGroupRegisterBinding>(),
     }
 
     private fun navigateToCosts() {
-        val action = navigation.navigateToCostsRegister()
+        val action = navigation.navigateToCosts()
         findNavController().navigate(action)
     }
 

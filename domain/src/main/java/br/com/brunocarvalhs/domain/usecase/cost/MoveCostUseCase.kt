@@ -1,0 +1,11 @@
+package br.com.brunocarvalhs.domain.usecase.cost
+
+import br.com.brunocarvalhs.domain.entities.CostEntities
+
+interface MoveCostUseCase {
+    suspend operator fun invoke(
+        cost: CostEntities,
+        targetCollection: String,
+        targetId: String
+    ): Result<Unit>
+}
