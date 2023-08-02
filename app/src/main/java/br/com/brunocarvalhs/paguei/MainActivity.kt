@@ -10,9 +10,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import br.com.brunocarvalhs.commons.ManagerToolbar
-import br.com.brunocarvalhs.data.services.UpdateVersionService
+import br.com.brunocarvalhs.domain.services.UpdateVersionService
 import br.com.brunocarvalhs.paguei.databinding.ActivityMainBinding
-import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,7 +21,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), ManagerToolbar {
 
     @Inject
-    private lateinit var updateVersionService: UpdateVersionService
+    lateinit var updateVersionService: UpdateVersionService
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -66,14 +65,13 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
 
     private fun setupUpdate() {
         updateVersionService.updateApplication(
-            activity = this,
-            type = UpdateVersionService.Type.IMMEDIATE
+            activity = this, type = UpdateVersionService.Type.IMMEDIATE
         ) {
             showInstallAlert { it }
         }
     }
 
-    private fun showInstallAlert(onOKClick: () -> Task<Void>) {
+    private fun showInstallAlert(onOKClick: () -> Void) {
         MaterialAlertDialogBuilder(this).setTitle(getString(R.string.update_success))
             .setMessage(getString(R.string.update_message))
             .setNeutralButton(getString(R.string.update_button)) { _, _ ->

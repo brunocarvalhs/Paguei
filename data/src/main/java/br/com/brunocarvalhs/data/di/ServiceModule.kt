@@ -4,11 +4,12 @@ import br.com.brunocarvalhs.data.services.AdsServiceImpl
 import br.com.brunocarvalhs.data.services.AnalyticsServiceImpl
 import br.com.brunocarvalhs.data.services.AuthenticationService
 import br.com.brunocarvalhs.data.services.NotificationServiceImpl
-import br.com.brunocarvalhs.data.services.UpdateVersionService
+import br.com.brunocarvalhs.data.services.UpdateVersionServiceImpl
 import br.com.brunocarvalhs.domain.services.AdsService
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.domain.services.Authentication
 import br.com.brunocarvalhs.domain.services.NotificationService
+import br.com.brunocarvalhs.domain.services.UpdateVersionService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,8 +24,7 @@ object ServiceModule {
     fun providerAnalyticsService(service: AnalyticsServiceImpl): AnalyticsService = service
 
     @Provides
-    fun providerAuthService(service: AuthenticationService): Authentication =
-        service
+    fun providerAuthService(service: AuthenticationService): Authentication = service
 
     @Provides
     @Singleton
@@ -35,5 +35,6 @@ object ServiceModule {
     fun providerAdsService(service: AdsServiceImpl): AdsService = service
 
     @Provides
-    fun providerUpdateVersionService(service: UpdateVersionService): UpdateVersionService = service
+    fun providerUpdateVersionService(service: UpdateVersionServiceImpl): UpdateVersionService =
+        service
 }
