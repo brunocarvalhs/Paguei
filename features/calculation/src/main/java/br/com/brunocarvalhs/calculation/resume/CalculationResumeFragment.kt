@@ -112,7 +112,7 @@ class CalculationResumeFragment : BaseFragment<FragmentCalculationResumeBinding>
     }
 
     private fun navigateToCost() {
-        val action = navigation.navigateToCostsRegister()
+        val action = navigation.navigateToCosts()
         findNavController().navigate(action)
     }
 

@@ -42,6 +42,22 @@ data class UserModel(
         return numberFormat.format((this.salary ?: "0.0").toDouble())
     }
 
+    override fun copyWith(
+        name: String?,
+        photoUrl: String?,
+        email: String?,
+        salary: String?
+    ): UserEntities {
+        return this.copy(
+            id = id,
+            name = name,
+            photoUrl = photoUrl,
+            email = email,
+            salary = salary,
+            token = token
+        )
+    }
+
     companion object {
         fun fromJson(value: String): UserEntities = Gson().fromJson(value, UserModel::class.java)
     }

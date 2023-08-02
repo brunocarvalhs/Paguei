@@ -44,9 +44,25 @@ class Navigation @Inject constructor(
         }
     }
 
-    fun navigateToCostsRegister(): NavDeepLinkRequest {
+    fun navigateToCosts(): NavDeepLinkRequest {
         return validationAuth {
             createDeeplink(context.getString(R.string.deeplink_costs).toUri())
+        }
+    }
+
+    fun navigateToCostRegister(): NavDeepLinkRequest {
+        return validationAuth {
+            createDeeplink(context.getString(R.string.deeplink_cost_register).toUri())
+        }
+    }
+
+    fun navigateToCostRead(cost: String): NavDeepLinkRequest {
+        return validationAuth {
+            val deeplink = Uri.parse(context.getString(R.string.deeplink_cost_read)).buildUpon()
+                .appendPath(cost)
+                .build()
+
+            createDeeplink(deeplink)
         }
     }
 
@@ -81,6 +97,12 @@ class Navigation @Inject constructor(
     fun navigateToCalculation(): NavDeepLinkRequest {
         return validationAuth {
             createDeeplink(context.getString(R.string.deeplink_calculation).toUri())
+        }
+    }
+
+    fun navigateToCheckList(): NavDeepLinkRequest {
+        return validationAuth {
+            createDeeplink(context.getString(R.string.deeplink_check_list).toUri())
         }
     }
 }

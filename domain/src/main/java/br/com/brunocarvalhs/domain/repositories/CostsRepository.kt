@@ -8,4 +8,9 @@ interface CostsRepository {
     suspend fun update(cost: CostEntities): CostEntities
     suspend fun delete(cost: CostEntities)
     suspend fun view(cost: CostEntities): CostEntities?
+    suspend fun moveDocumentToCollection(
+        cost: CostEntities,
+        targetCollection: String,
+        targetId: String
+    )
 }

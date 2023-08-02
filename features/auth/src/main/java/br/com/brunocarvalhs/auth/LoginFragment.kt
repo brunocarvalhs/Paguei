@@ -69,7 +69,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun navigateToHome() {
-        val request = navigation.navigateToCostsRegister()
+        val request = navigation.navigateToCosts()
         findNavController().navigate(request)
 
         analyticsService.trackEvent(

@@ -2,8 +2,8 @@ package br.com.brunocarvalhs.data.model
 
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.GroupEntities.Companion.ID
-import br.com.brunocarvalhs.domain.entities.GroupEntities.Companion.NAME
 import br.com.brunocarvalhs.domain.entities.GroupEntities.Companion.MEMBERS
+import br.com.brunocarvalhs.domain.entities.GroupEntities.Companion.NAME
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -17,4 +17,7 @@ data class GroupsModel(
         Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
 
     override fun toJson(): String = Gson().toJson(this)
+    override fun copyWith(name: String?, members: List<String>): GroupEntities {
+        return this.copy(id = id, name = name, members = members)
+    }
 }

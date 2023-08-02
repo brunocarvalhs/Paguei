@@ -19,6 +19,13 @@ interface UserEntities : Serializable {
     fun initialsName(): String?
     fun formatSalary(): String
 
+    fun copyWith(
+        name: String? = this.name,
+        photoUrl: String? = this.photoUrl,
+        email: String? = this.email,
+        salary: String? = this.salary,
+    ): UserEntities
+
     companion object {
         const val COLLECTION = "users"
 

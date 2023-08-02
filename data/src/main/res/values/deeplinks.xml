@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Profile  -->
-    <string name="deeplink_profile">android-app://paguei.app/profile_fragment</string>
+    <string name="deeplink_profile">android-app://paguei.app/profile</string>
     <!--  Groups  -->
-    <string name="deeplink_groups">android-app://paguei.app/groups_fragment</string>
-    <string name="deeplink_group_register">android-app://paguei.app/group_register_fragment</string>
+    <string name="deeplink_groups">android-app://paguei.app/groups</string>
+    <string name="deeplink_group_register">android-app://paguei.app/group/register</string>
     <!--  Costs  -->
-    <string name="deeplink_costs">android-app://paguei.app/costs_fragment</string>
+    <string name="deeplink_costs">android-app://paguei.app/costs</string>
+    <string name="deeplink_cost_read">android-app://paguei.app/cost/{cost}</string>
+    <string name="deeplink_cost_register">android-app://paguei.app/cost/register</string>
     <!--  Auth  -->
-    <string name="deeplink_login">android-app://paguei.app/login_fragment</string>
+    <string name="deeplink_login">android-app://paguei.app/login</string>
     <!--  Extracts  -->
-    <string name="deeplink_extracts">android-app://paguei.app/extracts_fragment</string>
+    <string name="deeplink_extracts">android-app://paguei.app/extracts</string>
     <!--  Billet Registration  -->
-    <string name="deeplink_billet_registration_barcode_scanner">android-app://paguei.app/billet_registration/barcode_scanner</string>
-    <string name="deeplink_billet_registration_form">android-app://paguei.app/billet_registration/form</string>
+    <string name="deeplink_billet_registration_barcode_scanner">android-app://paguei.app/billet/register/scanner</string>
+    <string name="deeplink_billet_registration_form">android-app://paguei.app/billet/register/form</string>
     <!--  Report  -->
-    <string name="deeplink_report">android-app://paguei.app/report_fragment</string>
+    <string name="deeplink_report">android-app://paguei.app/report</string>
     <!--  Calculation  -->
-    <string name="deeplink_calculation">android-app://paguei.app/calculation_fragment</string>
+    <string name="deeplink_calculation">android-app://paguei.app/calculation</string>
+    <!--  Check List  -->
+    <string name="deeplink_check_list">android-app://paguei.app/check/list</string>
 </resources>

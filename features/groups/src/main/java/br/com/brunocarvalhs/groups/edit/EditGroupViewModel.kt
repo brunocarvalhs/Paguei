@@ -4,7 +4,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.data.model.GroupsModel
 import br.com.brunocarvalhs.domain.entities.GroupEntities
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import br.com.brunocarvalhs.domain.services.SessionManager
@@ -106,7 +105,7 @@ class EditGroupViewModel @Inject constructor(
         }
     }
 
-    private fun updateGroup(): GroupEntities = (group as GroupsModel).copy(
+    private fun updateGroup(): GroupEntities = group.copyWith(
         name = this.name.get(),
         members = members.map { it.id }
     )

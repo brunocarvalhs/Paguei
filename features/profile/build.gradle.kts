@@ -1,5 +1,7 @@
 import config.AndroidConfig
 import dependencies.Dependencies
+import flavor.BuildTypeDebug
+import flavor.BuildTypeRelease
 
 plugins {
     id("com.android.library")
@@ -28,23 +30,27 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
+            isJniDebuggable = BuildTypeDebug.isDebuggable
         }
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
         dataBinding = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = AndroidConfig.JAVA_VERSION
+        targetCompatibility = AndroidConfig.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AndroidConfig.JAVA_VERSION.toString()
     }
     lint {
         abortOnError = false

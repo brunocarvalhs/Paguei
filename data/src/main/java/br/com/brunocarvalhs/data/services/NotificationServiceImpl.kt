@@ -81,7 +81,7 @@ class NotificationServiceImpl @Inject constructor(
             notificationManager.areNotificationsEnabled()
         }
 
-        return areNotificationsEnabled && dataStoreService.get(
+        return areNotificationsEnabled && dataStoreService.getBoolean(
             "notifications",
             areNotificationsEnabled
         )

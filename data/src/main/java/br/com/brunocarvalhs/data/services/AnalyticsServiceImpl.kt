@@ -11,7 +11,7 @@ class AnalyticsServiceImpl @Inject constructor(
     private val dataStoreService: DataStoreService
 ) : AnalyticsService {
 
-    private fun isPermissionAnalytics() = dataStoreService.get("analytics", true)
+    private fun isPermissionAnalytics() = dataStoreService.getBoolean("analytics", true)
 
     override fun trackEvent(
         eventName: AnalyticsService.Events,

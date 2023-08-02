@@ -114,7 +114,7 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
 
     private fun selected(group: GroupEntities?) {
         viewModel.selected(group)
-        val action = navigation.navigateToCostsRegister()
+        val action = navigation.navigateToCosts()
         findNavController().navigate(action)
     }
 

@@ -21,6 +21,7 @@
     <string name="textfield_name_text">Nome do grupo</string>
     <string name="textfield_members_text">Membros</string>
     <string name="fragment_payment_voucher_registration_button_text">Salvar comprovante</string>
+    <string name="menu_text_group">Grupo</string>
     <string name="menu_text_extract">Extrato</string>
     <string name="menu_text_calculation">Calcular</string>
     <string name="fragment_costs_list_button_add_text">Adicionar boleto</string>
@@ -31,4 +32,5 @@
     <string name="question_delete_positive_text">Sim</string>
     <string name="copy_success">Código copiado com sucesso</string>
     <string name="fragment_payment_voucher_textfield_date_payment_hilt">Data de pagamento</string>
+    <string name="menu_text_check_list">Check List</string>
 </resources>

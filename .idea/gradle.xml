@@ -7,7 +7,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="11" />
+        <option name="gradleJvm" value="corretto-11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/billet_registration" />
             <option value="$PROJECT_DIR$/features/calculation" />
+            <option value="$PROJECT_DIR$/features/check_list" />
             <option value="$PROJECT_DIR$/features/costs" />
             <option value="$PROJECT_DIR$/features/extracts" />
             <option value="$PROJECT_DIR$/features/groups" />

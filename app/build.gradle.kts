@@ -35,11 +35,7 @@ android {
                 val keyStorePassword = System.getenv("KEYSTORE_PASSWORD")
                 val keyStoreAlias = System.getenv("KEYSTORE_ALIAS")
                 val keyStoreAliasPassword = System.getenv("KEY_PASSWORD")
-                if (
-                    keyStorePassword != null &&
-                    keyStoreAlias != null &&
-                    keyStoreAliasPassword != null
-                ) {
+                if (keyStorePassword != null && keyStoreAlias != null && keyStoreAliasPassword != null) {
                     storeFile = file("release.keystore")
                     storePassword = keyStorePassword
                     keyAlias = keyStoreAlias
@@ -48,7 +44,7 @@ android {
             }
         }
         buildTypes {
-            getByName("release") {
+            release {
                 resValue("string", "app_name", "Paguei!")
                 resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~6485504377")
 
@@ -59,7 +55,7 @@ android {
                     getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
                 )
             }
-            getByName("debug") {
+            debug {
                 resValue("string", "app_name", "Paguei! - Debug")
                 resValue("string", "ID_APP_AD_MOB", "ca-app-pub-1765514781734091~1018252717")
 
@@ -74,9 +70,10 @@ android {
         targetCompatibility = AndroidConfig.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AndroidConfig.JAVA_VERSION.toString()
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
         dataBinding = true
     }
@@ -105,6 +102,7 @@ dependencies {
     implementation(project(mapOf("path" to ":features:profile")))
     implementation(project(mapOf("path" to ":features:report")))
     implementation(project(mapOf("path" to ":features:calculation")))
+    implementation(project(mapOf("path" to ":features:check_list")))
 
     // Modules
     implementation(project(mapOf("path" to ":data")))
@@ -117,7 +115,6 @@ dependencies {
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
     implementation(Dependencies.Core.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.Core.LIFECYCLE_VIEWMODEL)
-    implementation("com.google.android.play:app-update-ktx:2.0.1")
 
     // UI dependencies
     implementation(Dependencies.UI.MATERIAL)

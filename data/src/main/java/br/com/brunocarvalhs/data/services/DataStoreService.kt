@@ -8,10 +8,6 @@ class DataStoreService @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : DataStore {
 
-    companion object {
-        const val PREFERENCE_DATA_STORE = "PREFERENCE_DATA_STORE"
-    }
-
     override fun put(key: String, value: Any) {
         sharedPreferences.edit().apply {
             when (value) {
@@ -26,14 +22,23 @@ class DataStoreService @Inject constructor(
 
     }
 
-    override fun <T : Any> get(key: String, defValue: T): T {
-        return when (defValue) {
-            is Boolean -> sharedPreferences.getBoolean(key, defValue)
-            is Float -> sharedPreferences.getFloat(key, defValue)
-            is Int -> sharedPreferences.getInt(key, defValue)
-            is Long -> sharedPreferences.getLong(key, defValue)
-            is String -> sharedPreferences.getString(key, defValue)
-            else -> sharedPreferences.getString(key, defValue.toString())
-        } as T
+    override fun getBoolean(key: String, defValue: Boolean): Boolean {
+        return sharedPreferences.getBoolean(key, defValue)
+    }
+
+    override fun getFloat(key: String, defValue: Float): Float {
+        return sharedPreferences.getFloat(key, defValue)
+    }
+
+    override fun getInt(key: String, defValue: Int): Int {
+        return sharedPreferences.getInt(key, defValue)
+    }
+
+    override fun getLong(key: String, defValue: Long): Long {
+        return sharedPreferences.getLong(key, defValue)
+    }
+
+    override fun getString(key: String, defValue: String): String? {
+        return sharedPreferences.getString(key, defValue)
     }
 }

@@ -38,6 +38,7 @@
             android:id="@+id/costReaderFragment"
             android:name="br.com.brunocarvalhs.costs.reader_cost.CostReaderFragment"
             tools:layout="@layout/fragment_cost_reader">
+        <deepLink app:uri="@string/deeplink_cost_read" />
         <argument
                 android:name="cost"
                 app:argType="br.com.brunocarvalhs.domain.entities.CostEntities" />
