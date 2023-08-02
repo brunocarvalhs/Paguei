@@ -39,6 +39,7 @@ data class CostsModel(
 
     override fun copyWith(
         name: String?,
+        type: String?,
         prompt: String?,
         value: String?,
         barCode: String?,
@@ -49,6 +50,7 @@ data class CostsModel(
         return this.copy(
             id = id,
             name = prompt,
+            type = type,
             prompt = value,
             value = barCode,
             barCode = paymentVoucher,
