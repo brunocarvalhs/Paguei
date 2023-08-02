@@ -78,5 +78,4 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
                 onOKClick.invoke()
             }.show()
     }
-
 }
