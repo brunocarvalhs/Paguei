@@ -28,15 +28,28 @@ class CheckListRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    fun submitList(list: List<CheckListData>) {
-        values.clear()
-        values.addAll(list)
-        notifyDataSetChanged()
+    fun submitList(list: HashMap<String, Map<String?, Boolean>>) {
+        val newValues = generate(list)
+        val itemsToAdd = newValues.filterNot { newItem ->
+            values.any { existingItem -> existingItem.name == newItem.name }
+        }
+        if (itemsToAdd.isNotEmpty()) {
+            itemsToAdd.forEach { values.add(it) }
+            notifyDataSetChanged()
+        }
     }
 
     fun removeItem(position: Int) {
         values.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    private fun generate(list: HashMap<String, Map<String?, Boolean>>): List<CheckListData> {
+        return list.map { (key, value) ->
+            CheckListData(
+                name = key, values = value
+            )
+        }
     }
 
     private fun createCheckBox(name: String?, state: Boolean): CheckBox {

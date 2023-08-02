@@ -38,13 +38,7 @@ class CheckListFragment : BaseFragment<FragmentCheckListBinding>(),
     }
 
     private fun displayData(list: HashMap<String, Map<String?, Boolean>>) {
-        val result = list.map { (key, value) ->
-            CheckListRecyclerViewAdapter.CheckListData(
-                name = key,
-                values = value
-            )
-        }
-        adapter.submitList(result)
+        adapter.submitList(list)
     }
 
     override fun argumentsView(arguments: Bundle) {
@@ -67,7 +61,7 @@ class CheckListFragment : BaseFragment<FragmentCheckListBinding>(),
     }
 
     override fun onSelect(name: String?) {
-        val action = navigation.navigateToCostRegister()
+        val action = navigation.navigateToBilletRegistrationForm()
         findNavController().navigate(action)
     }
 }

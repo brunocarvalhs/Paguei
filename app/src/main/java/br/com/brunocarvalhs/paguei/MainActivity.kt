@@ -16,8 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ManagerToolbar {
 

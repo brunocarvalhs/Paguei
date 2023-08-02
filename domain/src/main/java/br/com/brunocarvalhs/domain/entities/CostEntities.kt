@@ -19,6 +19,7 @@ interface CostEntities : Serializable {
 
     fun copyWith(
         name: String? = this.name,
+        type: String? = this.type,
         prompt: String? = this.prompt,
         value: String? = this.value,
         barCode: String? = this.barCode,
