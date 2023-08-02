@@ -5,7 +5,7 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  JDK_VERSION: 17
+  JDK_VERSION: 11
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
   APP_NAME: "Paguei"
 
