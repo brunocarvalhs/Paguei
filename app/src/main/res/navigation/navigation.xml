@@ -13,5 +13,6 @@
     <include app:graph="@navigation/profile_navigation" />
     <include app:graph="@navigation/report_navigation" />
     <include app:graph="@navigation/calculation_navigation" />
+    <include app:graph="@navigation/check_list_navigation" />
 
 </navigation>

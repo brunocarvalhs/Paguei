@@ -47,6 +47,30 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/type"
+                            android:text="@string/billet_registration_textfield_type_hilt"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    <RadioGroup
+                            android:id="@+id/types"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill_horizontal"
+                            android:orientation="horizontal"
+                            android:layout_above="@+id/type"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/type" />
+
                     <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/name"
                             android:layout_width="match_parent"
@@ -56,11 +80,13 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:startIconDrawable="@drawable/ic_baseline_doc_24"
-                            app:layout_constraintTop_toBottomOf="@+id/text">
+                            app:layout_constraintTop_toBottomOf="@+id/types">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/name_auto_complete"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:minHeight="58dp"
                                 android:text="@={viewModel.name}"
                                 android:inputType="text" />
 

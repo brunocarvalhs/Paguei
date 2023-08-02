@@ -4,4 +4,5 @@ sealed class BilletRegistrationFormViewState {
     object Loading : BilletRegistrationFormViewState()
     object Success : BilletRegistrationFormViewState()
     data class Error(val error: String?) : BilletRegistrationFormViewState()
+    data class ListName(val names: List<String>) : BilletRegistrationFormViewState()
 }

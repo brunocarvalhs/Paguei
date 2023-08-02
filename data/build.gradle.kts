@@ -24,23 +24,26 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
-        getByName("debug") {
+        debug {
             isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
             isJniDebuggable = BuildTypeDebug.isDebuggable
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = AndroidConfig.JAVA_VERSION
         targetCompatibility = AndroidConfig.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AndroidConfig.JAVA_VERSION.toString()
     }
 }
 
@@ -50,6 +53,7 @@ dependencies {
     // Core dependencies
     implementation(Dependencies.Core.KTX)
     implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
+    implementation("com.google.android.play:app-update-ktx:2.0.1")
 
     // Firebase dependencies
     implementation(platform(Dependencies.Firebase.BOM))
@@ -58,17 +62,18 @@ dependencies {
     implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
     implementation(Dependencies.Firebase.ANALYTICS)
-    implementation("com.google.android.gms:play-services-ads:22.0.0")
+    implementation("com.google.android.gms:play-services-ads:22.2.0")
 
     // Network dependencies
     implementation(Dependencies.Network.GSON)
-    implementation("androidx.navigation:navigation-common-ktx:2.5.3")
-    implementation("com.google.firebase:firebase-messaging-ktx:23.1.1")
+    implementation("androidx.navigation:navigation-common-ktx:2.6.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.0")
+    implementation("com.google.android.material:material:1.9.0")
 
     // Test dependencies
     testImplementation(Dependencies.Test.JUNIT)
     testImplementation(Dependencies.Test.MOCKITO)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
     androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
     androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
 

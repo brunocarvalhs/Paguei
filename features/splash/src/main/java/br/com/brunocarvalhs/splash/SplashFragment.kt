@@ -57,7 +57,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     private fun navigateToHome() {
         binding.loading.visibility = View.GONE
-        val request = navigation.navigateToCostsRegister()
+        val request = navigation.navigateToCosts()
         findNavController().navigate(request)
     }
 

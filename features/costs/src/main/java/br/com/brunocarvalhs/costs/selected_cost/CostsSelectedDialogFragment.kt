@@ -57,7 +57,7 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
     }
 
     private fun successDelete() {
-        val action = navigation.navigateToCostsRegister()
+        val action = navigation.navigateToCosts()
         findNavController().navigate(action)
     }
 
