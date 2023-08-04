@@ -84,4 +84,22 @@ object Dependencies {
         const val GLIDE_COMPILER =
             "com.github.bumptech.glide:compiler:${Versions.Glide.GLIDE_COMPILER}"
     }
+
+    object Compose {
+        const val BOM = "androidx.compose:compose-bom:2023.01.00"
+        const val MATERIAL_YOU = "androidx.compose.material3:material3"
+        const val MATERIAL = "androidx.compose.material:material"
+        const val FOUNDATION = "androidx.compose.foundation:foundation"
+        const val UI = "androidx.compose.ui:ui"
+        const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview"
+        const val UI_TOOLING = "androidx.compose.ui:ui-tooling"
+        const val JUNIT = "androidx.compose.ui:ui-test-junit4"
+        const val UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest"
+        const val MATERIAL_ICONS_CORE = "androidx.compose.material:material-icons-core"
+        const val MATERIAL_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended"
+        const val MATERIAL_WINDOW_SIZE = "androidx.compose.material3:material3-window-size-class"
+        const val ACTIVITY = "androidx.activity:activity-compose:1.6.1"
+        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+        const val RUNTIME_LIVEDATA = "androidx.compose.runtime:runtime-livedata"
+    }
 }
