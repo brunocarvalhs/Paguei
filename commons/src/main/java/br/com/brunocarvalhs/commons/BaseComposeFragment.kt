@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
@@ -19,7 +23,9 @@ abstract class BaseComposeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 PagueiTheme {
-                    createScreen()
+                    Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                        CreateScreen()
+                    }
                 }
             }
         }
@@ -35,5 +41,5 @@ abstract class BaseComposeFragment : Fragment() {
     }
 
     @Composable
-    abstract fun createScreen()
+    abstract fun CreateScreen()
 }

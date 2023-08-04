@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -106,6 +107,8 @@ fun LoginContent(
 @Preview
 fun PreviewLoginScreen() {
     PagueiTheme {
-        LoginContent(onLogin = {}, modifier = Modifier)
+        Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+            LoginContent(onLogin = {}, modifier = Modifier)
+        }
     }
 }
