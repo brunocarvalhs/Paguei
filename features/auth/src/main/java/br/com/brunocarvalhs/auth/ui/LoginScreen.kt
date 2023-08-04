@@ -3,23 +3,21 @@ package br.com.brunocarvalhs.auth.ui
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -62,55 +60,44 @@ fun LoginContent(
     onLogin: () -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        verticalArrangement = Arrangement.SpaceBetween, modifier = modifier.fillMaxSize()
     ) {
-        Surface(
+
+        Image(
+            painter = painterResource(id = R.drawable.image),
+            contentDescription = null,
+            alignment = Alignment.BottomCenter,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(3f)
-                .background(MaterialTheme.colorScheme.primary)
-                .clip(MaterialTheme.shapes.medium)
-                .padding(16.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.image),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .fillMaxWidth()
-            )
-        }
+                .background(MaterialTheme.colorScheme.secondaryContainer)
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = stringResource(id = R.string.title),
-            style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        )
-
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-        )
-
-        Button(
-            onClick = onLogin, modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            when (uiState) {
-                is LoginViewState.Loading -> CircularProgressIndicator()
-                else -> Text(text = stringResource(id = R.string.login_button_text))
+            Text(
+                text = stringResource(id = R.string.title),
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+
+            Button(
+                onClick = onLogin, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp)
+            ) {
+                when (uiState) {
+                    is LoginViewState.Loading -> CircularProgressIndicator()
+                    else -> Text(text = stringResource(id = R.string.login_button_text))
+                }
             }
         }
     }
