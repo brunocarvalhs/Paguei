@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -72,15 +74,22 @@ fun LoginContent(
     ) {
 
         if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Image(
-                painter = painterResource(id = R.drawable.image),
-                contentDescription = null,
-                alignment = Alignment.BottomCenter,
-                contentScale = ContentScale.Crop,
+            Box(
+                contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.secondaryContainer)
-            )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.image),
+                    contentDescription = null,
+                    alignment = Alignment.BottomCenter,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scale(0.9f, 1f)
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
         }
