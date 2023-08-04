@@ -1,5 +1,6 @@
 package br.com.brunocarvalhs.auth.ui
 
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +22,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import br.com.brunocarvalhs.auth.LoginPreviewParameterProvider
 import br.com.brunocarvalhs.auth.LoginViewModel
 import br.com.brunocarvalhs.auth.LoginViewState
 import br.com.brunocarvalhs.auth.R
@@ -43,10 +41,15 @@ fun LoginScreen(
 
     val uiState = viewModel.state.collectAsState()
 
-    when (uiState.value) {
+    when (val state = uiState.value) {
+        is LoginViewState.Error -> Toast.makeText(
+            fragment.requireContext(),
+            state.message,
+            Toast.LENGTH_LONG
+        ).show()
+
         LoginViewState.Success -> viewModel.navigateToHome(fragment)
         else -> LoginContent(
-            uiState = uiState.value,
             modifier = modifier,
             onLogin = { viewModel.signIn(signInLauncher) },
         )
@@ -55,7 +58,6 @@ fun LoginScreen(
 
 @Composable
 fun LoginContent(
-    uiState: LoginViewState,
     modifier: Modifier,
     onLogin: () -> Unit,
 ) {
@@ -94,10 +96,7 @@ fun LoginContent(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp)
             ) {
-                when (uiState) {
-                    is LoginViewState.Loading -> CircularProgressIndicator()
-                    else -> Text(text = stringResource(id = R.string.login_button_text))
-                }
+                Text(text = stringResource(id = R.string.login_button_text))
             }
         }
     }
@@ -105,10 +104,8 @@ fun LoginContent(
 
 @Composable
 @Preview
-fun PreviewLoginScreen(
-    @PreviewParameter(LoginPreviewParameterProvider::class) uiState: LoginViewState
-) {
+fun PreviewLoginScreen() {
     PagueiTheme {
-        LoginContent(uiState = uiState, onLogin = {}, modifier = Modifier)
+        LoginContent(onLogin = {}, modifier = Modifier)
     }
 }
