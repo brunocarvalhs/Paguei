@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -20,9 +19,7 @@ abstract class BaseComposeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 PagueiTheme {
-                    Surface {
-                        createScreen()
-                    }
+                    createScreen()
                 }
             }
         }
