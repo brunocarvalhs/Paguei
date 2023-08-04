@@ -41,6 +41,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
     }
     compileOptions {
         sourceCompatibility = AndroidConfig.JAVA_VERSION
@@ -48,6 +49,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = AndroidConfig.JAVA_VERSION.toString()
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.2"
     }
     lint {
         abortOnError = false
@@ -101,4 +105,20 @@ dependencies {
     implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
     implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
     implementation(Dependencies.Firebase.UI_AUTH)
+
+    // Compose
+    implementation(platform(Dependencies.Compose.BOM))
+    implementation(Dependencies.Compose.MATERIAL_YOU)
+    implementation(Dependencies.Compose.MATERIAL)
+    implementation(Dependencies.Compose.FOUNDATION)
+    implementation(Dependencies.Compose.UI)
+    implementation(Dependencies.Compose.UI_TOOLING_PREVIEW)
+    debugImplementation(Dependencies.Compose.UI_TOOLING)
+    debugImplementation(Dependencies.Compose.UI_TEST_MANIFEST)
+    implementation(Dependencies.Compose.MATERIAL_ICONS_CORE)
+    implementation(Dependencies.Compose.MATERIAL_ICONS_EXTENDED)
+    implementation(Dependencies.Compose.MATERIAL_WINDOW_SIZE)
+    implementation(Dependencies.Compose.ACTIVITY)
+    implementation(Dependencies.Compose.VIEWMODEL)
+    implementation(Dependencies.Compose.RUNTIME_LIVEDATA)
 }
