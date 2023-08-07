@@ -41,6 +41,10 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.2"
     }
     compileOptions {
         sourceCompatibility = AndroidConfig.JAVA_VERSION
@@ -99,4 +103,21 @@ dependencies {
     // Glide dependencies
     implementation(Dependencies.Glide.GLIDE)
     kapt(Dependencies.Glide.GLIDE_COMPILER)
+
+    // Compose
+    implementation(platform(Dependencies.Compose.BOM))
+    implementation(Dependencies.Compose.MATERIAL_YOU)
+    implementation(Dependencies.Compose.MATERIAL)
+    implementation(Dependencies.Compose.FOUNDATION)
+    implementation(Dependencies.Compose.UI)
+    implementation(Dependencies.Compose.UI_TOOLING_PREVIEW)
+    debugImplementation(Dependencies.Compose.UI_TOOLING)
+    debugImplementation(Dependencies.Compose.UI_TEST_MANIFEST)
+    implementation(Dependencies.Compose.MATERIAL_ICONS_CORE)
+    implementation(Dependencies.Compose.MATERIAL_ICONS_EXTENDED)
+    implementation(Dependencies.Compose.MATERIAL_WINDOW_SIZE)
+    implementation(Dependencies.Compose.ACTIVITY)
+    implementation(Dependencies.Compose.VIEWMODEL)
+    implementation(Dependencies.Compose.RUNTIME_LIVEDATA)
+    implementation(Dependencies.Compose.NAVIGATION)
 }
