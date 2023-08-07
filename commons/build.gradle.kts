@@ -1,5 +1,4 @@
 import config.AndroidConfig
-import dependencies.Dependencies
 import flavor.BuildTypeDebug
 import flavor.BuildTypeRelease
 
@@ -50,36 +49,37 @@ android {
 
 dependencies {
     // Core dependencies
-    implementation(Dependencies.Core.KTX)
+    implementation("androidx.core:core-ktx:1.9.0")
 
     // UI dependencies
-    implementation(Dependencies.UI.MATERIAL)
-    implementation(Dependencies.UI.FRAGMENT_KTX)
-    implementation(Dependencies.UI.LIFECYCLE_VIEWMODEL_KTX)
-    implementation(Dependencies.UI.APPCOMPAT)
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
     // Test dependencies
-    testImplementation(Dependencies.Test.JUNIT)
-    androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
-    androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.4")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
 
     // Mask
     implementation("com.redmadrobot:input-mask-android:6.1.0")
 
     // Compose
-    implementation(platform(Dependencies.Compose.BOM))
-    implementation(Dependencies.Compose.MATERIAL_YOU)
-    implementation(Dependencies.Compose.MATERIAL)
-    implementation(Dependencies.Compose.FOUNDATION)
-    implementation(Dependencies.Compose.UI)
-    implementation(Dependencies.Compose.UI_TOOLING_PREVIEW)
-    debugImplementation(Dependencies.Compose.UI_TOOLING)
-    debugImplementation(Dependencies.Compose.UI_TEST_MANIFEST)
-    implementation(Dependencies.Compose.MATERIAL_ICONS_CORE)
-    implementation(Dependencies.Compose.MATERIAL_ICONS_EXTENDED)
-    implementation(Dependencies.Compose.MATERIAL_WINDOW_SIZE)
-    implementation(Dependencies.Compose.ACTIVITY)
-    implementation(Dependencies.Compose.VIEWMODEL)
-    implementation(Dependencies.Compose.RUNTIME_LIVEDATA)
-    implementation(Dependencies.Compose.NAVIGATION)
+    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.01.00"))
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material")
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+    implementation("androidx.compose.runtime:runtime-livedata")
 }
