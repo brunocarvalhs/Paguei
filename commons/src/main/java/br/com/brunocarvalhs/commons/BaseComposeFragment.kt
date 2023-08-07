@@ -20,6 +20,7 @@ abstract class BaseComposeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         visibilityToolbar()
+        initView()
         return ComposeView(requireContext()).apply {
             setContent {
                 PagueiTheme {
@@ -29,6 +30,10 @@ abstract class BaseComposeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    open fun initView() {
+
     }
 
     protected fun visibilityToolbar(visibility: Boolean = false) {
