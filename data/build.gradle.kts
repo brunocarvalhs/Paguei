@@ -1,5 +1,4 @@
 import config.AndroidConfig
-import dependencies.Dependencies
 import flavor.BuildTypeDebug
 import flavor.BuildTypeRelease
 
@@ -51,36 +50,36 @@ dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
     // Core dependencies
-    implementation(Dependencies.Core.KTX)
-    implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("com.google.android.play:app-update-ktx:2.0.1")
 
     // Firebase dependencies
-    implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.AUTH)
-    implementation(Dependencies.Firebase.FIRESTORE)
-    implementation(Dependencies.Firebase.PLAY_SERVICES_AUTH)
-    implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
-    implementation(Dependencies.Firebase.ANALYTICS)
+    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.7.0")
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.2")
     implementation("com.google.android.gms:play-services-ads:22.2.0")
 
     // Network dependencies
-    implementation(Dependencies.Network.GSON)
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.navigation:navigation-common-ktx:2.6.0")
     implementation("com.google.firebase:firebase-messaging-ktx:23.2.0")
     implementation("com.google.android.material:material:1.9.0")
 
     // Test dependencies
-    testImplementation(Dependencies.Test.JUNIT)
-    testImplementation(Dependencies.Test.MOCKITO)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:4.11.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
-    androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
-    androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
+    androidTestImplementation("androidx.test.ext:junit:1.1.4")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
 
     // Hilt dependencies
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.ANDROID_COMPILER)
-    testImplementation(Dependencies.Hilt.ANDROID_TESTING)
-    kaptTest(Dependencies.Hilt.ANDROID_COMPILER)
-    testAnnotationProcessor(Dependencies.Hilt.ANDROID_COMPILER)
+    implementation("com.google.dagger:hilt-android:2.46")
+    kapt("com.google.dagger:hilt-android-compiler:2.46")
+    testImplementation("com.google.dagger:hilt-android-testing:2.46")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.46")
+    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.46")
 }
