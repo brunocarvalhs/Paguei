@@ -1,6 +1,5 @@
+
 import config.AndroidConfig
-import flavor.BuildTypeDebug
-import flavor.BuildTypeRelease
 
 plugins {
     id("com.android.library")
@@ -111,18 +110,18 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.06.01"))
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.06.01"))
     implementation("androidx.compose.material3:material3:1.1.1")
-    implementation("androidx.compose.material:material")
+    implementation("androidx.compose.material:material:1.4.3")
     implementation("androidx.compose.foundation:foundation:1.4.3")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.compose.material:material-icons-core")
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.ui:ui:1.4.3")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.3")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.3")
+    implementation("androidx.compose.material:material-icons-core:1.4.3")
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    implementation("androidx.compose.runtime:runtime-livedata")
+    implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
     implementation("androidx.navigation:navigation-compose:2.6.0")
 }
