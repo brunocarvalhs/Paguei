@@ -1,4 +1,3 @@
-
 import config.AndroidConfig
 import flavor.BuildTypeDebug
 import flavor.BuildTypeRelease
@@ -28,14 +27,14 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
         debug {
-            isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
-            isJniDebuggable = BuildTypeDebug.isDebuggable
+            isMinifyEnabled = false
+            isJniDebuggable = true
         }
     }
     buildFeatures {
@@ -69,7 +68,7 @@ dependencies {
     implementation(project(mapOf("path" to ":commons")))
 
     // Core dependencies
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
@@ -78,9 +77,9 @@ dependencies {
     // UI dependencies
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.fragment:fragment-ktx:1.6.0")
-    implementation("androidx.databinding:databinding-common:8.0.2")
-    implementation("androidx.recyclerview:recyclerview:1.3.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.databinding:databinding-common:8.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
@@ -88,29 +87,29 @@ dependencies {
 
     // Test dependencies
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.mockito:mockito-core:5.4.0")
     testImplementation("androidx.test.ext:junit-ktx:1.1.5")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.4")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // Hilt dependencies
-    implementation("com.google.dagger:hilt-android:2.46")
-    kapt("com.google.dagger:hilt-android-compiler:2.46")
-    testImplementation("com.google.dagger:hilt-android-testing:2.46")
-    kaptTest("com.google.dagger:hilt-android-compiler:2.46")
-    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.46")
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")
+    testImplementation("com.google.dagger:hilt-android-testing:2.47")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.47")
+    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.47")
 
     // Firebase dependencies
-    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
-    implementation("com.google.firebase:firebase-auth-ktx:22.1.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
     implementation("com.google.android.gms:play-services-auth:20.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.01.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.06.01"))
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material")
     implementation("androidx.compose.foundation:foundation")
@@ -122,7 +121,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.material3:material3-window-size-class")
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.compose.runtime:runtime-livedata")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
 }

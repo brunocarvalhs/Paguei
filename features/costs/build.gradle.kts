@@ -1,5 +1,5 @@
+
 import config.AndroidConfig
-import dependencies.Dependencies
 import flavor.BuildTypeDebug
 import flavor.BuildTypeRelease
 
@@ -28,14 +28,15 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+            multiDexEnabled = true
         }
         debug {
-            isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
-            isJniDebuggable = BuildTypeDebug.isDebuggable
+            isMinifyEnabled = false
+            isJniDebuggable = true
         }
     }
     buildFeatures {
@@ -69,57 +70,61 @@ dependencies {
     implementation(project(mapOf("path" to ":commons")))
 
     // Core dependencies
-    implementation(Dependencies.Core.KTX)
-    implementation(Dependencies.Core.MULTIDEX)
-    implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
-    implementation(Dependencies.Core.LIFECYCLE_LIVEDATA)
-    implementation(Dependencies.Core.LIFECYCLE_VIEWMODEL)
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
     // UI dependencies
-    implementation(Dependencies.UI.MATERIAL)
-    implementation(Dependencies.UI.APPCOMPAT)
-    implementation(Dependencies.UI.FRAGMENT_KTX)
-    implementation(Dependencies.UI.DATABINDING_COMMON)
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
-    implementation(Dependencies.UI.COORDINATOR_LAYOUT)
-    implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
-    implementation(Dependencies.UI.NAVIGATION_UI)
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.databinding:databinding-common:8.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
 
     // Test dependencies
-    testImplementation(Dependencies.Test.JUNIT)
-    testImplementation(Dependencies.Test.MOCKITO)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.4.0")
     testImplementation("androidx.test.ext:junit-ktx:1.1.5")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
-    androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // Hilt dependencies
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.ANDROID_COMPILER)
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")
+    testImplementation("com.google.dagger:hilt-android-testing:2.47")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.47")
+    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.47")
 
     // Glide dependencies
-    implementation(Dependencies.Glide.GLIDE)
-    kapt(Dependencies.Glide.GLIDE_COMPILER)
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
 
     // Mascara
     implementation("com.redmadrobot:input-mask-android:6.1.0")
 
     // Compose
-    implementation(platform(Dependencies.Compose.BOM))
-    implementation(Dependencies.Compose.MATERIAL_YOU)
-    implementation(Dependencies.Compose.MATERIAL)
-    implementation(Dependencies.Compose.FOUNDATION)
-    implementation(Dependencies.Compose.UI)
-    implementation(Dependencies.Compose.UI_TOOLING_PREVIEW)
-    debugImplementation(Dependencies.Compose.UI_TOOLING)
-    debugImplementation(Dependencies.Compose.UI_TEST_MANIFEST)
-    implementation(Dependencies.Compose.MATERIAL_ICONS_CORE)
-    implementation(Dependencies.Compose.MATERIAL_ICONS_EXTENDED)
-    implementation(Dependencies.Compose.MATERIAL_WINDOW_SIZE)
-    implementation(Dependencies.Compose.ACTIVITY)
-    implementation(Dependencies.Compose.VIEWMODEL)
-    implementation(Dependencies.Compose.RUNTIME_LIVEDATA)
-    implementation(Dependencies.Compose.NAVIGATION)
+    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material")
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.compose.runtime:runtime-livedata")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
 }
