@@ -81,4 +81,5 @@ dependencies {
     implementation(Dependencies.Compose.ACTIVITY)
     implementation(Dependencies.Compose.VIEWMODEL)
     implementation(Dependencies.Compose.RUNTIME_LIVEDATA)
+    implementation(Dependencies.Compose.NAVIGATION)
 }
