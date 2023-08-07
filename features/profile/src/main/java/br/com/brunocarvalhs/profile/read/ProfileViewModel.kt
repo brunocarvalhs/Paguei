@@ -4,9 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.BaseComposeViewModel
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.services.AnalyticsService
@@ -52,9 +51,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun logout(fragment: Fragment) {
+    fun logout(navController: NavController) {
         this.logout {
-            navigateToLogin(fragment)
+            navigateToLogin(navController)
 
             analyticsService.trackEvent(
                 AnalyticsService.Events.LOGOUT,
@@ -64,19 +63,19 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun navigateToSettings(fragment: Fragment) {
+    fun navigateToSettings(navController: NavController) {
         val request = ProfileFragmentDirections.actionProfileFragmentToSettingsFragment()
-        fragment.findNavController().navigate(request)
+        navController.navigate(request)
     }
 
-    fun navigateToEditProfile(fragment: Fragment) {
+    fun navigateToEditProfile(navController: NavController) {
         val request = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
-        fragment.findNavController().navigate(request)
+        navController.navigate(request)
     }
 
-    private fun navigateToLogin(fragment: Fragment) {
+    private fun navigateToLogin(navController: NavController) {
         val request = navigation.navigateToLoginRegister()
-        fragment.findNavController().navigate(request)
+        navController.navigate(request)
     }
 
     fun visibilityQrCode(context: Context) {

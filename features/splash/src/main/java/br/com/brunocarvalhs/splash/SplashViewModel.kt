@@ -1,8 +1,7 @@
 package br.com.brunocarvalhs.splash
 
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.BaseComposeViewModel
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.services.AnalyticsService
@@ -36,13 +35,13 @@ class SplashViewModel @Inject constructor(
         }
     }
 
-    fun navigateToLogin(fragment: Fragment) {
+    fun navigateToLogin(navController: NavController) {
         val request = navigation.navigateToLoginRegister()
-        fragment.findNavController().navigate(request)
+        navController.navigate(request)
     }
 
-    fun navigateToHome(fragment: Fragment) {
+    fun navigateToHome(navController: NavController) {
         val request = navigation.navigateToCosts()
-        fragment.findNavController().navigate(request)
+        navController.navigate(request)
     }
 }

@@ -16,20 +16,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import br.com.brunocarvalhs.splash.R
 import br.com.brunocarvalhs.splash.SplashViewModel
 import br.com.brunocarvalhs.splash.SplashViewState
 
 @Composable
-fun SplashScreen(fragment: Fragment, viewModel: SplashViewModel) {
+fun SplashScreen(navController: NavController, viewModel: SplashViewModel) {
     val uiState = viewModel.state.collectAsState()
 
     when (uiState.value) {
         SplashViewState.Loading -> SplashContent()
-        SplashViewState.Session -> viewModel.navigateToHome(fragment)
-        SplashViewState.NotSession -> viewModel.navigateToLogin(fragment)
+        SplashViewState.Session -> viewModel.navigateToHome(navController)
+        SplashViewState.NotSession -> viewModel.navigateToLogin(navController)
     }
 }
 

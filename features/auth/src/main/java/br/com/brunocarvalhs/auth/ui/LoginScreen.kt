@@ -24,12 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import br.com.brunocarvalhs.auth.LoginViewModel
 import br.com.brunocarvalhs.auth.LoginViewState
 import br.com.brunocarvalhs.auth.R
@@ -38,7 +39,7 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 
 @Composable
 fun LoginScreen(
-    fragment: Fragment, modifier: Modifier = Modifier, viewModel: LoginViewModel
+    navController: NavController, modifier: Modifier = Modifier, viewModel: LoginViewModel
 ) {
     val signInLauncher =
         rememberLauncherForActivityResult(contract = FirebaseAuthUIActivityResultContract()) {
@@ -49,12 +50,10 @@ fun LoginScreen(
 
     when (val state = uiState.value) {
         is LoginViewState.Error -> Toast.makeText(
-            fragment.requireContext(),
-            state.message,
-            Toast.LENGTH_LONG
+            LocalContext.current, state.message, Toast.LENGTH_LONG
         ).show()
 
-        LoginViewState.Success -> viewModel.navigateToHome(fragment)
+        LoginViewState.Success -> viewModel.navigateToHome(navController = navController)
         else -> LoginContent(
             modifier = modifier,
             onLogin = { viewModel.signIn(signInLauncher) },

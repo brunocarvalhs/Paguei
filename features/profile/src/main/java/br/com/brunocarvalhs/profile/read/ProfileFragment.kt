@@ -3,6 +3,7 @@ package br.com.brunocarvalhs.profile.read
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseComposeFragment
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.profile.read.ui.ProfileScreen
@@ -18,7 +19,7 @@ class ProfileFragment : BaseComposeFragment() {
     lateinit var analyticsService: AnalyticsService
 
     @Composable
-    override fun CreateScreen() = ProfileScreen(this, viewModel)
+    override fun CreateScreen() = ProfileScreen(this.findNavController(), viewModel)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,9 +2,8 @@ package br.com.brunocarvalhs.auth
 
 import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.BaseComposeViewModel
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.services.AnalyticsService
@@ -71,9 +70,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun navigateToHome(fragment: Fragment) {
+    fun navigateToHome(navController: NavController) {
         val request = navigation.navigateToCosts()
-        fragment.findNavController().navigate(request)
+        navController.navigate(request)
 
         analyticsService.trackEvent(
             AnalyticsService.Events.SCREEN_VIEWED,

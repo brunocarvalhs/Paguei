@@ -25,11 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import br.com.brunocarvalhs.profile.R
 import br.com.brunocarvalhs.profile.read.ProfileViewModel
@@ -37,16 +38,16 @@ import br.com.brunocarvalhs.profile.read.ProfileViewState
 import coil.compose.AsyncImage
 
 @Composable
-fun ProfileScreen(fragment: Fragment, viewModel: ProfileViewModel) {
+fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel) {
     val uiState = viewModel.state.collectAsState()
-
+    val context = LocalContext.current
     when (val state = uiState.value) {
         else -> {
             ProfileContent(uiState = state,
-                onLogout = { viewModel.logout(fragment) },
-                onSettings = { viewModel.navigateToSettings(fragment) },
-                onEditProfile = { viewModel.navigateToEditProfile(fragment) },
-                onQrCode = { viewModel.visibilityQrCode(fragment.requireContext()) })
+                onLogout = { viewModel.logout(navController) },
+                onSettings = { viewModel.navigateToSettings(navController) },
+                onEditProfile = { viewModel.navigateToEditProfile(navController) },
+                onQrCode = { viewModel.visibilityQrCode(context) })
         }
     }
 }
@@ -69,7 +70,7 @@ private fun ProfileContent(
         ) {
             Row(
                 modifier = Modifier.padding(bottom = 20.dp)
-            ){
+            ) {
 
                 Box(
                     contentAlignment = Alignment.BottomCenter,
