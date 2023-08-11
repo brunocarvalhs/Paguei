@@ -72,9 +72,11 @@ class GroupsListDialogFragment : BaseBottomSheetDialogFragment<DialogGroupsListB
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 GroupsListViewState.Loading -> this.loading()
-                is GroupsListViewState.Success -> this.displayData(it.list)
                 is GroupsListViewState.Error -> this.showError(it.error)
-                is GroupsListViewState.SuccessUser -> this.setupOptionMyProfile(it.user)
+                is GroupsListViewState.Success -> {
+                    this.displayData(it.list)
+                    this.setupOptionMyProfile(it.user)
+                }
             }
         }
     }

@@ -24,13 +24,14 @@ class GroupsListViewModel @Inject constructor(
 
     fun fetchData() {
         viewModelScope.launch {
-            mutableState.value = GroupsListViewState.Loading
-            getUserFromSessionUseCase.invoke()
-                .onSuccess { mutableState.value = GroupsListViewState.SuccessUser(it) }
-                .onFailure { mutableState.value = GroupsListViewState.Error(it.message) }
-            fetchGroupsUseCase.invoke()
-                .onSuccess { mutableState.value = GroupsListViewState.Success(it) }
-                .onFailure { mutableState.value = GroupsListViewState.Error(it.message) }
+            try {
+                mutableState.value = GroupsListViewState.Loading
+                val user = getUserFromSessionUseCase.invoke().getOrThrow()
+                val list = fetchGroupsUseCase.invoke().getOrThrow()
+                mutableState.value = GroupsListViewState.Success(list, user)
+            } catch (error: Exception) {
+                mutableState.value = GroupsListViewState.Error(error.message)
+            }
         }
     }
 
