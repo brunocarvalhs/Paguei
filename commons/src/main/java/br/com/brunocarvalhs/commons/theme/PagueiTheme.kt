@@ -11,7 +11,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
+private val darkColorScheme = darkColorScheme(
     primary = mdThemeDarkPrimary,
     onPrimary = mdThemeDarkOnPrimary,
     primaryContainer = mdThemeDarkPrimaryContainer,
@@ -41,7 +41,7 @@ private val DarkColorScheme = darkColorScheme(
     surfaceTint = mdThemeDarkSurfaceTint,
 )
 
-private val LightColorScheme = lightColorScheme(
+private val lightColorScheme = lightColorScheme(
     primary = mdThemeLightPrimary,
     onPrimary = mdThemeLightOnPrimary,
     primaryContainer = mdThemeLightPrimaryContainer,
@@ -85,8 +85,8 @@ fun PagueiTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> darkColorScheme
+        else -> lightColorScheme
     }
 
     MaterialTheme(

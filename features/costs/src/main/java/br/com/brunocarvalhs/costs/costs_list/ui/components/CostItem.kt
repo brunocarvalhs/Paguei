@@ -1,7 +1,7 @@
 package br.com.brunocarvalhs.costs.costs_list.ui.components
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,69 +10,84 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.brunocarvalhs.commons.components.SwipeDirection
+import br.com.brunocarvalhs.commons.components.SwipeIcon
+import br.com.brunocarvalhs.commons.components.SwipeItem
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.domain.entities.CostEntities
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun CostItem(
     cost: CostEntities,
     onClick: (cost: CostEntities) -> Unit,
+    onLongClick: (cost: CostEntities) -> Unit,
     onLeft: (cost: CostEntities) -> Unit,
     onRight: (cost: CostEntities) -> Unit
 ) {
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
-
-    Card(
-        shape = RoundedCornerShape(0.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(90.dp)
-            .clickable { onClick.invoke(cost) }
-            .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    change.consume()
-
-                    val (x) = dragAmount
-                    when {
-                        x > 0 -> onRight.invoke(cost)
-                        x < 0 -> onLeft.invoke(cost)
-                    }
-
-                    offsetX += dragAmount.x
-                    offsetY += dragAmount.y
-                }
-            },
-        ) {
-        Column(
-            verticalArrangement = Arrangement.SpaceBetween,
+    SwipeItem(
+        swipeDirection = SwipeDirection.BOTH,
+        leftViewBackgroundColor = Color.Green,
+        rightViewBackgroundColor = Color.Red,
+        rightViewIcons = arrayListOf(
+            SwipeIcon(
+                icon = painterResource(id = R.drawable.ic_baseline_delete_24),
+                tint = Color.White,
+                contentDescription = null,
+                clickable = { onRight.invoke(cost) }
+            )
+        ),
+        leftViewIcons = arrayListOf(
+            SwipeIcon(
+                icon = painterResource(id = R.drawable.ic_baseline_edit_24),
+                tint = Color.White,
+                contentDescription = null,
+                clickable = { onLeft.invoke(cost) }
+            )
+        ),
+        height = 90.dp,
+        leftViewWidth = 90.dp,
+        rightViewWidth = 90.dp,
+    ) {
+        Card(
+            shape = RoundedCornerShape(0.dp),
             modifier = Modifier
-                .fillMaxHeight()
-                .padding(20.dp)
+                .fillMaxWidth()
+                .height(90.dp)
+                .combinedClickable(
+                    onClick = { onClick.invoke(cost) },
+                    onLongClick = { onLongClick.invoke(cost) },
+                )
         ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(20.dp)
             ) {
-                Text(text = cost.name.orEmpty())
-                Text(text = stringResource(id = R.string.item_cost_value, cost.formatValue()))
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = stringResource(id = R.string.item_cost_date, cost.prompt.orEmpty()))
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = cost.name.orEmpty())
+                    Text(text = stringResource(id = R.string.item_cost_value, cost.formatValue()))
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(id = R.string.item_cost_date, cost.prompt.orEmpty()))
+                }
             }
         }
     }
@@ -117,6 +132,6 @@ private fun PreviewCostItem() {
                 dateReferenceMonth: String?
             ): CostEntities = this
 
-        }, onClick = {}, onLeft = {}, onRight = {})
+        }, onClick = {}, onLeft = {}, onRight = {}, onLongClick = {})
     }
 }
