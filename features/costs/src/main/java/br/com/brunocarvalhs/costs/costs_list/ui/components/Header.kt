@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -34,15 +33,21 @@ fun Header(
     name: String? = null,
     photoUrl: String? = null,
     onClickMenu: () -> Unit,
+    content: @Composable () -> Unit
 ) {
-    TopAppBar(
-        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
-        modifier = Modifier.height(90.dp)
+    val gradientBrush = Brush.verticalGradient(
+        colors = listOf(
+            MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.background
+        ), startY = 0.0f, endY = 250.0f
+    )
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .padding(10.dp)
         ) {
             Column {
@@ -84,6 +89,14 @@ fun Header(
                 )
             }
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(gradientBrush)
+                .padding(vertical = 15.dp, horizontal = 10.dp)
+        ) {
+            content()
+        }
     }
 }
 
@@ -91,6 +104,8 @@ fun Header(
 @Preview
 fun PreviewHeader() {
     PagueiTheme {
-        Header(name = "bruno", photoUrl = null, onClickMenu = {})
+        Header(name = "bruno", photoUrl = null, onClickMenu = {}) {
+            ReportCard(list = listOf(), onClick = {})
+        }
     }
 }

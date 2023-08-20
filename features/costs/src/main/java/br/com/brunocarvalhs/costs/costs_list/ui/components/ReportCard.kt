@@ -1,6 +1,7 @@
 package br.com.brunocarvalhs.costs.costs_list.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,12 +9,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,14 +29,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import br.com.brunocarvalhs.costs.R
+import br.com.brunocarvalhs.domain.entities.CostEntities
 
 @Composable
-fun ReportCard() {
+fun ReportCard(
+    list: List<CostEntities>,
+    onClick: () -> Unit,
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(90.dp),
+            .heightIn(min = 90.dp, max = 100.dp)
+            .clickable { onClick.invoke() },
         shape = MaterialTheme.shapes.small,
+        elevation = CardDefaults.cardElevation(0.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
@@ -68,7 +77,10 @@ fun ReportCard() {
                 Spacer(modifier = Modifier.width(15.dp))
 
                 Text(
-                    text = stringResource(id = R.string.costs_total_text_default),
+                    text = stringResource(
+                        id = R.string.costs_total_text,
+                        list.size.toString()
+                    ),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .wrapContentWidth()
@@ -83,6 +95,6 @@ fun ReportCard() {
 @Preview
 private fun PreviewReportCard() {
     PagueiTheme {
-        ReportCard()
+        ReportCard(list = listOf(), onClick = {})
     }
 }

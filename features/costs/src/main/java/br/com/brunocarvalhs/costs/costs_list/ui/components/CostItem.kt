@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,7 +38,7 @@ fun CostItem(
 ) {
     SwipeItem(
         swipeDirection = SwipeDirection.BOTH,
-        leftViewBackgroundColor = Color.Green,
+        leftViewBackgroundColor = Color.DarkGray,
         rightViewBackgroundColor = Color.Red,
         rightViewIcons = arrayListOf(
             SwipeIcon(
@@ -50,7 +50,7 @@ fun CostItem(
         ),
         leftViewIcons = arrayListOf(
             SwipeIcon(
-                icon = painterResource(id = R.drawable.ic_baseline_edit_24),
+                icon = painterResource(id = R.drawable.ic_baseline_payment_24),
                 tint = Color.White,
                 contentDescription = null,
                 clickable = { onLeft.invoke(cost) }
@@ -59,9 +59,10 @@ fun CostItem(
         height = 90.dp,
         leftViewWidth = 90.dp,
         rightViewWidth = 90.dp,
+        cornerRadius = 8.0.dp,
     ) {
         Card(
-            shape = RoundedCornerShape(0.dp),
+            shape = MaterialTheme.shapes.small,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(90.dp)

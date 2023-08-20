@@ -2,7 +2,6 @@
     <string name="home_title_header">Hi, %1$s</string>
     <string name="home_title_group_header">%1$s</string>
     <string name="costs_total_text">You have %1$s bills\nregistered to pay</string>
-    <string name="costs_total_text_default">You have 0 bills\nregistered to pay</string>
     <string name="item_cost_date">Expires in %1$s</string>
     <string name="item_cost_value">$ %1$s</string>
     <string name="selected_cost_description">Was the %1$s\npayment of BRL %2$s\npaid?</string>

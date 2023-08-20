@@ -1,14 +1,17 @@
 package br.com.brunocarvalhs.costs.costs_list
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.BaseComposeViewModel
+import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import br.com.brunocarvalhs.domain.services.SessionManager
 import br.com.brunocarvalhs.domain.usecase.cost.DeleteCostUseCase
 import br.com.brunocarvalhs.domain.usecase.cost.FetchCostsUseCase
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,37 +32,45 @@ class CostsViewModel @Inject constructor(
         isGroup = sessionManager.isGroupSession()
     )
 
-    private var listCosts = mutableListOf<CostEntities>()
-        set(value) {
-            if (!listCosts.containsAll(value)) {
-                field = value
-            }
-        }
-
-    fun fetchData() {
+    fun fetchData(isLoading: Boolean = true) {
         viewModelScope.launch {
-            mutableState.value = CostsViewState.Loading
+            if (isLoading) mutableState.value = CostsViewState.Loading
             useCase.invoke().onSuccess {
-                listCosts = it.toMutableList()
-                mutableState.value = CostsViewState.Success(listCosts)
+                mutableState.value = CostsViewState.Success(it.toMutableList())
             }.onFailure { error -> mutableState.value = CostsViewState.Error(error.message) }
         }
     }
 
-    fun deleteCost(cost: CostEntities, callback: () -> Unit) {
+    private fun deleteCost(cost: CostEntities, callback: () -> Unit) {
         viewModelScope.launch {
-            deleteCostUseCase.invoke(cost).onSuccess { callback.invoke() }
+            deleteCostUseCase.invoke(cost)
+                .onSuccess { callback.invoke() }
                 .onFailure { error -> mutableState.value = CostsViewState.Error(error.message) }
         }
     }
 
-    fun onSwipeRight(cost: CostEntities, navCostEntities: NavController) {
-        val action = CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost)
-        navCostEntities.navigate(action)
+    fun onSwipeRight(context: Context, cost: CostEntities) {
+        MaterialAlertDialogBuilder(context).setTitle(context.resources.getString(R.string.question_delete_title))
+            .setMessage(
+                context.resources.getString(
+                    R.string.question_delete_message, cost.name, cost.value
+                )
+            )
+            .setNegativeButton(context.resources.getString(R.string.question_delete_negative_text)) { _, _ -> }
+            .setPositiveButton(context.resources.getString(R.string.question_delete_positive_text)) { _, _ ->
+                deleteCost(cost) { fetchData(isLoading = false) }
+
+                analyticsService.trackEvent(
+                    AnalyticsService.Events.CLICK_EVENT,
+                    mapOf(Pair("event_name", "delete_cost")),
+                    CostsFragment::class
+                )
+            }.show()
     }
 
     fun onSwipeLeft(cost: CostEntities, navCostEntities: NavController) {
-
+        val action = CostsFragmentDirections.actionHomeFragmentToItemListDialogFragment(cost)
+        navCostEntities.navigate(action)
     }
 
     fun onLongClick(cost: CostEntities, navCostEntities: NavController) {
@@ -103,9 +114,7 @@ class CostsViewModel @Inject constructor(
         navController.navigate(action)
 
         analyticsService.trackEvent(
-            AnalyticsService.Events.EXTRACTS_MENU_SELECTED,
-            mapOf(),
-            CostsFragment::class
+            AnalyticsService.Events.EXTRACTS_MENU_SELECTED, mapOf(), CostsFragment::class
         )
     }
 
