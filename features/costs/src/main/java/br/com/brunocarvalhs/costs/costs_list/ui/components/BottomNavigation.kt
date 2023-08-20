@@ -9,7 +9,6 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +30,6 @@ fun BottomNavigation(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_home_24),
                         contentDescription = stringResource(id = R.string.menu_text_group),
-                        tint = Color.Black
                     )
                 }
             }
@@ -40,7 +38,6 @@ fun BottomNavigation(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_extracts_24),
                         contentDescription = stringResource(id = R.string.menu_text_extract),
-                        tint = Color.Black
                     )
                 }
             }
@@ -49,7 +46,6 @@ fun BottomNavigation(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_calculate_24),
                         contentDescription = stringResource(id = R.string.menu_text_calculation),
-                        tint = Color.Black
                     )
                 }
             }
@@ -58,7 +54,6 @@ fun BottomNavigation(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_checklist_24),
                         contentDescription = stringResource(id = R.string.menu_text_check_list),
-                        tint = Color.Black
                     )
                 }
             }
