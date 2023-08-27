@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.reader_cost
+package br.com.brunocarvalhs.costs.ui.reader_cost
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle

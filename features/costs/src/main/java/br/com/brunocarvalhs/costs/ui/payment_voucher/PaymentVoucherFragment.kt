@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.payment_voucher
+package br.com.brunocarvalhs.costs.ui.payment_voucher
 
 import android.os.Bundle
 import android.view.LayoutInflater

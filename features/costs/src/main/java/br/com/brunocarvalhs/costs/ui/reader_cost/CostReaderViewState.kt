@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.reader_cost
+package br.com.brunocarvalhs.costs.ui.reader_cost
 
 import br.com.brunocarvalhs.domain.entities.CostEntities
 

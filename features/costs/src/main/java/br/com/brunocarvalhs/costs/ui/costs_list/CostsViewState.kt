@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.costs_list
+package br.com.brunocarvalhs.costs.ui.costs_list
 
 import br.com.brunocarvalhs.domain.entities.CostEntities
 

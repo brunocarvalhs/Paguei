@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.costs_list.ui
+package br.com.brunocarvalhs.costs.ui.costs_list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,12 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
-import br.com.brunocarvalhs.costs.costs_list.CostsViewModel
-import br.com.brunocarvalhs.costs.costs_list.CostsViewState
-import br.com.brunocarvalhs.costs.costs_list.ui.components.BottomNavigation
-import br.com.brunocarvalhs.costs.costs_list.ui.components.CostItem
-import br.com.brunocarvalhs.costs.costs_list.ui.components.Header
-import br.com.brunocarvalhs.costs.costs_list.ui.components.ReportCard
+import br.com.brunocarvalhs.costs.ui.components.BottomNavigation
+import br.com.brunocarvalhs.costs.ui.components.CostItem
+import br.com.brunocarvalhs.costs.ui.components.Header
+import br.com.brunocarvalhs.costs.ui.components.ReportCard
 import br.com.brunocarvalhs.domain.entities.CostEntities
 
 @Composable

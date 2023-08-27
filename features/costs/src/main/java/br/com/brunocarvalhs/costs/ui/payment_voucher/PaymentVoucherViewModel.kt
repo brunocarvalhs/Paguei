@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.payment_voucher
+package br.com.brunocarvalhs.costs.ui.payment_voucher
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle

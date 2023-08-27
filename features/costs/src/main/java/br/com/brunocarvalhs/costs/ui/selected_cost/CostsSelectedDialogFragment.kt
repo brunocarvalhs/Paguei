@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.selected_cost
+package br.com.brunocarvalhs.costs.ui.selected_cost
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.DialogCostsSelectedBinding
+import br.com.brunocarvalhs.costs.selected_cost.CostsSelectedDialogFragmentDirections
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.services.AnalyticsService
@@ -66,8 +67,10 @@ class CostsSelectedDialogFragment : BaseBottomSheetDialogFragment<DialogCostsSel
     }
 
     private fun navigateToPaymentVoucher(cost: CostEntities) {
-        val action = CostsSelectedDialogFragmentDirections
-            .actionItemListDialogFragmentToPaymentVoucherFragment(cost)
+        val action =
+            CostsSelectedDialogFragmentDirections.actionItemListDialogFragmentToPaymentVoucherFragment(
+                cost
+            )
         findNavController().navigate(action)
     }
 

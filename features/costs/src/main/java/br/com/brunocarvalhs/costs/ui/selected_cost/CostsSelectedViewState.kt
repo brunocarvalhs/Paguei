@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.selected_cost
+package br.com.brunocarvalhs.costs.ui.selected_cost
 
 sealed class CostsSelectedViewState {
     object Loading : CostsSelectedViewState()

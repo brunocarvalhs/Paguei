@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.reader_cost
+package br.com.brunocarvalhs.costs.ui.reader_cost
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.costs_list.ui.components
+package br.com.brunocarvalhs.costs.ui.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable

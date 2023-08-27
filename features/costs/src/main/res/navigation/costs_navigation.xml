@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/costsFragment"
-            android:name="br.com.brunocarvalhs.costs.costs_list.CostsFragment"
+            android:name="br.com.brunocarvalhs.costs.ui.costs_list.CostsFragment"
             tools:layout="@layout/fragment_costs_list">
 
         <deepLink app:uri="@string/deeplink_costs" />
@@ -36,7 +36,7 @@
 
     <fragment
             android:id="@+id/costReaderFragment"
-            android:name="br.com.brunocarvalhs.costs.reader_cost.CostReaderFragment"
+            android:name="br.com.brunocarvalhs.costs.ui.reader_cost.CostReaderFragment"
             tools:layout="@layout/fragment_cost_reader">
         <deepLink app:uri="@string/deeplink_cost_read" />
         <argument
@@ -51,7 +51,7 @@
 
     <fragment
             android:id="@+id/paymentVoucherFragment"
-            android:name="br.com.brunocarvalhs.costs.payment_voucher.PaymentVoucherFragment"
+            android:name="br.com.brunocarvalhs.costs.ui.payment_voucher.PaymentVoucherFragment"
             tools:layout="@layout/fragment_payment_voucher">
         <argument
                 android:name="cost"

@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.costs.payment_voucher
+package br.com.brunocarvalhs.costs.ui.payment_voucher
 
 import br.com.brunocarvalhs.domain.entities.CostEntities
 
