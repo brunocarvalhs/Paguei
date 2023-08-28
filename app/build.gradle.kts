@@ -1,5 +1,4 @@
 import config.AndroidConfig
-import dependencies.Dependencies
 
 plugins {
     id("com.android.application")
@@ -110,37 +109,62 @@ dependencies {
     implementation(project(mapOf("path" to ":commons")))
 
     // Core dependencies
-    implementation(Dependencies.Core.KTX)
-    implementation(Dependencies.Core.MULTIDEX)
-    implementation(Dependencies.Core.LIFECYCLE_RUNTIME)
-    implementation(Dependencies.Core.LIFECYCLE_LIVEDATA)
-    implementation(Dependencies.Core.LIFECYCLE_VIEWMODEL)
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
     // UI dependencies
-    implementation(Dependencies.UI.MATERIAL)
-    implementation(Dependencies.UI.APPCOMPAT)
-    implementation(Dependencies.UI.FRAGMENT_KTX)
-    implementation(Dependencies.UI.DATABINDING_COMMON)
-    implementation(Dependencies.UI.CONSTRAINT_LAYOUT)
-    implementation(Dependencies.UI.COORDINATOR_LAYOUT)
-    implementation(Dependencies.UI.NAVIGATION_FRAGMENT)
-    implementation(Dependencies.UI.NAVIGATION_UI)
-    implementation("com.google.firebase:firebase-perf-ktx:20.3.0")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.databinding:databinding-common:8.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+    implementation("com.google.firebase:firebase-perf-ktx:20.4.0")
 
     // Test dependencies
-    testImplementation(Dependencies.Test.JUNIT)
-    androidTestImplementation(Dependencies.Test.JUNIT_ANDROID)
-    androidTestImplementation(Dependencies.Test.ESPRESSO_CORE)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.4.0")
+    testImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // Hilt dependencies
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.ANDROID_COMPILER)
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")
+    testImplementation("com.google.dagger:hilt-android-testing:2.47")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.47")
+    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.47")
 
     // Firebase dependencies
-    implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.CRASHLYTICS)
-    implementation(Dependencies.Firebase.ANALYTICS)
-    implementation(Dependencies.Firebase.COROUTINES_PLAY_SERVICES)
+    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("com.google.firebase:firebase-inappmessaging-display-ktx")
+
+    // Compose
+    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    implementation("androidx.compose.material3:material3:1.1.1")
+    implementation("androidx.compose.material:material:1.4.3")
+    implementation("androidx.compose.foundation:foundation:1.4.3")
+    implementation("androidx.compose.ui:ui:1.4.3")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.3")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.3")
+    implementation("androidx.compose.material:material-icons-core:1.4.3")
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
 }

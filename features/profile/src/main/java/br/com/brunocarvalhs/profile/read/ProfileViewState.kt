@@ -4,6 +4,8 @@ import br.com.brunocarvalhs.domain.entities.UserEntities
 
 sealed interface ProfileViewState {
     object Loading : ProfileViewState
+    object Default : ProfileViewState
+
     data class Success(val user: UserEntities?) : ProfileViewState
     data class Error(val message: String?) : ProfileViewState
 }
