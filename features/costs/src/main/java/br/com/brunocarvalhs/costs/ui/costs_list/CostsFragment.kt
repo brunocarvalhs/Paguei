@@ -42,7 +42,7 @@ class CostsFragment : BaseComposeFragment() {
 
     override fun initView() {
         this.defineAppNavigation(R.id.costsFragment)
-        this.visibilityToolbar(true)
+        this.visibilityToolbar(false)
     }
 
     @Composable

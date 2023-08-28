@@ -1,10 +1,9 @@
-package br.com.brunocarvalhs.auth
+package br.com.brunocarvalhs.auth.ui.login
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import br.com.brunocarvalhs.auth.ui.LoginScreen
 import br.com.brunocarvalhs.commons.BaseComposeFragment
 import br.com.brunocarvalhs.domain.services.AnalyticsService
 import dagger.hilt.android.AndroidEntryPoint

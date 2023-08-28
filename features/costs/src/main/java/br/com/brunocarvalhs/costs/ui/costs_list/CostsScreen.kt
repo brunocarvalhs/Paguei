@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,10 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
-import br.com.brunocarvalhs.costs.ui.components.BottomNavigation
 import br.com.brunocarvalhs.costs.ui.components.CostItem
-import br.com.brunocarvalhs.costs.ui.components.Header
-import br.com.brunocarvalhs.costs.ui.components.ReportCard
+import br.com.brunocarvalhs.costs.ui.components.NavigationRows
+import br.com.brunocarvalhs.costs.ui.components.TopHeader
 import br.com.brunocarvalhs.domain.entities.CostEntities
 
 @Composable
@@ -53,6 +53,7 @@ fun CostsScreen(navController: NavController, viewModel: CostsViewModel) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CostsContent(
     session: CostsViewModel.Header? = null,
@@ -70,17 +71,7 @@ private fun CostsContent(
     onCostLeft: ((CostEntities) -> Unit)? = null,
     onCostRight: ((CostEntities) -> Unit)? = null,
 ) {
-    Scaffold(
-        bottomBar = {
-            BottomNavigation(
-                onClickFloatingAction = onAdd,
-                onHome = onGroups,
-                onExtracts = onExtracts,
-                onCalculation = if (session?.isGroup == true) onCalculation else null,
-                onCheckList = onCheckList,
-            )
-        },
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Surface(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -91,16 +82,23 @@ private fun CostsContent(
                     .padding(paddingValues)
             ) {
                 item {
-                    Header(
+                    TopHeader(
                         name = session?.name.orEmpty(),
                         photoUrl = session?.photoUrl,
-                        onClickMenu = onProfile
-                    ) {
-                        ReportCard(
-                            list = if (uiState is CostsViewState.Success) uiState.list else emptyList(),
-                            onClick = onReport
-                        )
-                    }
+                        onClickMenu = onProfile,
+                        onAdd = onAdd,
+                        onScannerAdd = {},
+                        list = if (uiState is CostsViewState.Success) uiState.list else emptyList()
+                    )
+                }
+
+                item {
+                    NavigationRows(
+                        onHome = onGroups,
+                        onExtracts = onExtracts,
+                        onCalculation = if (session?.isGroup == true) onCalculation else null,
+                        onCheckList = onCheckList,
+                    )
                 }
 
                 when (uiState) {
@@ -137,6 +135,13 @@ private fun CostsContent(
                     }
 
                     is CostsViewState.Success -> {
+                        item {
+                            Row(
+                                modifier = Modifier.padding(10.dp)
+                            ) {
+                                Text(text = "Lista de boletos abertos")
+                            }
+                        }
                         items(uiState.list, key = { it.id }) { item ->
                             Spacer(modifier = Modifier.height(5.dp))
                             CostItem(

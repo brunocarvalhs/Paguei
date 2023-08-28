@@ -1,11 +1,6 @@
 package br.com.brunocarvalhs.costs.ui.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -17,7 +12,6 @@ import br.com.brunocarvalhs.costs.R
 
 @Composable
 fun BottomNavigation(
-    onClickFloatingAction: () -> Unit,
     onHome: (() -> Unit)? = null,
     onExtracts: (() -> Unit)? = null,
     onCalculation: (() -> Unit)? = null,
@@ -58,18 +52,6 @@ fun BottomNavigation(
                 }
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = onClickFloatingAction,
-                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-            ) {
-                Icon(
-                    Icons.Filled.Add,
-                    stringResource(id = R.string.fragment_costs_list_button_add_text)
-                )
-            }
-        }
     )
 }
 
@@ -78,7 +60,6 @@ fun BottomNavigation(
 private fun PreviewBottomNavigation() {
     PagueiTheme {
         BottomNavigation(
-            onClickFloatingAction = {},
             onHome = { },
             onExtracts = { },
             onCalculation = { },

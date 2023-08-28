@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.auth
+package br.com.brunocarvalhs.auth.ui.login
 
 import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher

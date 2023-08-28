@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.auth.ui
+package br.com.brunocarvalhs.auth.ui.login
 
 import android.content.res.Configuration
 import android.widget.Toast
@@ -31,8 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import br.com.brunocarvalhs.auth.LoginViewModel
-import br.com.brunocarvalhs.auth.LoginViewState
 import br.com.brunocarvalhs.auth.R
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract

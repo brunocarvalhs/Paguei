@@ -5,8 +5,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import br.com.brunocarvalhs.auth.LoginViewModel
-import br.com.brunocarvalhs.auth.ui.LoginScreen
+import br.com.brunocarvalhs.auth.ui.login.LoginViewModel
+import br.com.brunocarvalhs.auth.ui.login.LoginScreen
 import br.com.brunocarvalhs.commons.navigation.NavigationItem
 
 fun NavGraphBuilder.authGraph(
