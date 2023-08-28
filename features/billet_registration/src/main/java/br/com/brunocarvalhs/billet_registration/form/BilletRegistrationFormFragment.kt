@@ -211,7 +211,7 @@ class BilletRegistrationFormFragment : BaseFragment<FragmentBilletRegistrationFo
         }
     }
 
-    private fun startBarcodeScanner() {
+    fun startBarcodeScanner() {
         val options = ScanOptions()
         options.setDesiredBarcodeFormats(ScanOptions.ITF, ScanOptions.QR_CODE)
         options.setCameraId(0)

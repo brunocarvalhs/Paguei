@@ -72,6 +72,6 @@ class AuthenticationService @Inject constructor(
         id = firebaseUser.uid,
         name = firebaseUser.displayName,
         email = firebaseUser.email,
-        photoUrl = firebaseUser.photoUrl.toString(),
+        photoUrl = firebaseUser.photoUrl?.toString(),
     )
 }
