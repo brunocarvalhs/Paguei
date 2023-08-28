@@ -5,10 +5,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
 import br.com.brunocarvalhs.commons.utils.formatDecimal
+import br.com.brunocarvalhs.commons.utils.moneyReplace
 import br.com.brunocarvalhs.commons.utils.orEmpty
 import br.com.brunocarvalhs.commons.utils.percentage
 import br.com.brunocarvalhs.commons.utils.replateCommaToPoint
 import br.com.brunocarvalhs.data.model.UserModel
+import br.com.brunocarvalhs.data.utils.moneyFormatted
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -64,12 +66,8 @@ class CalculationResumeViewModel @Inject constructor(
 
     private fun calculateResume() {
         val salaries: Double = totalSalaryPercent.get()?.toDouble().orEmpty()
-        val costs: Double = totalCosts.get()?.toDouble().orEmpty()
+        val costs: Double = totalCosts.get()?.moneyReplace()?.toDouble().orEmpty()
         val resultResume = salaries.minus(costs)
-        totalResume.set(moneyFormatMoney(resultResume))
-    }
-
-    private fun moneyFormatMoney(value: Double): String {
-        return value.formatDecimal().replateCommaToPoint()
+        totalResume.set(resultResume.moneyFormatted())
     }
 }

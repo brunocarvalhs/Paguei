@@ -4,8 +4,8 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.commons.utils.orEmpty
 import br.com.brunocarvalhs.data.model.CostsModel
+import br.com.brunocarvalhs.data.utils.sumOfFormatted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class CalculationCostResumeViewModel @Inject constructor(
                 mutableState.value = CalculationCostResumeViewState.Loading
                 val result = list.map { CostsModel.fromJson(it) }
                     .filter { it.datePayment.isNullOrEmpty() }
-                totalCosts.set(result.sumOf { it.value?.toDouble().orEmpty() }.toString())
+                totalCosts.set(result.sumOfFormatted())
                 mutableState.value = CalculationCostResumeViewState.Success(result)
             } catch (e: Exception) {
                 mutableState.value = CalculationCostResumeViewState.Error(e.message)
