@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import br.com.brunocarvalhs.commons.BaseBottomSheetDialogFragment
 import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.databinding.DialogCostsSelectedBinding
-import br.com.brunocarvalhs.costs.selected_cost.CostsSelectedDialogFragmentDirections
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.entities.CostEntities
 import br.com.brunocarvalhs.domain.services.AnalyticsService

@@ -1,5 +1,7 @@
 package br.com.brunocarvalhs.costs.ui.costs_list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,10 +24,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
+import br.com.brunocarvalhs.costs.R
 import br.com.brunocarvalhs.costs.ui.components.CostItem
 import br.com.brunocarvalhs.costs.ui.components.NavigationRows
 import br.com.brunocarvalhs.costs.ui.components.TopHeader
@@ -53,7 +58,7 @@ fun CostsScreen(navController: NavController, viewModel: CostsViewModel) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun CostsContent(
     session: CostsViewModel.Header? = null,
@@ -85,9 +90,10 @@ private fun CostsContent(
                     TopHeader(
                         name = session?.name.orEmpty(),
                         photoUrl = session?.photoUrl,
+                        isGroup = session?.isGroup == true,
                         onClickMenu = onProfile,
                         onAdd = onAdd,
-                        onScannerAdd = {},
+                        onReport = onReport,
                         list = if (uiState is CostsViewState.Success) uiState.list else emptyList()
                     )
                 }
@@ -135,23 +141,29 @@ private fun CostsContent(
                     }
 
                     is CostsViewState.Success -> {
-                        item {
+                        stickyHeader {
                             Row(
-                                modifier = Modifier.padding(10.dp)
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(MaterialTheme.colorScheme.surface)
+                                    .padding(10.dp)
                             ) {
-                                Text(text = "Lista de boletos abertos")
+                                Text(text = stringResource(R.string.costs_list_header_title))
                             }
                         }
                         items(uiState.list, key = { it.id }) { item ->
-                            Spacer(modifier = Modifier.height(5.dp))
-                            CostItem(
-                                cost = item,
-                                onClick = { cost -> onCost?.invoke(cost) },
-                                onLongClick = { cost -> onLongCost?.invoke(cost) },
-                                onLeft = { cost -> onCostLeft?.invoke(cost) },
-                                onRight = { cost -> onCostRight?.invoke(cost) },
-                            )
-                            Spacer(modifier = Modifier.height(5.dp))
+                            Row(
+                                Modifier
+                                    .animateItemPlacement()
+                                    .padding(vertical = 5.dp)) {
+                                CostItem(
+                                    cost = item,
+                                    onClick = { cost -> onCost?.invoke(cost) },
+                                    onLongClick = { cost -> onLongCost?.invoke(cost) },
+                                    onLeft = { cost -> onCostLeft?.invoke(cost) },
+                                    onRight = { cost -> onCostRight?.invoke(cost) },
+                                )
+                            }
                         }
                     }
                 }

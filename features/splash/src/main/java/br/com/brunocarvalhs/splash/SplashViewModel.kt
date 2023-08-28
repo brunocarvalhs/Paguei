@@ -21,7 +21,7 @@ class SplashViewModel @Inject constructor(
     fun onSession() {
         viewModelScope.launch {
             mutableState.value = SplashViewState.Loading
-            delay(2000)
+            delay(100)
             getUserFromSessionUseCase.invoke().onSuccess {
                 it?.let {
                     analyticsService.setUserId(it.id)

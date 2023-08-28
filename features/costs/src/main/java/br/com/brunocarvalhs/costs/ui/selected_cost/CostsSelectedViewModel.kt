@@ -2,7 +2,6 @@ package br.com.brunocarvalhs.costs.ui.selected_cost
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.brunocarvalhs.commons.BaseViewModel
-import br.com.brunocarvalhs.costs.selected_cost.CostsSelectedDialogFragmentArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

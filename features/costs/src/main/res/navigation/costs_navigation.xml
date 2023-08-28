@@ -23,7 +23,7 @@
 
     <dialog
             android:id="@+id/itemListDialogFragment"
-            android:name="br.com.brunocarvalhs.costs.selected_cost.CostsSelectedDialogFragment"
+            android:name="br.com.brunocarvalhs.costs.ui.selected_cost.CostsSelectedDialogFragment"
             tools:layout="@layout/dialog_costs_selected">
 
         <argument

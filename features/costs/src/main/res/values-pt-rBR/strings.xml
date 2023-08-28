@@ -32,4 +32,8 @@
     <string name="copy_success">Código copiado com sucesso</string>
     <string name="fragment_payment_voucher_textfield_date_payment_hilt">Data de pagamento</string>
     <string name="menu_text_check_list">Check List</string>
+    <string name="home_top_total">Total</string>
+    <string name="home_top_fix">Fixo</string>
+    <string name="home_top_variable">Variavél</string>
+    <string name="costs_list_header_title">Lista de custos abertos</string>
 </resources>

@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.QrCodeScanner
+import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -42,9 +42,10 @@ import coil.compose.AsyncImage
 fun TopHeader(
     name: String? = null,
     photoUrl: String? = null,
+    isGroup: Boolean = false,
     list: List<CostEntities> = emptyList(),
     onClickMenu: () -> Unit,
-    onScannerAdd: () -> Unit,
+    onReport: () -> Unit,
     onAdd: () -> Unit
 ) {
 
@@ -83,7 +84,7 @@ fun TopHeader(
                         .size(54.dp)
                         .background(Color(0xFF585666), shape = RoundedCornerShape(10.dp))
                 ) {
-                    if (photoUrl.isNullOrEmpty()) {
+                    if (photoUrl.isNullOrEmpty() || isGroup) {
                         Text(
                             text = name.orEmpty().substring(0..1).uppercase(),
                             color = Color.White,
@@ -117,9 +118,9 @@ fun TopHeader(
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 FloatingActionButton(
-                    onClick = onScannerAdd,
+                    onClick = onReport,
                 ) {
-                    Icon(imageVector = Icons.Filled.QrCodeScanner, contentDescription = null)
+                    Icon(imageVector = Icons.Default.ShowChart, contentDescription = null)
                 }
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -140,7 +141,8 @@ fun TopHeader(
                             .padding(10.dp)
                     ) {
                         Text(
-                            style = MaterialTheme.typography.labelSmall, text = "Total"
+                            style = MaterialTheme.typography.labelSmall,
+                            text = stringResource(id = R.string.home_top_total)
                         )
                         Text(
                             style = MaterialTheme.typography.headlineSmall, text = stringResource(
@@ -172,11 +174,13 @@ fun TopHeader(
                         .padding(10.dp)
                 ) {
                     Text(
-                        style = MaterialTheme.typography.labelSmall, text = "Fixo"
+                        style = MaterialTheme.typography.labelSmall,
+                        text = stringResource(id = R.string.home_top_fix),
                     )
                     Text(
                         style = MaterialTheme.typography.headlineSmall,
-                        text = stringResource(id = R.string.item_cost_value,
+                        text = stringResource(
+                            id = R.string.item_cost_value,
                             list.sumOfFormatted { it.type == "FIX" })
                     )
                 }
@@ -198,7 +202,7 @@ fun TopHeader(
                 ) {
                     Text(
                         style = MaterialTheme.typography.labelSmall,
-                        text = "Variavél",
+                        text = stringResource(id = R.string.home_top_variable),
                     )
                     Text(
                         style = MaterialTheme.typography.headlineSmall,
@@ -222,7 +226,7 @@ fun PreviewTopHeader() {
             list = emptyList(),
             onClickMenu = {},
             onAdd = {},
-            onScannerAdd = {},
+            onReport = {},
         )
     }
 }
