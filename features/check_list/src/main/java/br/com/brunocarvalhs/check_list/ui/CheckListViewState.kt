@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.check_list
+package br.com.brunocarvalhs.check_list.ui
 
 sealed class CheckListViewState {
     data class Success(val list: HashMap<String, Map<String?, Boolean>>) : CheckListViewState()

@@ -8,7 +8,7 @@
 
     <fragment
             android:id="@+id/checkListFragment"
-            android:name="br.com.brunocarvalhs.check_list.CheckListFragment"
+            android:name="br.com.brunocarvalhs.check_list.ui.CheckListFragment"
             tools:layout="@layout/fragment_check_list">
         <deepLink app:uri="@string/deeplink_check_list" />
     </fragment>
