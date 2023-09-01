@@ -21,19 +21,24 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-fun String.moneyToDouble() = this.replace(REGEX_TEXT.toRegex(), "").toDouble()
+fun String.moneyToDouble(): Double = if (this.isNullOrEmpty()) 0.0
+else this.replace(REGEX_TEXT.toRegex(), "").toDouble()
 
-fun String.replateCommaToPoint() = this.replace(",", ".")
+fun String.replateCommaToPoint(): String =
+    this.replace(",", ".")
 
-fun CharSequence.moneyReplace() = this.replace("[^0-9,]".toRegex(), "").replace(",", ".")
+fun CharSequence.moneyReplace(): String =
+    this.replace("[^0-9,]".toRegex(), "").replace(",", ".")
 
-fun String.toMoney() = this.replace(".", ",")
+fun String.toMoney(): String =
+    this.replace(".", ",")
 
-fun Double.formatDecimal(): String = String.format(FORMAT_MONEY, this)
+fun Double.formatDecimal(): String =
+    String.format(FORMAT_MONEY, this)
 
 fun Double?.orEmpty(): Double = this ?: 0.0
 
-fun Double.percentage(value: Double) = ((this / 100.0) * value)
+fun Double.percentage(value: Double): Double = ((this / 100.0) * value)
 
 fun EditText.eventSetMonthTextField(calendar: Calendar, datePicker: MaterialDatePicker<Long>) {
     datePicker.addOnPositiveButtonClickListener {
@@ -148,9 +153,7 @@ fun EditText.initMonthConfig() {
 }
 
 fun TextInputLayout.setupTextFieldDate(
-    fragment: Fragment,
-    datePicker: MaterialDatePicker<Long>,
-    calendar: Calendar
+    fragment: Fragment, datePicker: MaterialDatePicker<Long>, calendar: Calendar
 ) {
     this.editText?.initDateConfig()
     this.setEndIconOnClickListener { datePicker.showDateAlert(fragment) }
@@ -158,9 +161,7 @@ fun TextInputLayout.setupTextFieldDate(
 }
 
 fun TextInputLayout.setupTextFieldMonth(
-    fragment: Fragment,
-    datePicker: MaterialDatePicker<Long>,
-    calendar: Calendar
+    fragment: Fragment, datePicker: MaterialDatePicker<Long>, calendar: Calendar
 ) {
     this.editText?.initMonthConfig()
     this.setEndIconOnClickListener { datePicker.showDateAlert(fragment) }

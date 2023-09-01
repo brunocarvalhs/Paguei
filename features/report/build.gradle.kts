@@ -1,6 +1,5 @@
+
 import config.AndroidConfig
-import flavor.BuildTypeDebug
-import flavor.BuildTypeRelease
 
 plugins {
     id("com.android.library")
@@ -109,6 +108,9 @@ dependencies {
 
     // Chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.patrykandpatrick.vico:compose:1.11.1")
+    implementation("com.patrykandpatrick.vico:compose-m3:1.11.1")
+    implementation("com.patrykandpatrick.vico:core:1.11.1")
 
     // Compose
     implementation(platform("androidx.compose:compose-bom:2023.06.01"))

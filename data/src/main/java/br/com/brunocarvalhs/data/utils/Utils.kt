@@ -16,9 +16,11 @@ fun List<CostEntities>.sumOfFormatted(filter: ((CostEntities) -> Boolean)? = nul
     return numberFormat.format(result)
 }
 
-fun Double.moneyFormatted(): String {
+fun Double.moneyFormatted(): String = try {
     val numberFormat = NumberFormat.getInstance(Locale.getDefault())
     numberFormat.maximumFractionDigits = 2
     numberFormat.minimumFractionDigits = 2
-    return numberFormat.format(this)
+    numberFormat.format(this)
+} catch (error: Throwable) {
+    String()
 }
