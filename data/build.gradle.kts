@@ -63,22 +63,22 @@ dependencies {
     implementation("com.google.android.gms:play-services-ads:22.2.0")
 
     // Network dependencies
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("androidx.navigation:navigation-common-ktx:2.6.0")
-    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation(libs.gson)
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.material)
 
     // Test dependencies
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:5.4.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
     // Hilt dependencies
-    implementation("com.google.dagger:hilt-android:2.47")
-    kapt("com.google.dagger:hilt-android-compiler:2.47")
-    testImplementation("com.google.dagger:hilt-android-testing:2.47")
-    kaptTest("com.google.dagger:hilt-android-compiler:2.47")
-    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.47")
+    implementation(libs.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
+    testImplementation(libs.hilt.android.testing)
+    kaptTest(libs.dagger.hilt.android.compiler)
+    testAnnotationProcessor(libs.dagger.hilt.android.compiler)
 }

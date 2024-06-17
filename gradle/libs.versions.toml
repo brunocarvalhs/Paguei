@@ -1,0 +1,108 @@
+[versions]
+activityComposeVersion = "1.7.2"
+appcompatVersion = "1.6.1"
+compilerVersion = "4.15.1"
+composeBomVersion = "2023.06.01"
+coordinatorlayoutVersion = "1.2.0"
+constraintlayoutVersion = "2.1.4"
+coreKtxVersion = "1.10.1"
+databindingCommonVersion = "8.1.0"
+espressoCoreVersion = "3.5.1"
+firebaseAuthKtxVersion = "22.1.1"
+firebaseBomVersion = "32.2.2"
+firebaseMessagingKtxVersion = "23.2.1"
+firebasePerfKtxVersion = "20.4.0"
+firebaseUiAuthVersion = "8.0.2"
+fragmentKtxVersion = "1.6.1"
+glideVersion = "4.15.1"
+googleHiltAndroidCompiler = "2.47"
+gsonVersion = "2.10.1"
+hiltAndroidCompiler = "2.47"
+hiltAndroidTestingVersion = "2.47"
+hiltAndroidVersion = "2.47"
+inputMaskAndroidVersion = "6.1.0"
+junit = "1.1.5"
+junitVersion = "4.13.2"
+kotlinxCoroutinesPlayServicesVersion = "1.7.3"
+kotlinxCoroutinesTestVersion = "1.7.3"
+legacySupportV4Version = "1.0.0"
+material3Version = "1.1.1"
+material = "1.4.3"
+foundationVersion = "1.4.3"
+material3WindowSizeClassVersion = "1.1.1"
+materialVersion = "1.9.0"
+mockitoCoreVersion = "5.4.0"
+mpandroidchartVersion = "v3.1.0"
+multidexVersion = "2.0.1"
+playServicesAuthVersion = "20.6.0"
+recyclerviewVersion = "1.3.1"
+uiVersion = "1.4.3"
+uiToolingPreviewVersion = "1.4.3"
+uiToolingVersion = "1.4.3"
+uiTestJunit4Version = "1.4.3"
+uiTestManifestVersion = "1.4.3"
+materialIconsCoreVersion = "1.4.3"
+materialIconsExtendedVersion = "1.4.3"
+lifecycleViewmodelComposeVersion = "2.6.1"
+runtimeLivedataVersion = "1.4.3"
+navigationComposeVersion = "2.6.0"
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayoutVersion" }
+androidx-coordinatorlayout = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "coordinatorlayoutVersion" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
+androidx-databinding-common = { module = "androidx.databinding:databinding-common", version.ref = "databindingCommonVersion" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtxVersion" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
+androidx-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "junit" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4Version" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelComposeVersion" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelComposeVersion" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleViewmodelComposeVersion" }
+androidx-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClassVersion" }
+androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidexVersion" }
+androidx-navigation-common-ktx = { module = "androidx.navigation:navigation-common-ktx", version.ref = "navigationComposeVersion" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationComposeVersion" }
+androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigationComposeVersion" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationComposeVersion" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerviewVersion" }
+androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtimeLivedataVersion" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelComposeVersion" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtendedVersion" }
+androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "materialIconsCoreVersion" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifestVersion" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4Version" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiToolingVersion" }
+androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreviewVersion" }
+androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "uiVersion" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundationVersion" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compilerVersion" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
+dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebaseAuthKtxVersion" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
+firebase-inappmessaging-display-ktx = { module = "com.google.firebase:firebase-inappmessaging-display-ktx" }
+firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebaseMessagingKtxVersion" }
+firebase-perf-ktx = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebasePerfKtxVersion" }
+firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuthVersion" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+google-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "googleHiltAndroidCompiler" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTestingVersion" }
+input-mask-android = { module = "com.redmadrobot:input-mask-android", version.ref = "inputMaskAndroidVersion" }
+junit = { module = "junit:junit", version.ref = "junitVersion" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServicesVersion" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTestVersion" }
+material = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+material3 = { module = "androidx.compose.material3:material3", version.ref = "material3Version" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCoreVersion" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchartVersion" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuthVersion" }
+[plugins]
