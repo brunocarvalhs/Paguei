@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import br.com.brunocarvalhs.auth.navigation.authGraph
+import br.com.brunocarvalhs.auth.feature.presentation.navigation.authGraph
 import br.com.brunocarvalhs.commons.navigation.NavigationItem
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import br.com.brunocarvalhs.costs.navigation.homeGraph
@@ -90,7 +90,6 @@ class MainComposeActivity : ComponentActivity() {
                             navController = navigator,
                             startDestination = NavigationItem.START
                         ) {
-
                             authGraph(navController = navigator, route = NavigationItem.Login.route)
                             homeGraph(navController = navigator, route = NavigationItem.Home.route)
                         }

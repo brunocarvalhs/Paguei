@@ -49,18 +49,18 @@ dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
     // Core dependencies
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("com.google.android.play:app-update-ktx:2.1.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.app.update.ktx)
 
     // Firebase dependencies
-    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
-    implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.7.0")
-    implementation("com.google.android.gms:play-services-auth:20.6.0")
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-    implementation("com.google.android.gms:play-services-ads:22.2.0")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.play.services.auth)
+    implementation(libs.google.firebase.analytics.ktx)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.play.services.ads)
 
     // Network dependencies
     implementation(libs.gson)

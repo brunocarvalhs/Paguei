@@ -1,21 +1,21 @@
-package br.com.brunocarvalhs.auth.ui.login
+package br.com.brunocarvalhs.auth.feature.presentation.login
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import br.com.brunocarvalhs.auth.AuthSession
+import br.com.brunocarvalhs.auth.feature.presentation.viewmodel.LoginViewModel
+import br.com.brunocarvalhs.auth.feature.presentation.viewmodel.LoginViewModelFactory
 import br.com.brunocarvalhs.commons.BaseComposeFragment
-import br.com.brunocarvalhs.domain.services.AnalyticsService
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class LoginFragment : BaseComposeFragment() {
+internal class LoginFragment : BaseComposeFragment() {
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels(
+        factoryProducer = { LoginViewModelFactory() }
+    )
 
-    @Inject
-    lateinit var analyticsService: AnalyticsService
+    private var analyticsService = AuthSession.dependencies.analytics
 
     @Composable
     override fun CreateScreen(): Unit = LoginScreen(

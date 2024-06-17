@@ -148,6 +148,12 @@ dependencies {
     implementation(libs.firebase.analytics.ktx)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.firebase.inappmessaging.display.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.play.services.auth)
+    implementation(libs.google.firebase.analytics.ktx)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.play.services.ads)
 
     // Compose
     implementation(platform(libs.compose.bom))

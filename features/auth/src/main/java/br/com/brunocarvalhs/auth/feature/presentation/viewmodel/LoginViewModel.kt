@@ -1,26 +1,28 @@
-package br.com.brunocarvalhs.auth.ui.login
+package br.com.brunocarvalhs.auth.feature.presentation.viewmodel
 
 import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import br.com.brunocarvalhs.auth.AuthSession
+import br.com.brunocarvalhs.auth.commons.providers.AuthAnalyticsProvider
+import br.com.brunocarvalhs.auth.commons.providers.AuthNavigateProvider
+import br.com.brunocarvalhs.auth.feature.domain.usecases.AuthenticateUserUseCase
+import br.com.brunocarvalhs.auth.feature.presentation.login.LoginFragment
+import br.com.brunocarvalhs.auth.feature.presentation.login.LoginViewState
 import br.com.brunocarvalhs.commons.BaseComposeViewModel
 import br.com.brunocarvalhs.data.navigation.Navigation
 import br.com.brunocarvalhs.domain.services.AnalyticsService
-import br.com.brunocarvalhs.domain.usecase.auth.AuthenticateUserUseCase
 import br.com.brunocarvalhs.paguei.commons.R
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.gms.common.Scopes
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
+class LoginViewModel(
     private val authenticateUserUseCase: AuthenticateUserUseCase,
-    private val analyticsService: AnalyticsService,
-    private val navigation: Navigation
+    private val analyticsService: AuthAnalyticsProvider = AuthSession.dependencies.analytics,
+    private val navigation: AuthNavigateProvider = AuthSession.dependencies.navigation
 ) : BaseComposeViewModel<LoginViewState>(LoginViewState.Default) {
 
     private val providers by lazy {

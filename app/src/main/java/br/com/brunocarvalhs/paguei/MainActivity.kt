@@ -6,12 +6,15 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
+import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import br.com.brunocarvalhs.commons.ManagerToolbar
+import br.com.brunocarvalhs.commons.navigation.NavigationItem
 import br.com.brunocarvalhs.domain.services.UpdateVersionService
 import br.com.brunocarvalhs.paguei.databinding.ActivityMainBinding
+import br.com.brunocarvalhs.paguei.features.AuthFeatureLauncher
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,8 +40,17 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
         navController = navHostFragment.navController
+        defineNavGraph()
         val appBarConfiguration = AppBarConfiguration(setOf(navController.graph.startDestinationId))
         binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun defineNavGraph() {
+        navController.graph = navController.createGraph(
+            startDestination = NavigationItem.START
+        ) {
+            AuthFeatureLauncher(context = this@MainActivity).render(navGraphBuilder = this)
+        }
     }
 
     override val toolbar: Toolbar

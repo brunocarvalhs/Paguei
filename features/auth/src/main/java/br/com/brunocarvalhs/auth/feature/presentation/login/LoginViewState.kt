@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.auth.ui.login
+package br.com.brunocarvalhs.auth.feature.presentation.login
 
 sealed class LoginViewState {
     object Loading : LoginViewState()
