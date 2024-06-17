@@ -19,7 +19,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.gms.common.Scopes
 import kotlinx.coroutines.launch
 
-class LoginViewModel(
+internal class LoginViewModel(
     private val authenticateUserUseCase: AuthenticateUserUseCase,
     private val analyticsService: AuthAnalyticsProvider = AuthSession.dependencies.analytics,
     private val navigation: AuthNavigateProvider = AuthSession.dependencies.navigation

@@ -5,11 +5,11 @@ import br.com.brunocarvalhs.auth.feature.domain.repository.LoginRepository
 import br.com.brunocarvalhs.domain.entities.UserEntities
 import kotlin.runCatching
 
-interface AuthenticateUserUseCase {
+internal interface AuthenticateUserUseCase {
     suspend fun invoke(): Result<UserEntities?>
 }
 
-class AuthenticateUserUseCaseImpl(
+internal class AuthenticateUserUseCaseImpl(
     private val repository: LoginRepository,
     private val sessionManager: AuthSessionProvider
 ) : AuthenticateUserUseCase {

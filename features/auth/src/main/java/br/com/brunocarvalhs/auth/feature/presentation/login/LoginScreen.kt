@@ -37,7 +37,7 @@ import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 
 @Composable
-fun LoginScreen(
+internal fun LoginScreen(
     navController: NavController, modifier: Modifier = Modifier, viewModel: LoginViewModel
 ) {
     val signInLauncher =
@@ -61,7 +61,7 @@ fun LoginScreen(
 }
 
 @Composable
-fun LoginContent(
+internal fun LoginContent(
     modifier: Modifier,
     onLogin: () -> Unit,
 ) {
@@ -121,7 +121,7 @@ fun LoginContent(
 @Composable
 @Preview
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
-fun PreviewLoginScreen() {
+internal fun PreviewLoginScreen() {
     PagueiTheme {
         Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             LoginContent(onLogin = {}, modifier = Modifier)

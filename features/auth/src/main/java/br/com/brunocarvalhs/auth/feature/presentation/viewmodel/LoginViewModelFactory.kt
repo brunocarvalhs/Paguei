@@ -6,7 +6,7 @@ import br.com.brunocarvalhs.auth.AuthSession
 import br.com.brunocarvalhs.auth.feature.data.repository.LoginRepositoryImpl
 import br.com.brunocarvalhs.auth.feature.domain.usecases.AuthenticateUserUseCaseImpl
 
-class LoginViewModelFactory : ViewModelProvider.Factory {
+internal class LoginViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

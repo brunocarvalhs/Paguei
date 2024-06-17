@@ -6,7 +6,7 @@ import br.com.brunocarvalhs.domain.entities.UserEntities
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LoginRepositoryImpl(
+internal class LoginRepositoryImpl(
     private val networkProvider: AuthNetworkProvider,
 ) : LoginRepository {
     override suspend fun create(user: UserEntities): UserEntities = withContext(Dispatchers.IO) {
