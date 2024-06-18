@@ -20,7 +20,7 @@ sealed class NavigationItem(
     companion object {
         const val URI = ""
 
-        val START = Splash.route
+        val START = Login.route
 
         fun to(
             navController: NavController,
@@ -31,6 +31,7 @@ sealed class NavigationItem(
         }
 
         val topLevelDestinations: List<NavigationItem> = listOf(
+            Splash,
             Login,
             Home,
         )
@@ -47,8 +48,8 @@ sealed class NavigationItem(
     )
 
     object Login : NavigationItem(
-        route = "auth",
-        deepLinks = listOf(navDeepLink { uriPattern = "$URI/auth" }),
+        route = "login",
+        deepLinks = listOf(navDeepLink { uriPattern = "$URI/login" }),
         arguments = listOf(navArgument("") { }),
         icon = Icons.Filled.Person,
     )
