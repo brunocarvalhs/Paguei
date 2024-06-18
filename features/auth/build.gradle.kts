@@ -63,8 +63,6 @@ android {
 
 dependencies {
     // Modules
-    implementation(project(mapOf("path" to ":data")))
-    implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":commons")))
 
     // Core dependencies

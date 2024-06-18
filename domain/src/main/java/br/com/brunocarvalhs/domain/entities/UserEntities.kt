@@ -1,6 +1,7 @@
 package br.com.brunocarvalhs.domain.entities
 
 import java.io.Serializable
+import java.util.HashMap
 
 interface UserEntities : Serializable {
     val id: String
@@ -10,7 +11,7 @@ interface UserEntities : Serializable {
     val salary: String?
     val token: String?
 
-    fun toMap(): Map<String?, Any?>
+    fun toMap(): Map<String, Any>
     fun toJson(): String
 
     fun firstName(): String?

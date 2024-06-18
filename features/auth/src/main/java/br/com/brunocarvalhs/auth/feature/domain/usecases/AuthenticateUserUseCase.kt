@@ -6,14 +6,14 @@ import br.com.brunocarvalhs.domain.entities.UserEntities
 import kotlin.runCatching
 
 internal interface AuthenticateUserUseCase {
-    suspend fun invoke(): Result<UserEntities?>
+    suspend fun invoke(): Result<HashMap<String, Any>?>
 }
 
 internal class AuthenticateUserUseCaseImpl(
     private val repository: LoginRepository,
     private val sessionManager: AuthSessionProvider
 ) : AuthenticateUserUseCase {
-    override suspend fun invoke(): Result<UserEntities?> = runCatching {
+    override suspend fun invoke(): Result<HashMap<String, Any>?> = runCatching {
         val session = sessionManager.get()
         if (session != null) {
             val user = repository.create(session)

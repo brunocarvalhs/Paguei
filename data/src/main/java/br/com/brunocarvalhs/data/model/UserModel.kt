@@ -20,8 +20,8 @@ data class UserModel(
     @SerializedName(SALARY) override val salary: String? = null,
     @SerializedName(TOKEN) override val token: String? = null,
 ) : UserEntities {
-    override fun toMap(): Map<String?, Any?> =
-        Gson().fromJson(this.toJson(), HashMap<String?, Any?>().javaClass)
+    override fun toMap(): Map<String, Any> =
+        Gson().fromJson(this.toJson(), HashMap<String, Any>().javaClass)
 
     override fun toJson(): String = Gson().toJson(this)
 
@@ -59,6 +59,14 @@ data class UserModel(
     }
 
     companion object {
+        fun fromMap(userMap: HashMap<String, Any>): UserEntities = UserModel(
+            id = userMap[ID] as String,
+            name = userMap[NAME] as String,
+            photoUrl = userMap[PHOTO_URL] as String,
+            email = userMap[EMAIL] as String,
+            salary = userMap[SALARY] as String
+        )
+
         fun fromJson(value: String): UserEntities = Gson().fromJson(value, UserModel::class.java)
     }
 }
