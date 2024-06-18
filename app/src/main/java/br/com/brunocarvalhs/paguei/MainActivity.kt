@@ -14,7 +14,8 @@ import br.com.brunocarvalhs.commons.ManagerToolbar
 import br.com.brunocarvalhs.commons.navigation.NavigationItem
 import br.com.brunocarvalhs.domain.services.UpdateVersionService
 import br.com.brunocarvalhs.paguei.databinding.ActivityMainBinding
-import br.com.brunocarvalhs.paguei.features.AuthFeatureLauncher
+import br.com.brunocarvalhs.paguei.features.auth.AuthFeatureLauncher
+import br.com.brunocarvalhs.paguei.features.splash.SplashFeatureLauncher
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(), ManagerToolbar {
         navController.graph = navController.createGraph(
             startDestination = NavigationItem.START
         ) {
+            SplashFeatureLauncher(context = this@MainActivity).render(navGraphBuilder = this)
             AuthFeatureLauncher(context = this@MainActivity).render(navGraphBuilder = this)
         }
     }

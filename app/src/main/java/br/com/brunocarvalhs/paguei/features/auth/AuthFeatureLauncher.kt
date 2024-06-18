@@ -1,14 +1,14 @@
-package br.com.brunocarvalhs.paguei.features
+package br.com.brunocarvalhs.paguei.features.auth
 
 import android.content.Context
 import androidx.navigation.NavGraphBuilder
 import br.com.brunocarvalhs.auth.AuthDependencies
 import br.com.brunocarvalhs.auth.AuthInitialization
 import br.com.brunocarvalhs.commons.navigation.NavigationItem
-import br.com.brunocarvalhs.paguei.features.providers.AuthAnalyticsProviderImpl
-import br.com.brunocarvalhs.paguei.features.providers.AuthNavigationProviderImpl
-import br.com.brunocarvalhs.paguei.features.providers.AuthNetworkProviderImpl
-import br.com.brunocarvalhs.paguei.features.providers.AuthSessionProviderImpl
+import br.com.brunocarvalhs.paguei.features.auth.providers.AuthAnalyticsProviderImpl
+import br.com.brunocarvalhs.paguei.features.auth.providers.AuthNavigationProviderImpl
+import br.com.brunocarvalhs.paguei.features.auth.providers.AuthNetworkProviderImpl
+import br.com.brunocarvalhs.paguei.features.auth.providers.AuthSessionProviderImpl
 
 class AuthFeatureLauncher(
     private val context: Context

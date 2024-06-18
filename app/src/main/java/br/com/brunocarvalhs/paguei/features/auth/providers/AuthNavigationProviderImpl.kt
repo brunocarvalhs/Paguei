@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.providers
+package br.com.brunocarvalhs.paguei.features.auth.providers
 
 import android.content.Context
 import androidx.navigation.NavDeepLinkRequest
@@ -8,13 +8,18 @@ import br.com.brunocarvalhs.data.services.SessionManagerService
 import br.com.brunocarvalhs.domain.services.SessionManager
 
 class AuthNavigationProviderImpl(
-    private val context: Context,
-    private val sessionManager: SessionManager = SessionManagerService()
+    context: Context,
+    sessionManager: SessionManager = SessionManagerService()
 ) : AuthNavigateProvider {
-    override fun navigateToCosts(): NavDeepLinkRequest {
-        return Navigation(
+
+    private val navigate: Navigation by lazy {
+        Navigation(
             context = context,
             sessionManager = sessionManager
-        ).navigateToCosts()
+        )
+    }
+
+    override fun navigateToCosts(): NavDeepLinkRequest {
+        return navigate.navigateToCosts()
     }
 }

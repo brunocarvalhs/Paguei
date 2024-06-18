@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.splash.ui
+package br.com.brunocarvalhs.splash.feature.presentation.content.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import br.com.brunocarvalhs.commons.theme.PagueiTheme
 import br.com.brunocarvalhs.splash.R
-import br.com.brunocarvalhs.splash.SplashViewModel
-import br.com.brunocarvalhs.splash.SplashViewState
+import br.com.brunocarvalhs.splash.feature.presentation.viewmodel.SplashViewModel
+import br.com.brunocarvalhs.splash.feature.presentation.content.SplashViewState
 
 @Composable
 fun SplashScreen(navController: NavController, viewModel: SplashViewModel) {

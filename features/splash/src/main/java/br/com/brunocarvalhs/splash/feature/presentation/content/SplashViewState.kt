@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.splash
+package br.com.brunocarvalhs.splash.feature.presentation.content
 
 sealed class SplashViewState {
     object Loading : SplashViewState()

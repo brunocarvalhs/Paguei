@@ -1,4 +1,4 @@
-package br.com.brunocarvalhs.paguei.features.providers
+package br.com.brunocarvalhs.paguei.features.auth.providers
 
 import br.com.brunocarvalhs.auth.commons.providers.AuthSessionProvider
 import br.com.brunocarvalhs.data.services.SessionManagerService
