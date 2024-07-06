@@ -3,21 +3,14 @@ on:
   push:
     branches: [ master ]
 
-env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
 jobs:
   setup_environment:
     runs-on: ubuntu-latest
     name: Setup Environment
     outputs:
-      enable_unit_tests: true
-      enable_android_lint: true
-      enable_build_apk: true
-      enable_build_aab: true
-      enable_firebase_publish: false
-      jdk_version: 11
-      gradle_opts: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+      jdk_version: ${{ steps.setup_env.outputs.jdk_version }}
+      gradle_opts: ${{ steps.setup_env.outputs.gradle_opts }}
+      module_name: ${{ steps.setup_env.outputs.module_name }}
 
     steps:
       - name: Checkout code
@@ -38,10 +31,19 @@ jobs:
       - name: Setup Gradle
         run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
 
+      - name: Save state and set outputs
+        id: setup_env
+        run: |
+          echo "jdk_version=11" >> $GITHUB_STATE
+          echo "jdk_version=11" >> $GITHUB_OUTPUT
+          echo "gradle_opts=-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m" >> $GITHUB_STATE
+          echo "gradle_opts=-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m" >> $GITHUB_OUTPUT
+          MODULE_NAME=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
+          echo "module_name=$MODULE_NAME" >> $GITHUB_OUTPUT
+
   unit_tests:
     needs: setup_environment
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_unit_tests }}
     name: Unit Tests
     steps:
       - name: Checkout code
@@ -65,7 +67,6 @@ jobs:
   android_lint:
     needs: setup_environment
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_android_lint }}
     name: Lint
     steps:
       - name: Checkout code
@@ -89,13 +90,12 @@ jobs:
   build_apk:
     needs: [unit_tests, android_lint]
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_build_apk }}
     name: Build APK
     env:
       KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
       KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
-      APP_NAME: "Paguei"
+      APP_NAME: ${{ needs.setup_environment.outputs.module_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -120,13 +120,12 @@ jobs:
   build_aab:
     needs: [unit_tests, android_lint]
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_build_aab }}
     name: Build AAB
     env:
       KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
       KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
-      APP_NAME: "Paguei"
+      APP_NAME: ${{ needs.setup_environment.outputs.module_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -151,10 +150,9 @@ jobs:
   publish:
     needs: [build_apk, build_aab]
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_firebase_publish }}
     name: Publish
     env:
-      APP_NAME: "Paguei"
+      APP_NAME: ${{ needs.setup_environment.outputs.module_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -163,7 +161,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Get App Version
-        run: echo "::set-env name=version::$(cat VERSION.md)"
+        run: echo "version=$(cat VERSION.md)" >> $GITHUB_ENV
 
       - name: Create Release
         uses: actions/create-release@v1
