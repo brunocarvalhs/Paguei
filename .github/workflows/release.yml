@@ -13,11 +13,15 @@ jobs:
   checkout_code:
     runs-on: ubuntu-latest
     name: Checkout Code
+    outputs:
+      src_dir: ${{ steps.checkout.outputs.dir }}
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
   setup_environment:
     runs-on: ubuntu-latest
@@ -34,13 +38,13 @@ jobs:
 
       - name: Give execution permissions to gradlew
         id: set_permissions
-        run: chmod +x gradlew
+        run: chmod +x src/gradlew
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
       - name: Setup Gradle
-        run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
+        run: echo "org.gradle.daemon=false" >> src/gradle.properties
 
   create_google_services_file:
     runs-on: ubuntu-latest
@@ -50,11 +54,12 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
       - name: Create google-services release file
         run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+          rm -f src/app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > src/app/google-services.json
 
   dependency_check:
     runs-on: ubuntu-latest
@@ -64,6 +69,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
       - name: OWASP Dependency Check
         uses: OWASP/dependency-check-action@v2
@@ -80,6 +86,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
       - name: Install ORT
         run: |
@@ -88,7 +95,7 @@ jobs:
 
       - name: Run ORT analyze
         run: |
-          ort --info analyze -i . -o ort/analyzer
+          ort --info analyze -i src -o ort/analyzer
 
       - name: Run ORT evaluate
         run: |
@@ -102,12 +109,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
       - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
+        run: chmod +x src/gradlew
 
       - name: Unit tests
-        run: ./gradlew testRelease --stacktrace
+        run: ./src/gradlew testRelease --stacktrace
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.setup_environment.outputs.has-exec-permissions }}
           JDK_VERSION: ${{ env.JDK_VERSION }}
@@ -122,12 +130,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
       - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
+        run: chmod +x src/gradlew
 
       - name: Android Lint
-        run: ./gradlew lintRelease
+        run: ./src/gradlew lintRelease
         env:
           HAS_EXEC_PERMISSIONS: ${{ needs.setup_environment.outputs.has-exec-permissions }}
           JDK_VERSION: ${{ env.JDK_VERSION }}
@@ -144,7 +153,7 @@ jobs:
     steps:
       - name: Extract version from VERSION.md
         id: extract_version
-        run: echo "::set-output name=version::$(cat VERSION.md)"
+        run: echo "::set-output name=version::$(cat src/VERSION.md)"
 
       - name: Get Build Date
         id: extract_date
@@ -158,18 +167,19 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
       - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
+        run: chmod +x src/gradlew
 
       - name: Build APK
-        run: ./gradlew assembleRelease
+        run: ./src/gradlew assembleRelease
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
-          path: app/build/outputs/apk/**/*.apk
+          path: src/app/build/outputs/apk/**/*.apk
 
   build_aab:
     runs-on: ubuntu-latest
@@ -179,18 +189,19 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          path: src
 
       - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
+        run: chmod +x src/gradlew
 
       - name: Build AAB
-        run: ./gradlew bundleRelease
+        run: ./src/gradlew bundleRelease
 
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
-          path: app/build/outputs/bundle/**/*.aab
+          path: src/app/build/outputs/bundle/**/*.aab
 
   check_existing_release:
     runs-on: ubuntu-latest
@@ -237,11 +248,22 @@ jobs:
           tag_name: ${{ needs.extract_version_and_date.outputs.version }}
           release_name: ${{ env.APP_NAME }} v${{ needs.extract_version_and_date.outputs.version }}
           body: |
-            Release version: ${{ needs.extract_version_and_date.outputs.version }}
-            Build date: ${{ needs.extract_version_and_date.outputs.date }}
-            Artifacts:
-              - APK: ${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
-              - AAB: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
-          files: |
-            ./${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}.apk
-            ./${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}.aab
+            Release of version ${{ needs.extract_version_and_date.outputs.version }} on ${{ needs.extract_version_and_date.outputs.date }}
+          draft: false
+          prerelease: false
+
+      - name: Upload APK to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}.apk
+          asset_name: ${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload AAB to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}.aab
+          asset_name: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}.aab
+          asset_content_type: application/octet-stream
