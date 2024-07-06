@@ -10,20 +10,22 @@ env:
   APP_NAME: "Paguei"
 
 jobs:
-  preparing_environment:
+  checkout_code:
     runs-on: ubuntu-latest
-    name: Preparing Environment
-    outputs:
-      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
-      jdk-version: ${{ env.JDK_VERSION }}
-      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
-      gradle-opts: ${{ env.GRADLE_OPTS }}
+    name: Checkout Code
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
 
+  setup_environment:
+    runs-on: ubuntu-latest
+    name: Setup Environment
+    needs: checkout_code
+    outputs:
+      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
+    steps:
       - name: Set up JDK ${{ env.JDK_VERSION }}
         uses: actions/setup-java@v3
         with:
@@ -31,6 +33,7 @@ jobs:
           java-version: '${{ env.JDK_VERSION }}'
 
       - name: Give execution permissions to gradlew
+        id: set_permissions
         run: chmod +x gradlew
 
       - name: Setup Android SDK
@@ -39,8 +42,60 @@ jobs:
       - name: Setup Gradle
         run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
 
+  create_google_services_file:
+    runs-on: ubuntu-latest
+    name: Create Google Services File
+    needs: setup_environment
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+  dependency_check:
+    runs-on: ubuntu-latest
+    name: Dependency Check
+    needs: setup_environment
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: OWASP Dependency Check
+        uses: OWASP/dependency-check-action@v2
+        with:
+          project: ${{ github.event.repository.name }}
+          format: 'ALL'
+        continue-on-error: true
+
+  license_check:
+    runs-on: ubuntu-latest
+    name: License Check
+    needs: setup_environment
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install ORT
+        run: |
+          wget -qO - https://raw.githubusercontent.com/oss-review-toolkit/ort/main/scripts/download-repository-archive.sh | sh
+          export PATH=$PWD/oss-review-toolkit:$PATH
+
+      - name: Run ORT analyze
+        run: |
+          ort --info analyze -i . -o ort/analyzer
+
+      - name: Run ORT evaluate
+        run: |
+          ort --info evaluate -i ort/analyzer -o ort/evaluator
+
   unit_tests:
-    needs: preparing_environment
+    needs: [setup_environment, create_google_services_file]
     runs-on: ubuntu-latest
     name: Unit Tests
     steps:
@@ -51,21 +106,16 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
       - name: Unit tests
         run: ./gradlew testRelease --stacktrace
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
-          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
-          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+          HAS_EXEC_PERMISSIONS: ${{ needs.setup_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ env.JDK_VERSION }}
+          ANDROID_SDK_TOOLS: ${{ env.ANDROID_SDK_TOOLS }}
+          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
 
   android_lint:
-    needs: preparing_environment
+    needs: [setup_environment, create_google_services_file]
     runs-on: ubuntu-latest
     name: Lint
     steps:
@@ -76,65 +126,121 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
       - name: Android Lint
         run: ./gradlew lintRelease
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
-          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
-          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+          HAS_EXEC_PERMISSIONS: ${{ needs.setup_environment.outputs.has-exec-permissions }}
+          JDK_VERSION: ${{ env.JDK_VERSION }}
+          ANDROID_SDK_TOOLS: ${{ env.ANDROID_SDK_TOOLS }}
+          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
 
-  build:
-    needs: [ preparing_environment, unit_tests, android_lint ]
+  extract_version_and_date:
     runs-on: ubuntu-latest
-    name: Build
-    env:
-      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
-      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
-      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
+    name: Extract Version and Date
+    needs: checkout_code
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+      date: ${{ steps.extract_date.outputs.date }}
+    steps:
+      - name: Extract version from VERSION.md
+        id: extract_version
+        run: echo "::set-output name=version::$(cat VERSION.md)"
+
+      - name: Get Build Date
+        id: extract_date
+        run: echo "::set-output name=date::$(date +%Y-%m-%d)"
+
+  build_apk:
+    runs-on: ubuntu-latest
+    name: Build APK
+    needs: [setup_environment, unit_tests, android_lint, create_google_services_file, extract_version_and_date]
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
 
       - name: Give execution permissions to gradlew
-        run: |
-          chmod +x gradlew
-
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
-      - name: Extract version from VERSION.md
-        run: echo "::set-env name=version::$(cat VERSION.md)"
-
-      - name: Get Build Date
-        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
+        run: chmod +x gradlew
 
       - name: Build APK
         run: ./gradlew assembleRelease
 
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+          path: app/build/outputs/apk/**/*.apk
+
+  build_aab:
+    runs-on: ubuntu-latest
+    name: Build AAB
+    needs: [setup_environment, unit_tests, android_lint, create_google_services_file, extract_version_and_date]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
+
       - name: Build AAB
         run: ./gradlew bundleRelease
 
-      - name: Upload Artifact
+      - name: Upload AAB Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}
-          path: |
-            app/build/outputs/bundle/**/*.aab
-            app/build/outputs/apk/**/*.apk
+          name: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+          path: app/build/outputs/bundle/**/*.aab
 
-      - name: Create Release
+  check_existing_release:
+    runs-on: ubuntu-latest
+    name: Check Existing Release
+    needs: extract_version_and_date
+    id: check_release
+    steps:
+      - name: Check if release exists
+        id: check_release
+        run: |
+          VERSION=${{ needs.extract_version_and_date.outputs.version }}
+          RELEASE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/releases/tags/$VERSION")
+          echo "$RELEASE"
+          if [[ "$RELEASE" == *"\"message\": \"Not Found\""* ]]; then
+            echo "::set-output name=exists::false"
+          else
+            echo "::set-output name=exists::true"
+          fi
+
+  create_release:
+    runs-on: ubuntu-latest
+    name: Create Release
+    needs: [check_existing_release, build_apk, build_aab]
+    if: needs.check_existing_release.outputs.exists == 'false'
+    steps:
+      - name: Download APK Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+          path: ./
+
+      - name: Download AAB Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+          path: ./
+
+      - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.version }}
-          release_name: ${{ env.APP_NAME }} v${{ env.version }}
+          tag_name: ${{ needs.extract_version_and_date.outputs.version }}
+          release_name: ${{ env.APP_NAME }} v${{ needs.extract_version_and_date.outputs.version }}
+          body: |
+            Release version: ${{ needs.extract_version_and_date.outputs.version }}
+            Build date: ${{ needs.extract_version_and_date.outputs.date }}
+            Artifacts:
+              - APK: ${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+              - AAB: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+          files: |
+            ./${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}.apk
+            ./${{ env.APP_NAME }}-AAB
