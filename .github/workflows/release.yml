@@ -196,7 +196,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Check Existing Release
     needs: extract_version_and_date
-    id: check_release
     steps:
       - name: Check if release exists
         id: check_release
@@ -214,7 +213,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Create Release
     needs: [check_existing_release, build_apk, build_aab]
-    if: needs.check_existing_release.outputs.exists == 'false'
+    if: steps.check_release.outputs.exists == 'false'
     steps:
       - name: Download APK Artifact
         uses: actions/download-artifact@v3
@@ -243,4 +242,4 @@ jobs:
               - AAB: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
           files: |
             ./${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}.apk
-            ./${{ env.APP_NAME }}-AAB
+            ./${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}.aab
