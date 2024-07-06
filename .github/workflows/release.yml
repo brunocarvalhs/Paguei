@@ -96,6 +96,10 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.setup_environment.outputs.enable_build_apk }}
     name: Build APK
+    env:
+      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
+      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
+      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -122,6 +126,10 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.setup_environment.outputs.enable_build_aab }}
     name: Build AAB
+    env:
+      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
+      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
+      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
