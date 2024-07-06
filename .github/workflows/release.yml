@@ -32,7 +32,7 @@ jobs:
 
       - name: Get App Version
         id: app_version
-        run: echo "::set-output name=version::$(./gradlew -q app:printVersion)"
+        run: echo "::set-output name=version::$(cat VERSION.md)"
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
@@ -163,14 +163,10 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Get App Version
-        id: app_version
-        run: echo "::set-env name=version::$(./gradlew -q app:printVersion)"
-
       - name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          tag_name: ${{ env.version }}
-          release_name: ${{ needs.setup_environment.outputs.app_name }} v${{ env.version }}
+          tag_name: ${{ needs.setup_environment.outputs.app_version }}
+          release_name: ${{ needs.setup_environment.outputs.app_name }} v${{ needs.setup_environment.outputs.app_version }}
