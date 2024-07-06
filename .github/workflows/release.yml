@@ -18,7 +18,6 @@ jobs:
       enable_firebase_publish: false
       jdk_version: 11
       gradle_opts: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
-      app_name: "Paguei"
 
     steps:
       - name: Checkout code
@@ -96,6 +95,7 @@ jobs:
       KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
       KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
+      APP_NAME: "Paguei"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -114,7 +114,7 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.setup_environment.outputs.app_name }}-APK
+          name: ${{ env.APP_NAME }}-apk
           path: app/build/outputs/apk/**/*.apk
 
   build_aab:
@@ -126,6 +126,7 @@ jobs:
       KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
       KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
+      APP_NAME: "Paguei"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -144,7 +145,7 @@ jobs:
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.setup_environment.outputs.app_name }}-AAB
+          name: ${{ env.APP_NAME }}-aab
           path: app/build/outputs/bundle/**/*.aab
 
   publish:
@@ -152,6 +153,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.setup_environment.outputs.enable_firebase_publish }}
     name: Publish
+    env:
+      APP_NAME: "Paguei"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -168,4 +171,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: ${{ env.version }}
-          release_name: ${{ needs.setup_environment.outputs.app_name }} v${{ env.version }}
+          release_name: ${{ env.APP_NAME }} v${{ env.version }}
