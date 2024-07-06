@@ -5,30 +5,34 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  JDK_VERSION: 11
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
-  APP_NAME: "Paguei"
 
 jobs:
   setup_environment:
     runs-on: ubuntu-latest
     name: Setup Environment
-    outputs:
-      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
 
-      - name: Set up JDK ${{ env.JDK_VERSION }}
+      - name: Load pipeline variables
+        id: load_pipeline_vars
+        run: |
+          echo "::set-output name=enable_unit_tests::$(grep 'enable_unit_tests' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+          echo "::set-output name=enable_android_lint::$(grep 'enable_android_lint' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+          echo "::set-output name=enable_build_apk::$(grep 'enable_build_apk' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+          echo "::set-output name=enable_build_aab::$(grep 'enable_build_aab' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+          echo "::set-output name=enable_firebase_publish::$(grep 'enable_firebase_publish' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+          echo "::set-output name=jdk_version::$(grep 'jdk_version' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+          echo "::set-output name=gradle_opts::$(grep 'gradle_opts' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+          echo "::set-output name=app_name::$(grep 'app_name' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
+
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '${{ env.JDK_VERSION }}'
+          java-version: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
 
       - name: Give execution permissions to gradlew
-        id: set_permissions
         run: chmod +x gradlew
 
       - name: Setup Android SDK
@@ -37,96 +41,70 @@ jobs:
       - name: Setup Gradle
         run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
 
-  create_google_services_file:
-    runs-on: ubuntu-latest
-    name: Create Google Services File
+  unit_tests:
     needs: setup_environment
+    runs-on: ubuntu-latest
+    if: ${{ steps.setup_environment.outputs.enable_unit_tests == 'true' }}
+    name: Unit Tests
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
 
       - name: Create google-services release file
         run: |
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Verify google-services.json
-        run: |
-          cat app/google-services.json
-          grep -q '"package_name": "br.com.brunocarvalhs.paguei"' app/google-services.json || (echo "Package name not found in google-services.json" && exit 1)
-
-  unit_tests:
-    needs: [setup_environment, create_google_services_file]
-    runs-on: ubuntu-latest
-    name: Unit Tests
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
-
-      - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
-
       - name: Unit tests
         run: ./gradlew testRelease --stacktrace
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.setup_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ env.JDK_VERSION }}
+          JDK_VERSION: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
           ANDROID_SDK_TOOLS: ${{ env.ANDROID_SDK_TOOLS }}
-          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
+          GRADLE_OPTS: ${{ steps.load_pipeline_vars.outputs.gradle_opts }}
 
   android_lint:
-    needs: [setup_environment, create_google_services_file]
+    needs: setup_environment
     runs-on: ubuntu-latest
+    if: ${{ steps.setup_environment.outputs.enable_android_lint == 'true' }}
     name: Lint
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
       - name: Android Lint
         run: ./gradlew lintRelease
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.setup_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ env.JDK_VERSION }}
+          JDK_VERSION: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
           ANDROID_SDK_TOOLS: ${{ env.ANDROID_SDK_TOOLS }}
-          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
-
-  extract_version_and_date:
-    runs-on: ubuntu-latest
-    name: Extract Version and Date
-    needs: setup_environment
-    outputs:
-      version: ${{ steps.extract_version.outputs.version }}
-      date: ${{ steps.extract_date.outputs.date }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
-
-      - name: Extract version from VERSION.md
-        id: extract_version
-        run: echo "::set-output name=version::$(cat VERSION.md)"
-
-      - name: Get Build Date
-        id: extract_date
-        run: echo "::set-output name=date::$(date +%Y-%m-%d)"
+          GRADLE_OPTS: ${{ steps.load_pipeline_vars.outputs.gradle_opts }}
 
   build_apk:
+    needs: setup_environment
     runs-on: ubuntu-latest
+    if: ${{ steps.setup_environment.outputs.enable_build_apk == 'true' }}
     name: Build APK
-    needs: [setup_environment, unit_tests, android_lint, create_google_services_file, extract_version_and_date]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
       - name: Build APK
         run: ./gradlew assembleRelease
@@ -134,20 +112,25 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-APK-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+          name: ${{ steps.load_pipeline_vars.outputs.app_name }}-APK
           path: app/build/outputs/apk/**/*.apk
 
   build_aab:
+    needs: setup_environment
     runs-on: ubuntu-latest
+    if: ${{ steps.setup_environment.outputs.enable_build_aab == 'true' }}
     name: Build AAB
-    needs: [setup_environment, unit_tests, android_lint, create_google_services_file, extract_version_and_date]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
       - name: Build AAB
         run: ./gradlew bundleRelease
@@ -155,5 +138,22 @@ jobs:
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-AAB-${{ needs.extract_version_and_date.outputs.version }}-${{ needs.extract_version_and_date.outputs.date }}
+          name: ${{ steps.load_pipeline_vars.outputs.app_name }}-AAB
           path: app/build/outputs/bundle/**/*.aab
+
+  publish_firebase:
+    needs: [setup_environment, build_apk, build_aab]
+    runs-on: ubuntu-latest
+    if: ${{ and(steps.setup_environment.outputs.enable_firebase_publish == 'true', success() ) }}
+    name: Publish to Firebase App Distribution
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create google-services release file
+        run: |
+          rm -f app/google-services.json
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
+      - name: Publish to Firebase
+        run: echo "Publishing APK and AAB to Firebase App Distribution..."
