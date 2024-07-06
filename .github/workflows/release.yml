@@ -11,35 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     name: Setup Environment
     outputs:
-      enable_unit_tests: ${{ steps.load_pipeline_vars.outputs.enable_unit_tests }}
-      enable_android_lint: ${{ steps.load_pipeline_vars.outputs.enable_android_lint }}
-      enable_build_apk: ${{ steps.load_pipeline_vars.outputs.enable_build_apk }}
-      enable_build_aab: ${{ steps.load_pipeline_vars.outputs.enable_build_aab }}
-      enable_firebase_publish: ${{ steps.load_pipeline_vars.outputs.enable_firebase_publish }}
-      jdk_version: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
-      gradle_opts: ${{ steps.load_pipeline_vars.outputs.gradle_opts }}
-      app_name: ${{ steps.load_pipeline_vars.outputs.app_name }}
+      enable_unit_tests: true
+      enable_android_lint: true
+      enable_build_apk: true
+      enable_build_aab: true
+      enable_firebase_publish: false
+      jdk_version: 11
+      gradle_opts: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+      app_name: ${{ github.event.repository.name }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Load pipeline variables
-        id: load_pipeline_vars
-        run: |
-          echo "::set-output name=enable_unit_tests::$(grep 'enable_unit_tests' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
-          echo "::set-output name=enable_android_lint::$(grep 'enable_android_lint' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
-          echo "::set-output name=enable_build_apk::$(grep 'enable_build_apk' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
-          echo "::set-output name=enable_build_aab::$(grep 'enable_build_aab' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
-          echo "::set-output name=enable_firebase_publish::$(grep 'enable_firebase_publish' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
-          echo "::set-output name=jdk_version::$(grep 'jdk_version' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
-          echo "::set-output name=gradle_opts::$(grep 'gradle_opts' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
-          echo "::set-output name=app_name::$(grep 'app_name' .pipeline.yml | cut -d':' -f2 | sed 's/^[[:space:]]*//')"
 
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
+          java-version: 11
+
+      - name: Get App Version
+        id: app_version
+        run: echo "::set-output name=version::$(./gradlew -q app:printVersion)"
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
@@ -53,7 +46,7 @@ jobs:
   unit_tests:
     needs: setup_environment
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_unit_tests == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_unit_tests }}
     name: Unit Tests
     steps:
       - name: Checkout code
@@ -77,7 +70,7 @@ jobs:
   android_lint:
     needs: setup_environment
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_android_lint == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_android_lint }}
     name: Lint
     steps:
       - name: Checkout code
@@ -101,7 +94,7 @@ jobs:
   build_apk:
     needs: [unit_tests, android_lint]
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_build_apk == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_build_apk }}
     name: Build APK
     steps:
       - name: Checkout code
@@ -127,7 +120,7 @@ jobs:
   build_aab:
     needs: [unit_tests, android_lint]
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_build_aab == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_build_aab }}
     name: Build AAB
     steps:
       - name: Checkout code
@@ -153,7 +146,7 @@ jobs:
   publish_to_firebase:
     needs: [build_apk, build_aab]
     runs-on: ubuntu-latest
-    if: ${{ needs.setup_environment.outputs.enable_firebase_publish == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_firebase_publish }}
     name: Publish to Firebase App Distribution
     steps:
       - name: Checkout code
@@ -167,12 +160,10 @@ jobs:
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Publish to Firebase App Distribution
-        run: |
-          echo "Publishing APK and AAB to Firebase App Distribution..."
-          # Substitua este comando pelo comando real do Firebase App Distribution CLI
-          # Exemplo: firebase distribute:android --app app-id --groups group-name --apk app/build/outputs/apk/**/*.apk --aab app/build/outputs/bundle/**/*.aab
-
-          # Comando de exemplo para ilustrar:
-          echo "Firebase App Distribution publish command placeholder"
-
+      - name: Upload Artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: testers
+          file: app/build/outputs/apk/**/*.apk
