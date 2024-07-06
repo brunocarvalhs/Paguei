@@ -10,6 +10,15 @@ jobs:
   setup_environment:
     runs-on: ubuntu-latest
     name: Setup Environment
+    outputs:
+      enable_unit_tests: ${{ steps.load_pipeline_vars.outputs.enable_unit_tests }}
+      enable_android_lint: ${{ steps.load_pipeline_vars.outputs.enable_android_lint }}
+      enable_build_apk: ${{ steps.load_pipeline_vars.outputs.enable_build_apk }}
+      enable_build_aab: ${{ steps.load_pipeline_vars.outputs.enable_build_aab }}
+      enable_firebase_publish: ${{ steps.load_pipeline_vars.outputs.enable_firebase_publish }}
+      jdk_version: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
+      gradle_opts: ${{ steps.load_pipeline_vars.outputs.gradle_opts }}
+      app_name: ${{ steps.load_pipeline_vars.outputs.app_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -44,7 +53,7 @@ jobs:
   unit_tests:
     needs: setup_environment
     runs-on: ubuntu-latest
-    if: ${{ steps.setup_environment.outputs.enable_unit_tests == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_unit_tests == 'true' }}
     name: Unit Tests
     steps:
       - name: Checkout code
@@ -61,14 +70,14 @@ jobs:
       - name: Unit tests
         run: ./gradlew testRelease --stacktrace
         env:
-          JDK_VERSION: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
+          JDK_VERSION: ${{ needs.setup_environment.outputs.jdk_version }}
           ANDROID_SDK_TOOLS: ${{ env.ANDROID_SDK_TOOLS }}
-          GRADLE_OPTS: ${{ steps.load_pipeline_vars.outputs.gradle_opts }}
+          GRADLE_OPTS: ${{ needs.setup_environment.outputs.gradle_opts }}
 
   android_lint:
     needs: setup_environment
     runs-on: ubuntu-latest
-    if: ${{ steps.setup_environment.outputs.enable_android_lint == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_android_lint == 'true' }}
     name: Lint
     steps:
       - name: Checkout code
@@ -85,14 +94,14 @@ jobs:
       - name: Android Lint
         run: ./gradlew lintRelease
         env:
-          JDK_VERSION: ${{ steps.load_pipeline_vars.outputs.jdk_version }}
+          JDK_VERSION: ${{ needs.setup_environment.outputs.jdk_version }}
           ANDROID_SDK_TOOLS: ${{ env.ANDROID_SDK_TOOLS }}
-          GRADLE_OPTS: ${{ steps.load_pipeline_vars.outputs.gradle_opts }}
+          GRADLE_OPTS: ${{ needs.setup_environment.outputs.gradle_opts }}
 
   build_apk:
-    needs: setup_environment
+    needs: [unit_tests, android_lint]
     runs-on: ubuntu-latest
-    if: ${{ steps.setup_environment.outputs.enable_build_apk == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_build_apk == 'true' }}
     name: Build APK
     steps:
       - name: Checkout code
@@ -112,13 +121,13 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.load_pipeline_vars.outputs.app_name }}-APK
+          name: ${{ needs.setup_environment.outputs.app_name }}-APK
           path: app/build/outputs/apk/**/*.apk
 
   build_aab:
-    needs: setup_environment
+    needs: [unit_tests, android_lint]
     runs-on: ubuntu-latest
-    if: ${{ steps.setup_environment.outputs.enable_build_aab == 'true' }}
+    if: ${{ needs.setup_environment.outputs.enable_build_aab == 'true' }}
     name: Build AAB
     steps:
       - name: Checkout code
@@ -138,22 +147,32 @@ jobs:
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.load_pipeline_vars.outputs.app_name }}-AAB
+          name: ${{ needs.setup_environment.outputs.app_name }}-AAB
           path: app/build/outputs/bundle/**/*.aab
 
-  publish_firebase:
-    needs: [setup_environment, build_apk, build_aab]
+  publish_to_firebase:
+    needs: [build_apk, build_aab]
     runs-on: ubuntu-latest
-    if: ${{ and(steps.setup_environment.outputs.enable_firebase_publish == 'true', success() ) }}
+    if: ${{ needs.setup_environment.outputs.enable_firebase_publish == 'true' }}
     name: Publish to Firebase App Distribution
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
 
       - name: Create google-services release file
         run: |
           rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Publish to Firebase
-        run: echo "Publishing APK and AAB to Firebase App Distribution..."
+      - name: Publish to Firebase App Distribution
+        run: |
+          echo "Publishing APK and AAB to Firebase App Distribution..."
+          # Substitua este comando pelo comando real do Firebase App Distribution CLI
+          # Exemplo: firebase distribute:android --app app-id --groups group-name --apk app/build/outputs/apk/**/*.apk --aab app/build/outputs/bundle/**/*.aab
+
+          # Comando de exemplo para ilustrar:
+          echo "Firebase App Distribution publish command placeholder"
+
