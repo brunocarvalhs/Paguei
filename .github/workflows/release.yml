@@ -151,7 +151,7 @@ jobs:
           name: ${{ needs.setup_environment.outputs.app_name }}-AAB
           path: app/build/outputs/bundle/**/*.aab
 
-  publish_to_firebase:
+  publish:
     needs: [build_apk, build_aab]
     runs-on: ubuntu-latest
     if: ${{ needs.setup_environment.outputs.enable_firebase_publish }}
@@ -163,15 +163,10 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
-      - name: Upload Artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          token: ${{ secrets.FIREBASE_TOKEN }}
-          groups: testers
-          file: app/build/outputs/apk/**/*.apk
+          tag_name: ${{ env.version }}
+          release_name: ${{ env.APP_NAME }} v${{ env.version }}
