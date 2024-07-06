@@ -163,6 +163,10 @@ jobs:
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
+      - name: Get App Version
+        id: app_version
+        run: echo "::set-output name=version::$(./gradlew -q app:printVersion)"
+
       - name: Create Release
         uses: actions/create-release@v1
         env:
