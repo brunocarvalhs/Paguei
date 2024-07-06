@@ -155,7 +155,7 @@ jobs:
     needs: [build_apk, build_aab]
     runs-on: ubuntu-latest
     if: ${{ needs.setup_environment.outputs.enable_firebase_publish }}
-    name: Publish to Firebase App Distribution
+    name: Publish
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
