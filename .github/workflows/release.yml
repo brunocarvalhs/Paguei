@@ -10,7 +10,6 @@ jobs:
     outputs:
       jdk_version: ${{ steps.setup_env.outputs.jdk_version }}
       gradle_opts: ${{ steps.setup_env.outputs.gradle_opts }}
-      module_name: ${{ steps.setup_env.outputs.module_name }}
 
     steps:
       - name: Checkout code
@@ -38,8 +37,6 @@ jobs:
           echo "jdk_version=11" >> $GITHUB_OUTPUT
           echo "gradle_opts=-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m" >> $GITHUB_STATE
           echo "gradle_opts=-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m" >> $GITHUB_OUTPUT
-          MODULE_NAME=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
-          echo "module_name=$MODULE_NAME" >> $GITHUB_OUTPUT
 
   unit_tests:
     needs: setup_environment
@@ -95,7 +92,6 @@ jobs:
       KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
       KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
-      APP_NAME: ${{ needs.setup_environment.outputs.module_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -111,10 +107,16 @@ jobs:
       - name: Build APK
         run: ./gradlew assembleRelease
 
+      - name: Calculate module name
+        id: module_name
+        run: |
+          MODULE_NAME=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
+          echo "module_name=$MODULE_NAME" >> $GITHUB_ENV
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-apk
+          name: ${{ env.module_name }}-apk
           path: app/build/outputs/apk/**/*.apk
 
   build_aab:
@@ -125,7 +127,6 @@ jobs:
       KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
       KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
-      APP_NAME: ${{ needs.setup_environment.outputs.module_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -141,18 +142,22 @@ jobs:
       - name: Build AAB
         run: ./gradlew bundleRelease
 
+      - name: Calculate module name
+        id: module_name
+        run: |
+          MODULE_NAME=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
+          echo "module_name=$MODULE_NAME" >> $GITHUB_ENV
+
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-aab
+          name: ${{ env.module_name }}-aab
           path: app/build/outputs/bundle/**/*.aab
 
   publish:
     needs: [build_apk, build_aab]
     runs-on: ubuntu-latest
     name: Publish
-    env:
-      APP_NAME: ${{ needs.setup_environment.outputs.module_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -163,10 +168,16 @@ jobs:
       - name: Get App Version
         run: echo "version=$(cat VERSION.md)" >> $GITHUB_ENV
 
+      - name: Calculate module name
+        id: module_name
+        run: |
+          MODULE_NAME=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
+          echo "module_name=$MODULE_NAME" >> $GITHUB_ENV
+
       - name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: ${{ env.version }}
-          release_name: ${{ env.APP_NAME }} v${{ env.version }}
+          release_name: ${{ env.module_name }} v${{ env.version }}
