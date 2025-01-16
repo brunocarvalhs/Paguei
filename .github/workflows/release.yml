@@ -2,15 +2,17 @@ name: Build Application Release
 on:
   push:
     branches: [ master ]
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  JDK_VERSION: 17
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+  BUILD_TOOLS_VERSION: "34.0.0"
+  APP_NAME: "Paguei"
 
 jobs:
   setup_environment:
-    runs-on: ubuntu-latest
-    name: Setup Environment
-    outputs:
-      jdk_version: ${{ steps.setup_env.outputs.jdk_version }}
-      gradle_opts: ${{ steps.setup_env.outputs.gradle_opts }}
-
+    runs-on: ubuntu-24.04
+    name: Checkout and Setup Environment
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,13 +21,15 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
-
-      - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
+          java-version: '${{ env.JDK_VERSION }}'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
+
+      - name: Create local.properties
+        run: |
+          echo "sdk.dir=${{ env.ANDROID_HOME }}" > local.properties
+          echo "apiKey=${{ secrets.API_KEY }}" >> local.properties
 
       - name: Setup Gradle
         run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
