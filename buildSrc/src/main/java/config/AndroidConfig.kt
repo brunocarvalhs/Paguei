@@ -14,5 +14,5 @@ object AndroidConfig {
     const val APP_ID = "br.com.brunocarvalhs.paguei"
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 
-    val JAVA_VERSION = JavaVersion.VERSION_11
+    val JAVA_VERSION = JavaVersion.VERSION_17
 }
