@@ -7,7 +7,7 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   JDK_VERSION: 11
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
-  BUILD_TOOLS_VERSION: "30.0.2"
+  BUILD_TOOLS_VERSION: "34.0.0"
   APP_NAME: "Paguei"
   FIREBASE_APP_ID: "1:647363137025:android:c8a5e1e90d509af313fa00"
 
