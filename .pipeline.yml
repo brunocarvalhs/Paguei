@@ -1,0 +1,9 @@
+enable_unit_tests: true
+enable_android_lint: true
+enable_build_apk: true
+enable_build_aab: true
+enable_firebase_publish: false
+
+jdk_version: 11
+gradle_opts: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+app_name: "Paguei"

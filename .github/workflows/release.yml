@@ -2,139 +2,176 @@ name: Build Application Release
 on:
   push:
     branches: [ master ]
-
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  JDK_VERSION: 11
+  JDK_VERSION: 17
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
+  BUILD_TOOLS_VERSION: "34.0.0"
   APP_NAME: "Paguei"
 
 jobs:
-  preparing_environment:
-    runs-on: ubuntu-latest
-    name: Preparing Environment
-    outputs:
-      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
-      jdk-version: ${{ env.JDK_VERSION }}
-      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
-      gradle-opts: ${{ env.GRADLE_OPTS }}
+  checkout-and-setup:
+    runs-on: ubuntu-24.04
+    name: Checkout and Setup Environment
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
 
-      - name: Set up JDK ${{ env.JDK_VERSION }}
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '${{ env.JDK_VERSION }}'
 
-      - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Setup Gradle
-        run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
+      - name: Create local.properties
+        run: |
+          echo "sdk.dir=${{ env.ANDROID_HOME }}" > local.properties
 
-  unit_tests:
-    needs: preparing_environment
-    runs-on: ubuntu-latest
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Upload Workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: workspace
+          path: ./
+
+  unit-tests:
+    runs-on: ubuntu-24.04
     name: Unit Tests
+    needs: checkout-and-setup
     steps:
-      - uses: actions/checkout@v3
+      - name: Download Workspace
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.ref }}
+          name: workspace
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
-      - name: Unit tests
-        run: ./gradlew testRelease --stacktrace
+      - name: Run Unit Tests
+        run: ./gradlew testDebug
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
-          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
-          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
 
-  android_lint:
-    needs: preparing_environment
-    runs-on: ubuntu-latest
-    name: Lint
+  lint-check:
+    runs-on: ubuntu-24.04
+    name: Lint Check
+    needs: checkout-and-setup
     steps:
-      - uses: actions/checkout@v3
+      - name: Download Workspace
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.ref }}
+          name: workspace
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
-          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
-
-      - name: Android Lint
-        run: ./gradlew lintRelease
+      - name: Run Lint
+        run: ./gradlew lintDebug
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
-          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
-          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
 
   build:
-    needs: [ preparing_environment, unit_tests, android_lint ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Build
+    needs: [unit-tests, lint-check]
     env:
-      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
-      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
-      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
+      KEYSTORE_PASSWORD: ${{ secrets.ALIAS }}
+      KEYSTORE_ALIAS: ${{ secrets.PASSWORD_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.PASSWORD_KEY }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Download Workspace
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.ref }}
+          name: workspace
 
-      - name: Give execution permissions to gradlew
+      - name: Create google-services.json
         run: |
-          chmod +x gradlew
-
-      - name: Create google-services release file
-        run: |
-          rm -f app/google-services.json
           echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
-      - name: Extract version from VERSION.md
-        run: echo "::set-env name=version::$(cat VERSION.md)"
+      - name: Give execution permissions to gradlew
+        run: chmod +x gradlew
 
-      - name: Get Build Date
-        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
-
-      - name: Build APK
-        run: ./gradlew assembleRelease
+      - name: Check if keystore exists
+        run: |
+          if [ -f "app/release.keystore" ]; then
+            echo "Keystore exists"
+          else
+            echo "::error::Keystore file 'app/release.keystore' does not exist. Please ensure it is in the correct location."
+            exit 1
+          fi
 
       - name: Build AAB
         run: ./gradlew bundleRelease
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+            
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}
-          path: |
-            app/build/outputs/bundle/**/*.aab
-            app/build/outputs/apk/**/*.apk
+          name: ${{ env.APP_NAME }}-aab
+          path: app/build/outputs/bundle/release/*.aab
 
+  release:
+    runs-on: ubuntu-24.04
+    name: Create and Upload Release
+    needs: [build]
+    steps:
+      - name: Download Workspace
+        uses: actions/download-artifact@v4
+        with:
+          name: workspace
+        continue-on-error: true
+        
+      - name: Get App Version Based on Date
+        run: |
+          VERSION=$(grep versionName app/build.gradle.kts | sed 's/.*versionName = "\(.*\)"/\1/')
+          echo "version=$VERSION" >> $GITHUB_ENV
+        continue-on-error: true
+        
+      - name: Calculate module name
+        id: module_name
+        run: |
+          MODULE_NAME=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
+          echo "module_name=$MODULE_NAME" >> $GITHUB_ENV
+        continue-on-error: true
+        
       - name: Create Release
-        uses: actions/create-release@v1
+        id: create_release
+        uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: ${{ env.version }}
-          release_name: ${{ env.APP_NAME }} v${{ env.version }}
+          release_name: v${{ env.version }}
+          draft: false
+          prerelease: false
+        continue-on-error: true
+
+  deploy:
+    runs-on: ubuntu-24.04
+    name: Deploy to Google Play
+    needs: release
+    steps:
+      - name: Download AAB Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-aab
+          path: app/build/outputs/bundle/release/
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.DEPLOY_SERVICE_ACCOUNT_JSON }}
+          packageName: "br.com.brunocarvalhs.paguei"
+          releaseFiles: app/build/outputs/bundle/release/*.aab
+          track: production
+          status: completed
+          changesNotSentForReview: true
