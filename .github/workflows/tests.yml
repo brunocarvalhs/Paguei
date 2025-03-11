@@ -31,7 +31,6 @@ jobs:
       - name: Create local.properties
         run: |
           echo "sdk.dir=${{ env.ANDROID_HOME }}" > local.properties
-          echo "apiKey=${{ secrets.API_KEY }}" >> local.properties
       
       - name: Create google-services.json
         run: |
@@ -60,6 +59,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: workspace
+
+      - name: Create google-services.json
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
@@ -95,6 +98,10 @@ jobs:
         with:
           name: workspace
 
+      - name: Create google-services.json
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
@@ -128,6 +135,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: workspace
+
+      - name: Create google-services.json
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
