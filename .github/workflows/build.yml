@@ -9,122 +9,120 @@ env:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx3072m"
   BUILD_TOOLS_VERSION: "30.0.2"
   APP_NAME: "Paguei"
+  FIREBASE_APP_ID: "1:647363137025:android:c8a5e1e90d509af313fa00"
 
 jobs:
-  preparing_environment:
-    runs-on: ubuntu-latest
-    name: Preparing Environment
-    outputs:
-      has-exec-permissions: ${{ steps.set_permissions.outcome == 'success' }}
-      jdk-version: ${{ env.JDK_VERSION }}
-      android-sdk-tools: ${{ env.ANDROID_SDK_TOOLS }}
-      gradle-opts: ${{ env.GRADLE_OPTS }}
+  checkout-and-setup:
+    runs-on: ubuntu-24.04
+    name: Checkout and Setup Environment
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
 
-      - name: Set up JDK ${{ env.JDK_VERSION }}
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '${{ env.JDK_VERSION }}'
 
-      - name: Give execution permissions to gradlew
-        run: chmod +x gradlew
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Setup Gradle
-        run: echo "org.gradle.daemon=false" >> $GITHUB_WORKSPACE/gradle.properties
-
-  unit_tests:
-    needs: preparing_environment
-    runs-on: ubuntu-latest
-    name: Unit Tests
-    steps:
-      - uses: actions/checkout@v3
+      - name: Create local.properties
+        run: |
+          echo "sdk.dir=${{ env.ANDROID_HOME }}" > local.properties
+          echo "apiKey=${{ secrets.API_KEY }}" >> local.properties
+      - name: Create google-services.json
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 --decode > app/google-services.json
+      - name: Cache Gradle
+        uses: actions/cache@v3
         with:
-          ref: ${{ github.ref }}
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Upload Workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: workspace
+          path: ./
+
+  unit-tests:
+    runs-on: ubuntu-24.04
+    name: Run Unit Tests
+    needs: checkout-and-setup
+    steps:
+      - name: Download Workspace
+        uses: actions/download-artifact@v4
+        with:
+          name: workspace
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Unit tests
-        run: ./gradlew testDebug --stacktrace
+      - name: Run Unit Tests
+        run: ./gradlew testDebug
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
-          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
-          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
 
-  android_lint:
-    needs: preparing_environment
-    runs-on: ubuntu-latest
-    name: Lint
+  lint-check:
+    runs-on: ubuntu-24.04
+    name: Run Lint Check
+    needs: checkout-and-setup
     steps:
-      - uses: actions/checkout@v3
+      - name: Download Workspace
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.ref }}
+          name: workspace
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - if: startsWith(github.ref, 'refs/heads/master')
-        name: Android Lint
+      - name: Run Lint
         run: ./gradlew lintDebug
         env:
-          HAS_EXEC_PERMISSIONS: ${{ needs.preparing_environment.outputs.has-exec-permissions }}
-          JDK_VERSION: ${{ needs.preparing_environment.outputs.jdk-version }}
-          ANDROID_SDK_TOOLS: ${{ needs.preparing_environment.outputs.android-sdk-tools }}
-          GRADLE_OPTS: ${{ needs.preparing_environment.outputs.gradle-opts }}
+          GRADLE_OPTS: ${{ env.GRADLE_OPTS }}
 
   build:
-    needs: [ preparing_environment, unit_tests, android_lint ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Build
-    env:
-      KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
-      KEY_PASSWORD: ${{ secrets.PASSWORD_ALIAS }}
-      KEYSTORE_PASSWORD: ${{ secrets.PASSWORD_KEY }}
+    needs: [unit-tests, lint-check]
     steps:
-      - uses: actions/checkout@v3
+      - name: Download Workspace
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.ref }}
+          name: workspace
 
       - name: Give execution permissions to gradlew
         run: chmod +x gradlew
 
-      - name: Extract version from VERSION.md
-        run: echo "::set-env name=version::$(cat VERSION.md)"
-
-      - name: Get Build Date
-        run: echo "::set-env name=date::$(date +%Y-%m-%d)"
-
-      - name: Build APK
+      - name: Build APK Debug
         run: ./gradlew assembleDebug
 
-      - name: Build AAB
-        run: ./gradlew bundleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-apk
-          path: ${{ github.workspace}} build/debug/signed/*.apk
+          name: ${{ env.APP_NAME }}-apk-debug
+          path: app/build/outputs/apk/debug/*.apk
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
+  deploy-firebase:
+    runs-on: ubuntu-24.04
+    name: Deploy to Firebase App Distribution
+    needs: [build]
+    steps:
+      - name: Download APK Artifact
+        uses: actions/download-artifact@v4
         with:
-          name: ${{ env.APP_NAME }}-${{ env.version }}-${{ env.date }}-aab
-          path: ${{ github.workspace}} build/debug/signed/*.aab
+          name: ${{ env.APP_NAME }}-apk-debug
+          path: app/build/outputs/apk/release/
 
-      - name: Create Branch
-        uses: peterjgrainger/action-create-branch@v2.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          branch: release/v${{ env.VERSION }}
-          sha: '${{ github.event.pull_request.head.sha }}'
+      - name: Install Firebase CLI
+        run: curl -sL https://firebase.tools | bash
+      
+      - name: Upload APK to Firebase App Distribution
+        run: |
+          firebase appdistribution:distribute app/build/outputs/apk/release/*.apk \
+            --app "${{ env.FIREBASE_APP_ID }}" \
+            --release-notes "release automatica" \
+            --token "${{ secrets.FIREBASE_AUTH_TOKEN }}"
