@@ -20,4 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class br.com.**.commons.BaseViewModel { *; }
+-keep class br.com.**.commons.** { *; }
